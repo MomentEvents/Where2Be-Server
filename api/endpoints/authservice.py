@@ -5,13 +5,12 @@ from starlette.responses import Response
 from starlette.routing import Route
 
 from fastapi_utils.timing import record_timing
-from fastapi_utils.timing import record_timing
 
 import datetime
 import bcrypt
 import secrets
 
-from neo4j_init import get_connection
+from api.neo4j_init import get_connection
 
 
 # error handling for broken queries!
@@ -152,7 +151,7 @@ async def create_user(request: Request) -> JSONResponse:
         display_name: string,
         email: string,
         password: string,
-        university_id: string
+        school_id: string
 
     return:
         user_access_token: string,
@@ -165,10 +164,10 @@ async def create_user(request: Request) -> JSONResponse:
     password = body.get("password")
     display_name = body.get("display_name")
     email = body.get("email")
-    university_id = body.get("university_id")
+    school_id = body.get("school_id")
 
     try:
-        assert all((username, password, display_name, email, university_id))
+        assert all((username, password, display_name, email, school_id))
     except AssertionError:
         # Handle the error here
         print("Error")
@@ -214,7 +213,7 @@ async def create_user(request: Request) -> JSONResponse:
         result = session.run(
             """Create (u:User {UserID: $username, Username: $username, Picture:$picture, Email:$email, Name:$display_name, PasswordHash:$hashed_password, UserAccessToken:$UserAccessToken})
             With u
-            Match(n:University{UniversityID: $university_id})
+            Match(n:School{SchoolID: $school_id})
             create (u)-[r:user_univ]->(n)
             Return u""",
             parameters={
@@ -223,7 +222,7 @@ async def create_user(request: Request) -> JSONResponse:
                 "picture": default_user_image,
                 "email": email,
                 "hashed_password": hashed_password,
-                "university_id": university_id,
+                "school_id": school_id,
                 "UserAccessToken": UserAccessToken,
             },
         )
@@ -236,10 +235,10 @@ routes = [
     Route(
         "/api_ver_1.0.0/authentication/login/username",
         get_token_username,
-        methods=["GET"],
+        methods=["POST"],
     ),
     Route(
-        "/api_ver_1.0.0/authentication/login/email", get_token_email, methods=["GET"]
+        "/api_ver_1.0.0/authentication/login/email", get_token_email, methods=["POST"]
     ),
     Route("/api_ver_1.0.0/authentication/signup", create_user, methods=["POST"]),
 ]
