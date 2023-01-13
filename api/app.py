@@ -4,7 +4,7 @@ from fastapi import FastAPI
 
 from starlette.applications import Starlette
 
-from api.endpoints import authservice, eventservice, userservice
+from api.endpoints import authservice, eventservice, userservice, schoolservice
 import uvicorn
 import socket
 import ipaddress
@@ -25,6 +25,7 @@ routes = [
     *authservice.routes,
     *eventservice.routes,
     *userservice.routes,
+    *schoolservice.routes,
 ]
 
 app = FastAPI(debug=True, routes=routes)

@@ -540,22 +540,22 @@ routes = [
         methods=["DELETE"],
     ),
     Route(
-        "/api_ver_1.0.0/user/user_id/{user_id}/event_id/{event_id}/join/",
+        "/api_ver_1.0.0/user/user_id/{user_id}/event_id/{event_id}/join",
         user_did_join,
         methods=["POST"],
     ),
     Route(
-        "/api_ver_1.0.0/user/user_id/{user_id}/event_id/{event_id}/join/",
+        "/api_ver_1.0.0/user/user_id/{user_id}/event_id/{event_id}/join",
         user_join_update,
         methods=["UPDATE"],
     ),
     Route(
-        "/api_ver_1.0.0/user/user_id/{user_id}/event_id/{event_id}/shoutout/",
+        "/api_ver_1.0.0/user/user_id/{user_id}/event_id/{event_id}/shoutout",
         user_did_shoutout,
         methods=["POST"],
     ),
     Route(
-        "/api_ver_1.0.0/user/user_id/{user_id}/event_id/{event_id}/shoutout/",
+        "/api_ver_1.0.0/user/user_id/{user_id}/event_id/{event_id}/shoutout",
         user_shoutout_update,
         methods=["UPDATE"],
     ),
