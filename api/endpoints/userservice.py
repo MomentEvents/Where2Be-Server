@@ -2,8 +2,7 @@ from inspect import Parameter
 
 from markupsafe import string
 from starlette.requests import Request
-from starlette.responses import JSONResponse
-from starlette.responses import Response
+from starlette.responses import JSONResponse, Response
 from starlette.routing import Route
 
 from fastapi_utils.timing import record_timing
