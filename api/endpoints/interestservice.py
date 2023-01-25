@@ -244,9 +244,8 @@ async def get_event_interest(request: Request) -> JSONResponse:
 
     event_id = request.path_params["event_id"]
 
-    body = await request.json()
-
-    user_access_token = body.get("user_access_token")
+    # body = await request.json()
+    # user_access_token = body.get("user_access_token")
 
     try:
         assert all((event_id))
@@ -258,40 +257,14 @@ async def get_event_interest(request: Request) -> JSONResponse:
     with get_connection() as session:
 
         result = session.run(
-            """match (event:Event{EventID : $event_id}) return e""",
+            """match (event:Event{EventID: $event_id})-[:event_tag]->(i:Interest) return i""",
             parameters={"event_id": event_id},
         )
 
-        record_timing(request, note="request time")
-
-        record = result.single()
-
-        if record == None:
-            return Response(status_code=400, content="Event do not exist")
-
-        if record[0]["Visibility"] == False:
-            result = session.run(
-                """match (event:Event{EventID : $event_id})-[:event_tag]->(i:Interest), 
-                (u:User {UserAccessToken: $user_access_token})-[:user_host]->(event)
-                return i""",
-                parameters={
-                    "event_id": event_id,
-                    "user_access_token": user_access_token,
-                },
-            )
-            record_timing(request, note="request time")
-        else:
-            result = session.run(
-                """match (event:Event{EventID: $event_id})-[:event_tag]->(i:Interest) return i""",
-                parameters={"event_id": event_id},
-            )
-
-            record_timing(request, note="request time")
-
         interest_array = []
 
-        if result.single() == None:
-            return Response(status_code=400, content="Interests do not exist")
+        # if result.single() == None:
+        #     return Response(status_code=400, content="Interests do not exist")
 
         for record in result:
             data = record[0]
@@ -304,6 +277,54 @@ async def get_event_interest(request: Request) -> JSONResponse:
             )
 
         return JSONResponse(interest_array)
+
+        # result = session.run(
+        #     """match (event:Event{EventID : $event_id}) return e""",
+        #     parameters={"event_id": event_id},
+        # )
+
+        # record_timing(request, note="request time")
+
+        # record = result.single()
+
+        # if record == None:
+        #     return Response(status_code=400, content="Event do not exist")
+
+        # if record[0]["Visibility"] == False:
+        #     result = session.run(
+        #         """match (event:Event{EventID : $event_id})-[:event_tag]->(i:Interest),
+        #         (u:User {UserAccessToken: $user_access_token})-[:user_host]->(event)
+        #         return i""",
+        #         parameters={
+        #             "event_id": event_id,
+        #             "user_access_token": user_access_token,
+        #         },
+        #     )
+        #     record_timing(request, note="request time")
+        # else:
+        #     result = session.run(
+        #         """match (event:Event{EventID: $event_id})-[:event_tag]->(i:Interest) return i""",
+        #         parameters={"event_id": event_id},
+        #     )
+
+        #     record_timing(request, note="request time")
+
+        # interest_array = []
+
+        # if result.single() == None:
+        #     return Response(status_code=400, content="Interests do not exist")
+
+        # for record in result:
+        #     data = record[0]
+        #     interest_array.append(
+        #         {
+        #             "interest_id": data["InterestID"],
+        #             "name": data["Name"],
+        #             # "category": data["Category"],
+        #         }
+        #     )
+
+        # return JSONResponse(interest_array)
 
 
 async def update_event_interest(request: Request) -> JSONResponse:
@@ -363,7 +384,7 @@ async def update_event_interest(request: Request) -> JSONResponse:
 
 routes = [
     Route(
-        "/api_ver_1.0.0/interest ",
+        "/api_ver_1.0.0/interest",
         get_all_interests,
         methods=["GET"],
     ),

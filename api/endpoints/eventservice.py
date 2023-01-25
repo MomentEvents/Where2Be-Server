@@ -373,14 +373,7 @@ async def get_num_shoutouts(request: Request) -> JSONResponse:
         num_shoutouts: int
 
     """
-    event_id = request.path_params["event_id"]
-
-    try:
-        assert all((event_id))
-    except AssertionError:
-        # Handle the error here
-        print("Error")
-        return Response(status_code=400, content="Parameter Missing")
+    event_id = str(request.path_params["event_id"])
 
     with get_connection() as session:
         # check if email exists
@@ -392,15 +385,14 @@ async def get_num_shoutouts(request: Request) -> JSONResponse:
         )
         record_timing(request, note="request time")
 
-    # get the first element of object
-    record = result.single()
+        # get the first element of object
+        record = result.single()
 
-    if record == None:
-        return Response(status_code=400, content="Event does not exist")
-
-    data = record[0]
-
-    return JSONResponse(data["connections"])
+        if record:
+            connections = record["connections"]
+            return JSONResponse(int(connections))
+        else:
+            return Response(status_code=400, content="Event does not exist")
 
 
 async def get_featured(request: Request) -> JSONResponse:
@@ -418,7 +410,7 @@ async def get_featured(request: Request) -> JSONResponse:
     with get_connection() as session:
         # check if email exists
         result = session.run(
-            """match (e)-[:event_school]->(school: School{SchoolID:"univ_UIUC"})
+            """match (e)-[:event_school]->(school: School{SchoolID: $school_id})
             where e.StartDateTime >= datetime()
             return e
             order by e.StartDateTime

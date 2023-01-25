@@ -82,7 +82,7 @@ async def get_token_username(request: Request) -> JSONResponse:
         data = record[0]
 
         if not bcrypt.checkpw(password.encode("utf-8"), data["PasswordHash"]):
-            return Response(status_code=400, content="Password Incorrect")
+            return Response(status_code=401, content="Password Incorrect")
 
         user_access_token = {
             "user_access_token": data["UserAccessToken"],
@@ -138,7 +138,11 @@ async def get_token_email(request: Request) -> JSONResponse:
             "user_access_token": data["UserAccessToken"],
         }
 
-        return JSONResponse(user_access_token)
+        token_data = {
+            "user_access_token": str(user_access_token),
+        }
+
+        return JSONResponse(token_data)
 
 
 async def create_user(request: Request) -> JSONResponse:
@@ -162,11 +166,11 @@ async def create_user(request: Request) -> JSONResponse:
     username = body.get("username")
     password = body.get("password")
     display_name = body.get("display_name")
-    email = body.get("email")
+    # email = body.get("email")
     school_id = body.get("school_id")
 
     try:
-        assert all((username, password, display_name, email, school_id))
+        assert all((username, password, display_name, school_id))
     except AssertionError:
         # Handle the error here
         print("Error")
@@ -179,15 +183,15 @@ async def create_user(request: Request) -> JSONResponse:
     )
 
     with get_connection() as session:
-        # check if email exists
-        result = session.run(
-            "MATCH (u:User {Email: $email}) RETURN u",
-            parameters={"email": email},
-        )
-        record_timing(request, note="request email time")
-        record = result.single()
-        if record != None:
-            email_exists = True
+        # # check if email exists
+        # result = session.run(
+        #     "MATCH (u:User {Email: $email}) RETURN u",
+        #     parameters={"email": email},
+        # )
+        # record_timing(request, note="request email time")
+        # record = result.single()
+        # if record != None:
+        #     email_exists = True
 
         # check if username exists
         result = session.run(
@@ -199,27 +203,30 @@ async def create_user(request: Request) -> JSONResponse:
         if record != None:
             username_exists = True
 
-        if email_exists and username_exists:
-            return Response(status_code=400, content="Username and Email already exist")
-        elif username_exists:
+        # if email_exists and username_exists:
+        #     return Response(status_code=400, content="Username and Email already exist")
+        # elif username_exists:
+        #     return Response(status_code=400, content="Username already exists")
+        # elif email_exists:
+        #     return Response(status_code=400, content="Email already exists")
+
+        if username_exists:
             return Response(status_code=400, content="Username already exists")
-        elif email_exists:
-            return Response(status_code=400, content="Email already exists")
 
         hashed_password = get_hash_pwd(password)
         UserAccessToken = secrets.token_urlsafe()
 
         result = session.run(
-            """Create (u:User {UserID: $username, Username: $username, Picture:$picture, Email:$email, Name:$display_name, PasswordHash:$hashed_password, UserAccessToken:$UserAccessToken})
+            """Create (u:User {UserID: $username, Username: $username, Picture:$picture, Name:$display_name, PasswordHash:$hashed_password, UserAccessToken:$UserAccessToken})
             With u
             Match(n:School{SchoolID: $school_id})
-            create (u)-[r:user_univ]->(n)
+            create (u)-[r:user_school]->(n)
             Return u""",
             parameters={
                 "username": username,
                 "display_name": display_name,
                 "picture": default_user_image,
-                "email": email,
+                # "email": email,
                 "hashed_password": hashed_password,
                 "school_id": school_id,
                 "UserAccessToken": UserAccessToken,
