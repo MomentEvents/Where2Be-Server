@@ -7,7 +7,8 @@ from starlette.routing import Route
 
 from fastapi_utils.timing import record_timing
 
-from datetime import datetime
+# from datetime import datetime
+from dateutil import parser
 import bcrypt
 import secrets
 
@@ -22,6 +23,18 @@ if platform.system() == "Windows":
 
 
 # error handling for broken queries!
+# event_data = {
+#     "event_id": event_id,
+#     # "title": title,
+#     # "description": description,
+#     # "location": location,
+#     # "start_date_time": start_date_time,
+#     # "end_date_time": end_date_time,
+#     # "visibility": visibility,
+#     # "interest_ids": interest_ids,
+# }
+
+# return JSONResponse(event_data)
 
 
 def get_hash_pwd(password):
@@ -45,7 +58,7 @@ async def create_event(request: Request) -> JSONResponse:
 
 
     return:
-        error in case of spam
+        event_id: string
 
     """
 
@@ -75,7 +88,7 @@ async def create_event(request: Request) -> JSONResponse:
         )
     except AssertionError:
         # Handle the error here
-        print("Error")
+        print("Parameter Missing error")
         return Response(status_code=400, content="Parameter Missing")
 
     EventID = secrets.token_urlsafe()
@@ -85,14 +98,14 @@ async def create_event(request: Request) -> JSONResponse:
 
     try:
         # return JSONResponse(start_date_time)
-        start_date_time = datetime.fromisoformat(start_date_time)
+        start_date_time = parser.parse(start_date_time)
     except:
         return Response(status_code=400, content="start date error")
 
     if end_date_time != None:
         try:
             # return JSONResponse(start_date_time)
-            end_date_time = datetime.fromisoformat(end_date_time)
+            end_date_time = parser.parse(end_date_time)
         except:
             return Response(status_code=400, content="end date error")
     else:
@@ -133,7 +146,11 @@ async def create_event(request: Request) -> JSONResponse:
         )
         record_timing(request, note="request time")
 
-    return Response(status_code=200, content="event created " + str(EventID))
+    event_data = {
+        "event_id": str(EventID),
+    }
+
+    return JSONResponse(event_data)
 
 
 async def get_event(request: Request) -> JSONResponse:
@@ -324,27 +341,26 @@ async def get_num_joins(request: Request) -> JSONResponse:
         num_shoutouts: int
 
     """
-    event_id = request.path_params["event_id"]
+    event_id = str(request.path_params["event_id"])
 
     with get_connection() as session:
         # check if email exists
         result = session.run(
             """MATCH (n:Event {EventID: $event_id}) RETURN size((n)<-[:user_join]-()) as connections""",
             parameters={
-                "EventID": event_id,
+                "event_id": event_id,
             },
         )
         record_timing(request, note="request time")
 
-    # get the first element of object
-    record = result.single()
+        # get the first element of object
+        record = result.single()
 
-    if record == None:
-        return Response(status_code=400, content="Event does not exist")
-
-    data = record[0]
-
-    return JSONResponse(data["connections"])
+        if record:
+            connections = record["connections"]
+            return JSONResponse(int(connections))
+        else:
+            return Response(status_code=400, content="Event does not exist")
 
 
 async def get_num_shoutouts(request: Request) -> JSONResponse:
@@ -359,12 +375,19 @@ async def get_num_shoutouts(request: Request) -> JSONResponse:
     """
     event_id = request.path_params["event_id"]
 
+    try:
+        assert all((event_id))
+    except AssertionError:
+        # Handle the error here
+        print("Error")
+        return Response(status_code=400, content="Parameter Missing")
+
     with get_connection() as session:
         # check if email exists
         result = session.run(
             """MATCH (n:Event {EventID: $event_id}) RETURN size((n)<-[:user_shoutout]-()) as connections""",
             parameters={
-                "EventID": event_id,
+                "event_id": event_id,
             },
         )
         record_timing(request, note="request time")
@@ -380,9 +403,9 @@ async def get_num_shoutouts(request: Request) -> JSONResponse:
     return JSONResponse(data["connections"])
 
 
-async def get_featured(request: Request, school_id: string) -> JSONResponse:
+async def get_featured(request: Request) -> JSONResponse:
     """
-    Description: Gets the number of joins for an event.
+    Description: Gets the featured events
 
     params:
 
@@ -390,14 +413,13 @@ async def get_featured(request: Request, school_id: string) -> JSONResponse:
         num_shoutouts: int
 
     """
+    school_id = request.path_params["school_id"]
 
     with get_connection() as session:
         # check if email exists
         result = session.run(
-            """match (e:Event)-[:tags]->(inte:Interest), (e)-[:event_school]->(school: {SchoolID:$school_id})
-            where date(datetime({epochmillis: apoc.date.parse(e.startingTime, "ms", "yyyy/MM/dd")})) >= date()
-            with e, collect(inte.name) as int_list 
-
+            """match (e)-[:event_school]->(school: School{SchoolID:"univ_UIUC"})
+            where e.StartDateTime >= datetime()
             return e
             order by e.StartDateTime
             limit 20""",
@@ -407,19 +429,22 @@ async def get_featured(request: Request, school_id: string) -> JSONResponse:
         )
         record_timing(request, note="request time")
 
-    event_array = []
-    for record in result:
-        data = record[0]
-        event_array.append(
-            {
-                "EventID": data["EventID"],
-                "Title": data["Title"],
-                # "Description": data["Description"],
-                "Picture": data["Picture"],
-                "StartDateTime": str(data["StartDateTime"]),
-            }
-        )
-    return JSONResponse(event_array)
+        event_array = []
+        for record in result:
+            data = record[0]
+            event_array.append(
+                {
+                    "EventID": data["EventID"],
+                    "Title": data["Title"],
+                    "Description": data["Description"],
+                    "Location": data["Location"],
+                    "Picture": data["Picture"],
+                    "StartDateTime": str(data["StartDateTime"]),
+                    "EndDateTime": str(data["EndDateTime"]),
+                    "Visibility": data["Visibility"],
+                }
+            )
+        return JSONResponse(event_array)
 
 
 async def get_interest_event(request: Request) -> JSONResponse:
@@ -429,23 +454,25 @@ async def get_interest_event(request: Request) -> JSONResponse:
     params:
 
     return:
-        return: Array of… {
-                        event_id: string,
-                        title: string,
-                        description: string,
-                        location: string,
-                        start_date_time: Date(?),
-                        end_date_time: Date(?),
-                        visibility: boolean
+        Array of… {
+            event_id: string,
+            title: string,
+            description: string,
+            location: string,
+            start_date_time: Date(?),
+            end_date_time: Date(?),
+            visibility: boolean
+        }
 
     """
     school_id = request.path_params["school_id"]
     interest_id = request.path_params["interest_id"]
+    # (inte:Interest {InterestID: "Academic"})-[:school_interest]->(school:School {SchoolID:"univ_UIUC"})
 
     with get_connection() as session:
         # check if email exists
         result = session.run(
-            """match (inte:Interest {InterestID: $interest_id})-[:school_interest]->(school: {SchoolID:$school_id}), (e:Event)-[:tags]->(inte), (e)-[:event_school]->(school: {SchoolID:$school_id})
+            """match (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}), (e)-[:event_tag]->(inte:Interest {InterestID: $interest_id})
             return e
             order by e.StartDateTime
             limit 20""",
@@ -456,18 +483,22 @@ async def get_interest_event(request: Request) -> JSONResponse:
         )
         record_timing(request, note="request time")
 
-    event_array = []
-    for record in result:
-        data = record[0]
-        event_array.append(
-            {
-                "EventID": data["EventID"],
-                "Title": data["Title"],
-                "Picture": data["Picture"],
-                "StartDateTime": str(data["StartDateTime"]),
-            }
-        )
-    return JSONResponse(event_array)
+        event_array = []
+        for record in result:
+            data = record[0]
+            event_array.append(
+                {
+                    "EventID": data["EventID"],
+                    "Title": data["Title"],
+                    "Description": data["Description"],
+                    "Location": data["Location"],
+                    "Picture": data["Picture"],
+                    "StartDateTime": str(data["StartDateTime"]),
+                    "EndDateTime": str(data["EndDateTime"]),
+                    "Visibility": data["Visibility"],
+                }
+            )
+        return JSONResponse(event_array)
 
 
 async def host_past(request: Request) -> JSONResponse:
@@ -492,7 +523,8 @@ async def host_past(request: Request) -> JSONResponse:
         # check if email exists
         result = session.run(
             """match (u:User{UserID:$user_id})-[:user_host]-(e:Event)
-            where date(datetime({epochmillis: apoc.date.parse(e.startingTime, "ms", "yyyy/MM/dd")})) < date()
+            where e.StartDateTime < datetime()
+            return e
             order by e.StartDateTime
             limit 20""",
             parameters={
@@ -501,18 +533,18 @@ async def host_past(request: Request) -> JSONResponse:
         )
         record_timing(request, note="request time")
 
-    event_array = []
-    for record in result:
-        data = record[0]
-        event_array.append(
-            {
-                "EventID": data["EventID"],
-                "Title": data["Title"],
-                "Picture": data["Picture"],
-                "StartDateTime": str(data["StartDateTime"]),
-            }
-        )
-    return JSONResponse(event_array)
+        event_array = []
+        for record in result:
+            data = record[0]
+            event_array.append(
+                {
+                    "EventID": data["EventID"],
+                    "Title": data["Title"],
+                    "Picture": data["Picture"],
+                    "StartDateTime": str(data["StartDateTime"]),
+                }
+            )
+        return JSONResponse(event_array)
 
 
 @check_user_access_token
@@ -540,7 +572,8 @@ async def host_future(request: Request) -> JSONResponse:
         # check if email exists
         result = session.run(
             """match (u:User{UserID:$user_id})-[:user_host]-(e:Event)
-            where date(datetime({epochmillis: apoc.date.parse(e.startingTime, "ms", "yyyy/MM/dd")})) > date()
+            where e.StartDateTime >= datetime()
+            return e
             order by e.StartDateTime
             limit 20""",
             parameters={
@@ -549,18 +582,18 @@ async def host_future(request: Request) -> JSONResponse:
         )
         record_timing(request, note="request time")
 
-    event_array = []
-    for record in result:
-        data = record[0]
-        event_array.append(
-            {
-                "EventID": data["EventID"],
-                "Title": data["Title"],
-                "Picture": data["Picture"],
-                "StartDateTime": str(data["StartDateTime"]),
-            }
-        )
-    return JSONResponse(event_array)
+        event_array = []
+        for record in result:
+            data = record[0]
+            event_array.append(
+                {
+                    "EventID": data["EventID"],
+                    "Title": data["Title"],
+                    "Picture": data["Picture"],
+                    "StartDateTime": str(data["StartDateTime"]),
+                }
+            )
+        return JSONResponse(event_array)
 
 
 async def join_past(request: Request) -> JSONResponse:
@@ -586,7 +619,8 @@ async def join_past(request: Request) -> JSONResponse:
         # check if email exists
         result = session.run(
             """match (u:User{UserID:$user_id})-[:user_join]-(e:Event)
-            where date(datetime({epochmillis: apoc.date.parse(e.startingTime, "ms", "yyyy/MM/dd")})) < date()
+            where e.StartDateTime < datetime()
+            return e
             order by e.StartDateTime
             limit 20""",
             parameters={
@@ -595,18 +629,18 @@ async def join_past(request: Request) -> JSONResponse:
         )
         record_timing(request, note="request time")
 
-    event_array = []
-    for record in result:
-        data = record[0]
-        event_array.append(
-            {
-                "EventID": data["EventID"],
-                "Title": data["Title"],
-                "Picture": data["Picture"],
-                "StartDateTime": str(data["StartDateTime"]),
-            }
-        )
-    return JSONResponse(event_array)
+        event_array = []
+        for record in result:
+            data = record[0]
+            event_array.append(
+                {
+                    "EventID": data["EventID"],
+                    "Title": data["Title"],
+                    "Picture": data["Picture"],
+                    "StartDateTime": str(data["StartDateTime"]),
+                }
+            )
+        return JSONResponse(event_array)
 
 
 async def join_future(request: Request) -> JSONResponse:
@@ -632,7 +666,8 @@ async def join_future(request: Request) -> JSONResponse:
         # check if email exists
         result = session.run(
             """match (u:User{UserID:$user_id})-[:user_join]-(e:Event)
-            where date(datetime({epochmillis: apoc.date.parse(e.startingTime, "ms", "yyyy/MM/dd")})) > date()
+            where e.StartDateTime >= datetime()
+            return e
             order by e.StartDateTime
             limit 20""",
             parameters={
@@ -641,18 +676,18 @@ async def join_future(request: Request) -> JSONResponse:
         )
         record_timing(request, note="request time")
 
-    event_array = []
-    for record in result:
-        data = record[0]
-        event_array.append(
-            {
-                "EventID": data["EventID"],
-                "Title": data["Title"],
-                "Picture": data["Picture"],
-                "StartDateTime": str(data["StartDateTime"]),
-            }
-        )
-    return JSONResponse(event_array)
+        event_array = []
+        for record in result:
+            data = record[0]
+            event_array.append(
+                {
+                    "EventID": data["EventID"],
+                    "Title": data["Title"],
+                    "Picture": data["Picture"],
+                    "StartDateTime": str(data["StartDateTime"]),
+                }
+            )
+        return JSONResponse(event_array)
 
 
 routes = [

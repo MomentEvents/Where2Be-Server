@@ -27,7 +27,7 @@ def get_hash_pwd(password):
     return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
 
 
-@check_user_access_token
+# @check_user_access_token
 async def get_using_user_access_token(request: Request) -> JSONResponse:
     """
     Description: Gets the user information with the associated user_access_token {user_access_token}. Returns error if no results found.
@@ -83,7 +83,7 @@ async def get_using_user_access_token(request: Request) -> JSONResponse:
         return JSONResponse(user_data)
 
 
-@check_user_access_token
+# @check_user_access_token
 async def get_using_user_id(request: Request) -> JSONResponse:
     """
     Description: Gets the user information with the associated user_id {user_id}. Returns error if no results found.
@@ -247,6 +247,63 @@ async def delete_using_user_id(request: Request) -> JSONResponse:
         )
 
         return Response(status_code=200, content="user deleted")
+
+
+@check_user_access_token
+async def get_event_host(request: Request) -> JSONResponse:
+    """
+    Description: Gets the host from {event_id}.
+
+    params:
+        user_access_token: string
+
+    return :
+        user_id: string,
+        display_name: string,
+        username: string,
+        email: string,
+        picture: string,
+
+    """
+
+    event_id = request.path_params["event_id"]
+
+    try:
+        assert all((event_id))
+    except AssertionError:
+        # Handle the error here
+        print("Error")
+        return Response(status_code=400, content="Parameter Missing")
+
+    with get_connection() as session:
+        # check if email exists
+        result = session.run(
+            """match (e:Event{EventID : $event_id})<-[:user_host]-(u:User)
+            return u""",
+            parameters={
+                "event_id": event_id,
+            },
+        )
+
+        record_timing(request, note="request time")
+
+        # get the first element of object
+        record = result.single()
+
+        if record == None:
+            return Response(status_code=400, content="Event does not exist")
+
+        data = record[0]
+
+        user_data = {
+            "user_id": data["UserID"],
+            "display_name": data["Name"],
+            "username": data["Username"],
+            # "email": data["Email"],
+            "picture": data["Picture"],
+        }
+
+        return JSONResponse(user_data)
 
 
 @check_user_access_token
@@ -537,6 +594,11 @@ routes = [
         "/api_ver_1.0.0/user/user_id/{user_id}",
         delete_using_user_id,
         methods=["DELETE"],
+    ),
+    Route(
+        "/api_ver_1.0.0/user/event_id/{event_id}/host",
+        get_event_host,
+        methods=["POST"],
     ),
     Route(
         "/api_ver_1.0.0/user/user_id/{user_id}/event_id/{event_id}/join",

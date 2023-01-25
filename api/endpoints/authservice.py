@@ -57,7 +57,6 @@ async def get_token_username(request: Request) -> JSONResponse:
         string user_access_token
 
     """
-
     # username = request.query_params["username"]
     # password = request.query_params["password"]
 
