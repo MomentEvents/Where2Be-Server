@@ -1,16 +1,15 @@
 from inspect import Parameter
+import platform
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.responses import Response
 from starlette.routing import Route
 
-from fastapi_utils.timing import record_timing
-
 import datetime
 import bcrypt
 import secrets
 
-from api.neo4j_init import get_connection
+from neo4j_init import get_connection
 
 
 # error handling for broken queries!
@@ -29,7 +28,6 @@ async def data_test(request: Request) -> JSONResponse:
             parameters={"name": "disc"},
         )
 
-        record_timing(request, note="request time")
         event_array = []
         for record in result:
             data = record[0]
@@ -71,7 +69,6 @@ async def get_token_username(request: Request) -> JSONResponse:
             parameters={"username": username, "password": password},
         )
 
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()
@@ -121,7 +118,6 @@ async def get_token_email(request: Request) -> JSONResponse:
             parameters={"email": email},
         )
 
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()
@@ -188,7 +184,6 @@ async def create_user(request: Request) -> JSONResponse:
         #     "MATCH (u:User {Email: $email}) RETURN u",
         #     parameters={"email": email},
         # )
-        # record_timing(request, note="request email time")
         # record = result.single()
         # if record != None:
         #     email_exists = True
@@ -198,7 +193,6 @@ async def create_user(request: Request) -> JSONResponse:
             "MATCH (u:User {Username: $username}) RETURN u",
             parameters={"username": username},
         )
-        record_timing(request, note="request username time")
         record = result.single()
         if record != None:
             username_exists = True

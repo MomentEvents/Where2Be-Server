@@ -5,14 +5,13 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from starlette.routing import Route
 
-from fastapi_utils.timing import record_timing
 
 from datetime import datetime
 import bcrypt
 import secrets
 
-from api.neo4j_init import get_connection
-from api.auth import check_user_access_token
+from neo4j_init import get_connection
+from auth import check_user_access_token
 
 import platform
 
@@ -45,8 +44,6 @@ async def get_all_interests(request: Request) -> JSONResponse:
         result = session.run(
             """match (i:Interest) return i""",
         )
-
-        record_timing(request, note="request time")
 
         interest_array = []
         for record in result:
@@ -98,7 +95,6 @@ async def get_interest(request: Request) -> JSONResponse:
             },
         )
 
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()
@@ -151,7 +147,6 @@ async def get_user_interest(request: Request) -> JSONResponse:
             parameters={"user_id": user_id, "user_access_token": user_access_token},
         )
 
-        record_timing(request, note="request time")
 
         interest_array = []
         for record in result:
@@ -215,7 +210,6 @@ async def update_user_interest(request: Request) -> JSONResponse:
             },
         )
 
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()
@@ -283,7 +277,6 @@ async def get_event_interest(request: Request) -> JSONResponse:
         #     parameters={"event_id": event_id},
         # )
 
-        # record_timing(request, note="request time")
 
         # record = result.single()
 
@@ -300,14 +293,12 @@ async def get_event_interest(request: Request) -> JSONResponse:
         #             "user_access_token": user_access_token,
         #         },
         #     )
-        #     record_timing(request, note="request time")
         # else:
         #     result = session.run(
         #         """match (event:Event{EventID: $event_id})-[:event_tag]->(i:Interest) return i""",
         #         parameters={"event_id": event_id},
         #     )
 
-        #     record_timing(request, note="request time")
 
         # interest_array = []
 
@@ -370,8 +361,6 @@ async def update_event_interest(request: Request) -> JSONResponse:
                 "interest_ids": interest_ids,
             },
         )
-
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()

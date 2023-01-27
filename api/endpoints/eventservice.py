@@ -5,15 +5,13 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from starlette.routing import Route
 
-from fastapi_utils.timing import record_timing
-
 # from datetime import datetime
 from dateutil import parser
 import bcrypt
 import secrets
 
-from api.neo4j_init import get_connection
-from api.auth import check_user_access_token
+from neo4j_init import get_connection
+from auth import check_user_access_token
 
 
 import platform
@@ -144,7 +142,6 @@ async def create_event(request: Request) -> JSONResponse:
                 "interest_ids": interest_ids,
             },
         )
-        record_timing(request, note="request time")
 
     event_data = {
         "event_id": str(EventID),
@@ -193,8 +190,6 @@ async def get_event(request: Request) -> JSONResponse:
                 "event_id": event_id,
             },
         )
-
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()
@@ -328,7 +323,6 @@ async def update_event(request: Request) -> JSONResponse:
                 "interest_ids": interest_ids,
             },
         )
-        record_timing(request, note="request time")
 
 
 async def get_num_joins(request: Request) -> JSONResponse:
@@ -351,7 +345,6 @@ async def get_num_joins(request: Request) -> JSONResponse:
                 "event_id": event_id,
             },
         )
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()
@@ -383,7 +376,6 @@ async def get_num_shoutouts(request: Request) -> JSONResponse:
                 "event_id": event_id,
             },
         )
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()
@@ -419,7 +411,6 @@ async def get_featured(request: Request) -> JSONResponse:
                 "school_id": school_id,
             },
         )
-        record_timing(request, note="request time")
 
         event_array = []
         for record in result:
@@ -473,7 +464,6 @@ async def get_interest_event(request: Request) -> JSONResponse:
                 "interest_id": interest_id,
             },
         )
-        record_timing(request, note="request time")
 
         event_array = []
         for record in result:
@@ -523,7 +513,6 @@ async def host_past(request: Request) -> JSONResponse:
                 "user_id": user_id,
             },
         )
-        record_timing(request, note="request time")
 
         event_array = []
         for record in result:
@@ -572,7 +561,6 @@ async def host_future(request: Request) -> JSONResponse:
                 "user_id": user_id,
             },
         )
-        record_timing(request, note="request time")
 
         event_array = []
         for record in result:
@@ -619,7 +607,6 @@ async def join_past(request: Request) -> JSONResponse:
                 "user_id": user_id,
             },
         )
-        record_timing(request, note="request time")
 
         event_array = []
         for record in result:
@@ -666,7 +653,6 @@ async def join_future(request: Request) -> JSONResponse:
                 "user_id": user_id,
             },
         )
-        record_timing(request, note="request time")
 
         event_array = []
         for record in result:

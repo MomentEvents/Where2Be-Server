@@ -2,8 +2,10 @@ from functools import wraps
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
-from api.neo4j_init import get_connection
-from fastapi_utils.timing import record_timing
+from neo4j_init import get_connection
+import platform
+
+
 
 
 def check_user_access_token(func):
@@ -26,7 +28,6 @@ def check_user_access_token(func):
                     content={"message": "Invalid access token"}, status_code=401
                 )
 
-        record_timing(request, note="user access token check time")
 
         return await func(request)
 

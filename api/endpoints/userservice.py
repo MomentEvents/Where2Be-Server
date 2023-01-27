@@ -5,14 +5,12 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from starlette.routing import Route
 
-from fastapi_utils.timing import record_timing
-
 from datetime import datetime
 import bcrypt
 import secrets
 
-from api.neo4j_init import get_connection
-from api.auth import check_user_access_token
+from neo4j_init import get_connection
+from auth import check_user_access_token
 
 import platform
 
@@ -61,8 +59,6 @@ async def get_using_user_access_token(request: Request) -> JSONResponse:
                 "user_access_token": user_access_token,
             },
         )
-
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()
@@ -118,8 +114,6 @@ async def get_using_user_id(request: Request) -> JSONResponse:
             },
         )
 
-        record_timing(request, note="request time")
-
         # get the first element of object
         record = result.single()
 
@@ -173,8 +167,6 @@ async def update_using_user_id(request: Request) -> JSONResponse:
                 "user_id": user_id,
             },
         )
-
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()
@@ -230,7 +222,6 @@ async def delete_using_user_id(request: Request) -> JSONResponse:
             },
         )
 
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()
@@ -284,8 +275,6 @@ async def get_event_host(request: Request) -> JSONResponse:
                 "event_id": event_id,
             },
         )
-
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()
@@ -345,7 +334,6 @@ async def user_did_join(request: Request) -> JSONResponse:
             },
         )
 
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()
@@ -477,8 +465,6 @@ async def user_did_shoutout(request: Request) -> JSONResponse:
                 "event_id": event_id,
             },
         )
-
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()

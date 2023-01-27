@@ -6,14 +6,12 @@ from starlette.responses import JSONResponse
 from starlette.responses import Response
 from starlette.routing import Route
 
-from fastapi_utils.timing import record_timing
-
 from datetime import datetime
 import bcrypt
 import secrets
 
-from api.neo4j_init import get_connection
-from api.auth import check_user_access_token
+from neo4j_init import get_connection
+from auth import check_user_access_token
 
 import platform
 
@@ -49,7 +47,6 @@ async def get_all_schools(request: Request) -> JSONResponse:
             """match (s:School) return s""",
         )
 
-        record_timing(request, note="request time")
 
         school_array = []
         for record in result:
@@ -102,7 +99,6 @@ async def get_school(request: Request) -> JSONResponse:
             },
         )
 
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()
@@ -151,8 +147,6 @@ async def get_user_school(request: Request) -> JSONResponse:
                 "user_id": user_id,
             },
         )
-
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()
@@ -208,7 +202,6 @@ async def update_user_school(request: Request) -> JSONResponse:
             parameters={"user_id": user_id, "school_id": school_id},
         )
 
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()
