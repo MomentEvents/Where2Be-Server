@@ -3,6 +3,9 @@ import logging
 from fastapi import FastAPI
 
 from starlette.applications import Starlette
+from starlette.middleware.cors import CORSMiddleware
+# from multer import Multer, DiskStorage
+
 
 from api.endpoints import (
     authservice,
@@ -23,9 +26,9 @@ logger = logging.getLogger(__name__)
 # ip4 = str(ipaddress.ip_address(8888))
 # host = socket.gethostbyname(ip4)
 
-# # Get the ip_address of the machine
-# hostname = socket.gethostname()
-# ip_address = socket.gethostbyname(hostname)
+# Get the ip_address of the machine
+hostname = socket.gethostname()
+ip_address = socket.gethostbyname(hostname)
 
 routes = [
     *authservice.routes,
@@ -37,10 +40,11 @@ routes = [
 
 app = FastAPI(debug=True, routes=routes)
 add_timing_middleware(app, record=logger.info, prefix="app")
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_headers=["*"])
 
 # choose localhost or ipaddr
 localhost = "127.0.0.1"
-hosting = localhost
+hosting = ip_address
 
 if __name__ == "__main__":
     uvicorn.run(app, host=hosting, port=8080)
