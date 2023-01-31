@@ -723,7 +723,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
         categorized_dict = {}
         event_ids = []
         for record in result:
-            print("record1: ",record)
+            # print("record1: ",record)
             interest_data = record['event_dict']
             for interest in interest_data:
                 events = []
