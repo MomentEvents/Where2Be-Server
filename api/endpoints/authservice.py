@@ -20,6 +20,10 @@ def get_hash_pwd(password):
     return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
 
 
+async def get_status(request: Request) -> JSONResponse:
+    return Response(status_code=200, content="Moment API is running")
+
+
 # this is a function to test if the server is connected to the database
 async def data_test(request: Request) -> JSONResponse:
 
@@ -242,6 +246,11 @@ routes = [
         "/api_ver_1.0.0/authentication/login/username",
         get_token_username,
         methods=["POST"],
+    ),
+    Route(
+        "/api_ver_1.0.0/status",
+        get_status,
+        methods=["GET"]
     ),
     Route(
         "/api_ver_1.0.0/authentication/login/email", get_token_email, methods=["POST"]
