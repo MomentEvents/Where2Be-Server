@@ -573,6 +573,69 @@ async def user_shoutout_update(request: Request) -> JSONResponse:
                     status_code=200,
                 )
 
+async def get_all_school_users(request: Request) -> JSONResponse:
+
+    """
+    Description: Gets all of the users associated with a school of $school_id
+    params:
+        user_access_token: string
+    
+    return:
+
+        [
+        user_id: string,
+        display_name: string,
+        username: string,
+        picture: string
+        ]
+
+    """
+
+    # need to verify user_access_token
+
+    school_id = request.path_params["school_id"]
+    
+    body = await request.json()
+
+    user_access_token = body.get("user_access_token")
+
+    with get_connection() as session:
+
+        result = session.run(
+                """MATCH ((u:User)-[:user_school]->(s:School{SchoolID: $school_id}))
+            RETURN {
+                user_id: u.UserID,
+                display_name: u.Name,
+                username: u.Username,
+                picture: u.Picture
+            } as user""",
+            parameters={
+                "school_id": school_id,
+            },
+        )
+
+        users = []
+
+        for record in result:
+            user_data = record['user']
+            user_id = user_data['user_id']
+            display_name = user_data['display_name']
+            username = user_data['username']
+            picture = user_data['picture']
+
+            users.append({
+                "user_id": user_id,
+                "display_name": display_name,
+                "username": username,
+                "picture": picture
+                })
+
+
+        return JSONResponse(
+            users
+        )
+
+
 
 routes = [
     Route(
@@ -619,5 +682,9 @@ routes = [
         "/api_ver_1.0.0/user/user_id/{user_id}/event_id/{event_id}/shoutout",
         user_shoutout_update,
         methods=["UPDATE"],
+    ),
+    Route("/api_ver_1.0.0/user/school_id/{school_id}",
+        get_all_school_users,
+        methods=["POST"],
     ),
 ]
