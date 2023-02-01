@@ -19,11 +19,18 @@ from api.auth import check_user_access_token
 import platform
 
 from io import BytesIO
+import io
 
 if platform.system() == "Windows":
     from asyncio.windows_events import NULL
 
 import boto3
+
+import base64
+from PIL import Image
+import cv2
+import numpy as np
+
 
 s3 = boto3.client('s3', aws_access_key_id='AKIAR6GV237CVGO4R54X',
     aws_secret_access_key='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')
@@ -56,6 +63,12 @@ upload_file_bucket =  'moment-events' #test-bucket-chirag5241' #moment-events.s3
 # }
 
 # return JSONResponse(event_data)
+
+def base64_to_png(base64_string):
+    imgdata = base64.b64decode(base64_string)
+    image = Image.open(io.BytesIO(imgdata))
+    image.save('image.png', 'PNG')
+    return image
 
 
 def get_hash_pwd(password):
@@ -138,41 +151,10 @@ async def create_event(request: Request) -> JSONResponse:
     interest_ids = form_data["interest_ids"]
     picture = form_data["picture"]
 
-    file_data = await picture.read()
-
-    print("############user_access_token",picture)
-
-    
-
-
-    # with open(picture.filename, 'rb') as f:
-    with BytesIO(file_data) as file_obj:
-        s3.Object(upload_file_bucket, "test/"+picture.filename).put(Body=file_obj,ContentType='image/PNG')
-        # s3.upload_fileobj(file_obj, 'moment-events', "test/"+picture.filename)
-
-    event_data = {
-        "event_id": event_id,
-        "title": title,
-        "description": description,
-        "location": location,
-        "start_date_time": start_date_time,
-        "end_date_time": end_date_time,
-        "visibility": visibility,
-        "interest_ids": interest_ids,
-    }
-
-    return JSONResponse(event_data)
-
-    # body = await request.json()
-
-    # user_access_token = body.get("user_access_token")
-    # title = body.get("title")
-    # description = body.get("description")
-    # location = body.get("location")
-    # start_date_time = body.get("start_date_time")
-    # end_date_time = body.get("end_date_time")
-    # visibility = body.get("visibility")
-    # interest_ids = body.get("interest_ids")
+    print("\n\n start_date_time")
+    print(start_date_time)
+    print("\n\n end_date_time")
+    print(end_date_time)
 
     try:
         assert all(
@@ -191,12 +173,15 @@ async def create_event(request: Request) -> JSONResponse:
         # Handle the error here
         print("Parameter Missing error")
         return Response(status_code=400, content="Parameter Missing")
+    image_bytes = base64.b64decode(picture)
 
+    ImageID = secrets.token_urlsafe()
+
+    s3.Object(upload_file_bucket, "test/"+ImageID+".png").put(Body=image_bytes,ContentType='image/PNG')
     EventID = secrets.token_urlsafe()
     default_user_image = (
-        "https://test-bucket-chirag5241.s3.us-west-1.amazonaws.com/test_image.jpeg"
+        "https://moment-events.s3.us-east-2.amazonaws.com/test/"+ImageID+".png"
     )
-
     try:
         # return JSONResponse(start_date_time)
         start_date_time = parser.parse(start_date_time)
@@ -327,6 +312,9 @@ async def get_event(request: Request) -> JSONResponse:
 
         data = record[0]
 
+        print("Testing\n\n\n\n")
+        print(data["end_date_time"])
+        
         event_data = {
             "event_id": data["event_id"],
             "picture": data["picture"],
@@ -334,9 +322,7 @@ async def get_event(request: Request) -> JSONResponse:
             "description": data["description"],
             "location": data["location"],
             "start_date_time": str(data["start_date_time"]),
-            "end_date_time": str(data["end_date_time"])
-            if data["end_date_time"] != "NULL"
-            else None,
+            "end_date_time": None if data["end_date_time"] == "NULL" else str(data["end_date_time"]),
             "visibility": data["visibility"],
             "num_joins": data["num_joins"],
             "num_shoutouts": data["num_shoutouts"],
@@ -619,7 +605,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                         user_join: False,
                         user_shoutout: False 
                     } as event
-                ORDER BY num_joins+num_shoutouts
+                ORDER BY e.StartDateTime desc, num_joins+num_shoutouts
                 LIMIT 3
                 WITH collect(event) as events
                 return apoc.map.setKey({}, "Featured", events) as event_dict
@@ -680,7 +666,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                         user_join: user_join,
                         user_shoutout: user_shoutout 
                     } as event
-                ORDER BY num_joins+num_shoutouts
+                ORDER BY e.StartDateTime desc, num_joins+num_shoutouts
                 LIMIT 3
                 WITH collect(event) as events
                 return apoc.map.setKey({}, "Featured", events) as event_dict
@@ -735,7 +721,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                     description = event_data['description']
                     location = event_data['location']
                     start_date_time = str(event_data['start_date_time'])
-                    end_date_time = str(event_data["end_date_time"]) if event_data["end_date_time"] != "NULL" else None
+                    end_date_time = None if event_data["end_date_time"] == "NULL" else str(event_data["end_date_time"])
                     visibility = event_data['visibility']
                     num_joins = event_data['num_joins']
                     num_shoutouts = event_data['num_shoutouts']
@@ -817,8 +803,8 @@ async def get_events(request: Request) -> JSONResponse:
                     visibility: e.Visibility,
                     num_joins: num_joins,
                     num_shoutouts: num_shoutouts,
-                    user_join: False,
-                    user_shoutout: False } as event
+                    user_join: user_join,
+                    user_shoutout: user_shoutout } as event
             """,
             parameters={
                 "school_id": school_id,
@@ -836,7 +822,7 @@ async def get_events(request: Request) -> JSONResponse:
             description = event_data['description']
             location = event_data['location']
             start_date_time = str(event_data['start_date_time'])
-            end_date_time = str(event_data["end_date_time"]) if event_data["end_date_time"] != "NULL" else None,
+            end_date_time = None if event_data["end_date_time"] == "NULL" else str(event_data["end_date_time"]),
             visibility = event_data['visibility']
             num_joins = event_data['num_joins']
             num_shoutouts = event_data['num_shoutouts']
