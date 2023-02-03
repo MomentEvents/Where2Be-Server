@@ -13,7 +13,7 @@ import bcrypt
 import secrets
 
 from api.neo4j_init import get_connection
-from api.auth import check_user_access_token
+from api.ver_1_0_0.auth import check_user_access_token
 
 import platform
 

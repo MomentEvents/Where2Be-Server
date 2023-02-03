@@ -31,3 +31,14 @@ def check_user_access_token(func):
         return await func(request)
 
     return wrapper
+
+def is_user_privileged_for_event(func):
+    @wraps(func)
+    async def wrapper(request: Request) -> JSONResponse:
+        return None
+
+
+def is_user_privileged_for_user(func):
+    @wraps(func)
+    async def wrapper(request: Request) -> JSONResponse:
+        return None

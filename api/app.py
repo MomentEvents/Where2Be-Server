@@ -6,14 +6,8 @@ from starlette.applications import Starlette
 from starlette.middleware.cors import CORSMiddleware
 # from multer import Multer, DiskStorage
 
+from api.ver_1_0_0 import ver_1_0_0
 
-from api.endpoints import (
-    authservice,
-    eventservice,
-    userservice,
-    schoolservice,
-    interestservice,
-)
 import uvicorn
 import socket
 import ipaddress
@@ -31,11 +25,7 @@ hostname = socket.gethostname()
 ip_address = socket.gethostbyname(hostname)
 
 routes = [
-    *authservice.routes,
-    *eventservice.routes,
-    *userservice.routes,
-    *schoolservice.routes,
-    *interestservice.routes,
+    *ver_1_0_0.routes,
 ]
 
 app = FastAPI(debug=True, routes=routes)

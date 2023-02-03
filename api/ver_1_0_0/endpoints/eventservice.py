@@ -13,7 +13,7 @@ import bcrypt
 import secrets
 
 from api.neo4j_init import get_connection
-from api.auth import check_user_access_token
+from api.ver_1_0_0.auth import check_user_access_token
 
 
 import platform
@@ -28,6 +28,7 @@ import boto3
 
 import base64
 from PIL import Image
+import json
 import cv2
 import numpy as np
 
@@ -93,7 +94,7 @@ def event_query(query, parameters):
             description = event_data['description']
             location = event_data['location']
             start_date_time = str(event_data['start_date_time'])
-            end_date_time = str(event_data["end_date_time"]) if event_data["end_date_time"] != "NULL" else None
+            end_date_time = None if event_data["end_date_time"] == "NULL" else str(event_data["end_date_time"])
             visibility = event_data['visibility']
             num_joins = event_data['num_joins']
             num_shoutouts = event_data['num_shoutouts']
@@ -149,6 +150,7 @@ async def create_event(request: Request) -> JSONResponse:
     end_date_time = form_data["end_date_time"]
     visibility = form_data["visibility"]
     interest_ids = form_data["interest_ids"]
+    interest_ids = json.loads(interest_ids)
     picture = form_data["picture"]
 
     print("\n\n start_date_time")
@@ -164,7 +166,7 @@ async def create_event(request: Request) -> JSONResponse:
                 description,
                 location,
                 start_date_time,
-                # end_date_time,
+                end_date_time,
                 visibility,
                 interest_ids,
             )
@@ -177,10 +179,10 @@ async def create_event(request: Request) -> JSONResponse:
 
     ImageID = secrets.token_urlsafe()
 
-    s3.Object(upload_file_bucket, "test/"+ImageID+".png").put(Body=image_bytes,ContentType='image/PNG')
+    s3.Object(upload_file_bucket, "events/"+ImageID+".png").put(Body=image_bytes,ContentType='image/PNG')
     EventID = secrets.token_urlsafe()
-    default_user_image = (
-        "https://moment-events.s3.us-east-2.amazonaws.com/test/"+ImageID+".png"
+    event_image = (
+        "https://moment-events.s3.us-east-2.amazonaws.com/events/"+ImageID+".png"
     )
     try:
         # return JSONResponse(start_date_time)
@@ -196,6 +198,9 @@ async def create_event(request: Request) -> JSONResponse:
             return Response(status_code=400, content="end date error")
     else:
         end_date_time = "NULL"
+
+    if not interest_ids:
+        return Response(status_code=400, content="interest_ids error")
 
     with get_connection() as session:
         # check if email exists
@@ -220,7 +225,7 @@ async def create_event(request: Request) -> JSONResponse:
             parameters={
                 "EventID": EventID,
                 "user_access_token": user_access_token,
-                "image": default_user_image,
+                "image": event_image,
                 "title": title,
                 "description": description,
                 "location": location,
@@ -387,16 +392,29 @@ async def update_event(request: Request) -> JSONResponse:
     """
     event_id = request.path_params["event_id"]
 
-    body = await request.json()
+    form_data = await request.form()
 
-    user_access_token = body.get("user_access_token")
-    title = body.get("title")
-    description = body.get("description")
-    location = body.get("location")
-    start_date_time = body.get("start_date_time")
-    end_date_time = body.get("end_date_time")
-    visibility = body.get("visibility")
-    interest_ids = body.get("interest_ids")
+    user_access_token = form_data["user_access_token"]
+    title = form_data["title"]
+    description = form_data["description"]
+    location = form_data["location"]
+    start_date_time = form_data["start_date_time"]
+    end_date_time = form_data["end_date_time"]
+    visibility = form_data["visibility"]
+    interest_ids = form_data["interest_ids"]
+    interest_ids = json.loads(interest_ids)
+    picture = form_data["picture"]
+
+    # body = await request.json()
+
+    # user_access_token = body.get("user_access_token")
+    # title = body.get("title")
+    # description = body.get("description")
+    # location = body.get("location")
+    # start_date_time = body.get("start_date_time")
+    # end_date_time = body.get("end_date_time")
+    # visibility = body.get("visibility")
+    # interest_ids = body.get("interest_ids")
 
     try:
         assert all(
@@ -413,26 +431,63 @@ async def update_event(request: Request) -> JSONResponse:
         )
     except AssertionError:
         # Handle the error here
-        print("Error")
+        print("Parameter Missing error")
         return Response(status_code=400, content="Parameter Missing")
+
+    print("picture############", picture)
+    event_image = None
+    if picture != "null" and picture != "undefined":
+
+        image_bytes = base64.b64decode(picture)
+        print("############Image uploaded\n\n\n")
+        ImageID = secrets.token_urlsafe()
+        s3.Object(upload_file_bucket, "events/"+ImageID+".png").put(Body=image_bytes,ContentType='image/PNG')
+        EventID = secrets.token_urlsafe()
+        event_image = (
+            "https://moment-events.s3.us-east-2.amazonaws.com/events/"+ImageID+".png"
+        )
+    
+
+    try:
+        start_date_time = parser.parse(start_date_time)
+    except:
+        return Response(status_code=400, content="start date error")
+
+    if end_date_time != None:
+        try:
+            end_date_time = parser.parse(end_date_time)
+        except:
+            return Response(status_code=400, content="end date error")
+    else:
+        end_date_time = "NULL"
+
+    if not interest_ids:
+        return Response(status_code=400, content="interest_ids error")
 
     with get_connection() as session:
         # check if email exists
         result = session.run(
-            """MATCH (e:Event{EventID : $event_id})
+            """MATCH (e:Event{EventID : $event_id})-[r:event_tag]->(i:Interest)
+            DELETE r
+            WITH e
+            UNWIND $interest_ids as interest_id
+            MERGE (i:Interest{InterestID: interest_id})
+            CREATE (e)-[:event_tag]->(i)
             SET 
-                e.Title = COALESCE( {$title}, e.Title),
-                e.Description = COALESCE({$description}, e.Description)
-                e.Picture = COALESCE( {$image}, e.Picture),
-                e.Location = COALESCE({$location}, e.Location)
-                e.StartDateTime = COALESCE( {$start_date_time}, e.StartDateTime),
-                e.EndDateTime = COALESCE({$end_date_time}, e.EndDateTime)
-                e.Visibility = COALESCE({$visibility}, e.Visibility)
-                e.TimeCreated = datetime()""",
+                e.Title = COALESCE($title, e.Title),
+                e.Description = COALESCE($description, e.Description),
+                e.Picture = COALESCE($image, e.Picture),
+                e.Location = COALESCE($location, e.Location),
+                e.StartDateTime = COALESCE($start_date_time, e.StartDateTime),
+                e.EndDateTime = COALESCE($end_date_time, e.EndDateTime),
+                e.Visibility = COALESCE($visibility, e.Visibility),
+                e.TimeCreated = datetime()
+            """,
             parameters={
+                "event_id": event_id,
                 "title": title,
                 "description": description,
-                "image": None,
+                "image": event_image,
                 "location": location,
                 "start_date_time": start_date_time,
                 "end_date_time": end_date_time,
@@ -441,6 +496,8 @@ async def update_event(request: Request) -> JSONResponse:
             },
         )
         record_timing(request, note="request time")
+
+    return Response(status_code=200, content="event updated " + event_id)
 
 
 async def get_num_joins(request: Request) -> JSONResponse:
@@ -490,7 +547,8 @@ async def get_num_shoutouts(request: Request) -> JSONResponse:
     with get_connection() as session:
         # check if email exists
         result = session.run(
-            """MATCH (n:Event {EventID: $event_id}) RETURN size((n)<-[:user_shoutout]-()) as connections""",
+            """MATCH (n:Event {EventID: $event_id})
+            RETURN size((n)<-[:user_shoutout]-()) as connections""",
             parameters={
                 "event_id": event_id,
             },
@@ -605,7 +663,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                         user_join: False,
                         user_shoutout: False 
                     } as event
-                ORDER BY e.StartDateTime desc, num_joins+num_shoutouts
+                ORDER BY num_joins+num_shoutouts
                 LIMIT 3
                 WITH collect(event) as events
                 return apoc.map.setKey({}, "Featured", events) as event_dict
@@ -666,7 +724,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                         user_join: user_join,
                         user_shoutout: user_shoutout 
                     } as event
-                ORDER BY e.StartDateTime desc, num_joins+num_shoutouts
+                ORDER BY num_joins+num_shoutouts desc
                 LIMIT 3
                 WITH collect(event) as events
                 return apoc.map.setKey({}, "Featured", events) as event_dict
