@@ -19,6 +19,27 @@ import platform
 if platform.system() == "Windows":
     from asyncio.windows_events import NULL
 
+import boto3
+
+import base64
+from PIL import Image
+import json
+import cv2
+import numpy as np
+
+s3 = boto3.client('s3', aws_access_key_id='AKIAR6GV237CVGO4R54X',
+    aws_secret_access_key='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')
+
+access_key = 'AKIAR6GV237CVGO4R54X' #'AKIA2IIOOLB6IZ4NQOWM'
+secret_access_key = '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' #'YuCZO2+yId3Hj4yBwUXkuIxUiP12100pIH6V6TyW'  #change when putting in py file
+
+# Creating Session With Boto3.
+session = boto3.Session(
+aws_access_key_id=access_key,
+aws_secret_access_key=secret_access_key
+)
+s3 = session.resource('s3')
+upload_file_bucket =  'moment-events' #test-bucket-chirag5241' #moment-events.s3.us-east-2
 
 # error handling for broken queries!
 
@@ -26,6 +47,11 @@ if platform.system() == "Windows":
 def get_hash_pwd(password):
     return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
 
+def base64_to_png(base64_string):
+    imgdata = base64.b64decode(base64_string)
+    image = Image.open(io.BytesIO(imgdata))
+    image.save('image.png', 'PNG')
+    return image
 
 # @check_user_access_token
 async def get_using_user_access_token(request: Request) -> JSONResponse:
@@ -139,7 +165,7 @@ async def get_using_user_id(request: Request) -> JSONResponse:
         return JSONResponse(user_data)
 
 
-@check_user_access_token
+
 async def update_using_user_id(request: Request) -> JSONResponse:
     """
     Description: Updates the user information with the associated user_id {user_id}. The {user_id}’s user_access_token needs to match the passed in user_access_token to be able to update the user. Returns error if failed.
@@ -151,48 +177,85 @@ async def update_using_user_id(request: Request) -> JSONResponse:
         user_id: string,
         display_name: string,
         username: string,
-        email: string,
         picture: string,
 
     """
 
     user_id = request.path_params["user_id"]
 
-    try:
-        assert all((user_id))
-    except AssertionError:
-        # Handle the error here
-        print("Error")
-        return Response(status_code=400, content="Parameter Missing")
+    form_data = await request.form()
 
+    user_access_token = form_data["user_access_token"]
+    display_name = form_data["display_name"]
+    username = form_data["username"]
+    picture = form_data["picture"]
+
+    print(user_access_token)
+    print(display_name)
+    print(username)
+    print(user_id)
+    print(picture)
+
+    # WILL TEST PARAMETERS LATER. NEED TO RESEARCH BEST PRACTICES - kyle
+
+    if picture != "null" and picture != "undefined":
+
+        image_bytes = base64.b64decode(picture)
+        print("############Image uploaded\n\n\n")
+        ImageID = secrets.token_urlsafe()
+        s3.Object(upload_file_bucket, "users/"+ImageID+".png").put(Body=image_bytes,ContentType='image/PNG')
+        EventID = secrets.token_urlsafe()
+        picture = (
+            "https://moment-events.s3.us-east-2.amazonaws.com/users/"+ImageID+".png"
+        )
+    else:
+        picture = None
+
+    
+    # NEED TO CHECK IF USERNAME IS UNIQUE
+    # NEED TO CHECK IF USER_ACCESS_TOKEN MATCHES USER_ID
+    # More to be put here later
+    
     with get_connection() as session:
-        # check if email exists
         result = session.run(
-            """match (u:User{UserID : $user_id}) return u""",
+            """MATCH (u:User{UserID: $user_id}) 
+            SET 
+                u.DisplayName = COALESCE($display_name, u.DisplayName),
+                u.Username = COALESCE($username, u.Username),
+                u.Picture = COALESCE($picture, u.Picture)
+            """,
             parameters={
                 "user_id": user_id,
+                "display_name": display_name,
+                "username": username,
+                "picture": picture
             },
         )
 
-        record_timing(request, note="request time")
-
-        # get the first element of object
-        record = result.single()
-
-        if record == None:
-            return Response(status_code=400, content="User does not exist")
-
-        data = record[0]
-
-        user_data = {
-            "user_id": data["UserID"],
-            "display_name": data["Name"],
-            "username": data["Username"],
-            "email": data["Email"],
-            "picture": data["Picture"],
+        updated_user = {
+            "user_id": user_id,
+            "display_name": display_name,
+            "username": username,
+            "picture": picture,
         }
+        return JSONResponse(updated_user)
 
-        return JSONResponse(user_data)
+    #     # get the first element of object
+    #     record = result.single()
+
+    #     if record == None:
+    #         return Response(status_code=400, content="User does not exist")
+
+    #     data = record[0]
+
+    #     user_data = {
+    #         "user_id": data["UserID"],
+    #         "display_name": data["Name"],
+    #         "username": data["Username"],
+    #         "picture": data["Picture"],
+    #     }
+
+    #     return JSONResponse(user_data)
 
 
 @check_user_access_token
