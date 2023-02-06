@@ -6,7 +6,7 @@ from starlette.applications import Starlette
 from starlette.middleware.cors import CORSMiddleware
 # from multer import Multer, DiskStorage
 
-from api.ver_1_0_0 import ver_1_0_0
+from api.version.ver_1_0_0 import ver_1_0_0
 
 import uvicorn
 import socket

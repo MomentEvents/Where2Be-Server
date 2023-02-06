@@ -11,8 +11,8 @@ from datetime import datetime
 import bcrypt
 import secrets
 
-from api.neo4j_init import get_connection
-from api.ver_1_0_0.auth import check_user_access_token
+from api.cloud_resources.moment_neo4j import get_connection
+from api.version.ver_1_0_0.auth import is_real_user
 
 import platform
 

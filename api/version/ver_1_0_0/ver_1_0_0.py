@@ -1,4 +1,4 @@
-from api.ver_1_0_0.endpoints import (
+from api.version.ver_1_0_0.endpoints import (
     authservice,
     eventservice,
     userservice,

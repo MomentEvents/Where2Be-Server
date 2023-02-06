@@ -12,17 +12,15 @@ from dateutil import parser
 import bcrypt
 import secrets
 
-from api.neo4j_init import get_connection
-from api.ver_1_0_0.auth import check_user_access_token
+from api.cloud_resources.moment_neo4j import get_connection
+from api.version.ver_1_0_0.auth import is_real_user
+from api.cloud_resources.moment_s3 import upload_base64_image
 
 
 import platform
 
 from io import BytesIO
 import io
-
-if platform.system() == "Windows":
-    from asyncio.windows_events import NULL
 
 import boto3
 
@@ -67,16 +65,19 @@ upload_file_bucket =  'moment-events' #test-bucket-chirag5241' #moment-events.s3
 
 def compress_image(image_bytes):
     image = Image.open(io.BytesIO(image_bytes))
+    width, height = image.size
+    resized_image = image
+    print("image specs = ",width, height)
+    resized_dimensions = image.size
+    if width>500:
+        percentage = 500 / width
+        resized_dimensions = (int(width * percentage), int(height * percentage))
+    
+    print("resized image specs = ",resized_dimensions)
+    resized_image = image.resize(resized_dimensions,Image.ANTIALIAS)
     output_io = io.BytesIO()
-    image.save(output_io, format='PNG', optimize=True, quality=50)
+    resized_image.save(output_io, format='PNG', optimize=True, quality=85)
     return output_io.getvalue()
-
-def base64_to_png(base64_string):
-    imgdata = base64.b64decode(base64_string)
-    image = Image.open(io.BytesIO(imgdata))
-    image.save('image.png', 'PNG')
-    return image
-
 
 def get_hash_pwd(password):
     return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
@@ -135,10 +136,11 @@ async def create_event(request: Request) -> JSONResponse:
         title: string,
         description: string,
         location: string,
-        start_date_time: Date(?),
-        end_date_time: Date(?),
+        start_date_time: string,
+        end_date_time: string,
         visibility: boolean,
-        interest_id: string[]
+        interest_id: string[],
+        picture: string,
 
 
     return:
@@ -159,11 +161,6 @@ async def create_event(request: Request) -> JSONResponse:
     interest_ids = json.loads(interest_ids)
     picture = form_data["picture"]
 
-    print("\n\n start_date_time")
-    print(start_date_time)
-    print("\n\n end_date_time")
-    print(end_date_time)
-
     try:
         assert all(
             (
@@ -175,47 +172,41 @@ async def create_event(request: Request) -> JSONResponse:
                 end_date_time,
                 visibility,
                 interest_ids,
+                picture
             )
         )
     except AssertionError:
         # Handle the error here
-        print("Parameter Missing error")
-        return Response(status_code=400, content="Parameter Missing")
-    image_bytes = base64.b64decode(picture)
-
-    compressed_image_bytes = compress_image(image_bytes)
-
-    ImageID = secrets.token_urlsafe()
-
-    s3.Object(upload_file_bucket, "events/"+ImageID+".png").put(Body=compressed_image_bytes,ContentType='image/PNG')
-    EventID = secrets.token_urlsafe()
-    event_image = (
-        "https://moment-events.s3.us-east-2.amazonaws.com/events/"+ImageID+".png"
-    )
+        print("Missing a parameter")
+        return Response(status_code=400, content="Missing parameter")
+    
     try:
         # return JSONResponse(start_date_time)
         start_date_time = parser.parse(start_date_time)
     except:
-        return Response(status_code=400, content="start date error")
+        return Response(status_code=400, content="Could not parse end date")
 
     if end_date_time != None:
         try:
             # return JSONResponse(start_date_time)
             end_date_time = parser.parse(end_date_time)
         except:
-            return Response(status_code=400, content="end date error")
+            return Response(status_code=400, content="Could not parse end date")
     else:
         end_date_time = "NULL"
 
     if not interest_ids:
-        return Response(status_code=400, content="interest_ids error")
+        return Response(status_code=400, content="Could not parse interests")
+
+    event_image = await upload_base64_image(picture, "events/")
+    event_id = secrets.token_urlsafe()
 
     with get_connection() as session:
         # check if email exists
         result = session.run(
             """MATCH (user:User {UserAccessToken: $user_access_token})-[:user_school]->(school:School)
                 CREATE (event:Event {
-                    EventID: $EventID,
+                    EventID: $event_id,
                     Title: $title,
                     Description: $description,
                     Picture: $image,
@@ -231,7 +222,7 @@ async def create_event(request: Request) -> JSONResponse:
                 MATCH (tag:Interest {InterestID: interest_id})
                 CREATE (tag)<-[:event_tag]-(event)""",
             parameters={
-                "EventID": EventID,
+                "event_id": event_id,
                 "user_access_token": user_access_token,
                 "image": event_image,
                 "title": title,
@@ -246,7 +237,7 @@ async def create_event(request: Request) -> JSONResponse:
         record_timing(request, note="request time")
 
     event_data = {
-        "event_id": str(EventID),
+        "event_id": str(event_id),
     }
 
     return JSONResponse(event_data)
@@ -442,18 +433,12 @@ async def update_event(request: Request) -> JSONResponse:
         print("Parameter Missing error")
         return Response(status_code=400, content="Parameter Missing")
 
-    print("picture############", picture)
+    # print("picture############", picture)
+
     event_image = None
     if picture != "null" and picture != "undefined":
 
-        image_bytes = base64.b64decode(picture)
-        print("############Image uploaded\n\n\n")
-        ImageID = secrets.token_urlsafe()
-        s3.Object(upload_file_bucket, "events/"+ImageID+".png").put(Body=image_bytes,ContentType='image/PNG')
-        EventID = secrets.token_urlsafe()
-        event_image = (
-            "https://moment-events.s3.us-east-2.amazonaws.com/events/"+ImageID+".png"
-        )
+        event_image = await upload_base64_image(picture, "events/")
     
 
     try:
@@ -989,7 +974,7 @@ async def host_past(request: Request) -> JSONResponse:
                     size( (e)<-[:user_shoutout]-() ) as num_shoutouts,
                     exists((u)-[:user_join]->(e)) as user_join,
                     exists((u)-[:user_shoutout]->(e)) as user_shoutout
-                WHERE e.StartDateTime < datetime()
+                
                 RETURN { event_id: e.EventID,
                         title: e.Title,
                         picture: e.Picture,

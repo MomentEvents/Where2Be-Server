@@ -11,8 +11,8 @@ from datetime import datetime
 import bcrypt
 import secrets
 
-from api.neo4j_init import get_connection
-from api.ver_1_0_0.auth import check_user_access_token
+from api.cloud_resources.moment_neo4j import get_connection
+from api.version.ver_1_0_0.auth import is_real_user, is_user_privileged_for_user
 
 import platform
 
@@ -24,36 +24,8 @@ import boto3
 import base64
 from PIL import Image
 import json
-import cv2
-import numpy as np
+from api.cloud_resources.moment_s3 import upload_base64_image
 
-s3 = boto3.client('s3', aws_access_key_id='AKIAR6GV237CVGO4R54X',
-    aws_secret_access_key='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')
-
-access_key = 'AKIAR6GV237CVGO4R54X' #'AKIA2IIOOLB6IZ4NQOWM'
-secret_access_key = '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' #'YuCZO2+yId3Hj4yBwUXkuIxUiP12100pIH6V6TyW'  #change when putting in py file
-
-# Creating Session With Boto3.
-session = boto3.Session(
-aws_access_key_id=access_key,
-aws_secret_access_key=secret_access_key
-)
-s3 = session.resource('s3')
-upload_file_bucket =  'moment-events' #test-bucket-chirag5241' #moment-events.s3.us-east-2
-
-# error handling for broken queries!
-
-
-def get_hash_pwd(password):
-    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
-
-def base64_to_png(base64_string):
-    imgdata = base64.b64decode(base64_string)
-    image = Image.open(io.BytesIO(imgdata))
-    image.save('image.png', 'PNG')
-    return image
-
-# @check_user_access_token
 async def get_using_user_access_token(request: Request) -> JSONResponse:
     """
     Description: Gets the user information with the associated user_access_token {user_access_token}. Returns error if no results found.
@@ -65,9 +37,7 @@ async def get_using_user_access_token(request: Request) -> JSONResponse:
         user_id: string,
         display_name: string,
         username: string,
-        email: string,
         picture: string,
-
     """
 
     user_access_token = request.path_params["user_access_token"]
@@ -75,14 +45,12 @@ async def get_using_user_access_token(request: Request) -> JSONResponse:
     try:
         assert all((user_access_token))
     except AssertionError:
-        # Handle the error here
-        print("Error")
-        return Response(status_code=400, content="Parameter Missing")
+        return Response(status_code=400, content="Incomplete body")
 
     with get_connection() as session:
-        # check if email exists
         result = session.run(
-            """match (u:User{UserAccessToken : $user_access_token}) return u""",
+            """MATCH (u:User{UserAccessToken : $user_access_token})
+            RETURN u""",
             parameters={
                 "user_access_token": user_access_token,
             },
@@ -90,7 +58,6 @@ async def get_using_user_access_token(request: Request) -> JSONResponse:
 
         record_timing(request, note="request time")
 
-        # get the first element of object
         record = result.single()
 
         if record == None:
@@ -109,7 +76,6 @@ async def get_using_user_access_token(request: Request) -> JSONResponse:
         return JSONResponse(user_data)
 
 
-# @check_user_access_token
 async def get_using_user_id(request: Request) -> JSONResponse:
     """
     Description: Gets the user information with the associated user_id {user_id}. Returns error if no results found.
@@ -121,7 +87,6 @@ async def get_using_user_id(request: Request) -> JSONResponse:
         user_id: string,
         display_name: string,
         username: string,
-        email: string,
         picture: string,
 
     """
@@ -131,22 +96,19 @@ async def get_using_user_id(request: Request) -> JSONResponse:
     try:
         assert all((user_id))
     except AssertionError:
-        # Handle the error here
-        print("Error")
-        return Response(status_code=400, content="Parameter Missing")
+        return Response(status_code=400, content="Incomplete body")
 
     with get_connection() as session:
-        # check if email exists
         result = session.run(
-            """match (u:User{UserID : $user_id}) return u""",
+            """MATCH (u:User{UserID : $user_id})
+            RETURN u""",
             parameters={
                 "user_id": user_id,
             },
         )
 
-        record_timing(request, note="request time")
+        record_timing(request, note="get_using_user_id")
 
-        # get the first element of object
         record = result.single()
 
         if record == None:
@@ -164,7 +126,7 @@ async def get_using_user_id(request: Request) -> JSONResponse:
         return JSONResponse(user_data)
 
 
-
+@is_user_privileged_for_user
 async def update_using_user_id(request: Request) -> JSONResponse:
     """
     Description: Updates the user information with the associated user_id {user_id}. The {user_id}’s user_access_token needs to match the passed in user_access_token to be able to update the user. Returns error if failed.
@@ -189,31 +151,11 @@ async def update_using_user_id(request: Request) -> JSONResponse:
     username = form_data["username"]
     picture = form_data["picture"]
 
-    print(user_access_token)
-    print(display_name)
-    print(username)
-    print(user_id)
-    print(picture)
-
-    # WILL TEST PARAMETERS LATER. NEED TO RESEARCH BEST PRACTICES - kyle
-
     if picture != "null" and picture != "undefined":
+        picture = await upload_base64_image(picture, "users/")
 
-        image_bytes = base64.b64decode(picture)
-        print("############Image uploaded\n\n\n")
-        ImageID = secrets.token_urlsafe()
-        s3.Object(upload_file_bucket, "users/"+ImageID+".png").put(Body=image_bytes,ContentType='image/PNG')
-        EventID = secrets.token_urlsafe()
-        picture = (
-            "https://moment-events.s3.us-east-2.amazonaws.com/users/"+ImageID+".png"
-        )
     else:
         picture = None
-
-    
-    # NEED TO CHECK IF USERNAME IS UNIQUE
-    # NEED TO CHECK IF USER_ACCESS_TOKEN MATCHES USER_ID
-    # More to be put here later
     
     with get_connection() as session:
         result = session.run(
@@ -235,6 +177,9 @@ async def update_using_user_id(request: Request) -> JSONResponse:
 
         record = result.single()
 
+        if record == None:
+            Response(status_code=400, content="User does not exist")
+
         data = record[0]
 
         updated_user = {
@@ -245,23 +190,7 @@ async def update_using_user_id(request: Request) -> JSONResponse:
         }
         return JSONResponse(updated_user)
 
-    #     # get the first element of object
-    #     record = result.single()
-
-    #     if record == None:
-    #         return Response(status_code=400, content="User does not exist")
-
-    #     data = record[0]
-
-    #     user_data = {
-    #         "user_id": data["UserID"],
-    #         "display_name": data["Name"],
-    #         "username": data["Username"],
-    #         "picture": data["Picture"],
-    #     }
-
-    #     return JSONResponse(user_data)
-
+@is_user_privileged_for_user
 async def delete_using_user_id(request: Request) -> JSONResponse:
     """
     Description: Deletes the user information with the associated user_id {user_id}. The {user_id}’s user_access_token needs to match the passed in user_access_token to be able to update the user. Returns error if failed.
@@ -272,7 +201,6 @@ async def delete_using_user_id(request: Request) -> JSONResponse:
     return :
 
     """
-
     user_id = request.path_params["user_id"]
 
     body = await request.json()
@@ -280,38 +208,21 @@ async def delete_using_user_id(request: Request) -> JSONResponse:
     user_access_token = body.get("user_access_token")
 
     try:
-        assert all((user_id))
+        assert all((user_id, user_access_token))
     except AssertionError:
-        # Handle the error here
-        print("Error")
-        return Response(status_code=400, content="Parameter Missing")
+        return Response(status_code=400, content="Incomplete body")
 
     with get_connection() as session:
         result = session.run(
-            """match (u:User{UserID : $user_id, UserAccessToken: $user_access_token}) return u""",
+            """MATCH (u:User{UserID: $user_id})
+            OPTIONAL MATCH (u)-[:user_host]->(e:Event) 
+            DETACH DELETE u, e""",
             parameters={
                 "user_id": user_id,
-                "user_access_token": user_access_token,
             },
         )
 
-        record_timing(request, note="request time")
-
-        # get the first element of object
-        record = result.single()
-
-        if record == None:
-            return Response(status_code=401, content="User does not exist")
-
-        result = session.run(
-            """match (u:User{UserID : $user_id, UserAccessToken: $user_access_token}) delete u""",
-            parameters={
-                "user_id": user_id,
-                "user_access_token": user_access_token,
-            },
-        )
-
-        return Response(status_code=200, content="user deleted")
+    return Response(status_code=200, content="User and events deleted")
 
 
 async def get_event_host(request: Request) -> JSONResponse:
@@ -332,18 +243,18 @@ async def get_event_host(request: Request) -> JSONResponse:
 
     event_id = request.path_params["event_id"]
 
+    body = await request.json()
+
+    user_access_token = body["user_access_token"]
     try:
-        assert all((event_id))
+        assert all((event_id, user_access_token))
     except AssertionError:
-        # Handle the error here
-        print("Error")
-        return Response(status_code=400, content="Parameter Missing")
+        return Response(status_code=400, content="Incomplete body")
 
     with get_connection() as session:
-        # check if email exists
         result = session.run(
-            """match (e:Event{EventID : $event_id})<-[:user_host]-(u:User)
-            return u""",
+            """MATCH (e:Event{EventID : $event_id})<-[:user_host]-(u:User)
+            RETURN u""",
             parameters={
                 "event_id": event_id,
             },
@@ -351,7 +262,6 @@ async def get_event_host(request: Request) -> JSONResponse:
 
         record_timing(request, note="request time")
 
-        # get the first element of object
         record = result.single()
 
         if record == None:
@@ -363,66 +273,12 @@ async def get_event_host(request: Request) -> JSONResponse:
             "user_id": data["UserID"],
             "display_name": data["Name"],
             "username": data["Username"],
-            # "email": data["Email"],
             "picture": data["Picture"],
         }
 
         return JSONResponse(user_data)
 
-
-async def user_did_join(request: Request) -> JSONResponse:
-    """
-    Description: Gets whether a user has joined a specific event already. Needs the {user_id}’s user_access_token to match the one passed into the body to get the join.
-
-    params:
-        user_access_token: string
-
-    return :
-
-        did_join: boolean
-
-    """
-
-    user_id = request.path_params["user_id"]
-    event_id = request.path_params["event_id"]
-
-    body = await request.json()
-
-    user_access_token = body.get("user_access_token")
-
-    try:
-        assert all((user_id))
-    except AssertionError:
-        # Handle the error here
-        print("Error")
-        return Response(status_code=400, content="Parameter Missing")
-
-    with get_connection() as session:
-        # check if email exists
-        result = session.run(
-            """match (u:User{UserID : $user_id, UserAccessToken: $user_access_token})-[:user_join]->(e:Event{EventID: $event_id}) return u""",
-            parameters={
-                "user_access_token": user_access_token,
-                "user_id": user_id,
-                "event_id": event_id,
-            },
-        )
-
-        record_timing(request, note="request time")
-
-        # get the first element of object
-        record = result.single()
-
-        if record == None:
-            return JSONResponse(content={"did_join": False}, status_code=200)
-
-        # if record["u"]["UserAccessToken"] != user_access_token:
-        #     return JSONResponse(content={"did_join": False}, status_code=200)
-
-        return JSONResponse(content={"did_join": True}, status_code=200)
-
-
-# @check_user_access_token
+@is_user_privileged_for_user
 async def user_join_update(request: Request) -> JSONResponse:
     """
     Description: Modifies a join from {user_id} to {event_id}. Needs the {user_id}’s user_access_token to match the one passed into the body to be able to post the join.
@@ -445,20 +301,16 @@ async def user_join_update(request: Request) -> JSONResponse:
     user_access_token = body.get("user_access_token")
     did_join = body.get("did_join")
 
-    # return JSONResponse(content=str(did_join == False), status_code=200)
-
     try:
         assert all((user_id, event_id, user_access_token))
         assert type(did_join) == bool
     except AssertionError:
-        # Handle the error here
-        print("Error")
-        return Response(status_code=400, content="Parameter Error or Missing")
+        return Response(status_code=400, content="Incomplete body or incorrect parameter")
 
     with get_connection() as session:
-        # check if user already joined the event
         result = session.run(
-            """match (u:User{UserID : $user_id, UserAccessToken: $user_access_token})-[r:user_join]->(e:Event{EventID: $event_id}) return r""",
+            """MATCH (u:User{UserID : $user_id, UserAccessToken: $user_access_token})-[r:user_join]->(e:Event{EventID: $event_id})
+            RETURN r""",
             parameters={
                 "user_access_token": user_access_token,
                 "user_id": user_id,
@@ -476,7 +328,8 @@ async def user_join_update(request: Request) -> JSONResponse:
                 )
             else:
                 session.run(
-                    """match (u:User{UserID : $user_id})-[r:user_join]->(e:Event{EventID: $event_id}) delete r""",
+                    """MATCH (u:User{UserID : $user_id})-[r:user_join]->(e:Event{EventID: $event_id})
+                    DELETE r""",
                     parameters={
                         "user_id": user_id,
                         "event_id": event_id,
@@ -488,7 +341,8 @@ async def user_join_update(request: Request) -> JSONResponse:
         else:
             if did_join:
                 session.run(
-                    """match (u:User{UserID : $user_id}),(e:Event{EventID: $event_id}) create (u)-[r:user_join]->(e)""",
+                    """MATCH (u:User{UserID : $user_id}),(e:Event{EventID: $event_id}) 
+                    CREATE (u)-[r:user_join]->(e)""",
                     parameters={
                         "user_id": user_id,
                         "event_id": event_id,
@@ -502,58 +356,7 @@ async def user_join_update(request: Request) -> JSONResponse:
                     content={"message": "User already did not join"}, status_code=200
                 )
 
-async def user_did_shoutout(request: Request) -> JSONResponse:
-    """
-    Description: Checks if {user_id} has shouted out {event_id} already. Needs the {user_id}’s user_access_token to match the one passed into the body to be able to access the shoutout.
-    params:
-        user_access_token: string
-
-    return :
- 
-        did_shoutout: boolean
-
-    """
-
-    user_id = request.path_params["user_id"]
-    event_id = request.path_params["event_id"]
-
-    body = await request.json()
-
-    user_access_token = body.get("user_access_token")
-
-    try:
-        assert all((user_id))
-    except AssertionError:
-        # Handle the error here
-        print("Error")
-        return Response(status_code=400, content="Parameter Missing")
-
-    with get_connection() as session:
-        # check if email exists
-        result = session.run(
-            """match (u:User{UserID : $user_id, UserAccessToken: $user_access_token})-[:user_shoutout]->(e:Event{EventID: $event_id}) return u""",
-            parameters={
-                "user_access_token": user_access_token,
-                "user_id": user_id,
-                "event_id": event_id,
-            },
-        )
-
-        record_timing(request, note="request time")
-
-        # get the first element of object
-        record = result.single()
-
-        if record == None:
-            return JSONResponse(content={"did_shoutout": False}, status_code=200)
-
-        # if record["u"]["UserAccessToken"] != user_access_token:
-        #     return JSONResponse(content={"did_join": False}, status_code=200)
-
-        return JSONResponse(content={"did_shoutout": True}, status_code=200)
-
-
-# @check_user_access_token
+@is_user_privileged_for_user
 async def user_shoutout_update(request: Request) -> JSONResponse:
     """
     Description: Modifies a shoutout from {user_id} to {event_id}. Needs the {user_id}’s user_access_token to match the one passed into the body to be able to post the shoutout.
@@ -580,14 +383,13 @@ async def user_shoutout_update(request: Request) -> JSONResponse:
         assert all((user_id, event_id, user_access_token))
         assert type(did_shoutout) == bool
     except AssertionError:
-        # Handle the error here
-        print("Error")
-        return Response(status_code=400, content="Parameter Error or Missing")
+        return Response(status_code=400, content="Incomplete body or incorrect parameter")
 
     with get_connection() as session:
         # check if user already gave a shoutout to the event
         result = session.run(
-            """match (u:User{UserID : $user_id, UserAccessToken: $user_access_token})-[r:user_shoutout]->(e:Event{EventID: $event_id}) return r""",
+            """MATCH (u:User{UserID : $user_id, UserAccessToken: $user_access_token})-[r:user_shoutout]->(e:Event{EventID: $event_id})
+            RETURN r""",
             parameters={
                 "user_access_token": user_access_token,
                 "user_id": user_id,
@@ -605,7 +407,8 @@ async def user_shoutout_update(request: Request) -> JSONResponse:
                 )
             else:
                 session.run(
-                    """match (u:User{UserID : $user_id})-[r:user_shoutout]->(e:Event{EventID: $event_id}) delete r""",
+                    """MATCH (u:User{UserID : $user_id})-[r:user_shoutout]->(e:Event{EventID: $event_id})
+                    DELETE r""",
                     parameters={
                         "user_id": user_id,
                         "event_id": event_id,
@@ -618,7 +421,8 @@ async def user_shoutout_update(request: Request) -> JSONResponse:
         else:
             if did_shoutout:
                 session.run(
-                    """match (u:User{UserID : $user_id}),(e:Event{EventID: $event_id}) create (u)-[r:user_shoutout]->(e)""",
+                    """MATCH (u:User{UserID : $user_id}),(e:Event{EventID: $event_id})
+                    CREATE (u)-[r:user_shoutout]->(e)""",
                     parameters={
                         "user_id": user_id,
                         "event_id": event_id,
@@ -634,6 +438,7 @@ async def user_shoutout_update(request: Request) -> JSONResponse:
                     status_code=200,
                 )
 
+@is_real_user
 async def get_all_school_users(request: Request) -> JSONResponse:
 
     """
@@ -652,13 +457,16 @@ async def get_all_school_users(request: Request) -> JSONResponse:
 
     """
 
-    # need to verify user_access_token
-
     school_id = request.path_params["school_id"]
     
     body = await request.json()
 
     user_access_token = body.get("user_access_token")
+
+    try:
+        assert all((school_id, user_access_token))
+    except AssertionError:
+        return Response(status_code=400, content="Incomplete body")
 
     with get_connection() as session:
 
@@ -719,29 +527,14 @@ routes = [
         methods=["DELETE"],
     ),
     Route(
-        "/api_ver_1.0.0/user/user_id/{user_id}",
-        delete_using_user_id,
-        methods=["DELETE"],
-    ),
-    Route(
         "/api_ver_1.0.0/user/event_id/{event_id}/host",
         get_event_host,
         methods=["POST"],
     ),
     Route(
         "/api_ver_1.0.0/user/user_id/{user_id}/event_id/{event_id}/join",
-        user_did_join,
-        methods=["POST"],
-    ),
-    Route(
-        "/api_ver_1.0.0/user/user_id/{user_id}/event_id/{event_id}/join",
         user_join_update,
         methods=["UPDATE"],
-    ),
-    Route(
-        "/api_ver_1.0.0/user/user_id/{user_id}/event_id/{event_id}/shoutout",
-        user_did_shoutout,
-        methods=["POST"],
     ),
     Route(
         "/api_ver_1.0.0/user/user_id/{user_id}/event_id/{event_id}/shoutout",

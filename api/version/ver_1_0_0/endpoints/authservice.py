@@ -6,13 +6,13 @@ from starlette.routing import Route
 
 from fastapi_utils.timing import record_timing
 
-from api.ver_1_0_0.auth import is_user_privileged
+from api.version.ver_1_0_0.auth import is_user_privileged
 
 import datetime
 import bcrypt
 import secrets
 
-from api.neo4j_init import get_connection
+from api.cloud_resources.moment_neo4j import get_connection
 
 
 # error handling for broken queries!
@@ -49,7 +49,7 @@ async def get_token_username(request: Request) -> JSONResponse:
     with get_connection() as session:
         result = session.run(
             "match (u:User) where u.Username = $username return u",
-            parameters={"username": username, "password": password},
+            parameters={"username": username},
         )
 
         record_timing(request, note="request time")
@@ -61,6 +61,8 @@ async def get_token_username(request: Request) -> JSONResponse:
             return Response(status_code=400, content="Username does not exist")
 
         data = record[0]
+
+        print(password)
 
         if not bcrypt.checkpw(password.encode("utf-8"), data["PasswordHash"]):
             return Response(status_code=401, content="Password Incorrect")
