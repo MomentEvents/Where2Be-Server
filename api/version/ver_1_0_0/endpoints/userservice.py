@@ -161,7 +161,7 @@ async def update_using_user_id(request: Request) -> JSONResponse:
         result = session.run(
             """MATCH (u:User{UserID: $user_id}) 
             SET 
-                u.DisplayName = COALESCE($display_name, u.DisplayName),
+                u.Name = COALESCE($display_name, u.Name),
                 u.Username = COALESCE($username, u.Username),
                 u.Picture = COALESCE($picture, u.Picture)
             RETURN
@@ -184,7 +184,7 @@ async def update_using_user_id(request: Request) -> JSONResponse:
 
         updated_user = {
             "user_id": data["UserID"],
-            "display_name": data["DisplayName"],
+            "display_name": data["Name"],
             "username": data["Username"],
             "picture": data["Picture"],
         }

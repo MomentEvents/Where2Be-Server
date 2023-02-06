@@ -11,6 +11,10 @@ def is_real_user(func):
     async def wrapper(request: Request) -> JSONResponse:
 
         content_type = request.headers.get("Content-Type")
+        semicolon_index = content_type.find(";")
+
+        if semicolon_index != -1:
+            content_type = content_type[:semicolon_index]
         user_access_token = None
         if content_type == "application/json":
             json_data = await request.json()
@@ -52,6 +56,11 @@ def is_user_privileged_for_user(func):
         user_id = None
 
         content_type = request.headers.get("Content-Type")
+        semicolon_index = content_type.find(";")
+
+        if semicolon_index != -1:
+            content_type = content_type[:semicolon_index]
+
         if content_type == "application/json":
             user_id = request.path_params["user_id"]
             json_data = await request.json()
@@ -63,6 +72,7 @@ def is_user_privileged_for_user(func):
             user_access_token = form_data["user_access_token"]
 
         else:
+            print(type(content_type))
             return Response(status_code=400, content="Request in neither proper format")
 
         try:
@@ -70,7 +80,7 @@ def is_user_privileged_for_user(func):
         except AssertionError:
             return Response(status_code=400, content="Incomplete body")
 
-        if user_access_token in admin_user_access_tokens:
+        if is_user_privileged(user_access_token):
             return func
         
         with get_connection() as session:
@@ -89,7 +99,7 @@ def is_user_privileged_for_user(func):
             return await func(request)
     return wrapper
 
-def is_user_privileged_for_event(user_access_token, user_id):
+def is_user_privileged_for_event(func):
     @wraps(func)
     async def wrapper(request: Request) -> JSONResponse:
 
@@ -97,6 +107,11 @@ def is_user_privileged_for_event(user_access_token, user_id):
         event_id = None
 
         content_type = request.headers.get("Content-Type")
+        semicolon_index = content_type.find(";")
+
+        if semicolon_index != -1:
+            content_type = content_type[:semicolon_index]
+
         if content_type == "application/json":
             event_id = request.path_params["event_id"]
             json_data = await request.json()
@@ -115,7 +130,7 @@ def is_user_privileged_for_event(user_access_token, user_id):
         except AssertionError:
             return Response(status_code=400, content="Incomplete body")
 
-        if user_access_token in admin_user_access_tokens:
+        if is_user_privileged(user_access_token):
             return func
         
         with get_connection() as session:

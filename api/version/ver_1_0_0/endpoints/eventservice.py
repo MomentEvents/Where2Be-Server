@@ -13,7 +13,7 @@ import bcrypt
 import secrets
 
 from api.cloud_resources.moment_neo4j import get_connection
-from api.version.ver_1_0_0.auth import is_real_user
+from api.version.ver_1_0_0.auth import is_real_user, is_user_privileged_for_event, is_user_privileged_for_user
 from api.cloud_resources.moment_s3 import upload_base64_image
 
 
@@ -126,7 +126,7 @@ def event_query(query, parameters):
         return JSONResponse(events)
 
 
-# @check_user_access_token
+@is_real_user
 async def create_event(request: Request) -> JSONResponse:
     """
     Description: Creates an event associated with the user in the user_access_token. Returns an error if too many events are created at the same time from that same user (for spam)
@@ -242,7 +242,7 @@ async def create_event(request: Request) -> JSONResponse:
 
     return JSONResponse(event_data)
 
-
+@is_real_user
 async def get_event(request: Request) -> JSONResponse:
     """
     Description: Gets an event with an event_id of {event_id}. We send a user_access_token to verify that the user has authorization to view the event (if it is private or not). If it is private, it is only viewable when the user_access_token is the owner of the event.
@@ -338,6 +338,7 @@ async def get_event(request: Request) -> JSONResponse:
         return JSONResponse(event_data)
 
 
+@is_user_privileged_for_event
 async def delete_event(request: Request) -> JSONResponse:
     """
     Description: Deletes an event with an event_id of {event_id}. This returns a valid response when the user_access_token is the owner of the event. Error when the user is not the owner of the event
@@ -372,7 +373,7 @@ async def delete_event(request: Request) -> JSONResponse:
 
     return Response(status_code=200, content="event deleted " + event_id)
 
-
+@is_user_privileged_for_event
 async def update_event(request: Request) -> JSONResponse:
     """
     Description: Updates an event with an event_id of {event_id}. This returns a valid response when the user_access_token is the owner of the event. Error when the user is not the owner of the event
@@ -491,115 +492,6 @@ async def update_event(request: Request) -> JSONResponse:
         record_timing(request, note="request time")
 
     return Response(status_code=200, content="event updated " + event_id)
-
-
-async def get_num_joins(request: Request) -> JSONResponse:
-    """
-    Description: Gets the number of joins for an event.
-
-    params:
-
-    return:
-        num_shoutouts: int
-
-    """
-    event_id = str(request.path_params["event_id"])
-
-    with get_connection() as session:
-        # check if email exists
-        result = session.run(
-            """MATCH (n:Event {EventID: $event_id}) RETURN size((n)<-[:user_join]-()) as connections""",
-            parameters={
-                "event_id": event_id,
-            },
-        )
-        record_timing(request, note="request time")
-
-        # get the first element of object
-        record = result.single()
-
-        if record:
-            connections = record["connections"]
-            return JSONResponse(int(connections))
-        else:
-            return Response(status_code=400, content="Event does not exist")
-
-
-async def get_num_shoutouts(request: Request) -> JSONResponse:
-    """
-    Description: Gets the number of joins for an event.
-
-    params:
-
-    return:
-        num_shoutouts: int
-
-    """
-    event_id = str(request.path_params["event_id"])
-
-    with get_connection() as session:
-        # check if email exists
-        result = session.run(
-            """MATCH (n:Event {EventID: $event_id})
-            RETURN size((n)<-[:user_shoutout]-()) as connections""",
-            parameters={
-                "event_id": event_id,
-            },
-        )
-        record_timing(request, note="request time")
-
-        # get the first element of object
-        record = result.single()
-
-        if record:
-            connections = record["connections"]
-            return JSONResponse(int(connections))
-        else:
-            return Response(status_code=400, content="Event does not exist")
-
-
-async def get_featured(request: Request) -> JSONResponse:
-    """
-    Description: Gets the featured events
-
-    params:
-
-    return:
-        num_shoutouts: int
-
-    """
-    school_id = request.path_params["school_id"]
-
-    with get_connection() as session:
-        # check if email exists
-        result = session.run(
-            """match (e)-[:event_school]->(school: School{SchoolID: $school_id})
-            where e.StartDateTime >= datetime()
-            return e
-            order by e.StartDateTime
-            limit 20""",
-            parameters={
-                "school_id": school_id,
-            },
-        )
-        record_timing(request, note="request time")
-
-        event_array = []
-        for record in result:
-            data = record[0]
-            event_array.append(
-                {
-                    "EventID": data["EventID"],
-                    "Title": data["Title"],
-                    "Description": data["Description"],
-                    "Location": data["Location"],
-                    "Picture": data["Picture"],
-                    "StartDateTime": str(data["StartDateTime"]),
-                    "EndDateTime": str(data["EndDateTime"]),
-                    "Visibility": data["Visibility"],
-                }
-            )
-        return JSONResponse(event_array)
 
 async def get_events_categorized(request: Request) -> JSONResponse:
     """
@@ -897,59 +789,6 @@ async def get_events(request: Request) -> JSONResponse:
 
         return JSONResponse(events)
 
-async def get_interest_event(request: Request) -> JSONResponse:
-    """
-    Description: Gets the {interest_id} events attached to a school of {school_id}. Limits to 20 events. Orders from closest start time.
-
-    params:
-
-    return:
-        Array of… {
-            event_id: string,
-            title: string,
-            description: string,
-            location: string,
-            start_date_time: Date(?),
-            end_date_time: Date(?),
-            visibility: boolean
-        }
-
-    """
-    school_id = request.path_params["school_id"]
-    interest_id = request.path_params["interest_id"]
-    # (inte:Interest {InterestID: "Academic"})-[:school_interest]->(school:School {SchoolID:"univ_UIUC"})
-
-    with get_connection() as session:
-        # check if email exists
-        result = session.run(
-            """match (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}), (e)-[:event_tag]->(inte:Interest {InterestID: $interest_id})
-            return e
-            order by e.StartDateTime
-            limit 20""",
-            parameters={
-                "school_id": school_id,
-                "interest_id": interest_id,
-            },
-        )
-        record_timing(request, note="request time")
-
-        event_array = []
-        for record in result:
-            data = record[0]
-            event_array.append(
-                {
-                    "EventID": data["EventID"],
-                    "Title": data["Title"],
-                    "Description": data["Description"],
-                    "Location": data["Location"],
-                    "Picture": data["Picture"],
-                    "StartDateTime": str(data["StartDateTime"]),
-                    "EndDateTime": str(data["EndDateTime"]),
-                    "Visibility": data["Visibility"],
-                }
-            )
-        return JSONResponse(event_array)
-
 async def host_past(request: Request) -> JSONResponse:
     """
     Description: Gets the past hosted events attached to a user of {user_id}. Limits to 20 events. Orders from closest start time all the way until further out.
@@ -1046,7 +885,7 @@ async def host_future(request: Request) -> JSONResponse:
 
     return event_query(query, parameters)
 
-
+@is_user_privileged_for_user
 async def join_past(request: Request) -> JSONResponse:
     """
     Description: Gets the past joined events attached to a user of {user_id}. Limits to 20 events. Orders from closest start time all the way until further out.
@@ -1095,7 +934,7 @@ async def join_past(request: Request) -> JSONResponse:
 
     return event_query(query, parameters) 
 
-
+@is_user_privileged_for_user
 async def join_future(request: Request) -> JSONResponse:
     """
     Description: Gets the future joined events attached to a user of {user_id}. Limits to 20 events. Orders from closest start time all the way until further out.
@@ -1154,21 +993,6 @@ routes = [
     Route("/api_ver_1.0.0/event/event_id/{event_id}", update_event, methods=["UPDATE"]),
     Route("/api_ver_1.0.0/event/event_id/{event_id}", delete_event, methods=["DELETE"]),
     Route(
-        "/api_ver_1.0.0/event/event_id/{event_id}/num_joins/",
-        get_num_joins,
-        methods=["GET"],
-    ),
-    Route(
-        "/api_ver_1.0.0/event/event_id/{event_id}/num_shoutouts/",
-        get_num_shoutouts,
-        methods=["GET"],
-    ),
-    Route(
-        "/api_ver_1.0.0/event/school_id/{school_id}/featured",
-        get_featured,
-        methods=["GET"],
-    ),
-    Route(
         "/api_ver_1.0.0/event/school_id/{school_id}/categorized",
         get_events_categorized,
         methods=["POST"],
@@ -1178,16 +1002,6 @@ routes = [
         get_events,
         methods=["POST"],
     ),
-    Route(
-        "/api_ver_1.0.0/event/school_id/{school_id}/{interest_id}",
-        get_interest_event,
-        methods=["GET"],
-    ),
-    # Route(
-    #     "api_ver_1.0.0/event/user_id/{user_id}/for_you",
-    #     get_interest_event,
-    #     methods=["GET"],
-    # ),
     Route(
         "/api_ver_1.0.0/event/user_id/{user_id}/host_past",
         host_past,
