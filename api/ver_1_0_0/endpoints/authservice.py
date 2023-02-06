@@ -6,6 +6,8 @@ from starlette.routing import Route
 
 from fastapi_utils.timing import record_timing
 
+from api.ver_1_0_0.auth import is_user_privileged
+
 import datetime
 import bcrypt
 import secrets
@@ -21,32 +23,8 @@ def get_hash_pwd(password):
 
 
 async def get_status(request: Request) -> JSONResponse:
-    return Response(status_code=200, content="Moment API is running")
-
-# this is a function to test if the server is connected to the database
-async def data_test(request: Request) -> JSONResponse:
-
-    with get_connection() as session:
-        result = session.run(
-            "match (n:Event) where n.EventID contains $name return (n) limit 25",
-            parameters={"name": "disc"},
-        )
-
-        record_timing(request, note="request time")
-        event_array = []
-        for record in result:
-            data = record[0]
-            event_array.append(
-                {
-                    "EventID": data["EventID"],
-                    "Title": data["Title"],
-                    # "Description": data["Description"],
-                    "Picture": data["Picture"],
-                    "StartDateTime": str(data["StartDateTime"]),
-                }
-            )
-        return JSONResponse(event_array)
-
+    return Response(status_code=200)
+    # return Response(content="This version of Moment is not supported. Update to the latest version.", status_code=400)
 
 async def get_token_username(request: Request) -> JSONResponse:
     """
@@ -92,61 +70,6 @@ async def get_token_username(request: Request) -> JSONResponse:
         }
 
         return JSONResponse(user_access_token)
-
-
-async def get_token_email(request: Request) -> JSONResponse:
-    """
-    Description: Send an email and password and returns a user_access_token attached to the associated user object
-
-    params:
-        email: string,
-        password: string,
-
-    return:
-        string user_access_token
-
-    """
-    body = await request.json()
-    email = body.get("email")
-    password = body.get("password")
-
-    try:
-        assert all((password, email))
-    except AssertionError:
-        # Handle the error here
-        print("Error")
-        return Response(status_code=400, content="Parameter Missing")
-
-    with get_connection() as session:
-
-        result = session.run(
-            "match (u:User {Email: $email}) return u",
-            parameters={"email": email},
-        )
-
-        record_timing(request, note="request time")
-
-        # get the first element of object
-        record = result.single()
-
-        if record == None:
-            return Response(status_code=400, content="Email does not exist")
-
-        data = record[0]
-
-        if not bcrypt.checkpw(password.encode("utf-8"), data["PasswordHash"]):
-            return Response(status_code=400, content="Password Incorrect")
-
-        user_access_token = {
-            "user_access_token": data["UserAccessToken"],
-        }
-
-        token_data = {
-            "user_access_token": str(user_access_token),
-        }
-
-        return JSONResponse(token_data)
-
 
 async def create_user(request: Request) -> JSONResponse:
     """
@@ -238,11 +161,16 @@ async def create_user(request: Request) -> JSONResponse:
 
         return JSONResponse({"user_access_token": UserAccessToken})
 
+async def check_if_user_is_admin(request: Request) -> JSONResponse:
+    
+    body = await request.json()
+
+    user_access_token = body["user_access_token"]
+    return JSONResponse({"is_admin": is_user_privileged(user_access_token)})
 
 routes = [
-    Route("/data_test", data_test, methods=["GET"]),
     Route(
-        "/api_ver_1.0.0/authentication/login/username",
+        "/api_ver_1.0.0/auth/login/username",
         get_token_username,
         methods=["POST"],
     ),
@@ -251,8 +179,6 @@ routes = [
         get_status,
         methods=["GET"]
     ),
-    Route(
-        "/api_ver_1.0.0/authentication/login/email", get_token_email, methods=["POST"]
-    ),
-    Route("/api_ver_1.0.0/authentication/signup", create_user, methods=["POST"]),
+    Route("/api_ver_1.0.0/auth/signup", create_user, methods=["POST"]),
+    Route("/api_ver_1.0.0/auth/privileged_admin", check_if_user_is_admin, methods=["POST"]),
 ]

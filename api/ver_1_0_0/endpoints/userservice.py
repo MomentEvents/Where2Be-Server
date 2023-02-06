@@ -158,7 +158,6 @@ async def get_using_user_id(request: Request) -> JSONResponse:
             "user_id": data["UserID"],
             "display_name": data["Name"],
             "username": data["Username"],
-            "email": data["Email"],
             "picture": data["Picture"],
         }
 
@@ -223,6 +222,8 @@ async def update_using_user_id(request: Request) -> JSONResponse:
                 u.DisplayName = COALESCE($display_name, u.DisplayName),
                 u.Username = COALESCE($username, u.Username),
                 u.Picture = COALESCE($picture, u.Picture)
+            RETURN
+                u
             """,
             parameters={
                 "user_id": user_id,
@@ -232,11 +233,15 @@ async def update_using_user_id(request: Request) -> JSONResponse:
             },
         )
 
+        record = result.single()
+
+        data = record[0]
+
         updated_user = {
-            "user_id": user_id,
-            "display_name": display_name,
-            "username": username,
-            "picture": picture,
+            "user_id": data["UserID"],
+            "display_name": data["DisplayName"],
+            "username": data["Username"],
+            "picture": data["Picture"],
         }
         return JSONResponse(updated_user)
 
@@ -257,8 +262,6 @@ async def update_using_user_id(request: Request) -> JSONResponse:
 
     #     return JSONResponse(user_data)
 
-
-@check_user_access_token
 async def delete_using_user_id(request: Request) -> JSONResponse:
     """
     Description: Deletes the user information with the associated user_id {user_id}. The {user_id}’s user_access_token needs to match the passed in user_access_token to be able to update the user. Returns error if failed.
@@ -284,7 +287,6 @@ async def delete_using_user_id(request: Request) -> JSONResponse:
         return Response(status_code=400, content="Parameter Missing")
 
     with get_connection() as session:
-        # check if email exists
         result = session.run(
             """match (u:User{UserID : $user_id, UserAccessToken: $user_access_token}) return u""",
             parameters={
@@ -299,7 +301,7 @@ async def delete_using_user_id(request: Request) -> JSONResponse:
         record = result.single()
 
         if record == None:
-            return Response(status_code=400, content="User does not exist")
+            return Response(status_code=401, content="User does not exist")
 
         result = session.run(
             """match (u:User{UserID : $user_id, UserAccessToken: $user_access_token}) delete u""",
@@ -312,7 +314,6 @@ async def delete_using_user_id(request: Request) -> JSONResponse:
         return Response(status_code=200, content="user deleted")
 
 
-@check_user_access_token
 async def get_event_host(request: Request) -> JSONResponse:
     """
     Description: Gets the host from {event_id}.
@@ -369,7 +370,6 @@ async def get_event_host(request: Request) -> JSONResponse:
         return JSONResponse(user_data)
 
 
-@check_user_access_token
 async def user_did_join(request: Request) -> JSONResponse:
     """
     Description: Gets whether a user has joined a specific event already. Needs the {user_id}’s user_access_token to match the one passed into the body to get the join.
@@ -502,8 +502,6 @@ async def user_join_update(request: Request) -> JSONResponse:
                     content={"message": "User already did not join"}, status_code=200
                 )
 
-
-@check_user_access_token
 async def user_did_shoutout(request: Request) -> JSONResponse:
     """
     Description: Checks if {user_id} has shouted out {event_id} already. Needs the {user_id}’s user_access_token to match the one passed into the body to be able to access the shoutout.
@@ -511,7 +509,7 @@ async def user_did_shoutout(request: Request) -> JSONResponse:
         user_access_token: string
 
     return :
-
+ 
         did_shoutout: boolean
 
     """
@@ -699,7 +697,6 @@ async def get_all_school_users(request: Request) -> JSONResponse:
         )
 
 
-
 routes = [
     Route(
         "/api_ver_1.0.0/user/user_access_token/{user_access_token}",
@@ -715,6 +712,11 @@ routes = [
         "/api_ver_1.0.0/user/user_id/{user_id}",
         update_using_user_id,
         methods=["UPDATE"],
+    ),
+    Route(
+        "/api_ver_1.0.0/user/user_id/{user_id}",
+        delete_using_user_id,
+        methods=["DELETE"],
     ),
     Route(
         "/api_ver_1.0.0/user/user_id/{user_id}",

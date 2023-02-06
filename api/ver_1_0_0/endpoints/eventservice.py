@@ -65,6 +65,12 @@ upload_file_bucket =  'moment-events' #test-bucket-chirag5241' #moment-events.s3
 
 # return JSONResponse(event_data)
 
+def compress_image(image_bytes):
+    image = Image.open(io.BytesIO(image_bytes))
+    output_io = io.BytesIO()
+    image.save(output_io, format='PNG', optimize=True, quality=50)
+    return output_io.getvalue()
+
 def base64_to_png(base64_string):
     imgdata = base64.b64decode(base64_string)
     image = Image.open(io.BytesIO(imgdata))
@@ -177,9 +183,11 @@ async def create_event(request: Request) -> JSONResponse:
         return Response(status_code=400, content="Parameter Missing")
     image_bytes = base64.b64decode(picture)
 
+    compressed_image_bytes = compress_image(image_bytes)
+
     ImageID = secrets.token_urlsafe()
 
-    s3.Object(upload_file_bucket, "events/"+ImageID+".png").put(Body=image_bytes,ContentType='image/PNG')
+    s3.Object(upload_file_bucket, "events/"+ImageID+".png").put(Body=compressed_image_bytes,ContentType='image/PNG')
     EventID = secrets.token_urlsafe()
     event_image = (
         "https://moment-events.s3.us-east-2.amazonaws.com/events/"+ImageID+".png"
@@ -957,7 +965,6 @@ async def get_interest_event(request: Request) -> JSONResponse:
             )
         return JSONResponse(event_array)
 
-@check_user_access_token
 async def host_past(request: Request) -> JSONResponse:
     """
     Description: Gets the past hosted events attached to a user of {user_id}. Limits to 20 events. Orders from closest start time all the way until further out.
@@ -1005,7 +1012,6 @@ async def host_past(request: Request) -> JSONResponse:
 
     return event_query(query, parameters)    
 
-@check_user_access_token
 async def host_future(request: Request) -> JSONResponse:
     """
     Description: Gets the future hosted events attached to a user of {user_id}. Limits to 20 events. Orders from closest start time all the way until further out.
@@ -1152,7 +1158,6 @@ async def join_future(request: Request) -> JSONResponse:
         }
 
     return event_query(query, parameters) 
-
 
 routes = [
     Route(

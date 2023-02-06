@@ -170,8 +170,6 @@ async def get_user_school(request: Request) -> JSONResponse:
 
         return JSONResponse(school_data)
 
-
-@check_user_access_token
 async def update_user_school(request: Request) -> JSONResponse:
     """
     Description: Updates a user {user_id}’s school to school_id.

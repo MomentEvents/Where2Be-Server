@@ -225,8 +225,6 @@ async def update_user_interest(request: Request) -> JSONResponse:
         else:
             return Response(status_code=200, content="Interest connection created")
 
-
-@check_user_access_token
 async def get_event_interest(request: Request) -> JSONResponse:
     """
     Description: Gets all interests from {event_id}. if event is private, user must be host to get this (for user_access_token)
