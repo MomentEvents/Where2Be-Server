@@ -152,7 +152,8 @@ async def update_using_user_id(request: Request) -> JSONResponse:
     picture = form_data["picture"]
 
     if picture != "null" and picture != "undefined":
-        picture = await upload_base64_image(picture, "users/")
+        image_id = secrets.token_urlsafe()
+        picture = await upload_base64_image(picture, "app-uploads/images/users/user-id/"+user_id+"/", image_id)
 
     else:
         picture = None

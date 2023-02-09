@@ -13,6 +13,8 @@ import bcrypt
 import secrets
 
 from api.cloud_resources.moment_neo4j import get_connection
+from api.cloud_resources.moment_s3 import get_bucket_url
+import random
 
 
 # error handling for broken queries!
@@ -94,7 +96,6 @@ async def create_user(request: Request) -> JSONResponse:
     username = body.get("username")
     password = body.get("password")
     display_name = body.get("display_name")
-    # email = body.get("email")
     school_id = body.get("school_id")
 
     try:
@@ -102,24 +103,22 @@ async def create_user(request: Request) -> JSONResponse:
     except AssertionError:
         # Handle the error here
         print("Error")
-        return Response(status_code=400, content="Parameter Missing")
+        return Response(status_code=400, content="Invalid request in body")
+
+    # input checks
+    username = username.lower()
+
+    
 
     email_exists = False
     username_exists = False
+
+    random_number = str(random.randint(1, 5))
     default_user_image = (
-        "https://test-bucket-chirag5241.s3.us-west-1.amazonaws.com/test_image.jpeg"
+        get_bucket_url()+"app-uploads/images/users/static/default" + random_number + ".png"
     )
 
     with get_connection() as session:
-        # # check if email exists
-        # result = session.run(
-        #     "MATCH (u:User {Email: $email}) RETURN u",
-        #     parameters={"email": email},
-        # )
-        # record_timing(request, note="request email time")
-        # record = result.single()
-        # if record != None:
-        #     email_exists = True
 
         # check if username exists
         result = session.run(
@@ -142,10 +141,10 @@ async def create_user(request: Request) -> JSONResponse:
             return Response(status_code=400, content="Username already exists")
 
         hashed_password = get_hash_pwd(password)
-        UserAccessToken = secrets.token_urlsafe()
+        user_access_token = secrets.token_urlsafe()
 
         result = session.run(
-            """Create (u:User {UserID: $username, Username: $username, Picture:$picture, Name:$display_name, PasswordHash:$hashed_password, UserAccessToken:$UserAccessToken})
+            """Create (u:User {UserID: $username, Username: $username, Picture:$picture, Name:$display_name, PasswordHash:$hashed_password, UserAccessToken:$user_access_token})
             With u
             Match(n:School{SchoolID: $school_id})
             create (u)-[r:user_school]->(n)
@@ -154,14 +153,13 @@ async def create_user(request: Request) -> JSONResponse:
                 "username": username,
                 "display_name": display_name,
                 "picture": default_user_image,
-                # "email": email,
                 "hashed_password": hashed_password,
                 "school_id": school_id,
-                "UserAccessToken": UserAccessToken,
+                "user_access_token": user_access_token,
             },
         )
 
-        return JSONResponse({"user_access_token": UserAccessToken})
+        return JSONResponse({"user_access_token": user_access_token})
 
 async def check_if_user_is_admin(request: Request) -> JSONResponse:
     

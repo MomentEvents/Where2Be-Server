@@ -45,7 +45,7 @@ def compress_image(image_bytes):
     return output_io.getvalue()
 
 
-async def upload_base64_image(base64_string, directory):
+async def upload_base64_image(base64_string, directory, file_name):
     image_bytes = base64.b64decode(base64_string)
 
     compressed_image_bytes = compress_image(image_bytes)
@@ -56,10 +56,12 @@ async def upload_base64_image(base64_string, directory):
     if(directory[-1] != '/'):
         directory = directory + '/'
     
-    image_id = secrets.token_urlsafe()
-    s3.Object(upload_file_bucket, directory+image_id+".png").put(Body=compressed_image_bytes,ContentType='image/PNG')
+    s3.Object(upload_file_bucket, directory+file_name+".png").put(Body=compressed_image_bytes,ContentType='image/PNG')
     event_image = (
-        "https://moment-events.s3.us-east-2.amazonaws.com/"+directory+image_id+".png"
+        get_bucket_url()+directory+file_name+".png"
     )
 
     return event_image
+
+def get_bucket_url():
+    return "https://moment-events.s3.us-east-2.amazonaws.com/"
