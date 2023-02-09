@@ -1,13 +1,32 @@
-from functools import wraps
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
-
+from functools import wraps
+from markupsafe import string
+from dateutil import parser
 from api.cloud_resources.moment_neo4j import get_connection
+from api.debug import IS_DEBUG
+
+import json
 
 admin_user_access_tokens = {"ogzccTkpufyNJI_8uUxus1YJHnDVo6lKPdEaa5dZqJQ",
 }
 
-def is_real_user(func):
+def error_handler(func):
+    @wraps(func)
+    async def wrapper(request: Request) -> JSONResponse:
+
+        if IS_DEBUG:
+            return await func(request)
+        
+        try:
+            return await func(request)
+        except:
+            return Response(status_code=500, content="Internal server error occurred")
+
+    return wrapper
+
+
+def is_valid_user_access_token(func):
     @wraps(func)
     async def wrapper(request: Request) -> JSONResponse:
 
@@ -16,7 +35,7 @@ def is_real_user(func):
         if request_data is None:
             return Response(status_code=400, content="Request is in invalid format")
 
-        user_access_token = request_data["user_access_token"]
+        user_access_token = request_data.get("user_access_token")
 
         try:
             assert all((user_access_token))
@@ -39,16 +58,39 @@ def is_real_user(func):
 
     return wrapper
 
+
+def is_real_user(func):
+    @wraps(func)
+    async def wrapper(request: Request) -> JSONResponse:
+
+        user_id = request.path_params.get("user_id")
+
+        try:
+            assert all((user_id))
+        except AssertionError:
+            return Response(status_code=400, content="Invalid user id")
+
+        with get_connection() as session:
+            result = session.run(
+                """MATCH (u:User{UserID: $user_id}) 
+                RETURN u""",
+                parameters={
+                    "user_id": user_id
+                },
+            )
+            record = result.single()
+            if record == None:
+                return Response(status_code=401, content="User does not exist")
+
+            return await func(request)
+
+    return wrapper
+
 def is_real_event(func):
     @wraps(func)
     async def wrapper(request: Request) -> JSONResponse:
 
-        request_data = await parse_request_data(request)
-
-        if request_data is None:
-            return Response(status_code=400, content="Request is in invalid format")
-
-        event_id = request_data["event_id"]
+        event_id = request.path_params.get("event_id")
 
         try:
             assert all((event_id))
@@ -71,7 +113,7 @@ def is_real_event(func):
 
     return wrapper
 
-def is_picture_real(func):
+def is_picture_formatted(func):
     @wraps(func)
     async def wrapper(request: Request) -> JSONResponse:
 
@@ -80,13 +122,17 @@ def is_picture_real(func):
         if request_data is None:
             return Response(status_code=400, content="Request is in invalid format")
 
-        picture = request_data["picture"]
+        picture = request_data.get("picture")
         
+        print(picture)
         try:
             assert all((picture))
         except AssertionError:
             return Response(status_code=400, content="Invalid picture")
 
+        if picture == "null" or picture == "undefined":
+            return Response(status_code=400, content="Picture cannot be empty")
+        
         return await func(request)
 
     return wrapper
@@ -100,30 +146,72 @@ def is_event_formatted(func):
         if request_data is None:
             return Response(status_code=400, content="Request is in invalid format")
 
-        title = request_data["title"]
-        description = request_data["description"]
-        location = request_data["location"]
-        start_date_time = request_data["start_date_time"]
-        end_date_time = request_data["end_date_time"]
-        visibility = request_data["visibility"]
-        interest_ids = request_data["interest_ids"]
-        interest_ids = json.loads(interest_ids)
+        title = request_data.get("title")
+        description = request_data.get("description")
+        location = request_data.get("location")
+        start_date_time = request_data.get("start_date_time")
+        end_date_time = request_data.get("end_date_time")
+        visibility = request_data.get("visibility")
+        interest_ids = request_data.get("interest_ids")
         
         try:
             assert all((title,
             description, 
             location,
             start_date_time,
-            end_date_time,
             visibility,
             interest_ids
             ))
         except AssertionError:
             return Response(status_code=400, content="Body is incomplete")
-
-
         
+        interest_ids = [*set(json.loads(interest_ids))]
+
+        if (title.isprintable() is False) or (title.isspace() is True):
+            return Response(status_code=400, content="Title is not printable")
+
+        if (len(title) > 70):
+            return Response(status_code=400, content="Title cannot be over 70 characters")
+
+        if (len(description) > 1500):
+            return Response(status_code=400, content="Description cannot be over 1500 characters")
+
+        try:
+            parser.parse(start_date_time)
+        except:
+            return Response(status_code=400, content="Could not parse start date")
+
+        if end_date_time != None:
+            try:
+                parser.parse(end_date_time)
+            except:
+                return Response(status_code=400, content="Could not parse end date")
         
+        if (len(description) > 50):
+            return Response(status_code=400, content="Location cannot be over 50 characters")
+
+        if len(interest_ids) != 1:
+            return Response(status_code=400, content="Must only put in one interest tag")
+        
+        with get_connection() as session:
+
+            result = session.run(
+                """UNWIND $interest_ids as interest_id
+                    MATCH (interests:Interest {InterestID: interest_id})
+                    RETURN interests""",
+                parameters={
+                    "interest_ids": interest_ids,
+                },
+            )
+            
+            # this code sucks
+            num_interests = 0
+            for record in result:
+                num_interests = num_interests + 1
+            
+            if num_interests != len(interest_ids):
+                return Response(status_code=400, content="One or more interests do not exist")
+
         return await func(request)
 
     return wrapper
@@ -132,70 +220,46 @@ def is_user_formatted(func):
     @wraps(func)
     async def wrapper(request: Request) -> JSONResponse:
 
-        content_type = request.headers.get("Content-Type")
-        semicolon_index = content_type.find(";")
+        request_data = await parse_request_data(request)
 
-        if semicolon_index != -1:
-            content_type = content_type[:semicolon_index]
+        if request_data is None:
+            return Response(status_code=400, content="Request is in invalid format")
 
-        event_id = None
-
-        if content_type == "application/json":
-            event_id = request.path_params["event_id"]
-
-        elif content_type == "multipart/form-data":
-            event_id = request.path_params["event_id"]
-
-        else:
-            return Response(status_code=400, content="Request is in neither proper format")
+        display_name = request_data.get("display_name")
+        username = request_data.get("username")
 
         try:
-            assert all((event_id))
-        except AssertionError:
+            assert all({display_name, username})
+        except:
             return Response(status_code=400, content="Incomplete body")
+        
+        if len(display_name) > 20:
+            return Response(status_code=400, content="Display name cannot exceed 20 characters")
 
-        with get_connection() as session:
-            result = session.run(
-                """MATCH (e:Event{EventID: $event_id}) 
-                RETURN e""",
-                parameters={
-                    "event_id": event_id
-                },
-            )
-            record = result.single()
-            if record == None:
-                return Response(status_code=401, content="Event does not exist")
+        if (display_name.isprintable() is False) or (display_name.isspace() is True):
+            return Response(status_code=400, content="Display name is not readable")
 
-            return await func(request)
+        if len(username) > 30:
+            return Response(status_code=400, content="Username cannot exceed 30 characters")
+
+        if username.isalnum() is False:
+            return Response(status_code=400, content="Username must be alphanumeric")
+
+        return await func(request)
 
     return wrapper
 
-def is_user_privileged_for_user(func):
+def is_requester_privileged_for_user(func):
     @wraps(func)
     async def wrapper(request: Request) -> JSONResponse:
 
-        user_access_token = None
-        user_id = None
+        request_data = await parse_request_data(request)
 
-        content_type = request.headers.get("Content-Type")
-        semicolon_index = content_type.find(";")
+        if request_data is None:
+            return Response(status_code=400, content="Request is in invalid format")
 
-        if semicolon_index != -1:
-            content_type = content_type[:semicolon_index]
-
-        if content_type == "application/json":
-            user_id = request.path_params["user_id"]
-            json_data = await request.json()
-            user_access_token = json_data["user_access_token"]
-
-        elif content_type == "multipart/form-data":
-            user_id = request.path_params["user_id"]
-            form_data = await request.form()
-            user_access_token = form_data["user_access_token"]
-
-        else:
-            print(type(content_type))
-            return Response(status_code=400, content="Request in neither proper format")
+        user_access_token = request_data.get("user_access_token")
+        user_id = request.path_params.get("user_id")
 
         try:
             assert all((user_access_token, user_id))
@@ -221,31 +285,17 @@ def is_user_privileged_for_user(func):
             return await func(request)
     return wrapper
 
-def is_user_privileged_for_event(func):
+def is_requester_privileged_for_event(func):
     @wraps(func)
     async def wrapper(request: Request) -> JSONResponse:
 
-        user_access_token = None
-        event_id = None
+        request_data = await parse_request_data(request)
 
-        content_type = request.headers.get("Content-Type")
-        semicolon_index = content_type.find(";")
+        if request_data is None:
+            return Response(status_code=400, content="Request is in invalid format")
 
-        if semicolon_index != -1:
-            content_type = content_type[:semicolon_index]
-
-        if content_type == "application/json":
-            event_id = request.path_params["event_id"]
-            json_data = await request.json()
-            user_access_token = json_data["user_access_token"]
-
-        elif content_type == "multipart/form-data":
-            event_id = request.path_params["event_id"]
-            form_data = await request.form()
-            user_access_token = form_data["user_access_token"]
-
-        else:
-            return Response(status_code=400, content="Request is not in proper format")
+        user_access_token = request_data.get("user_access_token")
+        event_id = request.path_params.get("event_id")
 
         try:
             assert all((user_access_token, event_id))
@@ -271,7 +321,7 @@ def is_user_privileged_for_event(func):
             return await func(request)
     return wrapper
 
-################################## helper functions
+# HELPER FUNCTIONS
 
 def is_user_privileged(user_access_token) -> bool:
     
@@ -294,4 +344,3 @@ async def parse_request_data(request: Request):
             return request_data
     else:
         return None
-

@@ -12,7 +12,7 @@ import bcrypt
 import secrets
 
 from api.cloud_resources.moment_neo4j import get_connection
-from api.version.ver_1_0_0.auth import is_real_user, is_user_privileged_for_user
+from api.version.ver_1_0_0.auth import is_real_user, is_requester_privileged_for_user, is_user_formatted, is_valid_user_access_token
 
 import platform
 
@@ -125,8 +125,8 @@ async def get_using_user_id(request: Request) -> JSONResponse:
 
         return JSONResponse(user_data)
 
-
-@is_user_privileged_for_user
+@is_user_formatted
+@is_requester_privileged_for_user
 async def update_using_user_id(request: Request) -> JSONResponse:
     """
     Description: Updates the user information with the associated user_id {user_id}. The {user_id}’s user_access_token needs to match the passed in user_access_token to be able to update the user. Returns error if failed.
@@ -151,13 +151,11 @@ async def update_using_user_id(request: Request) -> JSONResponse:
     username = form_data["username"]
     picture = form_data["picture"]
 
+    picture = None
     if picture != "null" and picture != "undefined":
         image_id = secrets.token_urlsafe()
         picture = await upload_base64_image(picture, "app-uploads/images/users/user-id/"+user_id+"/", image_id)
 
-    else:
-        picture = None
-    
     with get_connection() as session:
         result = session.run(
             """MATCH (u:User{UserID: $user_id}) 
@@ -191,7 +189,7 @@ async def update_using_user_id(request: Request) -> JSONResponse:
         }
         return JSONResponse(updated_user)
 
-@is_user_privileged_for_user
+@is_requester_privileged_for_user
 async def delete_using_user_id(request: Request) -> JSONResponse:
     """
     Description: Deletes the user information with the associated user_id {user_id}. The {user_id}’s user_access_token needs to match the passed in user_access_token to be able to update the user. Returns error if failed.
@@ -207,11 +205,6 @@ async def delete_using_user_id(request: Request) -> JSONResponse:
     body = await request.json()
 
     user_access_token = body.get("user_access_token")
-
-    try:
-        assert all((user_id, user_access_token))
-    except AssertionError:
-        return Response(status_code=400, content="Incomplete body")
 
     with get_connection() as session:
         result = session.run(
@@ -279,7 +272,7 @@ async def get_event_host(request: Request) -> JSONResponse:
 
         return JSONResponse(user_data)
 
-@is_user_privileged_for_user
+@is_requester_privileged_for_user
 async def user_join_update(request: Request) -> JSONResponse:
     """
     Description: Modifies a join from {user_id} to {event_id}. Needs the {user_id}’s user_access_token to match the one passed into the body to be able to post the join.
@@ -357,7 +350,7 @@ async def user_join_update(request: Request) -> JSONResponse:
                     content={"message": "User already did not join"}, status_code=200
                 )
 
-@is_user_privileged_for_user
+@is_requester_privileged_for_user
 async def user_shoutout_update(request: Request) -> JSONResponse:
     """
     Description: Modifies a shoutout from {user_id} to {event_id}. Needs the {user_id}’s user_access_token to match the one passed into the body to be able to post the shoutout.
@@ -439,7 +432,7 @@ async def user_shoutout_update(request: Request) -> JSONResponse:
                     status_code=200,
                 )
 
-@is_real_user
+@is_valid_user_access_token
 async def get_all_school_users(request: Request) -> JSONResponse:
 
     """

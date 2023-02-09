@@ -13,7 +13,7 @@ import bcrypt
 import secrets
 
 from api.cloud_resources.moment_neo4j import get_connection
-from api.version.ver_1_0_0.auth import is_real_user, is_user_privileged_for_event, is_user_privileged_for_user,is_event_formatted, is_real_event
+from api.version.ver_1_0_0.auth import is_real_user, is_requester_privileged_for_event, is_requester_privileged_for_user,is_event_formatted, is_real_event, is_picture_formatted, error_handler, is_valid_user_access_token, parse_request_data
 from api.cloud_resources.moment_s3 import upload_base64_image
 
 
@@ -30,85 +30,9 @@ import json
 import cv2
 import numpy as np
 
-
-# error handling for broken queries!
-# event_data = {
-#     "event_id": event_id,
-#     # "title": title,
-#     # "description": description,
-#     # "location": location,
-#     # "start_date_time": start_date_time,
-#     # "end_date_time": end_date_time,
-#     # "visibility": visibility,
-#     # "interest_ids": interest_ids,
-# }
-
-# return JSONResponse(event_data)
-
-def compress_image(image_bytes):
-    image = Image.open(io.BytesIO(image_bytes))
-    width, height = image.size
-    resized_image = image
-    print("image specs = ",width, height)
-    resized_dimensions = image.size
-    if width>500:
-        percentage = 500 / width
-        resized_dimensions = (int(width * percentage), int(height * percentage))
-    
-    print("resized image specs = ",resized_dimensions)
-    resized_image = image.resize(resized_dimensions,Image.ANTIALIAS)
-    output_io = io.BytesIO()
-    resized_image.save(output_io, format='PNG', optimize=True, quality=85)
-    return output_io.getvalue()
-
-def get_hash_pwd(password):
-    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
-
-def event_query(query, parameters):
-
-    with get_connection() as session:
-        # check if email exists
-        result = session.run(
-            query,
-            parameters   
-        )
-        # record_timing(request, note="request time")
-
-        events = []
-        for record in result:
-            event_data = record['event']
-            event_id = event_data['event_id']
-            title = event_data['title']
-            picture = event_data['picture']
-            description = event_data['description']
-            location = event_data['location']
-            start_date_time = str(event_data['start_date_time'])
-            end_date_time = None if event_data["end_date_time"] == "NULL" else str(event_data["end_date_time"])
-            visibility = event_data['visibility']
-            num_joins = event_data['num_joins']
-            num_shoutouts = event_data['num_shoutouts']
-            user_join = event_data['user_join']
-            user_shoutout = event_data['user_shoutout']
-
-            events.append({
-                'event_id': event_id,
-                'title': title,
-                'picture': picture,
-                'description': description,
-                'location': location,
-                'start_date_time': start_date_time,
-                'end_date_time': end_date_time,
-                'visibility': visibility,
-                'num_joins': num_joins,
-                'num_shoutouts': num_shoutouts,
-                'user_join': user_join,
-                'user_shoutout': user_shoutout
-            })
-            
-        return JSONResponse(events)
-
-
-@is_real_user
+@error_handler
+@is_valid_user_access_token
+@is_picture_formatted
 @is_event_formatted
 async def create_event(request: Request) -> JSONResponse:
     """
@@ -131,42 +55,17 @@ async def create_event(request: Request) -> JSONResponse:
 
     """
 
-    form_data = await request.form()
+    request_data = await parse_request_data(request)
 
-    user_access_token = form_data["user_access_token"]
-    title = form_data["title"]
-    description = form_data["description"]
-    location = form_data["location"]
-    start_date_time = form_data["start_date_time"]
-    end_date_time = form_data["end_date_time"]
-    visibility = form_data["visibility"]
-    interest_ids = form_data["interest_ids"]
-    interest_ids = json.loads(interest_ids)
-    picture = form_data["picture"]
-
-    try:
-        assert all(
-            (
-                user_access_token,
-                title,
-                description,
-                location,
-                start_date_time,
-                end_date_time,
-                visibility,
-                interest_ids,
-                picture
-            )
-        )
-    except AssertionError:
-        # Handle the error here
-        print("Missing a parameter")
-        return Response(status_code=400, content="Incomplete body")
-    
-    try:
-        start_date_time = parser.parse(start_date_time)
-    except:
-        return Response(status_code=400, content="Could not parse start date")
+    user_access_token = request_data.get("user_access_token")
+    title = request_data.get("title")
+    description = request_data.get("description")
+    location = request_data.get("location")
+    start_date_time = parser.parse(request_data.get("start_date_time"))
+    end_date_time = None if request_data.get("end_date_time") is None else parser.parse(request_data.get("end_date_time"))
+    visibility = request_data.get("visibility")
+    interest_ids = [*set(json.loads(request_data.get("interest_ids")))]
+    picture = request_data.get("picture")
 
     if end_date_time != None:
         try:
@@ -225,6 +124,7 @@ async def create_event(request: Request) -> JSONResponse:
 
     return JSONResponse(event_data)
 
+@error_handler
 async def get_event(request: Request) -> JSONResponse:
     """
     Description: Gets an event with an event_id of {event_id}. We send a user_access_token to verify that the user has authorization to view the event (if it is private or not). If it is private, it is only viewable when the user_access_token is the owner of the event.
@@ -314,14 +214,13 @@ async def get_event(request: Request) -> JSONResponse:
             "num_shoutouts": data["num_shoutouts"],
             "user_join": data["user_join"],
             "user_shoutout": data["user_shoutout"],
-            # "interest_ids": data["UserAccessToken"]interest_ids,
         }
 
         return JSONResponse(event_data)
 
-
+@error_handler
 @is_real_event
-@is_user_privileged_for_event
+@is_requester_privileged_for_event
 async def delete_event(request: Request) -> JSONResponse:
     """
     Description: Deletes an event with an event_id of {event_id}. This returns a valid response when the user_access_token is the owner of the event. Error when the user is not the owner of the event
@@ -336,13 +235,6 @@ async def delete_event(request: Request) -> JSONResponse:
 
     user_access_token = body.get("user_access_token")
 
-    try:
-        assert all((user_access_token))
-    except AssertionError:
-        # Handle the error here
-        print("Error")
-        return Response(status_code=400, content="Parameter Missing")
-
     with get_connection() as session:
         # check if email exists
         result = session.run(
@@ -356,9 +248,10 @@ async def delete_event(request: Request) -> JSONResponse:
 
     return Response(status_code=200, content="event deleted " + event_id)
 
-@is_real_event
+@error_handler
 @is_event_formatted
-@is_user_privileged_for_event
+@is_real_event
+@is_requester_privileged_for_event
 async def update_event(request: Request) -> JSONResponse:
     """
     Description: Updates an event with an event_id of {event_id}. This returns a valid response when the user_access_token is the owner of the event. Error when the user is not the owner of the event
@@ -377,57 +270,18 @@ async def update_event(request: Request) -> JSONResponse:
     """
     event_id = request.path_params["event_id"]
 
-    form_data = await request.form()
+    request_data = await parse_request_data(request)
 
-    user_access_token = form_data["user_access_token"]
-    title = form_data["title"]
-    description = form_data["description"]
-    location = form_data["location"]
-    start_date_time = form_data["start_date_time"]
-    end_date_time = form_data["end_date_time"]
-    visibility = form_data["visibility"]
-    interest_ids = form_data["interest_ids"]
-    interest_ids = json.loads(interest_ids)
-    picture = form_data["picture"]
+    user_access_token = request_data["user_access_token"]
+    title = request_data["title"]
+    description = request_data["description"]
+    location = request_data["location"]
+    start_date_time = parser.parse(request_data["start_date_time"])
+    end_date_time = None if request_data["end_date_time"] is None else parser.parse(request_data["end_date_time"])
+    visibility = request_data["visibility"]
+    interest_ids = [*set(json.loads(request_data["interest_ids"]))]
+    picture = request_data["picture"]
 
-    try:
-        assert all(
-            (
-                user_access_token,
-                title,
-                description,
-                location,
-                start_date_time,
-                end_date_time,
-                visibility,
-                interest_ids,
-            )
-        )
-    except AssertionError:
-        # Handle the error here
-        print("Parameter Missing error")
-        return Response(status_code=400, content="Parameter Missing")
-
-    # print("picture############", picture)
-
-    try:
-        start_date_time = parser.parse(start_date_time)
-    except:
-        return Response(status_code=400, content="Start date parsing error")
-
-    if end_date_time != None:
-        try:
-            end_date_time = parser.parse(end_date_time)
-        except:
-            return Response(status_code=400, content="End date parsing error")
-    else:
-        end_date_time = "NULL"
-
-    if not interest_ids:
-        return Response(status_code=400, content="Interest_ids error")
-
-    print(type(interest_ids))
-    print(interest_ids)
     event_image = None
     if picture != "null" and picture != "undefined":
         image_id = secrets.token_urlsafe()
@@ -466,8 +320,9 @@ async def update_event(request: Request) -> JSONResponse:
         )
         record_timing(request, note="request time")
 
-        return Response(status_code=200, content="event updated " + event_id)
+    return Response(status_code=200, content="event updated")
 
+@error_handler
 async def get_events_categorized(request: Request) -> JSONResponse:
     """
     Description: Gets all events attached to a school of {school_id} for introduce events. user_join and user_shoutout are defaulted to be false
@@ -491,13 +346,16 @@ async def get_events_categorized(request: Request) -> JSONResponse:
 			user_shoutout: boolean
         }]
     """
-    school_id = request.path_params["school_id"]
+    school_id = request.path_params.get("school_id")
 
-    body = await request.json()
+    request_data = await parse_request_data(request)
 
-    user_access_token = body.get("user_access_token")
+    user_access_token = request_data.get("user_access_token")
 
-    print("############user_access_token",user_access_token)
+    try:
+        assert all({user_access_token, school_id})
+    except:
+        Response(status_code=400, content="Incomplete body")
 
     with get_connection() as session:
 
@@ -671,6 +529,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
 
         return JSONResponse(categorized_dict)
 
+@error_handler
 async def get_events(request: Request) -> JSONResponse:
     """
     Description: Gets all events attached to a school of {school_id} 
@@ -699,7 +558,10 @@ async def get_events(request: Request) -> JSONResponse:
 
     user_access_token = body.get("user_access_token")
 
-    print("############user_access_token",user_access_token)
+    try:
+        assert all({user_access_token, school_id})
+    except:
+        Response(status_code=400, content="Incomplete body")
 
     with get_connection() as session:
         # check if email exists
@@ -764,7 +626,7 @@ async def get_events(request: Request) -> JSONResponse:
 
         return JSONResponse(events)
 
-@is_real_user
+@error_handler
 async def host_past(request: Request) -> JSONResponse:
     """
     Description: Gets the past hosted events attached to a user of {user_id}. Limits to 20 events. Orders from closest start time all the way until further out.
@@ -786,6 +648,10 @@ async def host_past(request: Request) -> JSONResponse:
     body = await request.json()
     user_access_token = body["user_access_token"]
 
+    try:
+        assert all({user_access_token, user_id})
+    except:
+        Response(status_code=400, content="Incomplete body")
 
     query = """MATCH ((e:Event)-[:user_host]-(u:User{UserID:$user_id})), (c:User{UserAccessToken: $user_access_token})
                 WITH DISTINCT e,
@@ -815,9 +681,9 @@ async def host_past(request: Request) -> JSONResponse:
         "user_access_token": user_access_token
         }
 
-    return event_query(query, parameters)    
+    return get_event_list_from_query(query, parameters)    
 
-@is_real_user
+@error_handler
 async def host_future(request: Request) -> JSONResponse:
     """
     Description: Gets the future hosted events attached to a user of {user_id}. Limits to 20 events. Orders from closest start time all the way until further out.
@@ -841,6 +707,11 @@ async def host_future(request: Request) -> JSONResponse:
 
     body = await request.json()
     user_access_token = body["user_access_token"]
+
+    try:
+        assert all({user_access_token, user_id})
+    except:
+        Response(status_code=400, content="Incomplete body")
 
     query = """MATCH ((e:Event)-[:user_host]-(u:User{UserID:$user_id})), (c:User{UserAccessToken: $user_access_token})
                 WITH DISTINCT e,
@@ -870,9 +741,10 @@ async def host_future(request: Request) -> JSONResponse:
         "user_access_token": user_access_token
         }
 
-    return event_query(query, parameters)
+    return get_event_list_from_query(query, parameters)
 
-@is_user_privileged_for_user
+@error_handler
+@is_requester_privileged_for_user
 async def join_past(request: Request) -> JSONResponse:
     """
     Description: Gets the past joined events attached to a user of {user_id}. Limits to 20 events. Orders from closest start time all the way until further out.
@@ -891,6 +763,12 @@ async def join_past(request: Request) -> JSONResponse:
 
     """
     user_id = request.path_params["user_id"]
+
+    try:
+        assert all({user_id})
+    except:
+        Response(status_code=400, content="Incomplete body")
+
 
     query = """MATCH ((e:Event)-[:user_join]-(u:User{UserID:$user_id}))
                 WITH DISTINCT e,
@@ -919,9 +797,10 @@ async def join_past(request: Request) -> JSONResponse:
         "user_id": user_id
         }
 
-    return event_query(query, parameters) 
+    return get_event_list_from_query(query, parameters) 
 
-@is_user_privileged_for_user
+@error_handler
+@is_requester_privileged_for_user
 async def join_future(request: Request) -> JSONResponse:
     """
     Description: Gets the future joined events attached to a user of {user_id}. Limits to 20 events. Orders from closest start time all the way until further out.
@@ -968,7 +847,7 @@ async def join_future(request: Request) -> JSONResponse:
         "user_id": user_id
         }
 
-    return event_query(query, parameters) 
+    return get_event_list_from_query(query, parameters) 
 
 routes = [
     Route(
@@ -1010,3 +889,50 @@ routes = [
         methods=["POST"],
     ),
 ]
+
+
+# HELPER FUNCTIONS
+
+def get_event_list_from_query(query, parameters):
+
+    with get_connection() as session:
+        # check if email exists
+        result = session.run(
+            query,
+            parameters   
+        )
+        # record_timing(request, note="request time")
+
+        events = []
+        for record in result:
+            event_data = record['event']
+            event_id = event_data['event_id']
+            title = event_data['title']
+            picture = event_data['picture']
+            description = event_data['description']
+            location = event_data['location']
+            start_date_time = str(event_data['start_date_time'])
+            end_date_time = None if event_data["end_date_time"] == "NULL" else str(event_data["end_date_time"])
+            visibility = event_data['visibility']
+            num_joins = event_data['num_joins']
+            num_shoutouts = event_data['num_shoutouts']
+            user_join = event_data['user_join']
+            user_shoutout = event_data['user_shoutout']
+
+            events.append({
+                'event_id': event_id,
+                'title': title,
+                'picture': picture,
+                'description': description,
+                'location': location,
+                'start_date_time': start_date_time,
+                'end_date_time': end_date_time,
+                'visibility': visibility,
+                'num_joins': num_joins,
+                'num_shoutouts': num_shoutouts,
+                'user_join': user_join,
+                'user_shoutout': user_shoutout
+            })
+            
+        return JSONResponse(events)
+

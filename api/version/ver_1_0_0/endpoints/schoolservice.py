@@ -16,17 +16,11 @@ from api.cloud_resources.moment_neo4j import get_connection
 from api.version.ver_1_0_0.auth import is_real_user
 
 import platform
+from api.version.ver_1_0_0.auth import is_requester_privileged_for_user,is_event_formatted
+
 
 if platform.system() == "Windows":
     from asyncio.windows_events import NULL
-
-
-# error handling for broken queries!
-
-
-def get_hash_pwd(password):
-    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
-
 
 async def get_all_schools(request: Request) -> JSONResponse:
     """
@@ -170,6 +164,7 @@ async def get_user_school(request: Request) -> JSONResponse:
 
         return JSONResponse(school_data)
 
+@is_requester_privileged_for_user
 async def update_user_school(request: Request) -> JSONResponse:
     """
     Description: Updates a user {user_id}’s school to school_id.
