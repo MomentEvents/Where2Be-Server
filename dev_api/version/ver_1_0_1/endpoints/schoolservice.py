@@ -13,10 +13,10 @@ import bcrypt
 import secrets
 
 from cloud_resources.moment_neo4j import get_connection
-from version.ver_1_0_0.auth import is_real_user
+from version.ver_1_0_1.auth import is_real_user
 
 import platform
-from version.ver_1_0_0.auth import is_requester_privileged_for_user,is_event_formatted
+from version.ver_1_0_1.auth import is_requester_privileged_for_user,is_event_formatted
 
 
 if platform.system() == "Windows":

@@ -6,7 +6,7 @@ from starlette.applications import Starlette
 from starlette.middleware.cors import CORSMiddleware
 # from multer import Multer, DiskStorage
 
-from version.ver_1_0_0 import ver_1_0_0
+from version.ver_1_0_1 import ver_1_0_1
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.responses import Response
@@ -31,7 +31,7 @@ async def get_health(request: Request) -> JSONResponse:
     return Response(status_code=200, content="Moment server is healthy")
 
 routes = [
-    *ver_1_0_0.routes,
+    *ver_1_0_1.routes,
     Route("/",
         get_health,
         methods=["GET"],
@@ -47,4 +47,4 @@ localhost = "127.0.0.1"
 hosting = ip_address
 
 if __name__ == "__main__":
-    uvicorn.run(app, host=hosting, port=8080)
+    uvicorn.run(app, host=hosting, port=8070)
