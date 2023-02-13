@@ -67,7 +67,7 @@ async def get_using_user_access_token(request: Request) -> JSONResponse:
 
         user_data = {
             "user_id": data["UserID"],
-            "display_name": data["Name"],
+            "display_name": data["DisplayName"],
             "username": data["Username"],
             "email": data["Email"],
             "picture": data["Picture"],
@@ -118,7 +118,7 @@ async def get_using_user_id(request: Request) -> JSONResponse:
 
         user_data = {
             "user_id": data["UserID"],
-            "display_name": data["Name"],
+            "display_name": data["DisplayName"],
             "username": data["Username"],
             "picture": data["Picture"],
         }
@@ -151,16 +151,19 @@ async def update_using_user_id(request: Request) -> JSONResponse:
     username = form_data["username"]
     picture = form_data["picture"]
 
-    picture = None
     if picture != "null" and picture != "undefined":
         image_id = secrets.token_urlsafe()
         picture = await upload_base64_image(picture, "app-uploads/images/users/user-id/"+user_id+"/", image_id)
+    else:
+        picture = None
 
+    
+    username = username.lower()
     with get_connection() as session:
         result = session.run(
             """MATCH (u:User{UserID: $user_id}) 
             SET 
-                u.Name = COALESCE($display_name, u.Name),
+                u.DisplayName = COALESCE($display_name, u.DisplayName),
                 u.Username = COALESCE($username, u.Username),
                 u.Picture = COALESCE($picture, u.Picture)
             RETURN
@@ -183,7 +186,7 @@ async def update_using_user_id(request: Request) -> JSONResponse:
 
         updated_user = {
             "user_id": data["UserID"],
-            "display_name": data["Name"],
+            "display_name": data["DisplayName"],
             "username": data["Username"],
             "picture": data["Picture"],
         }
@@ -265,7 +268,7 @@ async def get_event_host(request: Request) -> JSONResponse:
 
         user_data = {
             "user_id": data["UserID"],
-            "display_name": data["Name"],
+            "display_name": data["DisplayName"],
             "username": data["Username"],
             "picture": data["Picture"],
         }
@@ -468,10 +471,11 @@ async def get_all_school_users(request: Request) -> JSONResponse:
                 """MATCH ((u:User)-[:user_school]->(s:School{SchoolID: $school_id}))
             RETURN {
                 user_id: u.UserID,
-                display_name: u.Name,
+                display_name: u.DisplayName,
                 username: u.Username,
                 picture: u.Picture
-            } as user""",
+            } as user
+            ORDER BY toLower(u.DisplayName)""",
             parameters={
                 "school_id": school_id,
             },

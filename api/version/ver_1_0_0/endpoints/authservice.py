@@ -6,7 +6,7 @@ from starlette.routing import Route
 
 from fastapi_utils.timing import record_timing
 
-from api.version.ver_1_0_0.auth import is_user_privileged, parse_request_data, error_handler, is_user_formatted
+from api.version.ver_1_0_0.auth import is_requester_privileged, parse_request_data, error_handler, is_user_formatted
 
 import datetime
 import bcrypt
@@ -36,12 +36,17 @@ async def get_token_username(request: Request) -> JSONResponse:
         string user_access_token
 
     """
-    # username = request.query_params.get("username")
-    # password = request.query_params.get("password")
 
     body = await request.json()
     username = body.get("username")
     password = body.get("password")
+
+    try:
+        assert all({username, password})
+    except:
+        return Response(status_code=400, content="Incomplete body")
+
+    username = username.lower()
 
     # Connect to the database and run a simple query
     with get_connection() as session:
@@ -65,7 +70,7 @@ async def get_token_username(request: Request) -> JSONResponse:
         print(password)
 
         if not bcrypt.checkpw(password.encode("utf-8"), data.get("PasswordHash")):
-            return Response(status_code=401, content="Password Incorrect")
+            return Response(status_code=401, content="Incorrect password")
 
         user_access_token = {
             "user_access_token": data.get("UserAccessToken"),
@@ -82,7 +87,6 @@ async def create_user(request: Request) -> JSONResponse:
     params:
         username: string,
         display_name: string,
-        email: string,
         password: string,
         school_id: string
 
@@ -108,7 +112,8 @@ async def create_user(request: Request) -> JSONResponse:
     # input checks
     username = username.lower()
 
-    
+    if len(password) < 7:
+        return Response(status_code=400, content="Please enter a more complex password")
 
     email_exists = False
     username_exists = False
@@ -130,25 +135,34 @@ async def create_user(request: Request) -> JSONResponse:
         if record != None:
             username_exists = True
 
-        # if email_exists and username_exists:
-        #     return Response(status_code=400, content="Username and Email already exist")
-        # elif username_exists:
-        #     return Response(status_code=400, content="Username already exists")
-        # elif email_exists:
-        #     return Response(status_code=400, content="Email already exists")
-
         if username_exists:
             return Response(status_code=400, content="Username already exists")
 
         hashed_password = get_hash_pwd(password)
         user_access_token = secrets.token_urlsafe()
+        user_id = secrets.token_urlsafe()
+
+        # check if school exists
 
         result = session.run(
-            """Create (u:User {UserID: $username, Username: $username, Picture:$picture, Name:$display_name, PasswordHash:$hashed_password, UserAccessToken:$user_access_token})
-            With u
-            Match(n:School{SchoolID: $school_id})
-            create (u)-[r:user_school]->(n)
-            Return u""",
+            """
+            MATCH(s:School{SchoolID: $school_id})
+            RETURN s""",
+            parameters={
+                "school_id": school_id,
+            },
+        )
+        record = result.single()
+
+        if record == None:
+            return Response(status_code=400, content="School does not exist")
+
+        result = session.run(
+            """CREATE (u:User {UserID: $user_id, Username: $username, Picture:$picture, DisplayName:$display_name, PasswordHash:$hashed_password, UserAccessToken:$user_access_token})
+            WITH u
+            MATCH(n:School{SchoolID: $school_id})
+            CREATE (u)-[r:user_school]->(n)
+            RETURN u""",
             parameters={
                 "username": username,
                 "display_name": display_name,
@@ -156,6 +170,7 @@ async def create_user(request: Request) -> JSONResponse:
                 "hashed_password": hashed_password,
                 "school_id": school_id,
                 "user_access_token": user_access_token,
+                "user_id": user_id,
             },
         )
 
@@ -172,7 +187,7 @@ async def check_if_user_is_admin(request: Request) -> JSONResponse:
     except:
         return Response(status_code=400, content="User access token is blank")
 
-    return JSONResponse({"is_admin": is_user_privileged(user_access_token)})
+    return JSONResponse({"is_admin": is_requester_privileged(user_access_token)})
 
 routes = [
     Route(

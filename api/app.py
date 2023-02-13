@@ -7,7 +7,10 @@ from starlette.middleware.cors import CORSMiddleware
 # from multer import Multer, DiskStorage
 
 from api.version.ver_1_0_0 import ver_1_0_0
-
+from starlette.requests import Request
+from starlette.responses import JSONResponse
+from starlette.responses import Response
+from starlette.routing import Route
 import uvicorn
 import socket
 import ipaddress
@@ -24,8 +27,15 @@ logger = logging.getLogger(__name__)
 hostname = socket.gethostname()
 ip_address = socket.gethostbyname(hostname)
 
+async def get_health(request: Request) -> JSONResponse:
+    return Response(status_code=200, content="Moment server is healthy")
+
 routes = [
     *ver_1_0_0.routes,
+    Route("/",
+        get_health,
+        methods=["GET"],
+    ),
 ]
 
 app = FastAPI(debug=True, routes=routes)

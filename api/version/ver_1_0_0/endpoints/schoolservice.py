@@ -40,7 +40,9 @@ async def get_all_schools(request: Request) -> JSONResponse:
     with get_connection() as session:
         # check if email exists
         result = session.run(
-            """match (s:School) return s""",
+            """MATCH (s:School) 
+            RETURN s
+            ORDER BY toLower(s.Abbreviation + s.Name)""",
         )
 
         record_timing(request, note="request time")
@@ -108,7 +110,7 @@ async def get_school(request: Request) -> JSONResponse:
 
         school_data = {
             "school_id": data["SchoolID"],
-            "name": data["Name"],
+            "name": data["DisplayName"],
             "abbreviation": data["Abbreviation"],
         }
 
@@ -158,7 +160,7 @@ async def get_user_school(request: Request) -> JSONResponse:
 
         school_data = {
             "school_id": data["SchoolID"],
-            "name": data["Name"],
+            "name": data["DisplayName"],
             "abbreviation": data["Abbreviation"],
         }
 

@@ -36,7 +36,9 @@ async def get_all_interests(request: Request) -> JSONResponse:
     with get_connection() as session:
         # check if email exists
         result = session.run(
-            """match (i:Interest) return i""",
+            """MATCH (i:Interest) 
+            RETURN i
+            ORDER BY toLower(i.Name)""",
         )
 
         record_timing(request, note="request time")
@@ -56,6 +58,7 @@ async def get_all_interests(request: Request) -> JSONResponse:
                 }
             )
 
+        print(interest_array)
         return JSONResponse(interest_array)
 
 
@@ -103,7 +106,7 @@ async def get_all_interests(request: Request) -> JSONResponse:
 
 #         interest_data = {
 #             "interest_id": data["InterestID"],
-#             "name": data["Name"],
+#             "name": data["DisplayName"],
 #             # "category": data["Category"],
 #         }
 
@@ -156,7 +159,7 @@ async def get_all_interests(request: Request) -> JSONResponse:
 #             interest_array.append(
 #                 {
 #                     "interest_id": data["InterestID"],
-#                     "name": data["Name"],
+#                     "name": data["DisplayName"],
 #                     # "category": data["Category"],
 #                 }
 #             )
@@ -249,7 +252,8 @@ async def get_event_interest(request: Request) -> JSONResponse:
 
         result = session.run(
             """MATCH (event:Event{EventID: $event_id})-[:event_tag]->(i:Interest) 
-            RETURN i""",
+            RETURN i
+            ORDER BY toLower(i.Name)""",
             parameters={"event_id": event_id},
         )
 

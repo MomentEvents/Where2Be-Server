@@ -9,6 +9,9 @@ from api.debug import IS_DEBUG
 import json
 
 admin_user_access_tokens = {"ogzccTkpufyNJI_8uUxus1YJHnDVo6lKPdEaa5dZqJQ",
+"JWTntbEefCyMWulyfC4mqTIcYPa3m8wjPM3fOTOY7uc",
+"NwAcvNpiD8moi0uy4SqpqkizIpZKNwz-j6BqyLkn6lY",
+"rAA8AUz-7QRXmcktfjiAWARD-_GoHrpqzbcTrooHY-U"
 }
 
 def error_handler(func):
@@ -52,7 +55,7 @@ def is_valid_user_access_token(func):
             )
             record = result.single()
             if record == None:
-                return Response(status_code=401, content="User does not exist")
+                return Response(status_code=400, content="User does not exist")
 
             return await func(request)
 
@@ -80,7 +83,7 @@ def is_real_user(func):
             )
             record = result.single()
             if record == None:
-                return Response(status_code=401, content="User does not exist")
+                return Response(status_code=400, content="User does not exist")
 
             return await func(request)
 
@@ -177,16 +180,18 @@ def is_event_formatted(func):
             return Response(status_code=400, content="Description cannot be over 1500 characters")
 
         try:
-            parser.parse(start_date_time)
+            start_date_time_test = parser.parse(start_date_time)
         except:
             return Response(status_code=400, content="Could not parse start date")
 
         if end_date_time != None:
             try:
-                parser.parse(end_date_time)
+                end_date_time_test = parser.parse(end_date_time)
+                if start_date_time_test > end_date_time_test:
+                    return Response(status_code=400, content="Start date cannot be after end date")
             except:
                 return Response(status_code=400, content="Could not parse end date")
-        
+
         if (len(description) > 50):
             return Response(status_code=400, content="Location cannot be over 50 characters")
 
@@ -266,7 +271,7 @@ def is_requester_privileged_for_user(func):
         except AssertionError:
             return Response(status_code=400, content="Incomplete body")
 
-        if is_user_privileged(user_access_token):
+        if is_requester_privileged(user_access_token):
             return await func(request)
         
         with get_connection() as session:
@@ -302,7 +307,7 @@ def is_requester_privileged_for_event(func):
         except AssertionError:
             return Response(status_code=400, content="Incomplete body")
 
-        if is_user_privileged(user_access_token):
+        if is_requester_privileged(user_access_token):
             return await func(request)
         
         with get_connection() as session:
@@ -323,7 +328,7 @@ def is_requester_privileged_for_event(func):
 
 # HELPER FUNCTIONS
 
-def is_user_privileged(user_access_token) -> bool:
+def is_requester_privileged(user_access_token) -> bool:
     
     return user_access_token in admin_user_access_tokens
 
