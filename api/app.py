@@ -17,6 +17,8 @@ import ipaddress
 
 from fastapi_utils.timing import add_timing_middleware
 
+import status
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -27,15 +29,9 @@ logger = logging.getLogger(__name__)
 hostname = socket.gethostname()
 ip_address = socket.gethostbyname(hostname)
 
-async def get_health(request: Request) -> JSONResponse:
-    return Response(status_code=200, content="Moment server is healthy")
-
 routes = [
     *ver_1_0_0.routes,
-    Route("/",
-        get_health,
-        methods=["GET"],
-    ),
+    *status.routes
 ]
 
 app = FastAPI(debug=True, routes=routes)

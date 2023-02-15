@@ -13,7 +13,9 @@ import bcrypt
 import secrets
 
 from cloud_resources.moment_neo4j import get_connection
-from version.ver_1_0_0.auth import is_real_user, is_requester_privileged_for_event, is_requester_privileged_for_user,is_event_formatted, is_real_event, is_picture_formatted, error_handler, is_valid_user_access_token, parse_request_data
+from version.ver_1_0_0.auth import is_real_user, is_requester_privileged_for_event, is_requester_privileged_for_user,is_event_formatted, is_real_event, is_picture_formatted, error_handler, is_valid_user_access_token
+from helpers import parse_request_data
+
 from cloud_resources.moment_s3 import upload_base64_image
 
 
@@ -701,7 +703,7 @@ async def get_events(request: Request) -> JSONResponse:
                 size( (e)<-[:user_shoutout]-() ) as num_shoutouts,    
                 exists((u)-[:user_join]->(e)) as user_join,
                 exists((u)-[:user_shoutout]->(e)) as user_shoutout
-            WHERE e.StartDateTime >= datetime()
+            WHERE e.StartDateTime >= datetime() - duration({hours: 12})
             RETURN { event_id: e.EventID,
                     title: e.Title,
                     picture: e.Picture,

@@ -6,7 +6,8 @@ from starlette.routing import Route
 
 from fastapi_utils.timing import record_timing
 
-from version.ver_1_0_0.auth import is_requester_privileged, parse_request_data, error_handler, is_user_formatted
+from version.ver_1_0_0.auth import is_requester_privileged, error_handler, is_user_formatted
+from helpers import parse_request_data
 
 import datetime
 import bcrypt
@@ -15,13 +16,6 @@ import secrets
 from cloud_resources.moment_neo4j import get_connection
 from cloud_resources.moment_s3 import get_bucket_url
 import random
-
-@error_handler
-async def get_status(request: Request) -> JSONResponse:
-    request_data = await parse_request_data(request)
-    print(request_data.get("app_version"))
-    return Response(status_code=200)
-    # return Response(content="This version of Moment is not supported. Update to the latest version.", status_code=400)
 
 @error_handler
 async def get_token_username(request: Request) -> JSONResponse:
@@ -194,11 +188,6 @@ routes = [
         "/api_ver_1.0.0/auth/login/username",
         get_token_username,
         methods=["POST"],
-    ),
-    Route(
-        "/api_ver_1.0.0/status",
-        get_status,
-        methods=["POST"]
     ),
     Route("/api_ver_1.0.0/auth/signup", create_user, methods=["POST"]),
     Route("/api_ver_1.0.0/auth/privileged_admin", check_if_user_is_admin, methods=["POST"]),
