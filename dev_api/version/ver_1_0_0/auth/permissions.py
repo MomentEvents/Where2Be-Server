@@ -172,9 +172,6 @@ def is_event_formatted(func):
         
         interest_ids = [*set(json.loads(interest_ids))]
 
-        title = title.strip()
-        location = location.strip()
-
         if (title.isprintable() is False) or (title.isspace() is True):
             return Response(status_code=400, content="Title is not printable")
 
@@ -202,7 +199,6 @@ def is_event_formatted(func):
 
         if (location.isprintable() is False) or (location.isspace() is True):
             return Response(status_code=400, content="Location is not printable")
-
         if (len(location) > 50):
             return Response(status_code=400, content="Location cannot be over 50 characters")
 
@@ -243,9 +239,6 @@ def is_user_formatted(func):
 
         display_name = request_data.get("display_name")
         username = request_data.get("username")
-
-        display_name = display_name.strip()
-        username = username.strip()
 
         try:
             assert all({display_name, username})
