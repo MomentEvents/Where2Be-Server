@@ -5,6 +5,7 @@ from markupsafe import string
 from dateutil import parser
 from cloud_resources.moment_neo4j import get_connection
 from debug import IS_DEBUG
+from helpers import parse_request_data
 
 import json
 
@@ -332,21 +333,3 @@ def is_requester_privileged_for_event(func):
 def is_requester_privileged(user_access_token) -> bool:
     
     return user_access_token in admin_user_access_tokens
-
-async def parse_request_data(request: Request):
-
-    content_type = request.headers.get("Content-Type")
-    semicolon_index = content_type.find(";")
-
-    if semicolon_index != -1:
-        content_type = content_type[:semicolon_index]
-
-    if content_type == "application/json":
-        request_data = await request.json()
-        return request_data
-
-    elif content_type == "multipart/form-data":
-            request_data = await request.form()
-            return request_data
-    else:
-        return None

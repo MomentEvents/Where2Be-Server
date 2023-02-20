@@ -178,6 +178,9 @@ def is_event_formatted(func):
         if (len(title) > 70):
             return Response(status_code=400, content="Title cannot be over 70 characters")
 
+        if(description.isspace()):
+            return Response(status_code=400, content="Description is not readable")
+
         if (len(description) > 1500):
             return Response(status_code=400, content="Description cannot be over 1500 characters")
 
@@ -194,6 +197,8 @@ def is_event_formatted(func):
             except:
                 return Response(status_code=400, content="Could not parse end date")
 
+        if (location.isprintable() is False) or (location.isspace() is True):
+            return Response(status_code=400, content="Location is not printable")
         if (len(location) > 50):
             return Response(status_code=400, content="Location cannot be over 50 characters")
 

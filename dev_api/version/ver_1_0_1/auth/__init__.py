@@ -8,7 +8,6 @@ from version.ver_1_0_1.auth.permissions import is_event_formatted
 from version.ver_1_0_1.auth.permissions import is_picture_formatted
 from version.ver_1_0_1.auth.permissions import is_valid_user_access_token
 from version.ver_1_0_1.auth.permissions import error_handler
-from version.ver_1_0_1.auth.permissions import parse_request_data
 
 __all__ = [
     "is_real_user",
@@ -21,5 +20,4 @@ __all__ = [
     "is_picture_formatted",
     "is_valid_user_access_token",
     "error_handler",
-    "parse_request_data"
 ]

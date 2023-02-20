@@ -6,7 +6,8 @@ from starlette.routing import Route
 
 from fastapi_utils.timing import record_timing
 
-from version.ver_1_0_1.auth import is_requester_privileged, parse_request_data, error_handler, is_user_formatted
+from version.ver_1_0_1.auth import is_requester_privileged, error_handler, is_user_formatted
+from helpers import parse_request_data
 
 import datetime
 import bcrypt
