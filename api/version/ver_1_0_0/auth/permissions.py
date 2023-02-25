@@ -5,7 +5,7 @@ from markupsafe import string
 from dateutil import parser
 from cloud_resources.moment_neo4j import get_connection
 from debug import IS_DEBUG
-from helpers import parse_request_data
+from helpers import parse_request_data, contains_profanity, contains_url
 
 import json
 
@@ -184,6 +184,12 @@ def is_event_formatted(func):
         if (len(title) < 1):
             return Response(status_code=400, content="Title cannot be under 1 character")
 
+        if(contains_profanity(title)):
+            return Response(status_code=400, content="We detected profanity in your title. Please change it")
+
+        if(contains_url(title)):
+            return Response(status_code=400, content="Title cannot contain a url")
+
         if(description.isspace()):
             return Response(status_code=400, content="Description is not readable")
 
@@ -192,6 +198,9 @@ def is_event_formatted(func):
 
         if (len(description) < 1):
             return Response(status_code=400, content="Description cannot be under 1 character")
+
+        if(contains_profanity(description)):
+            return Response(status_code=400, content="We detected profanity in your description. Please change it")
 
         try:
             start_date_time_test = parser.parse(start_date_time)
@@ -214,6 +223,9 @@ def is_event_formatted(func):
 
         if (len(location) < 1):
             return Response(status_code=400, content="Location cannot be under 1 character")
+
+        if(contains_profanity(location)):
+            return Response(status_code=400, content="We detected profanity in your location. Please change it")
 
         if len(interest_ids) != 1:
             return Response(status_code=400, content="Must only put in one interest tag")
@@ -267,6 +279,12 @@ def is_user_formatted(func):
         if (display_name.isprintable() is False) or (display_name.isspace() is True):
             return Response(status_code=400, content="Display name is not readable")
 
+        if(contains_url(display_name)):
+            return Response(status_code=400, content="Display name cannot contain a url")
+
+        if(contains_profanity(display_name)):
+            return Response(status_code=400, content="We detected profanity in your display name. Please change it")
+
         if len(username) > 30:
             return Response(status_code=400, content="Username cannot exceed 30 characters")
             
@@ -275,6 +293,12 @@ def is_user_formatted(func):
 
         if username.isalnum() is False:
             return Response(status_code=400, content="Username must be alphanumeric")
+
+        if(contains_profanity(username)):
+            return Response(status_code=400, content="We detected profanity in your username. Please change it")
+
+        if(contains_url(username)):
+            return Response(status_code=400, content="Username cannot contain a url")
 
         return await func(request)
 

@@ -3,6 +3,9 @@ from starlette.responses import JSONResponse
 from starlette.responses import Response
 from starlette.routing import Route
 
+import re
+from better_profanity import profanity
+
 async def parse_request_data(request: Request):
 
     content_type = request.headers.get("Content-Type")
@@ -20,3 +23,25 @@ async def parse_request_data(request: Request):
             return request_data
     else:
         return None
+
+def contains_url(string):
+ 
+    regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
+    url = re.findall(regex, string)
+    if(len(url) > 0):
+        return True
+    
+    string_list = string.split()
+
+    
+    regex = r"(?i)\b((?:.com$|.org$|.edu$))"
+
+    for test_string in string_list:
+        url = re.findall(regex, test_string)
+        if(len(url) > 0):
+            return True
+    
+    return False
+
+def contains_profanity(string):
+    return profanity.contains_profanity(string)
