@@ -176,6 +176,71 @@ async def create_user(request: Request) -> JSONResponse:
         return JSONResponse({"user_access_token": user_access_token})
 
 @error_handler
+async def change_password(request: Request) -> JSONResponse: 
+    """
+    Description: Changes the password for an account.
+
+    params:
+        user_access_token: string,
+        old_password: string,
+        new_password: string,
+
+    return:
+
+    """
+
+    request_data = await parse_request_data(request)
+
+    user_access_token = request_data.get("user_access_token")
+    old_password = request_data.get("old_password")
+    new_password = request_data.get("new_password")
+
+    try:
+        assert all((user_access_token, old_password, new_password))
+    except AssertionError:
+        # Handle the error here
+        return Response(status_code=400, content="Invalid request in body")
+
+    if len(new_password) < 7:
+        return Response(status_code=400, content="Please enter a more complex new password")
+
+    if len(new_password) > 30:
+        return Response(status_code=400, content="Your new password is over 30 characters. Please enter a shorter password")
+
+    with get_connection() as session:
+        result = session.run(
+            """MATCH (u:User {UserAccessToken: $user_access_token}) 
+            RETURN u""",
+            parameters={
+                "user_access_token": user_access_token,
+            },
+        )
+
+        record = result.single()
+
+        if record == None:
+            return Response(status_code=400, content="User does not exist")
+
+        data = record[0]
+
+        if not bcrypt.checkpw(old_password.encode("utf-8"), data.get("PasswordHash")):
+            return Response(status_code=401, content="Old password does not match")
+
+        new_password = get_hash_pwd(new_password)
+        result = session.run(
+            """MATCH (u:User {UserAccessToken: $user_access_token}) 
+            SET u.PasswordHash = $new_password
+            RETURN u""",
+            parameters={
+                "user_access_token": user_access_token,
+                "new_password": new_password,
+            },
+        )
+
+        return Response(status_code=200, content="Changed password")
+
+
+@error_handler
 async def check_if_user_is_admin(request: Request) -> JSONResponse:
     
     body = await request.json()
@@ -195,6 +260,7 @@ routes = [
         methods=["POST"],
     ),
     Route("/api_ver_1.0.0/auth/signup", create_user, methods=["POST"]),
+    Route("/api_ver_1.0.0/auth/change_password", change_password, methods=["POST"]),
     Route("/api_ver_1.0.0/auth/privileged_admin", check_if_user_is_admin, methods=["POST"]),
 ]
 
