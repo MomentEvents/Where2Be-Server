@@ -181,11 +181,17 @@ def is_event_formatted(func):
         if (len(title) > 70):
             return Response(status_code=400, content="Title cannot be over 70 characters")
 
+        if (len(title) < 1):
+            return Response(status_code=400, content="Title cannot be under 1 character")
+
         if(description.isspace()):
             return Response(status_code=400, content="Description is not readable")
 
         if (len(description) > 1500):
             return Response(status_code=400, content="Description cannot be over 1500 characters")
+
+        if (len(description) < 1):
+            return Response(status_code=400, content="Description cannot be under 1 character")
 
         try:
             start_date_time_test = parser.parse(start_date_time)
@@ -205,6 +211,9 @@ def is_event_formatted(func):
 
         if (len(location) > 50):
             return Response(status_code=400, content="Location cannot be over 50 characters")
+
+        if (len(location) < 1):
+            return Response(status_code=400, content="Location cannot be under 1 character")
 
         if len(interest_ids) != 1:
             return Response(status_code=400, content="Must only put in one interest tag")
@@ -252,7 +261,7 @@ def is_user_formatted(func):
         except:
             return Response(status_code=400, content="Incomplete body")
         
-        if len(display_name) > 20:
+        if len(display_name) > 30:
             return Response(status_code=400, content="Display name cannot exceed 20 characters")
 
         if (display_name.isprintable() is False) or (display_name.isspace() is True):
@@ -260,6 +269,9 @@ def is_user_formatted(func):
 
         if len(username) > 30:
             return Response(status_code=400, content="Username cannot exceed 30 characters")
+            
+        if len(username) < 6:
+            return Response(status_code=400, content="Username cannot be under 6 characters")
 
         if username.isalnum() is False:
             return Response(status_code=400, content="Username must be alphanumeric")

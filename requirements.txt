@@ -1,0 +1,14 @@
+uvicorn
+fastapi_utils
+fastapi
+markupsafe
+python-dateutil
+neo4j
+bcrypt
+boto3
+pillow
+opencv-python
+python-multipart
+
+#pip3 install uvicorn
+#pip3 install fastapi

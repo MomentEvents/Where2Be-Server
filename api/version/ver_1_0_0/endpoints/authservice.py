@@ -111,6 +111,9 @@ async def create_user(request: Request) -> JSONResponse:
     if len(password) < 7:
         return Response(status_code=400, content="Please enter a more complex password")
 
+    if len(password) > 30:
+        return Response(status_code=400, content="Your password is over 30 characters. Please enter a shorter password")
+
     email_exists = False
     username_exists = False
 
