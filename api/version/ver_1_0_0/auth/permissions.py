@@ -193,8 +193,8 @@ def is_event_formatted(func):
         if(description.isspace()):
             return Response(status_code=400, content="Description is not readable")
 
-        if (len(description) > 1500):
-            return Response(status_code=400, content="Description cannot be over 1500 characters")
+        if (len(description) > 2000):
+            return Response(status_code=400, content="Description cannot be over 2000 characters")
 
         if (len(description) < 1):
             return Response(status_code=400, content="Description cannot be under 1 character")
@@ -207,7 +207,7 @@ def is_event_formatted(func):
         except:
             return Response(status_code=400, content="Could not parse start date")
 
-        if end_date_time != None:
+        if end_date_time != None and end_date_time != "NULL":
             try:
                 end_date_time_test = parser.parse(end_date_time)
                 if start_date_time_test > end_date_time_test:
