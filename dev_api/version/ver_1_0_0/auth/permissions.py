@@ -199,8 +199,8 @@ def is_event_formatted(func):
 
         if (location.isprintable() is False) or (location.isspace() is True):
             return Response(status_code=400, content="Location is not printable")
-        if (len(location) > 50):
-            return Response(status_code=400, content="Location cannot be over 50 characters")
+        if (len(location) > 200):
+            return Response(status_code=400, content="Location cannot be over 200 characters")
 
         if len(interest_ids) != 1:
             return Response(status_code=400, content="Must only put in one interest tag")

@@ -13,7 +13,8 @@ admin_user_access_tokens = {"ogzccTkpufyNJI_8uUxus1YJHnDVo6lKPdEaa5dZqJQ",
 "JWTntbEefCyMWulyfC4mqTIcYPa3m8wjPM3fOTOY7uc",
 "NwAcvNpiD8moi0uy4SqpqkizIpZKNwz-j6BqyLkn6lY",
 "rAA8AUz-7QRXmcktfjiAWARD-_GoHrpqzbcTrooHY-U",
-"Zhz-LH_nkUJQ8pAAVkSdynNC1UFXS_Wk-ddfBhgvEEE"
+"Zhz-LH_nkUJQ8pAAVkSdynNC1UFXS_Wk-ddfBhgvEEE",
+"QrnQRJRCeulxJeG5e-uQXdev3xgHyUM136693CrmaBM"
 }
 
 def error_handler(func):
@@ -218,8 +219,8 @@ def is_event_formatted(func):
         if (location.isprintable() is False) or (location.isspace() is True):
             return Response(status_code=400, content="Location is not printable")
 
-        if (len(location) > 50):
-            return Response(status_code=400, content="Location cannot be over 50 characters")
+        if (len(location) > 200):
+            return Response(status_code=400, content="Location cannot be over 200 characters")
 
         if (len(location) < 1):
             return Response(status_code=400, content="Location cannot be under 1 character")
