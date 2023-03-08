@@ -16,12 +16,13 @@ from cloud_resources.moment_neo4j import get_connection
 from version.ver_1_0_0.auth import is_real_user
 
 import platform
-from version.ver_1_0_0.auth import is_requester_privileged_for_user,is_event_formatted
+from version.ver_1_0_0.auth import is_requester_privileged_for_user,is_event_formatted, error_handler
 
 
 if platform.system() == "Windows":
     from asyncio.windows_events import NULL
 
+@error_handler
 async def get_all_schools(request: Request) -> JSONResponse:
     """
     Description: Gets all of the schools within the database
@@ -64,7 +65,7 @@ async def get_all_schools(request: Request) -> JSONResponse:
 
         return JSONResponse(school_array)
 
-
+@error_handler
 async def get_school(request: Request) -> JSONResponse:
     """
     Description: Gets a user {user_id}’s school.
@@ -110,7 +111,7 @@ async def get_school(request: Request) -> JSONResponse:
 
         school_data = {
             "school_id": data["SchoolID"],
-            "name": data["DisplayName"],
+            "name": data["Name"],
             "abbreviation": data["Abbreviation"],
             "latitude": data["Latitude"],
             "longitude": data["Longitude"],
@@ -118,7 +119,7 @@ async def get_school(request: Request) -> JSONResponse:
 
         return JSONResponse(school_data)
 
-
+@error_handler
 async def get_user_school(request: Request) -> JSONResponse:
     """
     Description: Gets a user {user_id}’s school.
@@ -162,7 +163,7 @@ async def get_user_school(request: Request) -> JSONResponse:
 
         school_data = {
             "school_id": data["SchoolID"],
-            "name": data["DisplayName"],
+            "name": data["Name"],
             "abbreviation": data["Abbreviation"],
             "latitude": data["Latitude"],
             "longitude": data["Longitude"],
@@ -170,6 +171,47 @@ async def get_user_school(request: Request) -> JSONResponse:
 
         return JSONResponse(school_data)
 
+@error_handler
+async def get_user_access_token_school(request: Request) -> JSONResponse:
+
+    user_access_token = request.path_params["user_access_token"]
+
+    try:
+        assert all((user_access_token))
+    except AssertionError:
+        # Handle the error here
+        print("Error")
+        return Response(status_code=400, content="Parameter Missing")
+
+    with get_connection() as session:
+        result = session.run(
+            """match (u:User{UserAccessToken : $user_access_token})-[:user_school]->(s:School) return s""",
+            parameters={
+                "user_access_token": user_access_token,
+            },
+        )
+
+        record_timing(request, note="request time")
+
+        # get the first element of object
+        record = result.single()
+
+        if record == None:
+            return Response(status_code=400, content="User does not exist")
+
+        data = record[0]
+
+        school_data = {
+            "school_id": data["SchoolID"],
+            "name": data["Name"],
+            "abbreviation": data["Abbreviation"],
+            "latitude": data["Latitude"],
+            "longitude": data["Longitude"],
+        }
+
+        return JSONResponse(school_data)
+
+@error_handler
 @is_requester_privileged_for_user
 async def update_user_school(request: Request) -> JSONResponse:
     """
@@ -230,6 +272,11 @@ routes = [
     Route(
         "/api_ver_1.0.0/school",
         get_all_schools,
+        methods=["GET"],
+    ),
+    Route(
+        "/api_ver_1.0.0/school/user_access_token/{user_access_token}",
+        get_user_access_token_school,
         methods=["GET"],
     ),
     Route(
