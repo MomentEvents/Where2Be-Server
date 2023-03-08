@@ -208,7 +208,7 @@ def is_event_formatted(func):
         except:
             return Response(status_code=400, content="Could not parse start date")
 
-        if end_date_time != None and end_date_time != "NULL":
+        if end_date_time != None:
             try:
                 end_date_time_test = parser.parse(end_date_time)
                 if start_date_time_test > end_date_time_test:

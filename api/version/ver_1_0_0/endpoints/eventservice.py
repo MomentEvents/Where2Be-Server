@@ -59,12 +59,13 @@ async def create_event(request: Request) -> JSONResponse:
 
     request_data = await parse_request_data(request)
 
+    end_date_time = None
     user_access_token = request_data.get("user_access_token")
     title = request_data.get("title")
     description = request_data.get("description")
     location = request_data.get("location")
     start_date_time = parser.parse(request_data.get("start_date_time"))
-    end_date_time = None if ((request_data.get("end_date_time") is None) or (request_data.get("end_date_time") is "NULL")) else parser.parse(request_data.get("end_date_time"))
+    end_date_time = None if request_data.get("end_date_time") is None else parser.parse(request_data.get("end_date_time"))
     visibility = request_data.get("visibility")
     interest_ids = [*set(json.loads(request_data.get("interest_ids")))]
     picture = request_data.get("picture")

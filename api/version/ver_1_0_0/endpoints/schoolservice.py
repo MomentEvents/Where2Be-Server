@@ -112,6 +112,8 @@ async def get_school(request: Request) -> JSONResponse:
             "school_id": data["SchoolID"],
             "name": data["DisplayName"],
             "abbreviation": data["Abbreviation"],
+            "latitude": data["Latitude"],
+            "longitude": data["Longitude"],
         }
 
         return JSONResponse(school_data)
@@ -162,6 +164,8 @@ async def get_user_school(request: Request) -> JSONResponse:
             "school_id": data["SchoolID"],
             "name": data["DisplayName"],
             "abbreviation": data["Abbreviation"],
+            "latitude": data["Latitude"],
+            "longitude": data["Longitude"],
         }
 
         return JSONResponse(school_data)
