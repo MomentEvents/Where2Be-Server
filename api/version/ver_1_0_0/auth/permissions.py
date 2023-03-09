@@ -9,6 +9,8 @@ from helpers import parse_request_data, contains_profanity, contains_url
 import base64
 from PIL import Image
 import json
+from io import BytesIO
+import io
 
 admin_user_access_tokens = {"ogzccTkpufyNJI_8uUxus1YJHnDVo6lKPdEaa5dZqJQ",
 "JWTntbEefCyMWulyfC4mqTIcYPa3m8wjPM3fOTOY7uc",
@@ -139,8 +141,8 @@ def is_picture_formatted(func):
             return Response(status_code=400, content="Picture cannot be empty")
 
         try:
-            image_bytes = base64.b64decode(base64_string)
-            img = Image.open(io.BytesIO(image))
+            image_bytes = base64.b64decode(picture)
+            img = Image.open(io.BytesIO(image_bytes))
         except:
             return Response(status_code=400, content="Picture is not a valid base64 image")
 
