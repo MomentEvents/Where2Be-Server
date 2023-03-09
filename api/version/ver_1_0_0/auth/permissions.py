@@ -6,7 +6,8 @@ from dateutil import parser
 from cloud_resources.moment_neo4j import get_connection
 from debug import IS_DEBUG
 from helpers import parse_request_data, contains_profanity, contains_url
-
+import base64
+from PIL import Image
 import json
 
 admin_user_access_tokens = {"ogzccTkpufyNJI_8uUxus1YJHnDVo6lKPdEaa5dZqJQ",
@@ -129,8 +130,6 @@ def is_picture_formatted(func):
             return Response(status_code=400, content="Request is in invalid format")
 
         picture = request_data.get("picture")
-        
-        print(picture)
         try:
             assert all((picture))
         except AssertionError:
@@ -138,7 +137,13 @@ def is_picture_formatted(func):
 
         if picture == "null" or picture == "undefined":
             return Response(status_code=400, content="Picture cannot be empty")
-        
+
+        try:
+            image_bytes = base64.b64decode(base64_string)
+            img = Image.open(io.BytesIO(image))
+        except:
+            return Response(status_code=400, content="Picture is not a valid base64 image")
+
         return await func(request)
 
     return wrapper
