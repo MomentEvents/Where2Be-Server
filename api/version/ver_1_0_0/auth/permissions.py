@@ -222,8 +222,8 @@ def is_event_formatted(func):
         if end_date_time != None:
             try:
                 end_date_time_test = parser.parse(end_date_time)
-                if start_date_time_test > end_date_time_test:
-                    return Response(status_code=400, content="Start date cannot be after end date")
+                if start_date_time_test >= end_date_time_test:
+                    return Response(status_code=400, content="Start date cannot be equal to or after end date")
             except:
                 return Response(status_code=400, content="Could not parse end date")
 
