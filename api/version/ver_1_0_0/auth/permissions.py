@@ -238,6 +238,10 @@ def is_event_formatted(func):
         if len(interest_ids) != 1:
             return Response(status_code=400, content="Must only put in one interest tag")
         
+        if(visibility != "true" and visibility != "false"):
+            return Response(status_code=400, content=type("true"))
+            return Response(status_code=400, content="Visibility must be either \"true\" or \"false\"")
+
         with get_connection() as session:
 
             result = session.run(
