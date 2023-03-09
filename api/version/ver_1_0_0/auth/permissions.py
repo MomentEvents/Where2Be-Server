@@ -177,8 +177,12 @@ def is_event_formatted(func):
             ))
         except AssertionError:
             return Response(status_code=400, content="Body is incomplete")
+        try:
+
+            interest_ids = [*set(json.loads(interest_ids))]
         
-        interest_ids = [*set(json.loads(interest_ids))]
+        except:
+            return Response(status_code=400, content="Unable to json parse interest_ids")
 
         title = title.strip()
         location = location.strip()
@@ -238,12 +242,10 @@ def is_event_formatted(func):
         if len(interest_ids) != 1:
             return Response(status_code=400, content="Must only put in one interest tag")
         
-        if(visibility != "true" and visibility != "false"):
-            return Response(status_code=400, content=type("true"))
-            return Response(status_code=400, content="Visibility must be either \"true\" or \"false\"")
+        if(visibility != "Public" and visibility != "Private"):
+            return Response(status_code=400, content="Visibility must be either \"Public\" or \"Private\"")
 
         with get_connection() as session:
-
             result = session.run(
                 """UNWIND $interest_ids as interest_id
                     MATCH (interests:Interest {InterestID: interest_id})
