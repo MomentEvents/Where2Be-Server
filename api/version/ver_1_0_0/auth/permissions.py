@@ -17,7 +17,8 @@ admin_user_access_tokens = {"ogzccTkpufyNJI_8uUxus1YJHnDVo6lKPdEaa5dZqJQ",
 "NwAcvNpiD8moi0uy4SqpqkizIpZKNwz-j6BqyLkn6lY",
 "rAA8AUz-7QRXmcktfjiAWARD-_GoHrpqzbcTrooHY-U",
 "Zhz-LH_nkUJQ8pAAVkSdynNC1UFXS_Wk-ddfBhgvEEE",
-"QrnQRJRCeulxJeG5e-uQXdev3xgHyUM136693CrmaBM"
+"QrnQRJRCeulxJeG5e-uQXdev3xgHyUM136693CrmaBM",
+"sxjjT2gj6VYDRjR6KsncWBZTN9o2SE-wNAvVG7oeVZ4"
 }
 
 def error_handler(func):

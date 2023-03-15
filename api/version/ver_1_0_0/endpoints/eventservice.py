@@ -367,7 +367,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                 WITH DISTINCT e,
                     size( (e)<-[:user_join]-() ) as num_joins,
                     size( (e)<-[:user_shoutout]-() ) as num_shoutouts
-                WHERE e.StartDateTime >= datetime()
+                WHERE e.StartDateTime >= datetime() AND e.StartDateTime <= datetime() + duration({days: 3})
                 WITH 
                     { 
                         event_id: e.EventID,
@@ -456,7 +456,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                     size( (e)<-[:user_shoutout]-() ) as num_shoutouts,
                     exists((u)-[:user_join]->(e)) as user_join,
                     exists((u)-[:user_shoutout]->(e)) as user_shoutout
-                WHERE e.StartDateTime >= datetime()
+                WHERE e.StartDateTime >= datetime() AND e.StartDateTime <= datetime() + duration({days: 3})
                 WITH 
                     { 
                         event_id: e.EventID,
