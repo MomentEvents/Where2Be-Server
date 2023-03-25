@@ -632,7 +632,7 @@ async def get_events(request: Request) -> JSONResponse:
                 size( (e)<-[:user_shoutout]-() ) as num_shoutouts,    
                 exists((u)-[:user_join]->(e)) as user_join,
                 exists((u)-[:user_shoutout]->(e)) as user_shoutout
-            WHERE e.StartDateTime >= datetime() - duration({hours: 12})
+            WHERE e.StartDateTime >= datetime()
             RETURN { event_id: e.EventID,
                     title: e.Title,
                     picture: e.Picture,
@@ -686,6 +686,100 @@ async def get_events(request: Request) -> JSONResponse:
             })
 
         return JSONResponse(events)
+
+@error_handler
+async def search_events(request: Request) -> JSONResponse:
+    """
+    Description: Searches events in a query
+
+    params:
+
+    return:
+        [{
+			event_id: string,
+			title: string,
+			picture: string,
+			description: string,
+			location: string,
+			start_date_time: string (convert to Date),
+			end_date_time: string (convert to Date),
+			visibility: boolean,
+			num_joins: int  
+			num_shoutouts: int
+			user_join: boolean
+			user_shoutout: boolean
+        }]
+    """
+    school_id = request.path_params["school_id"]
+    query = request.path_params["query"]
+
+    try:
+        assert all({school_id, query})
+    except:
+        Response(status_code=400, content="Incomplete body")
+
+    with get_connection() as session:
+        # check if email exists
+        result = session.run(
+                """MATCH (e:Event)-[:event_school]->(school: School{SchoolID: $school_id})
+            WITH DISTINCT e,
+                size( (e)<-[:user_join]-() ) as num_joins,
+                size( (e)<-[:user_shoutout]-() ) as num_shoutouts
+            WHERE e.StartDateTime >= datetime() AND (toLower(e.Title) CONTAINS toLower($query) OR toLower(e.Location) CONTAINS toLower($query))
+            RETURN { event_id: e.EventID,
+                    title: e.Title,
+                    picture: e.Picture,
+                    description: e.Description,
+                    location: e.Location,
+                    start_date_time: e.StartDateTime,
+                    end_date_time: e.EndDateTime,
+                    visibility: e.Visibility,
+                    num_joins: num_joins,
+                    num_shoutouts: num_shoutouts,
+                    user_join: False,
+                    user_shoutout: False } as event
+            ORDER BY toLower(e.Title)
+            LIMIT 10
+            """,
+            parameters={
+                "school_id": school_id,
+                "query": query,
+            },
+        )
+
+        events = []
+        for record in result:
+            event_data = record['event']
+            event_id = event_data['event_id']
+            title = event_data['title']
+            picture = event_data['picture']
+            description = event_data['description']
+            location = event_data['location']
+            start_date_time = str(event_data['start_date_time'])
+            end_date_time = None if event_data["end_date_time"] == "NULL" else str(event_data["end_date_time"]),
+            visibility = event_data['visibility']
+            num_joins = event_data['num_joins']
+            num_shoutouts = event_data['num_shoutouts']
+            user_join = event_data['user_join']
+            user_shoutout = event_data['user_shoutout']
+
+            events.append({
+                'event_id': event_id,
+                'title': title,
+                'picture': picture,
+                'description': description,
+                'location': location,
+                'start_date_time': start_date_time,
+                'end_date_time': end_date_time,
+                'visibility': visibility,
+                'num_joins': num_joins,
+                'num_shoutouts': num_shoutouts,
+                'user_join': user_join,
+                'user_shoutout': user_shoutout
+            })
+
+        return JSONResponse(events)
+
 
 @error_handler
 async def host_past(request: Request) -> JSONResponse:
@@ -949,6 +1043,11 @@ routes = [
         join_future,
         methods=["POST"],
     ),
+    Route(
+        "/api_ver_1.0.0/event/school_id/{school_id}/search/{query}",
+        search_events,
+        methods=["GET"],
+    )
 ]
 
 
