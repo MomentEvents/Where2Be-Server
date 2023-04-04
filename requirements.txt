@@ -10,6 +10,8 @@ pillow
 opencv-python
 python-multipart
 better_profanity
+urllib3
+opencv-python
 
 #pip3 install uvicorn
 #pip3 install fastapi
