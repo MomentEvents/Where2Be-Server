@@ -17,6 +17,8 @@ import ipaddress
 
 from fastapi_utils.timing import add_timing_middleware
 
+from database_resources.neo4j_database import Neo4jDatabase
+
 import status
 
 logging.basicConfig(level=logging.INFO)
@@ -42,5 +44,12 @@ app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_headers=["*"])
 localhost = "127.0.0.1"
 hosting = ip_address
 
+
 if __name__ == "__main__":
+    # create database
+    # db = Neo4jDatabase()
+    # db.create_user()
+    # db.create_event()
+    # db.create_school()
+
     uvicorn.run(app, host=hosting, port=8080)

@@ -11,7 +11,7 @@ from datetime import datetime
 import bcrypt
 import secrets
 
-from cloud_resources.moment_neo4j import get_connection
+from cloud_resources.moment_neo4j import get_neo4j_session
 from version.ver_1_0_0.auth import is_real_user, is_requester_privileged_for_user
 
 import platform
@@ -32,8 +32,7 @@ async def get_all_interests(request: Request) -> JSONResponse:
                         category: string,
             }
     """
-
-    with get_connection() as session:
+    with get_neo4j_session() as session:
         # check if email exists
         result = session.run(
             """MATCH (i:Interest) 
@@ -85,7 +84,7 @@ async def get_all_interests(request: Request) -> JSONResponse:
 #         print("Error")
 #         return Response(status_code=400, content="Parameter Missing")
 
-#     with get_connection() as session:
+#     with get_neo4j_session() as session:
 #         # check if email exists
 #         result = session.run(
 #             """match (i:Interest{InterestID : $interest_id}) return i""",
@@ -140,7 +139,7 @@ async def get_all_interests(request: Request) -> JSONResponse:
 #         print("Error")
 #         return Response(status_code=400, content="Parameter Missing")
 
-#     with get_connection() as session:
+#     with get_neo4j_session() as session:
 #         # check if email exists
 #         result = session.run(
 #             """match (u:User{UserID : $user_id, UserAccessToken: $user_access_token})-[:user_interest]->(i:Interest) return i""",
@@ -195,7 +194,7 @@ async def get_all_interests(request: Request) -> JSONResponse:
 #         print("Error")
 #         return Response(status_code=400, content="Parameter Missing")
 
-#     with get_connection() as session:
+#     with get_neo4j_session() as session:
 #         # check if email exists
 #         result = session.run(
 #             """match (u:User{UserID : $user_id, UserAccessToken: $user_access_token})-[r:user_interest]->(i:Interest)
@@ -248,7 +247,7 @@ async def get_event_interest(request: Request) -> JSONResponse:
         print("Error")
         return Response(status_code=400, content="Parameter Missing")
 
-    with get_connection() as session:
+    with get_neo4j_session() as session:
 
         result = session.run(
             """MATCH (event:Event{EventID: $event_id})-[:event_tag]->(i:Interest) 

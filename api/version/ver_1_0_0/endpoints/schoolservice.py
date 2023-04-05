@@ -12,15 +12,16 @@ from datetime import datetime
 import bcrypt
 import secrets
 
-from cloud_resources.moment_neo4j import get_connection
+from cloud_resources.moment_neo4j import get_neo4j_session
 from version.ver_1_0_0.auth import is_real_user
 
 import platform
-from version.ver_1_0_0.auth import is_requester_privileged_for_user,is_event_formatted, error_handler
+from version.ver_1_0_0.auth import is_requester_privileged_for_user, is_event_formatted, error_handler
 
 
 if platform.system() == "Windows":
     from asyncio.windows_events import NULL
+
 
 @error_handler
 async def get_all_schools(request: Request) -> JSONResponse:
@@ -38,7 +39,7 @@ async def get_all_schools(request: Request) -> JSONResponse:
 
     """
 
-    with get_connection() as session:
+    with get_neo4j_session() as session:
         # check if email exists
         result = session.run(
             """MATCH (s:School) 
@@ -65,6 +66,7 @@ async def get_all_schools(request: Request) -> JSONResponse:
 
         return JSONResponse(school_array)
 
+
 @error_handler
 async def get_school(request: Request) -> JSONResponse:
     """
@@ -90,7 +92,7 @@ async def get_school(request: Request) -> JSONResponse:
         print("Error")
         return Response(status_code=400, content="Parameter Missing")
 
-    with get_connection() as session:
+    with get_neo4j_session() as session:
         # check if email exists
         result = session.run(
             """match (u:School{SchoolID : $school_id}) return u""",
@@ -119,6 +121,7 @@ async def get_school(request: Request) -> JSONResponse:
 
         return JSONResponse(school_data)
 
+
 @error_handler
 async def get_user_school(request: Request) -> JSONResponse:
     """
@@ -142,7 +145,7 @@ async def get_user_school(request: Request) -> JSONResponse:
         print("Error")
         return Response(status_code=400, content="Parameter Missing")
 
-    with get_connection() as session:
+    with get_neo4j_session() as session:
         # check if email exists
         result = session.run(
             """match (u:User{UserID : $user_id})-[:user_school]->(s:School) return s""",
@@ -171,6 +174,7 @@ async def get_user_school(request: Request) -> JSONResponse:
 
         return JSONResponse(school_data)
 
+
 @error_handler
 async def get_user_access_token_school(request: Request) -> JSONResponse:
 
@@ -183,7 +187,7 @@ async def get_user_access_token_school(request: Request) -> JSONResponse:
         print("Error")
         return Response(status_code=400, content="Parameter Missing")
 
-    with get_connection() as session:
+    with get_neo4j_session() as session:
         result = session.run(
             """match (u:User{UserAccessToken : $user_access_token})-[:user_school]->(s:School) return s""",
             parameters={
@@ -210,6 +214,7 @@ async def get_user_access_token_school(request: Request) -> JSONResponse:
         }
 
         return JSONResponse(school_data)
+
 
 @error_handler
 @is_requester_privileged_for_user
@@ -242,7 +247,7 @@ async def update_user_school(request: Request) -> JSONResponse:
         print("Error")
         return Response(status_code=400, content="Parameter Missing")
 
-    with get_connection() as session:
+    with get_neo4j_session() as session:
         # check if email exists
         result = session.run(
             """match (u:User{UserID : $user_id})-[:user_school]->(s:School {SchoolID: $school_id}) return s""",

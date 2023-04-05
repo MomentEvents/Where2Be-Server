@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  db:
+    image: neo4j:latest
+    container_name: neo4j
+    restart: always
+    env_file:
+      - .env.database
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - ./db/data:/data
+      - ./db/logs:/logs
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env.api
+    volumes:
+      - ./api:/Moment-Server/api
+      - ./db/data:/Moment-Server/data

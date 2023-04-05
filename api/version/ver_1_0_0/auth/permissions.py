@@ -3,7 +3,7 @@ from starlette.responses import JSONResponse, Response
 from functools import wraps
 from markupsafe import string
 from dateutil import parser
-from cloud_resources.moment_neo4j import get_connection
+from cloud_resources.moment_neo4j import get_neo4j_session
 from debug import IS_DEBUG
 from helpers import parse_request_data, contains_profanity, contains_url
 import base64
@@ -13,13 +13,14 @@ from io import BytesIO
 import io
 
 admin_user_access_tokens = {"ogzccTkpufyNJI_8uUxus1YJHnDVo6lKPdEaa5dZqJQ",
-"JWTntbEefCyMWulyfC4mqTIcYPa3m8wjPM3fOTOY7uc",
-"NwAcvNpiD8moi0uy4SqpqkizIpZKNwz-j6BqyLkn6lY",
-"rAA8AUz-7QRXmcktfjiAWARD-_GoHrpqzbcTrooHY-U",
-"Zhz-LH_nkUJQ8pAAVkSdynNC1UFXS_Wk-ddfBhgvEEE",
-"QrnQRJRCeulxJeG5e-uQXdev3xgHyUM136693CrmaBM",
-"sxjjT2gj6VYDRjR6KsncWBZTN9o2SE-wNAvVG7oeVZ4"
-}
+                            "JWTntbEefCyMWulyfC4mqTIcYPa3m8wjPM3fOTOY7uc",
+                            "NwAcvNpiD8moi0uy4SqpqkizIpZKNwz-j6BqyLkn6lY",
+                            "rAA8AUz-7QRXmcktfjiAWARD-_GoHrpqzbcTrooHY-U",
+                            "Zhz-LH_nkUJQ8pAAVkSdynNC1UFXS_Wk-ddfBhgvEEE",
+                            "QrnQRJRCeulxJeG5e-uQXdev3xgHyUM136693CrmaBM",
+                            "sxjjT2gj6VYDRjR6KsncWBZTN9o2SE-wNAvVG7oeVZ4"
+                            }
+
 
 def error_handler(func):
     @wraps(func)
@@ -27,7 +28,7 @@ def error_handler(func):
 
         if IS_DEBUG:
             return await func(request)
-        
+
         try:
             return await func(request)
         except:
@@ -52,7 +53,7 @@ def is_valid_user_access_token(func):
         except AssertionError:
             return Response(status_code=400, content="User access token is blank")
 
-        with get_connection() as session:
+        with get_neo4j_session() as session:
             result = session.run(
                 """MATCH (u:User{UserAccessToken: $user_access_token}) 
                 RETURN u""",
@@ -80,7 +81,7 @@ def is_real_user(func):
         except AssertionError:
             return Response(status_code=400, content="Invalid user id")
 
-        with get_connection() as session:
+        with get_neo4j_session() as session:
             result = session.run(
                 """MATCH (u:User{UserID: $user_id}) 
                 RETURN u""",
@@ -96,6 +97,7 @@ def is_real_user(func):
 
     return wrapper
 
+
 def is_real_event(func):
     @wraps(func)
     async def wrapper(request: Request) -> JSONResponse:
@@ -107,7 +109,7 @@ def is_real_event(func):
         except AssertionError:
             return Response(status_code=400, content="Invalid event id")
 
-        with get_connection() as session:
+        with get_neo4j_session() as session:
             result = session.run(
                 """MATCH (e:Event{EventID: $event_id}) 
                 RETURN e""",
@@ -122,6 +124,7 @@ def is_real_event(func):
             return await func(request)
 
     return wrapper
+
 
 def is_picture_formatted(func):
     @wraps(func)
@@ -151,6 +154,7 @@ def is_picture_formatted(func):
 
     return wrapper
 
+
 def is_event_formatted(func):
     @wraps(func)
     async def wrapper(request: Request) -> JSONResponse:
@@ -167,21 +171,21 @@ def is_event_formatted(func):
         end_date_time = request_data.get("end_date_time")
         visibility = request_data.get("visibility")
         interest_ids = request_data.get("interest_ids")
-        
+
         try:
             assert all((title,
-            description, 
-            location,
-            start_date_time,
-            visibility,
-            interest_ids
-            ))
+                        description,
+                        location,
+                        start_date_time,
+                        visibility,
+                        interest_ids
+                        ))
         except AssertionError:
             return Response(status_code=400, content="Body is incomplete")
         try:
 
             interest_ids = [*set(json.loads(interest_ids))]
-        
+
         except:
             return Response(status_code=400, content="Unable to json parse interest_ids")
 
@@ -197,13 +201,13 @@ def is_event_formatted(func):
         if (len(title) < 1):
             return Response(status_code=400, content="Title cannot be under 1 character")
 
-        if(contains_profanity(title)):
+        if (contains_profanity(title)):
             return Response(status_code=400, content="We detected profanity in your title. Please change it")
 
-        if(contains_url(title)):
+        if (contains_url(title)):
             return Response(status_code=400, content="Title cannot contain a url")
 
-        if(description.isspace()):
+        if (description.isspace()):
             return Response(status_code=400, content="Description is not readable")
 
         if (len(description) > 2000):
@@ -212,7 +216,7 @@ def is_event_formatted(func):
         if (len(description) < 1):
             return Response(status_code=400, content="Description cannot be under 1 character")
 
-        if(contains_profanity(description)):
+        if (contains_profanity(description)):
             return Response(status_code=400, content="We detected profanity in your description. Please change it")
 
         try:
@@ -237,16 +241,16 @@ def is_event_formatted(func):
         if (len(location) < 1):
             return Response(status_code=400, content="Location cannot be under 1 character")
 
-        if(contains_profanity(location)):
+        if (contains_profanity(location)):
             return Response(status_code=400, content="We detected profanity in your location. Please change it")
 
         if len(interest_ids) != 1:
             return Response(status_code=400, content="Must only put in one interest tag")
-        
-        if(visibility != "Public" and visibility != "Private"):
+
+        if (visibility != "Public" and visibility != "Private"):
             return Response(status_code=400, content="Visibility must be either \"Public\" or \"Private\"")
 
-        with get_connection() as session:
+        with get_neo4j_session() as session:
             result = session.run(
                 """UNWIND $interest_ids as interest_id
                     MATCH (interests:Interest {InterestID: interest_id})
@@ -255,18 +259,19 @@ def is_event_formatted(func):
                     "interest_ids": interest_ids,
                 },
             )
-            
+
             # this code sucks
             num_interests = 0
             for record in result:
                 num_interests = num_interests + 1
-            
+
             if num_interests != len(interest_ids):
                 return Response(status_code=400, content="One or more interests do not exist")
 
         return await func(request)
 
     return wrapper
+
 
 def is_user_formatted(func):
     @wraps(func)
@@ -287,37 +292,38 @@ def is_user_formatted(func):
             assert all({display_name, username})
         except:
             return Response(status_code=400, content="Incomplete body")
-        
+
         if len(display_name) > 30:
             return Response(status_code=400, content="Display name cannot exceed 20 characters")
 
         if (display_name.isprintable() is False) or (display_name.isspace() is True):
             return Response(status_code=400, content="Display name is not readable")
 
-        if(contains_url(display_name)):
+        if (contains_url(display_name)):
             return Response(status_code=400, content="Display name cannot contain a url")
 
-        if(contains_profanity(display_name)):
+        if (contains_profanity(display_name)):
             return Response(status_code=400, content="We detected profanity in your display name. Please change it")
 
         if len(username) > 30:
             return Response(status_code=400, content="Username cannot exceed 30 characters")
-            
+
         if len(username) < 6:
             return Response(status_code=400, content="Username cannot be under 6 characters")
 
         if username.isalnum() is False:
             return Response(status_code=400, content="Username must be alphanumeric")
 
-        if(contains_profanity(username)):
+        if (contains_profanity(username)):
             return Response(status_code=400, content="We detected profanity in your username. Please change it")
 
-        if(contains_url(username)):
+        if (contains_url(username)):
             return Response(status_code=400, content="Username cannot contain a url")
 
         return await func(request)
 
     return wrapper
+
 
 def is_requester_privileged_for_user(func):
     @wraps(func)
@@ -338,8 +344,8 @@ def is_requester_privileged_for_user(func):
 
         if is_requester_privileged(user_access_token):
             return await func(request)
-        
-        with get_connection() as session:
+
+        with get_neo4j_session() as session:
             result = session.run(
                 """MATCH (u:User{UserAccessToken: $user_access_token, UserID: $user_id}) 
                 RETURN u""",
@@ -354,6 +360,7 @@ def is_requester_privileged_for_user(func):
 
             return await func(request)
     return wrapper
+
 
 def is_requester_privileged_for_event(func):
     @wraps(func)
@@ -374,8 +381,8 @@ def is_requester_privileged_for_event(func):
 
         if is_requester_privileged(user_access_token):
             return await func(request)
-        
-        with get_connection() as session:
+
+        with get_neo4j_session() as session:
             result = session.run(
                 """MATCH ((event:Event{EventID : $event_id})<-[r:user_host]-(user:User{UserAccessToken:$user_access_token}))
                 RETURN r""",
@@ -393,9 +400,11 @@ def is_requester_privileged_for_event(func):
 
 # HELPER FUNCTIONS
 
+
 def is_requester_privileged(user_access_token) -> bool:
-    
+
     return user_access_token in admin_user_access_tokens
+
 
 async def parse_request_data(request: Request):
 
@@ -410,7 +419,7 @@ async def parse_request_data(request: Request):
         return request_data
 
     elif content_type == "multipart/form-data":
-            request_data = await request.form()
-            return request_data
+        request_data = await request.form()
+        return request_data
     else:
         return None

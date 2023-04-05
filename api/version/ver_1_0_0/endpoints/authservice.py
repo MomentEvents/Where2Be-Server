@@ -13,9 +13,10 @@ import datetime
 import bcrypt
 import secrets
 
-from cloud_resources.moment_neo4j import get_connection
+from cloud_resources.moment_neo4j import get_neo4j_session
 from cloud_resources.moment_s3 import get_bucket_url
 import random
+
 
 @error_handler
 async def get_token_username(request: Request) -> JSONResponse:
@@ -43,7 +44,7 @@ async def get_token_username(request: Request) -> JSONResponse:
     username = username.lower()
 
     # Connect to the database and run a simple query
-    with get_connection() as session:
+    with get_neo4j_session() as session:
         result = session.run(
             """MATCH (u:User) 
             WHERE u.Username = $username 
@@ -71,6 +72,7 @@ async def get_token_username(request: Request) -> JSONResponse:
         }
 
         return JSONResponse(user_access_token)
+
 
 @error_handler
 @is_user_formatted
@@ -122,7 +124,7 @@ async def create_user(request: Request) -> JSONResponse:
         get_bucket_url()+"app-uploads/images/users/static/default" + random_number + ".png"
     )
 
-    with get_connection() as session:
+    with get_neo4j_session() as session:
 
         # check if username exists
         result = session.run(
@@ -175,8 +177,9 @@ async def create_user(request: Request) -> JSONResponse:
 
         return JSONResponse({"user_access_token": user_access_token})
 
+
 @error_handler
-async def change_password(request: Request) -> JSONResponse: 
+async def change_password(request: Request) -> JSONResponse:
     """
     Description: Changes the password for an account.
 
@@ -207,7 +210,7 @@ async def change_password(request: Request) -> JSONResponse:
     if len(new_password) > 30:
         return Response(status_code=400, content="Your new password is over 30 characters. Please enter a shorter password")
 
-    with get_connection() as session:
+    with get_neo4j_session() as session:
         result = session.run(
             """MATCH (u:User {UserAccessToken: $user_access_token}) 
             RETURN u""",
@@ -242,12 +245,12 @@ async def change_password(request: Request) -> JSONResponse:
 
 @error_handler
 async def check_if_user_is_admin(request: Request) -> JSONResponse:
-    
+
     body = await request.json()
 
     user_access_token = body.get("user_access_token")
     try:
-        assert({user_access_token})
+        assert ({user_access_token})
     except:
         return Response(status_code=400, content="User access token is blank")
 
@@ -260,11 +263,14 @@ routes = [
         methods=["POST"],
     ),
     Route("/api_ver_1.0.0/auth/signup", create_user, methods=["POST"]),
-    Route("/api_ver_1.0.0/auth/change_password", change_password, methods=["POST"]),
-    Route("/api_ver_1.0.0/auth/privileged_admin", check_if_user_is_admin, methods=["POST"]),
+    Route("/api_ver_1.0.0/auth/change_password",
+          change_password, methods=["POST"]),
+    Route("/api_ver_1.0.0/auth/privileged_admin",
+          check_if_user_is_admin, methods=["POST"]),
 ]
 
-# HELPER FUNCTIONS 
+# HELPER FUNCTIONS
+
 
 def get_hash_pwd(password):
     return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())

@@ -12,8 +12,8 @@ from dateutil import parser
 import bcrypt
 import secrets
 
-from cloud_resources.moment_neo4j import get_connection
-from version.ver_1_0_0.auth import is_real_user, is_requester_privileged_for_event, is_requester_privileged_for_user,is_event_formatted, is_real_event, is_picture_formatted, error_handler, is_valid_user_access_token
+from cloud_resources.moment_neo4j import get_neo4j_session
+from version.ver_1_0_0.auth import is_real_user, is_requester_privileged_for_event, is_requester_privileged_for_user, is_event_formatted, is_real_event, is_picture_formatted, error_handler, is_valid_user_access_token
 from helpers import parse_request_data
 
 from cloud_resources.moment_s3 import upload_base64_image
@@ -31,6 +31,7 @@ from PIL import Image
 import json
 import cv2
 import numpy as np
+
 
 @error_handler
 @is_valid_user_access_token
@@ -65,7 +66,8 @@ async def create_event(request: Request) -> JSONResponse:
     description = request_data.get("description")
     location = request_data.get("location")
     start_date_time = parser.parse(request_data.get("start_date_time"))
-    end_date_time = None if request_data.get("end_date_time") is None else parser.parse(request_data.get("end_date_time"))
+    end_date_time = None if request_data.get(
+        "end_date_time") is None else parser.parse(request_data.get("end_date_time"))
     visibility = request_data.get("visibility")
     interest_ids = [*set(json.loads(request_data.get("interest_ids")))]
     picture = request_data.get("picture")
@@ -77,7 +79,7 @@ async def create_event(request: Request) -> JSONResponse:
     title = title.strip()
     location = location.strip()
 
-    with get_connection() as session:
+    with get_neo4j_session() as session:
         # check if email exists
 
         result = session.run(
@@ -119,6 +121,7 @@ async def create_event(request: Request) -> JSONResponse:
 
     return JSONResponse(event_data)
 
+
 @error_handler
 async def get_event(request: Request) -> JSONResponse:
     """
@@ -153,11 +156,11 @@ async def get_event(request: Request) -> JSONResponse:
         return Response(status_code=400, content="Parameter Missing")
 
     print("about to go to connection")
-    with get_connection() as session:
+    with get_neo4j_session() as session:
 
         # check if email exists
         result = session.run(
-                """MATCH (event:Event{EventID : $event_id}), (user:User{UserAccessToken:$user_access_token}) 
+            """MATCH (event:Event{EventID : $event_id}), (user:User{UserAccessToken:$user_access_token}) 
                 WITH (event),
                     size ((event)<-[:user_join]-()) as num_joins,
                     size ((event)<-[:user_shoutout]-()) as num_shoutouts,
@@ -195,7 +198,7 @@ async def get_event(request: Request) -> JSONResponse:
 
         print("Testing\n\n\n\n")
         print(data["end_date_time"])
-        
+
         event_data = {
             "event_id": data["event_id"],
             "picture": data["picture"],
@@ -212,6 +215,7 @@ async def get_event(request: Request) -> JSONResponse:
         }
 
         return JSONResponse(event_data)
+
 
 @error_handler
 @is_real_event
@@ -230,7 +234,7 @@ async def delete_event(request: Request) -> JSONResponse:
 
     user_access_token = body.get("user_access_token")
 
-    with get_connection() as session:
+    with get_neo4j_session() as session:
         # check if email exists
         result = session.run(
             """MATCH (e:Event{EventID : $event_id})
@@ -242,6 +246,7 @@ async def delete_event(request: Request) -> JSONResponse:
         )
 
     return Response(status_code=200, content="event deleted " + event_id)
+
 
 @error_handler
 @is_event_formatted
@@ -272,7 +277,8 @@ async def update_event(request: Request) -> JSONResponse:
     description = request_data["description"]
     location = request_data["location"]
     start_date_time = parser.parse(request_data["start_date_time"])
-    end_date_time = None if request_data["end_date_time"] is None else parser.parse(request_data["end_date_time"])
+    end_date_time = None if request_data["end_date_time"] is None else parser.parse(
+        request_data["end_date_time"])
     visibility = request_data["visibility"]
     interest_ids = [*set(json.loads(request_data["interest_ids"]))]
     picture = request_data["picture"]
@@ -289,7 +295,7 @@ async def update_event(request: Request) -> JSONResponse:
     title = title.strip()
     location = location.strip()
 
-    with get_connection() as session:
+    with get_neo4j_session() as session:
         result = session.run(
             """MATCH (e:Event{EventID : $event_id})-[r:event_tag]->(i:Interest), (en:Event{EventID: $event_id})
             DELETE r
@@ -323,6 +329,7 @@ async def update_event(request: Request) -> JSONResponse:
 
     return Response(status_code=200, content="event updated")
 
+
 @error_handler
 async def get_events_categorized(request: Request) -> JSONResponse:
     """
@@ -333,18 +340,18 @@ async def get_events_categorized(request: Request) -> JSONResponse:
     return:
         "Featured": 
         [{
-			event_id: string,
-			title: string,
-			picture: string,
-			description: string,
-			location: string,
-			start_date_time: string (convert to Date),
-			end_date_time: string (convert to Date),
-			visibility: boolean,
-			num_joins: int  
-			num_shoutouts: int
-			user_join: boolean
-			user_shoutout: boolean
+                        event_id: string,
+                        title: string,
+                        picture: string,
+                        description: string,
+                        location: string,
+                        start_date_time: string (convert to Date),
+                        end_date_time: string (convert to Date),
+                        visibility: boolean,
+                        num_joins: int  
+                        num_shoutouts: int
+                        user_join: boolean
+                        user_shoutout: boolean
         }]
     """
     school_id = request.path_params.get("school_id")
@@ -358,7 +365,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
     except:
         Response(status_code=400, content="Incomplete body")
 
-    with get_connection() as session:
+    with get_neo4j_session() as session:
 
         if user_access_token == None:
             result = session.run(
@@ -557,17 +564,19 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                     description = event_data['description']
                     location = event_data['location']
                     start_date_time = str(event_data['start_date_time'])
-                    end_date_time = None if event_data["end_date_time"] == "NULL" else str(event_data["end_date_time"])
+                    end_date_time = None if event_data["end_date_time"] == "NULL" else str(
+                        event_data["end_date_time"])
                     visibility = event_data['visibility']
                     num_joins = event_data['num_joins']
                     num_shoutouts = event_data['num_shoutouts']
                     user_join = event_data['user_join']
                     user_shoutout = event_data['user_shoutout']
 
-                    if (event_id not in event_ids): # or (interest == "Featured" ):
+                    # or (interest == "Featured" ):
+                    if (event_id not in event_ids):
 
                         # if interest != "Featured":
-                        event_ids.append(event_id) 
+                        event_ids.append(event_id)
 
                         events.append({
                             'event_id': event_id,
@@ -584,10 +593,11 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                             'user_shoutout': user_shoutout
                         })
 
-                if events!= []:
+                if events != []:
                     categorized_dict[interest] = events
 
         return JSONResponse(categorized_dict)
+
 
 @error_handler
 async def get_events(request: Request) -> JSONResponse:
@@ -598,18 +608,18 @@ async def get_events(request: Request) -> JSONResponse:
 
     return:
         [{
-			event_id: string,
-			title: string,
-			picture: string,
-			description: string,
-			location: string,
-			start_date_time: string (convert to Date),
-			end_date_time: string (convert to Date),
-			visibility: boolean,
-			num_joins: int  
-			num_shoutouts: int
-			user_join: boolean
-			user_shoutout: boolean
+                        event_id: string,
+                        title: string,
+                        picture: string,
+                        description: string,
+                        location: string,
+                        start_date_time: string (convert to Date),
+                        end_date_time: string (convert to Date),
+                        visibility: boolean,
+                        num_joins: int  
+                        num_shoutouts: int
+                        user_join: boolean
+                        user_shoutout: boolean
         }]
     """
     school_id = request.path_params["school_id"]
@@ -623,10 +633,10 @@ async def get_events(request: Request) -> JSONResponse:
     except:
         Response(status_code=400, content="Incomplete body")
 
-    with get_connection() as session:
+    with get_neo4j_session() as session:
         # check if email exists
         result = session.run(
-                """MATCH (e:Event)-[:event_school]->(school: School{SchoolID: $school_id}), (u:User{UserAccessToken:$user_access_token})
+            """MATCH (e:Event)-[:event_school]->(school: School{SchoolID: $school_id}), (u:User{UserAccessToken:$user_access_token})
             WITH DISTINCT e,
                 size( (e)<-[:user_join]-() ) as num_joins,
                 size( (e)<-[:user_shoutout]-() ) as num_shoutouts,    
@@ -663,7 +673,8 @@ async def get_events(request: Request) -> JSONResponse:
             description = event_data['description']
             location = event_data['location']
             start_date_time = str(event_data['start_date_time'])
-            end_date_time = None if event_data["end_date_time"] == "NULL" else str(event_data["end_date_time"]),
+            end_date_time = None if event_data["end_date_time"] == "NULL" else str(
+                event_data["end_date_time"]),
             visibility = event_data['visibility']
             num_joins = event_data['num_joins']
             num_shoutouts = event_data['num_shoutouts']
@@ -687,6 +698,7 @@ async def get_events(request: Request) -> JSONResponse:
 
         return JSONResponse(events)
 
+
 @error_handler
 async def search_events(request: Request) -> JSONResponse:
     """
@@ -696,18 +708,18 @@ async def search_events(request: Request) -> JSONResponse:
 
     return:
         [{
-			event_id: string,
-			title: string,
-			picture: string,
-			description: string,
-			location: string,
-			start_date_time: string (convert to Date),
-			end_date_time: string (convert to Date),
-			visibility: boolean,
-			num_joins: int  
-			num_shoutouts: int
-			user_join: boolean
-			user_shoutout: boolean
+                        event_id: string,
+                        title: string,
+                        picture: string,
+                        description: string,
+                        location: string,
+                        start_date_time: string (convert to Date),
+                        end_date_time: string (convert to Date),
+                        visibility: boolean,
+                        num_joins: int  
+                        num_shoutouts: int
+                        user_join: boolean
+                        user_shoutout: boolean
         }]
     """
     school_id = request.path_params["school_id"]
@@ -718,10 +730,10 @@ async def search_events(request: Request) -> JSONResponse:
     except:
         Response(status_code=400, content="Incomplete body")
 
-    with get_connection() as session:
+    with get_neo4j_session() as session:
         # check if email exists
         result = session.run(
-                """MATCH (e:Event)-[:event_school]->(school: School{SchoolID: $school_id})
+            """MATCH (e:Event)-[:event_school]->(school: School{SchoolID: $school_id})
             WITH DISTINCT e,
                 size( (e)<-[:user_join]-() ) as num_joins,
                 size( (e)<-[:user_shoutout]-() ) as num_shoutouts
@@ -756,7 +768,8 @@ async def search_events(request: Request) -> JSONResponse:
             description = event_data['description']
             location = event_data['location']
             start_date_time = str(event_data['start_date_time'])
-            end_date_time = None if event_data["end_date_time"] == "NULL" else str(event_data["end_date_time"]),
+            end_date_time = None if event_data["end_date_time"] == "NULL" else str(
+                event_data["end_date_time"]),
             visibility = event_data['visibility']
             num_joins = event_data['num_joins']
             num_shoutouts = event_data['num_shoutouts']
@@ -831,12 +844,13 @@ async def host_past(request: Request) -> JSONResponse:
                 LIMIT 20
                 """
 
-    parameters={
+    parameters = {
         "user_id": user_id,
         "user_access_token": user_access_token
-        }
+    }
 
-    return get_event_list_from_query(query, parameters)    
+    return get_event_list_from_query(query, parameters)
+
 
 @error_handler
 async def host_future(request: Request) -> JSONResponse:
@@ -857,7 +871,7 @@ async def host_future(request: Request) -> JSONResponse:
         visibility: boolean
 
     """
-    
+
     user_id = request.path_params["user_id"]
 
     body = await request.json()
@@ -891,12 +905,13 @@ async def host_future(request: Request) -> JSONResponse:
                 LIMIT 20
                 """
 
-    parameters={
+    parameters = {
         "user_id": user_id,
         "user_access_token": user_access_token
-        }
+    }
 
     return get_event_list_from_query(query, parameters)
+
 
 @error_handler
 @is_requester_privileged_for_user
@@ -924,7 +939,6 @@ async def join_past(request: Request) -> JSONResponse:
     except:
         Response(status_code=400, content="Incomplete body")
 
-
     query = """MATCH ((e:Event)-[:user_join]-(u:User{UserID:$user_id}))
                 WITH DISTINCT e,
                     size( (e)<-[:user_join]-() ) as num_joins,
@@ -948,11 +962,12 @@ async def join_past(request: Request) -> JSONResponse:
                 LIMIT 20
                 """
 
-    parameters={
+    parameters = {
         "user_id": user_id
-        }
+    }
 
-    return get_event_list_from_query(query, parameters) 
+    return get_event_list_from_query(query, parameters)
+
 
 @error_handler
 @is_requester_privileged_for_user
@@ -998,11 +1013,11 @@ async def join_future(request: Request) -> JSONResponse:
                 LIMIT 20
                 """
 
-    parameters={
+    parameters = {
         "user_id": user_id
-        }
+    }
 
-    return get_event_list_from_query(query, parameters) 
+    return get_event_list_from_query(query, parameters)
 
 routes = [
     Route(
@@ -1010,15 +1025,18 @@ routes = [
         create_event,
         methods=["POST"],
     ),
-    Route("/api_ver_1.0.0/event/event_id/{event_id}", get_event, methods=["POST"]),
-    Route("/api_ver_1.0.0/event/event_id/{event_id}", update_event, methods=["UPDATE"]),
-    Route("/api_ver_1.0.0/event/event_id/{event_id}", delete_event, methods=["DELETE"]),
+    Route(
+        "/api_ver_1.0.0/event/event_id/{event_id}", get_event, methods=["POST"]),
+    Route(
+        "/api_ver_1.0.0/event/event_id/{event_id}", update_event, methods=["UPDATE"]),
+    Route(
+        "/api_ver_1.0.0/event/event_id/{event_id}", delete_event, methods=["DELETE"]),
     Route(
         "/api_ver_1.0.0/event/school_id/{school_id}/categorized",
         get_events_categorized,
         methods=["POST"],
     ),
-     Route(
+    Route(
         "/api_ver_1.0.0/event/school_id/{school_id}",
         get_events,
         methods=["POST"],
@@ -1055,11 +1073,11 @@ routes = [
 
 def get_event_list_from_query(query, parameters):
 
-    with get_connection() as session:
+    with get_neo4j_session() as session:
         # check if email exists
         result = session.run(
             query,
-            parameters   
+            parameters
         )
         # record_timing(request, note="request time")
 
@@ -1072,7 +1090,8 @@ def get_event_list_from_query(query, parameters):
             description = event_data['description']
             location = event_data['location']
             start_date_time = str(event_data['start_date_time'])
-            end_date_time = None if event_data["end_date_time"] == "NULL" else str(event_data["end_date_time"])
+            end_date_time = None if event_data["end_date_time"] == "NULL" else str(
+                event_data["end_date_time"])
             visibility = event_data['visibility']
             num_joins = event_data['num_joins']
             num_shoutouts = event_data['num_shoutouts']
@@ -1093,6 +1112,5 @@ def get_event_list_from_query(query, parameters):
                 'user_join': user_join,
                 'user_shoutout': user_shoutout
             })
-            
-        return JSONResponse(events)
 
+        return JSONResponse(events)
