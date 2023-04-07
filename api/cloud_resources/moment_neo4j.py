@@ -2,7 +2,6 @@ from dotenv import load_dotenv
 import os
 from neo4j import GraphDatabase
 
-
 def get_neo4j_session():
     driver = get_neo4j_driver()
     driver_session = driver.session()

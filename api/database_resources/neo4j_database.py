@@ -1,19 +1,20 @@
 from py2neo import Graph, Node, Relationship
 from cloud_resources.moment_neo4j import get_neo4j_session
 
+from utils.helpers import get_hash_pwd, convert_datetime
 
 class Neo4jDatabase:
     def __init__(self):
-        self.user = Node("User", UserID="", DisplayName="", Username="", Email="",
-                         PasswordHash="", Picture="", PushTokens=[], UserAccessToken="")
+        self.user = Node("User", UserID="TestUser1", DisplayName="TestUser1", Username="testuser1",
+                         PasswordHash=get_hash_pwd("testuser1"), Picture="", UserAccessToken="testuser1")
 
-        self.event = Node("Event", EventID="", Title="", Description="", Picture="", Location="",
-                          StartDateTime="", EndDateTime="", Visibility="", TimeCreated="")
+        self.event = Node("Event", EventID="testevent1", Title="testevent1", Description="testevent1", Picture="", Location="testevent1",
+                          StartDateTime=convert_datetime("2024-04-10 12:30:00"), EndDateTime=convert_datetime("2024-04-10 13:30:00"), Visibility="Public", TimeCreated=convert_datetime("2024-04-10 12:30:00"))
 
-        self.school = Node("School", SchoolID="", Name="",
-                           Latitude="", Longitude="", Abbreviation="")
+        self.school = Node("School", SchoolID="testschool1", Name="TestSchool1",
+                           Latitude="0", Longitude="0", Abbreviation="Test")
 
-        self.interest = Node("Interest", InterestID="", Name="", Category="")
+        self.interest = Node("Interest", InterestID="TestInterest1", Name="TestInterest1")
 
         self.session = get_neo4j_session()
 
@@ -71,7 +72,7 @@ class Neo4jDatabase:
             if existing_user is None:
                 print("CREATING USER")
                 # Create user node
-                tx.run("CREATE (:User {UserID: $UserID, DisplayName: $DisplayName, Username: $Username, Email: $Email, PasswordHash: $PasswordHash, Picture: $Picture, PushTokens: $PushTokens, UserAccessToken: $UserAccessToken})",
+                tx.run("CREATE (:User {UserID: $UserID, DisplayName: $DisplayName, Username: $Username, PasswordHash: $PasswordHash, Picture: $Picture, UserAccessToken: $UserAccessToken})",
                        **self.user)
 
             tx.commit()
@@ -116,7 +117,7 @@ class Neo4jDatabase:
             if existing_interest is None:
                 print("CREATING INTEREST")
                 # Create interest node
-                tx.run("CREATE (:Interest {InterestID: $InterestID, Name: $Name, Category: $Category})",
+                tx.run("CREATE (:Interest {InterestID: $InterestID, Name: $Name})",
                        **self.interest)
 
             tx.commit()
