@@ -103,12 +103,17 @@ celerybeat.pid
 
 # Environments
 .env
+.env.api
+.env.database
 .venv
 env/
 venv/
 ENV/
 env.bak/
 venv.bak/
+
+# Docker container folders
+db/ 
 
 # Spyder project settings
 .spyderproject
