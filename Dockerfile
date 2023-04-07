@@ -26,4 +26,4 @@ COPY ./api .
 # port number it should expose
 EXPOSE 8080
 
-CMD ["sh","./run.sh"]
+CMD uvicorn app:app --reload --host 127.0.0.1 --port 8080
