@@ -19,9 +19,11 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: api
+    # restart: on-failure:5 # attempt to restart 5 times if the container fails
     restart: always
     depends_on:
       - db
+        # condition: service_healthy # only start the api container once the db container is healthy
     ports:
       - "8080:8080"
     env_file:
@@ -29,3 +31,4 @@ services:
     volumes:
       - ./api:/Moment-Server/api
       - ./db/data:/Moment-Server/data
+    # command: sh -c "sleep 5"
