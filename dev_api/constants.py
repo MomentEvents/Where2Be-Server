@@ -1,0 +1,1 @@
+QUERY_PER_BATCH = 20

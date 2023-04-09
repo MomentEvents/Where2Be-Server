@@ -26,6 +26,9 @@ from PIL import Image
 import json
 from cloud_resources.moment_s3 import upload_base64_image
 
+from constants import QUERY_PER_BATCH
+
+
 async def get_using_user_access_token(request: Request) -> JSONResponse:
     """
     Description: Gets the user information with the associated user_access_token {user_access_token}. Returns error if no results found.
@@ -125,6 +128,7 @@ async def get_using_user_id(request: Request) -> JSONResponse:
 
         return JSONResponse(user_data)
 
+
 @is_user_formatted
 @is_requester_privileged_for_user
 async def update_using_user_id(request: Request) -> JSONResponse:
@@ -157,7 +161,6 @@ async def update_using_user_id(request: Request) -> JSONResponse:
     else:
         picture = None
 
-    
     username = username.lower()
     with get_connection() as session:
         result = session.run(
@@ -191,6 +194,7 @@ async def update_using_user_id(request: Request) -> JSONResponse:
             "picture": data["Picture"],
         }
         return JSONResponse(updated_user)
+
 
 @is_requester_privileged_for_user
 async def delete_using_user_id(request: Request) -> JSONResponse:
@@ -275,6 +279,7 @@ async def get_event_host(request: Request) -> JSONResponse:
 
         return JSONResponse(user_data)
 
+
 @is_requester_privileged_for_user
 async def user_join_update(request: Request) -> JSONResponse:
     """
@@ -353,6 +358,7 @@ async def user_join_update(request: Request) -> JSONResponse:
                     content={"message": "User already did not join"}, status_code=200
                 )
 
+
 @is_requester_privileged_for_user
 async def user_shoutout_update(request: Request) -> JSONResponse:
     """
@@ -399,7 +405,8 @@ async def user_shoutout_update(request: Request) -> JSONResponse:
         if record != None:
             if did_shoutout:
                 return JSONResponse(
-                    content={"message": "User already gave a shoutout to the event"},
+                    content={
+                        "message": "User already gave a shoutout to the event"},
                     status_code=200,
                 )
             else:
@@ -435,14 +442,15 @@ async def user_shoutout_update(request: Request) -> JSONResponse:
                     status_code=200,
                 )
 
+
 @is_valid_user_access_token
 async def get_all_school_users(request: Request) -> JSONResponse:
 
     """
-    Description: Gets all of the users associated with a school of $school_id
+    Description: Gets the batch of {current_batch} users associated with a school of $school_id and whose display_name or username has the substring of $search_query
     params:
         user_access_token: string
-    
+
     return:
 
         [
@@ -453,31 +461,40 @@ async def get_all_school_users(request: Request) -> JSONResponse:
         ]
 
     """
-
     school_id = request.path_params["school_id"]
-    
+
     body = await request.json()
 
     user_access_token = body.get("user_access_token")
+    search_query = body.get("search_query")
+    current_batch = body.get("current_batch")
 
     try:
-        assert all((school_id, user_access_token))
+        assert all((school_id, user_access_token)
+                   ) and search_query is not None and current_batch is not None
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
 
     with get_connection() as session:
 
         result = session.run(
-                """MATCH ((u:User)-[:user_school]->(s:School{SchoolID: $school_id}))
+            """MATCH ((u:User)-[:user_school]->(s:School{SchoolID: $school_id}))
+            WHERE toLower(u.DisplayName) CONTAINS toLower($search_query)
+            OR toLower(u.Username) CONTAINS toLower($search_query)
             RETURN {
                 user_id: u.UserID,
                 display_name: u.DisplayName,
                 username: u.Username,
                 picture: u.Picture
             } as user
-            ORDER BY toLower(u.DisplayName)""",
+            ORDER BY toLower(u.DisplayName)
+            SKIP $offset
+            LIMIT $query_per_batch""",
             parameters={
                 "school_id": school_id,
+                "search_query": search_query,
+                "offset": QUERY_PER_BATCH * current_batch,
+                "query_per_batch": QUERY_PER_BATCH,
             },
         )
 
@@ -495,8 +512,7 @@ async def get_all_school_users(request: Request) -> JSONResponse:
                 "display_name": display_name,
                 "username": username,
                 "picture": picture
-                })
-
+            })
 
         return JSONResponse(
             users
@@ -539,8 +555,8 @@ routes = [
         user_shoutout_update,
         methods=["UPDATE"],
     ),
-    Route("/api_ver_1.0.0/user/school_id/{school_id}",
-        get_all_school_users,
-        methods=["POST"],
-    ),
+    Route("/api_ver_1.0.1/user/school_id/{school_id}",
+          get_all_school_users,
+          methods=["POST"],
+          ),
 ]
