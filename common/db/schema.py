@@ -1,0 +1,1 @@
+# Upon starting up the container, it will create schema for the entities
