@@ -37,6 +37,8 @@ class School:
     SchoolID: str # unique
     Name: str
     Abbreviation: str
+    Latitude: float
+    Longitude: float
 
 @dataclass
 class Intrest:
