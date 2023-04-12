@@ -6,8 +6,8 @@ from starlette.routing import Route
 
 from fastapi_utils.timing import record_timing
 
-from version.ver_1_0_0.auth import is_requester_privileged, error_handler, is_user_formatted
-from helpers import parse_request_data
+from api.auth import is_requester_privileged, error_handler, is_user_formatted
+from api.utils.helpers import parse_request_data, get_hash_pwd
 
 import datetime
 import bcrypt
@@ -17,8 +17,6 @@ from cloud_resources.moment_neo4j import get_neo4j_session
 from cloud_resources.moment_s3 import get_bucket_url
 import random
 
-
-@error_handler
 async def get_token_username(request: Request) -> JSONResponse:
     """
     Description: Send a username and password and returns a user_access_token attached to the associated user object
@@ -258,19 +256,13 @@ async def check_if_user_is_admin(request: Request) -> JSONResponse:
 
 routes = [
     Route(
-        "/api_ver_1.0.0/auth/login/username",
+        "/auth/login/username",
         get_token_username,
         methods=["POST"],
     ),
-    Route("/api_ver_1.0.0/auth/signup", create_user, methods=["POST"]),
-    Route("/api_ver_1.0.0/auth/change_password",
+    Route("/auth/signup", create_user, methods=["POST"]),
+    Route("/auth/change_password",
           change_password, methods=["POST"]),
-    Route("/api_ver_1.0.0/auth/privileged_admin",
+    Route("/auth/privileged_admin",
           check_if_user_is_admin, methods=["POST"]),
 ]
-
-# HELPER FUNCTIONS
-
-
-def get_hash_pwd(password):
-    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())

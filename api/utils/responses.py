@@ -25,7 +25,7 @@ def bind_request_query(type: Type[TBind]):
             try:
                 body = msgspec.json.decode(query_as_json, type=type)
             except msgspec.ValidationError as e:
-                raise Problem("Invalid query string parameter", detail=str(e), status=400)
+                return Response(content="Invalid request query", status_code=500)
 
             return await handle_request(request, body, *args, **kwargs)
 
@@ -44,7 +44,7 @@ def bind_request_body(type: Type[TBind]):
             try:
                 body = msgspec.json.decode(body_bytes, type=type)
             except msgspec.ValidationError as e:
-                raise Problem("Invalid request body", detail=str(e), status=400)
+                return Response(content="Invalid request body", status_code=500)
 
             return await handle_request(request, body, *args, **kwargs)
 

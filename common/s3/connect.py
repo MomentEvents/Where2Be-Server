@@ -58,10 +58,7 @@ async def upload_base64_image(base64_string, directory, file_name):
     
     s3.Object(upload_file_bucket, directory+file_name+".png").put(Body=compressed_image_bytes,ContentType='image/PNG')
     event_image = (
-        get_bucket_url()+directory+file_name+".png"
+        S3_URL+directory+file_name+".png"
     )
 
     return event_image
-
-def get_bucket_url():
-    return "https://moment-events.s3.us-east-2.amazonaws.com/"

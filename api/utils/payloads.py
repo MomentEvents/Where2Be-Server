@@ -24,7 +24,19 @@ class EventCreationBody:
 
 @dataclass
 class EventEditBody:
-
+    user_access_token: str
+    title: str
+    description: str = field(
+        default='',
+        metadata={
+            'validators': [validators.length(max=800)]
+        }
+    )
+    location: str
+    start_date_time: str
+    end_date_time: str | None
+    visibility: Literal['public', 'private']
+    picture: str
 
 @dataclass 
 class EventDetailsResponse:
