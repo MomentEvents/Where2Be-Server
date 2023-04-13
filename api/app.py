@@ -4,7 +4,6 @@ from api import settings
 from api.data import init_db, init_s3, close_s3
 from api.endpoints import authservice, eventservice, interestservice, schoolservice, userservice
 from api.utils.middleware import ProblemHandlingMiddleware
-from api.utils.schema_gen import schema_route
 
 if settings.DEBUG:
     import debugpy
@@ -24,4 +23,3 @@ middleware = [
 ]
 
 app = Starlette(debug=True, routes=routes, on_startup=[init_db, init_s3], on_shutdown=[close_s3], middleware=middleware)
-app.mount("")

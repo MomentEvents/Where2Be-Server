@@ -1,3 +1,5 @@
+# note: This file is unused, but it will be used in the future for refactoring
+
 # payload objects are objects that convert a request body to an object and vice versa.
 
 # there are payloads for users, events, interests, schools, and others
@@ -37,7 +39,4 @@ class EventEditBody:
     end_date_time: str | None
     visibility: Literal['public', 'private']
     picture: str
-
-@dataclass 
-class EventDetailsResponse:
 
