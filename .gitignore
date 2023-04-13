@@ -113,7 +113,7 @@ env.bak/
 venv.bak/
 
 # Docker container folders
-db/ 
+storage/ 
 
 # Spyder project settings
 .spyderproject

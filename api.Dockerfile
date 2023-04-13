@@ -1,7 +1,7 @@
 FROM python:3.9
 
 # set directory for requirements
-WORKDIR /Moment-Server
+WORKDIR /
 
 RUN apt-get update && apt-get install -y libgl1-mesa-glx
 
@@ -14,7 +14,7 @@ COPY ./.env.database .
 RUN pip3 install -r requirements.txt
 
 # set directory for api
-WORKDIR /Moment-Server/api
+WORKDIR /api
 
 COPY ./api .
 
@@ -26,4 +26,4 @@ COPY ./api .
 # port number it should expose
 EXPOSE 8080
 
-CMD ["sh","./run.sh"]
+CMD ["sh", "./run.sh"]
