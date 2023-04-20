@@ -1,3 +1,3 @@
 # Moment-Server-Python
 
-Check `requirements.txt` to install dependencies
+Check `api_requirements.txt` to install dependencies

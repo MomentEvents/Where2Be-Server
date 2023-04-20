@@ -1,8 +1,11 @@
 # syntax=docker/dockerfile:1
-FROM python:3.10.8-slim-buster
+FROM python:3.9
+
+# set directory for requirements
 WORKDIR /
-COPY requirements.txt .
-RUN pip3 install --no-cache-dir -r requirements.txt
+
+RUN apt-get update && apt-get install -y libgl1-mesa-glx
+
 WORKDIR /worker
 COPY ./worker .
-CMD python -m app
+CMD python3 app.py

@@ -5,13 +5,13 @@ WORKDIR /
 
 RUN apt-get update && apt-get install -y libgl1-mesa-glx
 
-COPY requirements.txt .
+COPY api_requirements.txt .
 
 COPY ./.env.api .
 COPY ./.env.database .
 
 # install dependencies
-RUN pip3 install -r requirements.txt
+RUN pip3 install -r api_requirements.txt
 
 # set directory for api
 WORKDIR /api
