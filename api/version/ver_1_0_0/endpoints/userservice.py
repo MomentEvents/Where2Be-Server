@@ -539,10 +539,14 @@ async def search_users(request: Request) -> JSONResponse:
     """
 
     school_id = request.path_params["school_id"]
-    query = request.path_params["query"]
+
+    body = await request.json()
+
+    user_access_token = body.get("user_access_token")
+    query = body.get("query")
 
     try:
-        assert all((school_id, query))
+        assert all((user_access_token, school_id, query))
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
 
@@ -558,7 +562,7 @@ async def search_users(request: Request) -> JSONResponse:
                 picture: u.Picture
             } as user
             ORDER BY toLower(u.DisplayName)
-            LIMIT 10""",
+            LIMIT 20""",
             parameters={
                 "school_id": school_id,
                 "query": query,
@@ -625,8 +629,8 @@ routes = [
           get_all_school_users,
           methods=["POST"],
           ),
-    Route("/api_ver_1.0.0/user/school_id/{school_id}/search/{query}",
+    Route("/api_ver_1.0.0/user/school_id/{school_id}/search",
           search_users,
-          methods=["GET"],
+          methods=["POST"],
           ),
 ]
