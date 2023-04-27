@@ -511,7 +511,7 @@ async def get_all_school_users(request: Request) -> JSONResponse:
         return JSONResponse(
             users
         )
-        
+
 @error_handler
 async def search_users(request: Request) -> JSONResponse:
 
@@ -543,7 +543,7 @@ async def search_users(request: Request) -> JSONResponse:
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
 
-    with get_neo4j_session() as session:
+    with get_connection() as session:
 
         result = session.run(
             """MATCH ((u:User)-[:user_school]->(s:School{SchoolID: $school_id}))

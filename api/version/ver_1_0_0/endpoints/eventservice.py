@@ -716,13 +716,12 @@ async def search_events(request: Request) -> JSONResponse:
 
     user_access_token = body.get("user_access_token")
     query = body.get("query")
-
     try:
-        assert all((user_access_token, school_id, query))
+        assert all({user_access_token, school_id, query})
     except:
-        Response(status_code=400, content="Incomplete body")
+        return Response(status_code=400, content="Incomplete body")
 
-    with get_neo4j_session() as session:
+    with get_connection() as session:
         # check if email exists
         result = session.run(
             """MATCH (e:Event)-[:event_school]->(school: School{SchoolID: $school_id})
