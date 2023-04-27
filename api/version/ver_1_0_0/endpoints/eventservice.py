@@ -696,32 +696,36 @@ async def search_events(request: Request) -> JSONResponse:
 
     return:
         [{
-			event_id: string,
-			title: string,
-			picture: string,
-			description: string,
-			location: string,
-			start_date_time: string (convert to Date),
-			end_date_time: string (convert to Date),
-			visibility: boolean,
-			num_joins: int  
-			num_shoutouts: int
-			user_join: boolean
-			user_shoutout: boolean
+                        event_id: string,
+                        title: string,
+                        picture: string,
+                        description: string,
+                        location: string,
+                        start_date_time: string (convert to Date),
+                        end_date_time: string (convert to Date),
+                        visibility: boolean,
+                        num_joins: int  
+                        num_shoutouts: int
+                        user_join: boolean
+                        user_shoutout: boolean
         }]
     """
     school_id = request.path_params["school_id"]
-    query = request.path_params["query"]
+
+    body = await request.json()
+
+    user_access_token = body.get("user_access_token")
+    query = body.get("query")
 
     try:
-        assert all({school_id, query})
+        assert all((user_access_token, school_id, query))
     except:
         Response(status_code=400, content="Incomplete body")
 
-    with get_connection() as session:
+    with get_neo4j_session() as session:
         # check if email exists
         result = session.run(
-                """MATCH (e:Event)-[:event_school]->(school: School{SchoolID: $school_id})
+            """MATCH (e:Event)-[:event_school]->(school: School{SchoolID: $school_id})
             WITH DISTINCT e,
                 size( (e)<-[:user_join]-() ) as num_joins,
                 size( (e)<-[:user_shoutout]-() ) as num_shoutouts
@@ -739,7 +743,7 @@ async def search_events(request: Request) -> JSONResponse:
                     user_join: False,
                     user_shoutout: False } as event
             ORDER BY toLower(e.Title)
-            LIMIT 10
+            LIMIT 20
             """,
             parameters={
                 "school_id": school_id,
@@ -756,7 +760,8 @@ async def search_events(request: Request) -> JSONResponse:
             description = event_data['description']
             location = event_data['location']
             start_date_time = str(event_data['start_date_time'])
-            end_date_time = None if event_data["end_date_time"] == "NULL" else str(event_data["end_date_time"]),
+            end_date_time = None if event_data["end_date_time"] == "NULL" else str(
+                event_data["end_date_time"]),
             visibility = event_data['visibility']
             num_joins = event_data['num_joins']
             num_shoutouts = event_data['num_shoutouts']
@@ -1044,9 +1049,9 @@ routes = [
         methods=["POST"],
     ),
     Route(
-        "/api_ver_1.0.0/event/school_id/{school_id}/search/{query}",
+        "/api_ver_1.0.0/event/school_id/{school_id}/search",
         search_events,
-        methods=["GET"],
+        methods=["POST"],
     )
 ]
 

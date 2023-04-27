@@ -511,14 +511,15 @@ async def get_all_school_users(request: Request) -> JSONResponse:
         return JSONResponse(
             users
         )
-
+        
+@error_handler
 async def search_users(request: Request) -> JSONResponse:
 
     """
     Description: Gets all of the users associated with a school of $school_id
     params:
         user_access_token: string
-    
+
     return:
 
         [
@@ -531,17 +532,21 @@ async def search_users(request: Request) -> JSONResponse:
     """
 
     school_id = request.path_params["school_id"]
-    query = request.path_params["query"]
+
+    body = await request.json()
+
+    user_access_token = body.get("user_access_token")
+    query = body.get("query")
 
     try:
-        assert all((school_id, query))
+        assert all((user_access_token, school_id, query))
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
 
-    with get_connection() as session:
+    with get_neo4j_session() as session:
 
         result = session.run(
-                """MATCH ((u:User)-[:user_school]->(s:School{SchoolID: $school_id}))
+            """MATCH ((u:User)-[:user_school]->(s:School{SchoolID: $school_id}))
                 WHERE (toLower(u.DisplayName) CONTAINS toLower($query) OR toLower(u.Username) CONTAINS toLower($query))
             RETURN {
                 user_id: u.UserID,
@@ -550,7 +555,7 @@ async def search_users(request: Request) -> JSONResponse:
                 picture: u.Picture
             } as user
             ORDER BY toLower(u.DisplayName)
-            LIMIT 10""",
+            LIMIT 20""",
             parameters={
                 "school_id": school_id,
                 "query": query,
@@ -571,8 +576,7 @@ async def search_users(request: Request) -> JSONResponse:
                 "display_name": display_name,
                 "username": username,
                 "picture": picture
-                })
-
+            })
 
         return JSONResponse(
             users
@@ -618,8 +622,8 @@ routes = [
         get_all_school_users,
         methods=["POST"],
     ),
-    Route("/api_ver_1.0.0/user/school_id/{school_id}/search/{query}",
-        search_users,
-        methods=["GET"],
+    Route("/api_ver_1.0.0/user/school_id/{school_id}/search",
+          search_users,
+          methods=["POST"],
     ),
 ]
