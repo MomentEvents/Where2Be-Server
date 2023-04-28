@@ -730,7 +730,7 @@ async def search_events(request: Request) -> JSONResponse:
     query = body.get("query")
 
     try:
-        assert all({user_access_token, school_id}) and query is not None
+        assert all({user_access_token, school_id, query})
     except:
         Response(status_code=400, content="Incomplete body")
 

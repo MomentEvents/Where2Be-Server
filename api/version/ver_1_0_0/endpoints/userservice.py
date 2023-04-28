@@ -546,7 +546,7 @@ async def search_users(request: Request) -> JSONResponse:
     query = body.get("query")
 
     try:
-        assert all((user_access_token, school_id)) and query is not None
+        assert all((user_access_token, school_id, query))
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
 
