@@ -74,7 +74,7 @@ async def get_using_user_access_token(request: Request) -> JSONResponse:
             "username": data["Username"],
             "email": data["Email"],
             "picture": data["Picture"],
-            "verified_organization": data["VerifiedOrganization"],
+            "verified_organization": data["VerifiedOrganization"] or False,
         }
 
         return JSONResponse(user_data)
@@ -127,7 +127,7 @@ async def get_using_user_id(request: Request) -> JSONResponse:
             "display_name": data["DisplayName"],
             "username": data["Username"],
             "picture": data["Picture"],
-            "verified_organization": data["VerifiedOrganization"],
+            "verified_organization": data["VerifiedOrganization"] or False,
         }
 
         return JSONResponse(user_data)
@@ -287,7 +287,7 @@ async def get_event_host(request: Request) -> JSONResponse:
             "display_name": data["DisplayName"],
             "username": data["Username"],
             "picture": data["Picture"],
-            "verified_organization": data["VerifiedOrganization"],
+            "verified_organization": data["VerifiedOrganization"] or False,
         }
 
         return JSONResponse(user_data)
@@ -567,7 +567,7 @@ async def search_users(request: Request) -> JSONResponse:
                 display_name: u.DisplayName,
                 username: u.Username,
                 picture: u.Picture,
-                verified_organization: u.VerifiedOrganization
+                verified_organization: coalesce(u.VerifiedOrganization, false)
             } as user
             ORDER BY toLower(u.DisplayName)
             LIMIT 20""",
