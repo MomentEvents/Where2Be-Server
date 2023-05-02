@@ -40,6 +40,7 @@ async def get_using_user_access_token(request: Request) -> JSONResponse:
         display_name: string,
         username: string,
         picture: string,
+        verified_organization: boolean,
     """
 
     user_access_token = request.path_params["user_access_token"]
@@ -92,6 +93,7 @@ async def get_using_user_id(request: Request) -> JSONResponse:
         display_name: string,
         username: string,
         picture: string,
+        verified_organization: boolean,
 
     """
 
@@ -248,6 +250,7 @@ async def get_event_host(request: Request) -> JSONResponse:
         username: string,
         email: string,
         picture: string,
+        verified_organization: boolean,
 
     """
 
@@ -536,7 +539,8 @@ async def search_users(request: Request) -> JSONResponse:
         user_id: string,
         display_name: string,
         username: string,
-        picture: string
+        picture: string,
+        verified_organization: boolean,
         ]
 
     """
@@ -562,7 +566,8 @@ async def search_users(request: Request) -> JSONResponse:
                 user_id: u.UserID,
                 display_name: u.DisplayName,
                 username: u.Username,
-                picture: u.Picture
+                picture: u.Picture,
+                verified_organization: u.VerifiedOrganization
             } as user
             ORDER BY toLower(u.DisplayName)
             LIMIT 20""",
@@ -580,12 +585,14 @@ async def search_users(request: Request) -> JSONResponse:
             display_name = user_data['display_name']
             username = user_data['username']
             picture = user_data['picture']
+            verified_organization = user_data['verified_organization']
 
             users.append({
                 "user_id": user_id,
                 "display_name": display_name,
                 "username": username,
-                "picture": picture
+                "picture": picture,
+                "verified_organization" : verified_organization
             })
 
         return JSONResponse(
