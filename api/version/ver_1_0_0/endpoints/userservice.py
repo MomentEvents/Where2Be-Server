@@ -581,18 +581,13 @@ async def search_users(request: Request) -> JSONResponse:
 
         for record in result:
             user_data = record['user']
-            user_id = user_data['user_id']
-            display_name = user_data['display_name']
-            username = user_data['username']
-            picture = user_data['picture']
-            verified_organization = user_data['verified_organization']
 
             users.append({
-                "user_id": user_id,
-                "display_name": display_name,
-                "username": username,
-                "picture": picture,
-                "verified_organization" : verified_organization
+                "user_id": user_data['user_id'],
+                "display_name": user_data['display_name'],
+                "username": user_data['username'],
+                "picture": user_data['picture'],
+                "verified_organization" : user_data['verified_organization']
             })
 
         return JSONResponse(
