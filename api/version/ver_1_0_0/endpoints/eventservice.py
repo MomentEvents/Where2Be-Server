@@ -723,10 +723,14 @@ async def search_events(request: Request) -> JSONResponse:
         }]
     """
     school_id = request.path_params["school_id"]
-    query = request.path_params["query"]
+
+    body = await request.json()
+
+    user_access_token = body.get("user_access_token")
+    query = body.get("query")
 
     try:
-        assert all({school_id, query})
+        assert all({user_access_token, school_id, query})
     except:
         Response(status_code=400, content="Incomplete body")
 
@@ -751,7 +755,7 @@ async def search_events(request: Request) -> JSONResponse:
                     user_join: False,
                     user_shoutout: False } as event
             ORDER BY toLower(e.Title)
-            LIMIT 10
+            LIMIT 20
             """,
             parameters={
                 "school_id": school_id,
@@ -1062,9 +1066,9 @@ routes = [
         methods=["POST"],
     ),
     Route(
-        "/api_ver_1.0.0/event/school_id/{school_id}/search/{query}",
+        "/api_ver_1.0.0/event/school_id/{school_id}/search",
         search_events,
-        methods=["GET"],
+        methods=["POST"],
     )
 ]
 
