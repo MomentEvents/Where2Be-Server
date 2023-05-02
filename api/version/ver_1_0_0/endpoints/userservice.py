@@ -26,7 +26,6 @@ from PIL import Image
 import json
 from cloud_resources.moment_s3 import upload_base64_image
 
-
 @error_handler
 async def get_using_user_access_token(request: Request) -> JSONResponse:
     """
@@ -76,7 +75,6 @@ async def get_using_user_access_token(request: Request) -> JSONResponse:
         }
 
         return JSONResponse(user_data)
-
 
 @error_handler
 async def get_using_user_id(request: Request) -> JSONResponse:
@@ -128,7 +126,6 @@ async def get_using_user_id(request: Request) -> JSONResponse:
 
         return JSONResponse(user_data)
 
-
 @error_handler
 @is_user_formatted
 @is_requester_privileged_for_user
@@ -162,6 +159,7 @@ async def update_using_user_id(request: Request) -> JSONResponse:
     else:
         picture = None
 
+    
     username = username.lower()
 
     username = username.strip()
@@ -200,7 +198,6 @@ async def update_using_user_id(request: Request) -> JSONResponse:
         }
         return JSONResponse(updated_user)
 
-
 @error_handler
 @is_requester_privileged_for_user
 async def delete_using_user_id(request: Request) -> JSONResponse:
@@ -230,7 +227,6 @@ async def delete_using_user_id(request: Request) -> JSONResponse:
         )
 
     return Response(status_code=200, content="User and events deleted")
-
 
 @error_handler
 async def get_event_host(request: Request) -> JSONResponse:
@@ -285,7 +281,6 @@ async def get_event_host(request: Request) -> JSONResponse:
         }
 
         return JSONResponse(user_data)
-
 
 @error_handler
 @is_requester_privileged_for_user
@@ -366,7 +361,6 @@ async def user_join_update(request: Request) -> JSONResponse:
                     content={"message": "User already did not join"}, status_code=200
                 )
 
-
 @error_handler
 @is_requester_privileged_for_user
 async def user_shoutout_update(request: Request) -> JSONResponse:
@@ -414,8 +408,7 @@ async def user_shoutout_update(request: Request) -> JSONResponse:
         if record != None:
             if did_shoutout:
                 return JSONResponse(
-                    content={
-                        "message": "User already gave a shoutout to the event"},
+                    content={"message": "User already gave a shoutout to the event"},
                     status_code=200,
                 )
             else:
@@ -451,7 +444,6 @@ async def user_shoutout_update(request: Request) -> JSONResponse:
                     status_code=200,
                 )
 
-
 @error_handler
 @is_valid_user_access_token
 async def get_all_school_users(request: Request) -> JSONResponse:
@@ -460,7 +452,7 @@ async def get_all_school_users(request: Request) -> JSONResponse:
     Description: Gets all of the users associated with a school of $school_id
     params:
         user_access_token: string
-
+    
     return:
 
         [
@@ -473,7 +465,7 @@ async def get_all_school_users(request: Request) -> JSONResponse:
     """
 
     school_id = request.path_params["school_id"]
-
+    
     body = await request.json()
 
     user_access_token = body.get("user_access_token")
@@ -486,7 +478,7 @@ async def get_all_school_users(request: Request) -> JSONResponse:
     with get_neo4j_session() as session:
 
         result = session.run(
-            """MATCH ((u:User)-[:user_school]->(s:School{SchoolID: $school_id}))
+                """MATCH ((u:User)-[:user_school]->(s:School{SchoolID: $school_id}))
             RETURN {
                 user_id: u.UserID,
                 display_name: u.DisplayName,
@@ -513,13 +505,14 @@ async def get_all_school_users(request: Request) -> JSONResponse:
                 "display_name": display_name,
                 "username": username,
                 "picture": picture
-            })
+                })
+
 
         return JSONResponse(
             users
         )
 
-
+@error_handler
 async def search_users(request: Request) -> JSONResponse:
 
     """
@@ -539,10 +532,14 @@ async def search_users(request: Request) -> JSONResponse:
     """
 
     school_id = request.path_params["school_id"]
-    query = request.path_params["query"]
+
+    body = await request.json()
+
+    user_access_token = body.get("user_access_token")
+    query = body.get("query")
 
     try:
-        assert all((school_id, query))
+        assert all((user_access_token, school_id, query))
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
 
@@ -558,7 +555,7 @@ async def search_users(request: Request) -> JSONResponse:
                 picture: u.Picture
             } as user
             ORDER BY toLower(u.DisplayName)
-            LIMIT 10""",
+            LIMIT 20""",
             parameters={
                 "school_id": school_id,
                 "query": query,
@@ -622,11 +619,11 @@ routes = [
         methods=["UPDATE"],
     ),
     Route("/api_ver_1.0.0/user/school_id/{school_id}",
-          get_all_school_users,
-          methods=["POST"],
-          ),
-    Route("/api_ver_1.0.0/user/school_id/{school_id}/search/{query}",
+        get_all_school_users,
+        methods=["POST"],
+    ),
+    Route("/api_ver_1.0.0/user/school_id/{school_id}/search",
           search_users,
-          methods=["GET"],
-          ),
+          methods=["POST"],
+    ),
 ]
