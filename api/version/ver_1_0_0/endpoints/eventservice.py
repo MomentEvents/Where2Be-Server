@@ -80,8 +80,6 @@ async def create_event(request: Request) -> JSONResponse:
     location = location.strip()
 
     with get_neo4j_session() as session:
-        # check if email exists
-
         result = session.run(
             """MATCH (user:User {UserAccessToken: $user_access_token})-[:user_school]->(school:School)
                 CREATE (event:Event {
