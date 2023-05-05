@@ -14,6 +14,7 @@ from starlette.routing import Route
 import uvicorn
 import socket
 import ipaddress
+from builtins import Exception
 
 from fastapi_utils.timing import add_timing_middleware
 
@@ -22,7 +23,6 @@ import status
 from database_resources.data import init_db
 from cloud_resources.moment_neo4j import get_neo4j_session, test_neo4j_health
 import sys
-
 
 # Check if database is accessible
 
@@ -46,8 +46,14 @@ routes = [
 ]
 
 app = FastAPI(debug=True, routes=routes, on_startup=[init_db])
+
+@app.exception_handler(Exception)
+async def internal_server_error(request: Request, exc: Exception):
+    return Response(status_code=500, content="An internal server error occurred. Please contact support.")
+    
 add_timing_middleware(app, record=logger.info, prefix="app")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_headers=["*"])
+app.add_exception_handler(Exception, internal_server_error)
 
 # choose localhost or ipaddr
 localhost = "127.0.0.1"
@@ -55,5 +61,6 @@ hosting = ip_address
 
 
 if __name__ == "__main__":
+    print("\n\nNow running Moment server on " + hosting + ":8080")
     # create database
     uvicorn.run(app, host=hosting, port=8080)

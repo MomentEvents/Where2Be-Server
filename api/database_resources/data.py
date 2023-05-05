@@ -1,23 +1,55 @@
-from database_resources.neo4j_database import Neo4jDatabase
-
-# from api import settings
-# from common.data.db import DBWrapper
-# from common.data.redis import RedisWrapper
-# from common.data.s3 import S3Wrapper
-
-# db_wrapper = DBWrapper(settings.DB_PATH, settings.RESET_DATABASE, settings.ADMIN_EMAIL, settings.ADMIN_PASSWORD)
-# s3_wrapper = S3Wrapper(settings.AWS_SECRET_ACCESS_KEY, settings.AWS_ACCESS_KEY_ID, settings.AWS_ENDPOINT_URL)
-# redis_wrapper = RedisWrapper(settings.REDIS_URL)
-
-db_wrapper = Neo4jDatabase()
-
-# connect_db = db_wrapper.connect
-# create_s3_client = s3_wrapper.create_client
-# redis_conn = redis_wrapper.connect()
+from cloud_resources.moment_neo4j import get_neo4j_session
+import time
 
 
-async def init_db():
-    db_wrapper.init()
+fill_data = False
 
-# async def init_s3():
-#     await s3_wrapper.init()
+
+def init_schema():
+    schemas = [
+        # Users
+        "CREATE CONSTRAINT IF NOT EXISTS FOR (u:User) REQUIRE u.UserID IS UNIQUE", # String
+        "CREATE CONSTRAINT IF NOT EXISTS FOR (u:User) REQUIRE u.Email IS UNIQUE;", # String
+        "CREATE CONSTRAINT IF NOT EXISTS FOR (u:User) REQUIRE u.Username IS UNIQUE", # String
+        "CREATE CONSTRAINT IF NOT EXISTS FOR (u:User) REQUIRE u.UserAccessToken IS UNIQUE;", # String
+        "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.DisplayName);", # String
+        "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.PasswordHash);", # Object
+        "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.Picture);", # String
+        "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.VerifiedOrganization);", # Boolean
+        #Events
+        "CREATE CONSTRAINT IF NOT EXISTS FOR (e:Event) REQUIRE e.EventID IS UNIQUE", # String
+        "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Title);", # String
+        "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Description);", # String
+        "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Picture);", # String
+        "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Location);", # String
+        "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.StartDateTime);", # String / null
+        "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.EndDateTime);", # String
+        "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.TimeCreated);", # Date
+        #Schools
+        "CREATE CONSTRAINT IF NOT EXISTS FOR (s:School) REQUIRE e.SchoolID IS UNIQUE", # String
+        "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Name);", # String
+        "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Abbreviation);", # String
+        #Interests
+        "CREATE CONSTRAINT IF NOT EXISTS FOR (i:Interest) REQUIRE i.InterestID IS UNIQUE", # String
+        "CREATE INDEX IF NOT EXISTS FOR (i:Interest) ON (i.Name);", # String
+    ]
+    #Run initializing the schema here
+    with get_neo4j_session() as session:
+        for schema in schemas:
+            try:
+                session.run(schema)
+            except:
+                print("Could not run schema " + schema)
+    return 1
+
+
+def fill_data():
+    #Run filling example data here
+    return 1
+
+def init_db():
+    init_schema()
+
+    if fill_data is True:
+        fill_data()
+
