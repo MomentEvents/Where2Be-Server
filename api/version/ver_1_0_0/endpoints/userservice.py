@@ -5,7 +5,6 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from starlette.routing import Route
 
-from fastapi_utils.timing import record_timing
 
 from datetime import datetime
 import bcrypt
@@ -57,7 +56,6 @@ async def get_using_user_access_token(request: Request) -> JSONResponse:
             },
         )
 
-        record_timing(request, note="request time")
 
         record = result.single()
 
@@ -108,7 +106,6 @@ async def get_using_user_id(request: Request) -> JSONResponse:
             },
         )
 
-        record_timing(request, note="get_using_user_id")
 
         record = result.single()
 
@@ -262,7 +259,6 @@ async def get_event_host(request: Request) -> JSONResponse:
             },
         )
 
-        record_timing(request, note="request time")
 
         record = result.single()
 

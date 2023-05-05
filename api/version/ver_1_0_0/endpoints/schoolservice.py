@@ -6,7 +6,6 @@ from starlette.responses import JSONResponse
 from starlette.responses import Response
 from starlette.routing import Route
 
-from fastapi_utils.timing import record_timing
 
 from datetime import datetime
 import bcrypt
@@ -47,7 +46,6 @@ async def get_all_schools(request: Request) -> JSONResponse:
             ORDER BY toLower(s.Abbreviation + s.Name)""",
         )
 
-        record_timing(request, note="request time")
 
         school_array = []
         for record in result:
@@ -101,7 +99,6 @@ async def get_school(request: Request) -> JSONResponse:
             },
         )
 
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()
@@ -154,7 +151,6 @@ async def get_user_school(request: Request) -> JSONResponse:
             },
         )
 
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()
@@ -195,7 +191,6 @@ async def get_user_access_token_school(request: Request) -> JSONResponse:
             },
         )
 
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()
@@ -254,7 +249,6 @@ async def update_user_school(request: Request) -> JSONResponse:
             parameters={"user_id": user_id, "school_id": school_id},
         )
 
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()

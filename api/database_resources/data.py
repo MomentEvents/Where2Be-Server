@@ -3,7 +3,7 @@ from database_resources.commands import create_user_entity, create_event_entity,
 
 
 do_fill_data = False
-do_create_schema = True
+do_create_schema = False
 
 
 def init_schema():

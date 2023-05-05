@@ -5,8 +5,6 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from starlette.routing import Route
 
-from fastapi_utils.timing import record_timing
-
 # from datetime import datetime
 from dateutil import parser
 import bcrypt
@@ -109,7 +107,6 @@ async def create_event(request: Request) -> JSONResponse:
                 "interest_ids": interest_ids,
             },
         )
-        record_timing(request, note="request time")
 
     event_data = {
         "event_id": str(event_id),
@@ -179,8 +176,6 @@ async def get_event(request: Request) -> JSONResponse:
                 "user_access_token": user_access_token,
             },
         )
-
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()
@@ -314,7 +309,6 @@ async def update_event(request: Request) -> JSONResponse:
                 "interest_ids": interest_ids,
             },
         )
-        record_timing(request, note="request time")
 
     return Response(status_code=200, content="event updated")
 
@@ -440,7 +434,6 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                     "school_id": school_id,
                 },
             )
-            record_timing(request, note="request time")
         else:
             result = session.run(
                 """
@@ -534,7 +527,6 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                     "user_access_token": user_access_token
                 },
             )
-            record_timing(request, note="request time")
 
         categorized_dict = {}
         event_ids = []
@@ -646,7 +638,6 @@ async def get_events(request: Request) -> JSONResponse:
                 "user_access_token": user_access_token,
             },
         )
-        record_timing(request, note="request time")
 
         events = []
         for record in result:
@@ -1058,7 +1049,6 @@ def get_event_list_from_query(query, parameters):
             query,
             parameters   
         )
-        # record_timing(request, note="request time")
 
         events = []
         for record in result:

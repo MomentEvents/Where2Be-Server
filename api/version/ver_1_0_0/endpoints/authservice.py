@@ -4,7 +4,6 @@ from starlette.responses import JSONResponse
 from starlette.responses import Response
 from starlette.routing import Route
 
-from fastapi_utils.timing import record_timing
 
 from version.ver_1_0_0.auth import is_requester_privileged, is_user_formatted
 from helpers import parse_request_data
@@ -51,8 +50,6 @@ async def get_token_username(request: Request) -> JSONResponse:
             RETURN u""",
             parameters={"username": username},
         )
-
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()
@@ -131,7 +128,6 @@ async def create_user(request: Request) -> JSONResponse:
             "MATCH (u:User {Username: $username}) RETURN u",
             parameters={"username": username},
         )
-        record_timing(request, note="request username time")
         record = result.single()
         if record != None:
             username_exists = True
