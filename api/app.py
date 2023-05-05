@@ -20,6 +20,15 @@ from fastapi_utils.timing import add_timing_middleware
 import status
 
 from database_resources.data import init_db
+from cloud_resources.moment_neo4j import get_neo4j_session, test_neo4j_health
+import sys
+
+
+# Check if database is accessible
+
+if test_neo4j_health() is not True:
+    sys.exit(1)
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

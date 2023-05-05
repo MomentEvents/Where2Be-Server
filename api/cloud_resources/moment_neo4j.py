@@ -3,6 +3,15 @@ import os
 from neo4j import GraphDatabase
 
 
+def test_neo4j_health():
+    try:
+        with get_neo4j_session() as session:
+            session.run("MATCH (n) RETURN n LIMIT 1")
+        return True
+
+    except:
+        return False
+
 def get_neo4j_session():
     driver = get_neo4j_driver()
     driver_session = driver.session()
