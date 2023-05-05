@@ -36,6 +36,7 @@ def init_schema():
         "CREATE CONSTRAINT IF NOT EXISTS FOR (i:Interest) REQUIRE i.InterestID IS UNIQUE", # String
         "CREATE INDEX IF NOT EXISTS FOR (i:Interest) ON (i.Name);", # String
     ]
+
     #Run initializing the schema here
     with get_neo4j_session() as session:
         for schema in schemas:
@@ -52,12 +53,12 @@ def fill_data():
     interest2_id = create_interest_entity("athletic", "Athletic")
     interest3_id = create_interest_entity("social", "Social")
     interest4_id = create_interest_entity("professional", "Professional")
-    # user_access_token_1 = create_user_entity("Test User 1", "test1", "test1@ucsd.edu", "testuser1", False, school1_id)
-    # user_access_token_2 = create_user_entity("Test User 2", "test2", "test2@ucsd.edu", "testuser2", False, school1_id)
-    # create_event_entity(user_access_token_1, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Frog_on_palm_frond.jpg/1024px-Frog_on_palm_frond.jpg",
-    # "Nature", "Look at my description :D", "La Jolla Shores", "Public", [interest1_id], "2024-04-20 17:00:00", "2024-04-20 18:00:00")
-    # create_event_entity(user_access_token_2, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
-    # "Nerdy Event", "Nerds only", "Geisel", "Public", [interest2_id], "2024-02-20 13:00:00", "2024-02-20 13:30:00")
+    user_access_token_1 = create_user_entity("Test User 1", "test1", "test1@ucsd.edu", "testuser1", False, school1_id)
+    user_access_token_2 = create_user_entity("Test User 2", "test2", "test2@ucsd.edu", "testuser2", False, school1_id)
+    create_event_entity(user_access_token_1, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Frog_on_palm_frond.jpg/1024px-Frog_on_palm_frond.jpg",
+    "Nature", "Look at my description :D", "La Jolla Shores", "Public", [interest1_id], "2024-04-20 17:00:00", "2024-04-20 18:00:00")
+    create_event_entity(user_access_token_2, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+    "Nerdy Event", "Nerds only", "Geisel", "Public", [interest2_id], "2024-02-20 13:00:00", "2024-02-20 13:30:00")
     return 1
 
 def init_db():
