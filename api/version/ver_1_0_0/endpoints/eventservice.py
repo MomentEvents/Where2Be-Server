@@ -13,7 +13,7 @@ import bcrypt
 import secrets
 
 from cloud_resources.moment_neo4j import get_neo4j_session
-from version.ver_1_0_0.auth import is_real_user, is_requester_privileged_for_event, is_requester_privileged_for_user,is_event_formatted, is_real_event, is_picture_formatted, error_handler, is_valid_user_access_token
+from version.ver_1_0_0.auth import is_real_user, is_requester_privileged_for_event, is_requester_privileged_for_user, is_event_formatted, is_real_event, is_picture_formatted, is_valid_user_access_token
 from helpers import parse_request_data
 
 from cloud_resources.moment_s3 import upload_base64_image
@@ -32,7 +32,7 @@ import json
 import cv2
 import numpy as np
 
-@error_handler
+
 @is_valid_user_access_token
 @is_picture_formatted
 @is_event_formatted
@@ -78,8 +78,6 @@ async def create_event(request: Request) -> JSONResponse:
     location = location.strip()
 
     with get_neo4j_session() as session:
-        # check if email exists
-
         result = session.run(
             """MATCH (user:User {UserAccessToken: $user_access_token})-[:user_school]->(school:School)
                 CREATE (event:Event {
@@ -119,7 +117,6 @@ async def create_event(request: Request) -> JSONResponse:
 
     return JSONResponse(event_data)
 
-@error_handler
 async def get_event(request: Request) -> JSONResponse:
     """
     Description: Gets an event with an event_id of {event_id}. We send a user_access_token to verify that the user has authorization to view the event (if it is private or not). If it is private, it is only viewable when the user_access_token is the owner of the event.
@@ -213,7 +210,6 @@ async def get_event(request: Request) -> JSONResponse:
 
         return JSONResponse(event_data)
 
-@error_handler
 @is_real_event
 @is_requester_privileged_for_event
 async def delete_event(request: Request) -> JSONResponse:
@@ -243,7 +239,6 @@ async def delete_event(request: Request) -> JSONResponse:
 
     return Response(status_code=200, content="event deleted " + event_id)
 
-@error_handler
 @is_event_formatted
 @is_real_event
 @is_requester_privileged_for_event
@@ -323,7 +318,6 @@ async def update_event(request: Request) -> JSONResponse:
 
     return Response(status_code=200, content="event updated")
 
-@error_handler
 async def get_events_categorized(request: Request) -> JSONResponse:
     """
     Description: Gets all events attached to a school of {school_id} for introduce events. user_join and user_shoutout are defaulted to be false
@@ -589,7 +583,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
 
         return JSONResponse(categorized_dict)
 
-@error_handler
+
 async def get_events(request: Request) -> JSONResponse:
     """
     Description: Gets all events attached to a school of {school_id} 
@@ -687,7 +681,6 @@ async def get_events(request: Request) -> JSONResponse:
 
         return JSONResponse(events)
 
-@error_handler
 async def search_events(request: Request) -> JSONResponse:
     """
     Description: Searches events in a query
@@ -785,7 +778,7 @@ async def search_events(request: Request) -> JSONResponse:
         return JSONResponse(events)
 
 
-@error_handler
+ 
 async def host_past(request: Request) -> JSONResponse:
     """
     Description: Gets the past hosted events attached to a user of {user_id}. Limits to 20 events. Orders from closest start time all the way until further out.
@@ -842,7 +835,7 @@ async def host_past(request: Request) -> JSONResponse:
 
     return get_event_list_from_query(query, parameters)    
 
-@error_handler
+ 
 async def host_future(request: Request) -> JSONResponse:
     """
     Description: Gets the future hosted events attached to a user of {user_id}. Limits to 20 events. Orders from closest start time all the way until further out.
@@ -902,7 +895,7 @@ async def host_future(request: Request) -> JSONResponse:
 
     return get_event_list_from_query(query, parameters)
 
-@error_handler
+
 @is_requester_privileged_for_user
 async def join_past(request: Request) -> JSONResponse:
     """
@@ -958,7 +951,7 @@ async def join_past(request: Request) -> JSONResponse:
 
     return get_event_list_from_query(query, parameters) 
 
-@error_handler
+ 
 @is_requester_privileged_for_user
 async def join_future(request: Request) -> JSONResponse:
     """

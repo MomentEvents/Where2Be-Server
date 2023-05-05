@@ -12,7 +12,7 @@ import bcrypt
 import secrets
 
 from cloud_resources.moment_neo4j import get_neo4j_session
-from version.ver_1_0_0.auth import is_real_user, is_requester_privileged_for_user, is_user_formatted, is_valid_user_access_token, error_handler
+from version.ver_1_0_0.auth import is_real_user, is_requester_privileged_for_user, is_user_formatted, is_valid_user_access_token
 
 import platform
 
@@ -26,7 +26,7 @@ from PIL import Image
 import json
 from cloud_resources.moment_s3 import upload_base64_image
 
-@error_handler
+
 async def get_using_user_access_token(request: Request) -> JSONResponse:
     """
     Description: Gets the user information with the associated user_access_token {user_access_token}. Returns error if no results found.
@@ -76,7 +76,7 @@ async def get_using_user_access_token(request: Request) -> JSONResponse:
 
         return JSONResponse(user_data)
 
-@error_handler
+
 async def get_using_user_id(request: Request) -> JSONResponse:
     """
     Description: Gets the user information with the associated user_id {user_id}. Returns error if no results found.
@@ -126,7 +126,6 @@ async def get_using_user_id(request: Request) -> JSONResponse:
 
         return JSONResponse(user_data)
 
-@error_handler
 @is_user_formatted
 @is_requester_privileged_for_user
 async def update_using_user_id(request: Request) -> JSONResponse:
@@ -198,7 +197,6 @@ async def update_using_user_id(request: Request) -> JSONResponse:
         }
         return JSONResponse(updated_user)
 
-@error_handler
 @is_requester_privileged_for_user
 async def delete_using_user_id(request: Request) -> JSONResponse:
     """
@@ -228,7 +226,7 @@ async def delete_using_user_id(request: Request) -> JSONResponse:
 
     return Response(status_code=200, content="User and events deleted")
 
-@error_handler
+
 async def get_event_host(request: Request) -> JSONResponse:
     """
     Description: Gets the host from {event_id}.
@@ -282,7 +280,6 @@ async def get_event_host(request: Request) -> JSONResponse:
 
         return JSONResponse(user_data)
 
-@error_handler
 @is_requester_privileged_for_user
 async def user_join_update(request: Request) -> JSONResponse:
     """
@@ -361,7 +358,6 @@ async def user_join_update(request: Request) -> JSONResponse:
                     content={"message": "User already did not join"}, status_code=200
                 )
 
-@error_handler
 @is_requester_privileged_for_user
 async def user_shoutout_update(request: Request) -> JSONResponse:
     """
@@ -444,7 +440,7 @@ async def user_shoutout_update(request: Request) -> JSONResponse:
                     status_code=200,
                 )
 
-@error_handler
+
 @is_valid_user_access_token
 async def get_all_school_users(request: Request) -> JSONResponse:
 
