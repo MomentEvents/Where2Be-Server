@@ -508,7 +508,6 @@ async def get_all_school_users(request: Request) -> JSONResponse:
             users
         )
 
-@error_handler
 async def search_users(request: Request) -> JSONResponse:
 
     """
