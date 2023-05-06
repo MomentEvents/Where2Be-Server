@@ -75,8 +75,9 @@ def create_user_entity(display_name: str, username: str, email: str, password: s
         return user_access_token
  
 def create_event_entity(user_access_token: str, event_image: str, title: str, description: str, location: str, visibility: str, interest_ids: [str], start_date_time_string, end_date_time_string):
-    start_date_time = parser.parse(start_date_time_string)
-    end_date_time = None if end_date_time_string is None else parser.parse(end_date_time_string)
+    start_date_time = parser.parse(start_date_time_string).isoformat()
+    end_date_time = None if end_date_time_string is None else parser.parse(end_date_time_string).isoformat()
+
     title = title.strip()
     location = location.strip()
     event_id = secrets.token_urlsafe()
@@ -91,8 +92,8 @@ def create_event_entity(user_access_token: str, event_image: str, title: str, de
                     Description: $description,
                     Picture: $image,
                     Location: $location,
-                    StartDateTime: $start_date_time,
-                    EndDateTime: $end_date_time,
+                    StartDateTime: datetime($start_date_time),
+                    EndDateTime: datetime($end_date_time),
                     Visibility: $visibility,
                     TimeCreated: datetime()
                 })<-[:user_host]-(user),
@@ -115,8 +116,7 @@ def create_event_entity(user_access_token: str, event_image: str, title: str, de
             },
         )
 
-        return event_id
-
+    return event_id
 def create_school_entity(school_id: str, name: str, abbreviation: str):
     with get_neo4j_session() as session:
 
