@@ -2,7 +2,9 @@ version: '3'
 
 services:
   db:
-    image: neo4j:4.4-enterprise
+    build:
+      context: .
+      dockerfile: neo4j.Dockerfile
     container_name: neo4j
     restart: always
     env_file:
