@@ -3,7 +3,7 @@ from database_resources.commands import create_user_entity, create_event_entity,
 
 
 do_fill_data = False
-do_create_schema = False
+do_create_schema = True
 
 
 def init_schema():
@@ -35,6 +35,9 @@ def init_schema():
         #Interests
         "CREATE CONSTRAINT IF NOT EXISTS FOR (i:Interest) REQUIRE i.InterestID IS UNIQUE", # String
         "CREATE INDEX IF NOT EXISTS FOR (i:Interest) ON (i.Name);", # String
+
+        #user_shoutout
+        "CREATE INDEX IF NOT EXISTS ON :user_shoutout(DoNotify)",
     ]
 
     #Run initializing the schema here
@@ -42,8 +45,8 @@ def init_schema():
         for schema in schemas:
             try:
                 session.run(schema)
-            except:
-                print("Could not run schema " + schema)
+            except Exception as e:
+                print("Could not run schema " + schema + "\n\n" + str(e))
     return 1
 
 
