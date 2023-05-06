@@ -3,7 +3,7 @@ from database_resources.commands import create_user_entity, create_event_entity,
 
 
 do_fill_data = False
-do_create_schema = True
+do_create_schema = False
 
 
 def init_schema():
@@ -37,7 +37,31 @@ def init_schema():
         "CREATE INDEX IF NOT EXISTS FOR (i:Interest) ON (i.Name);", # String
 
         #user_shoutout
-        "CREATE INDEX IF NOT EXISTS ON :user_shoutout(DoNotify)",
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_shoutout]->() ON (r.DoNotify);", #Bool
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_shoutout]->() ON (r.MinutesToNotify);", #Int
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_shoutout]->() ON (r.DidNotify);", #Bool
+
+        #user_join
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_join]->() ON (r.DoNotify);", #Bool
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_join]->() ON (r.MinutesToNotify);", #Int
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_join]->() ON (r.DidNotify);", #Bool
+
+        #user_host
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_host]->() ON (r.DoNotify);", #Bool
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_host]->() ON (r.MinutesToNotify);", #Int
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_host]->() ON (r.DidNotify);", #Bool
+
+        #user_follow
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_follow]->() ON (r.EventNotify);", #Bool
+
+        #user_school
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_school]->() ON (r.NullAttribute)", #null
+
+        #event_tag
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:event_tag]->() ON (r.NullAttribute)", #null
+
+        #event_school
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:event_school]->() ON (r.NullAttribute)", #null
     ]
 
     #Run initializing the schema here
@@ -46,7 +70,7 @@ def init_schema():
             try:
                 session.run(schema)
             except Exception as e:
-                print("Could not run schema " + schema + "\n\n" + str(e))
+                print("\n\n" + str(e))
     return 1
 
 

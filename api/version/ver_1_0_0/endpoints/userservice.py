@@ -340,7 +340,7 @@ async def user_join_update(request: Request) -> JSONResponse:
             if did_join:
                 session.run(
                     """MATCH (u:User{UserID : $user_id}),(e:Event{EventID: $event_id}) 
-                    CREATE (u)-[r:user_join]->(e)""",
+                    MERGE (u)-[r:user_join]->(e)""",
                     parameters={
                         "user_id": user_id,
                         "event_id": event_id,
@@ -420,7 +420,7 @@ async def user_shoutout_update(request: Request) -> JSONResponse:
             if did_shoutout:
                 session.run(
                     """MATCH (u:User{UserID : $user_id}),(e:Event{EventID: $event_id})
-                    CREATE (u)-[r:user_shoutout]->(e)""",
+                    MERGE (u)-[r:user_shoutout]->(e)""",
                     parameters={
                         "user_id": user_id,
                         "event_id": event_id,
