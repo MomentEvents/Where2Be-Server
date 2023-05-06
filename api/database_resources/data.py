@@ -1,9 +1,9 @@
 from cloud_resources.moment_neo4j import get_neo4j_session
 from database_resources.commands import create_user_entity, create_event_entity, create_interest_entity, create_school_entity
 
-
-do_fill_data = False
-do_create_schema = False
+do_reset_db = False # PLEASE FOR THE LOVE OF GOD DO NOT SET THIS TO TRUE ON PROD
+do_fill_dummy_data = False
+do_create_schema = True
 
 
 def init_schema():
@@ -88,10 +88,17 @@ def fill_data():
     "Nerdy Event", "Nerds only", "Geisel", "Public", [interest2_id], "2024-02-20 13:00:00", "2024-02-20 13:30:00")
     return 1
 
+def reset_db():
+    with get_neo4j_session() as session:
+        session.run("""MATCH (n)
+            DETACH DELETE n""")
+    return 1
+
 def init_db():
+    if do_reset_db is True:
+        reset_db()
     if do_create_schema is True:
         init_schema()
-
-    if do_fill_data is True:
+    if do_fill_dummy_data is True:
         fill_data()
 

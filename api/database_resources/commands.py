@@ -74,9 +74,9 @@ def create_user_entity(display_name: str, username: str, email: str, password: s
 
         return user_access_token
  
-def create_event_entity(user_access_token: str, event_image: str, title: str, description: str, location: str, visibility: str, interest_ids: [str], start_date_time: str, end_date_time: str):
-    start_date_time = parser.parse(start_date_time)
-    end_date_time = None if end_date_time is None else parser.parse(end_date_time)
+def create_event_entity(user_access_token: str, event_image: str, title: str, description: str, location: str, visibility: str, interest_ids: [str], start_date_time_string, end_date_time_string):
+    start_date_time = parser.parse(start_date_time_string)
+    end_date_time = None if end_date_time_string is None else parser.parse(end_date_time_string)
     title = title.strip()
     location = location.strip()
     event_id = secrets.token_urlsafe()
