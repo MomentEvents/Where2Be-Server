@@ -72,9 +72,9 @@ async def get_using_user_access_token(request: Request) -> JSONResponse:
             "user_id": data["UserID"],
             "display_name": data["DisplayName"],
             "username": data["Username"],
-            "email": data["Email"],
+            "email": data.get("Email", None),
             "picture": data["Picture"],
-            "verified_organization": data["VerifiedOrganization"] or False,
+            "verified_organization": data.get("VerifiedOrganization", False)
         }
 
         return JSONResponse(user_data)
@@ -127,7 +127,7 @@ async def get_using_user_id(request: Request) -> JSONResponse:
             "display_name": data["DisplayName"],
             "username": data["Username"],
             "picture": data["Picture"],
-            "verified_organization": data["VerifiedOrganization"] or False,
+            "verified_organization": data.get("VerifiedOrganization", False),
         }
 
         return JSONResponse(user_data)
@@ -287,7 +287,7 @@ async def get_event_host(request: Request) -> JSONResponse:
             "display_name": data["DisplayName"],
             "username": data["Username"],
             "picture": data["Picture"],
-            "verified_organization": data["VerifiedOrganization"] or False,
+            "verified_organization": data.get("VerifiedOrganization", False),
         }
 
         return JSONResponse(user_data)
