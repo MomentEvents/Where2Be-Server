@@ -6,7 +6,6 @@ from starlette.responses import JSONResponse
 from starlette.responses import Response
 from starlette.routing import Route
 
-from fastapi_utils.timing import record_timing
 
 from datetime import datetime
 import bcrypt
@@ -16,14 +15,14 @@ from cloud_resources.moment_neo4j import get_neo4j_session
 from version.ver_1_0_0.auth import is_real_user
 
 import platform
-from version.ver_1_0_0.auth import is_requester_privileged_for_user, is_event_formatted, error_handler
+from version.ver_1_0_0.auth import is_requester_privileged_for_user, is_event_formatted
 
 
 if platform.system() == "Windows":
     from asyncio.windows_events import NULL
 
 
-@error_handler
+ 
 async def get_all_schools(request: Request) -> JSONResponse:
     """
     Description: Gets all of the schools within the database
@@ -47,7 +46,6 @@ async def get_all_schools(request: Request) -> JSONResponse:
             ORDER BY toLower(s.Abbreviation + s.Name)""",
         )
 
-        record_timing(request, note="request time")
 
         school_array = []
         for record in result:
@@ -67,7 +65,7 @@ async def get_all_schools(request: Request) -> JSONResponse:
         return JSONResponse(school_array)
 
 
-@error_handler
+ 
 async def get_school(request: Request) -> JSONResponse:
     """
     Description: Gets a user {user_id}’s school.
@@ -101,7 +99,6 @@ async def get_school(request: Request) -> JSONResponse:
             },
         )
 
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()
@@ -122,7 +119,7 @@ async def get_school(request: Request) -> JSONResponse:
         return JSONResponse(school_data)
 
 
-@error_handler
+ 
 async def get_user_school(request: Request) -> JSONResponse:
     """
     Description: Gets a user {user_id}’s school.
@@ -154,7 +151,6 @@ async def get_user_school(request: Request) -> JSONResponse:
             },
         )
 
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()
@@ -175,7 +171,7 @@ async def get_user_school(request: Request) -> JSONResponse:
         return JSONResponse(school_data)
 
 
-@error_handler
+ 
 async def get_user_access_token_school(request: Request) -> JSONResponse:
 
     user_access_token = request.path_params["user_access_token"]
@@ -195,7 +191,6 @@ async def get_user_access_token_school(request: Request) -> JSONResponse:
             },
         )
 
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()
@@ -216,7 +211,7 @@ async def get_user_access_token_school(request: Request) -> JSONResponse:
         return JSONResponse(school_data)
 
 
-@error_handler
+ 
 @is_requester_privileged_for_user
 async def update_user_school(request: Request) -> JSONResponse:
     """
@@ -254,7 +249,6 @@ async def update_user_school(request: Request) -> JSONResponse:
             parameters={"user_id": user_id, "school_id": school_id},
         )
 
-        record_timing(request, note="request time")
 
         # get the first element of object
         record = result.single()

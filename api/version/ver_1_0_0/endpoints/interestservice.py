@@ -5,7 +5,6 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from starlette.routing import Route
 
-from fastapi_utils.timing import record_timing
 
 from datetime import datetime
 import bcrypt
@@ -40,7 +39,6 @@ async def get_all_interests(request: Request) -> JSONResponse:
             ORDER BY toLower(i.Name)""",
         )
 
-        record_timing(request, note="request time")
 
         interest_array = []
         for record in result:
@@ -93,7 +91,6 @@ async def get_all_interests(request: Request) -> JSONResponse:
 #             },
 #         )
 
-#         record_timing(request, note="request time")
 
 #         # get the first element of object
 #         record = result.single()
@@ -146,7 +143,6 @@ async def get_all_interests(request: Request) -> JSONResponse:
 #             parameters={"user_id": user_id, "user_access_token": user_access_token},
 #         )
 
-#         record_timing(request, note="request time")
 
 #         interest_array = []
 #         for record in result:
@@ -210,7 +206,6 @@ async def get_all_interests(request: Request) -> JSONResponse:
 #             },
 #         )
 
-#         record_timing(request, note="request time")
 
 #         # get the first element of object
 #         record = result.single()

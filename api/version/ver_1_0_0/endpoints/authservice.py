@@ -4,9 +4,8 @@ from starlette.responses import JSONResponse
 from starlette.responses import Response
 from starlette.routing import Route
 
-from fastapi_utils.timing import record_timing
 
-from version.ver_1_0_0.auth import is_requester_privileged, error_handler, is_user_formatted
+from version.ver_1_0_0.auth import is_requester_privileged, is_user_formatted
 from helpers import parse_request_data
 
 import datetime
@@ -18,7 +17,7 @@ from cloud_resources.moment_s3 import get_bucket_url
 import random
 
 
-@error_handler
+ 
 async def get_token_username(request: Request) -> JSONResponse:
     """
     Description: Send a username and password and returns a user_access_token attached to the associated user object
@@ -52,8 +51,6 @@ async def get_token_username(request: Request) -> JSONResponse:
             parameters={"username": username},
         )
 
-        record_timing(request, note="request time")
-
         # get the first element of object
         record = result.single()
 
@@ -74,7 +71,7 @@ async def get_token_username(request: Request) -> JSONResponse:
         return JSONResponse(user_access_token)
 
 
-@error_handler
+ 
 @is_user_formatted
 async def create_user(request: Request) -> JSONResponse:
     """
@@ -131,7 +128,6 @@ async def create_user(request: Request) -> JSONResponse:
             "MATCH (u:User {Username: $username}) RETURN u",
             parameters={"username": username},
         )
-        record_timing(request, note="request username time")
         record = result.single()
         if record != None:
             username_exists = True
@@ -178,7 +174,7 @@ async def create_user(request: Request) -> JSONResponse:
         return JSONResponse({"user_access_token": user_access_token})
 
 
-@error_handler
+ 
 async def change_password(request: Request) -> JSONResponse:
     """
     Description: Changes the password for an account.
@@ -243,7 +239,7 @@ async def change_password(request: Request) -> JSONResponse:
         return Response(status_code=200, content="Changed password")
 
 
-@error_handler
+ 
 async def check_if_user_is_admin(request: Request) -> JSONResponse:
 
     body = await request.json()

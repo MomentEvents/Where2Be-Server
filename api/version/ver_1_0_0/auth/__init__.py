@@ -7,7 +7,6 @@ from version.ver_1_0_0.auth.permissions import is_user_formatted
 from version.ver_1_0_0.auth.permissions import is_event_formatted
 from version.ver_1_0_0.auth.permissions import is_picture_formatted
 from version.ver_1_0_0.auth.permissions import is_valid_user_access_token
-from version.ver_1_0_0.auth.permissions import error_handler
 
 __all__ = [
     "is_real_user",
@@ -19,5 +18,4 @@ __all__ = [
     "is_event_formatted",
     "is_picture_formatted",
     "is_valid_user_access_token",
-    "error_handler",
 ]

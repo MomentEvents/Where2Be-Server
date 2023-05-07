@@ -22,21 +22,6 @@ admin_user_access_tokens = {"ogzccTkpufyNJI_8uUxus1YJHnDVo6lKPdEaa5dZqJQ",
                             }
 
 
-def error_handler(func):
-    @wraps(func)
-    async def wrapper(request: Request) -> JSONResponse:
-
-        if IS_DEBUG:
-            return await func(request)
-
-        try:
-            return await func(request)
-        except:
-            return Response(status_code=500, content="Internal server error occurred")
-
-    return wrapper
-
-
 def is_valid_user_access_token(func):
     @wraps(func)
     async def wrapper(request: Request) -> JSONResponse:

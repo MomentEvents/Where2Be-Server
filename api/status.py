@@ -3,6 +3,7 @@ from starlette.responses import JSONResponse
 from starlette.responses import Response
 from starlette.routing import Route
 from helpers import parse_request_data
+from utils.models import Problem
 
 async def get_health(request: Request) -> JSONResponse:
     return Response(status_code=200, content="Moment server is healthy")

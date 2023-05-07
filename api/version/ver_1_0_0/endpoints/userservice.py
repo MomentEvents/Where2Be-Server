@@ -5,14 +5,13 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from starlette.routing import Route
 
-from fastapi_utils.timing import record_timing
 
 from datetime import datetime
 import bcrypt
 import secrets
 
 from cloud_resources.moment_neo4j import get_neo4j_session
-from version.ver_1_0_0.auth import is_real_user, is_requester_privileged_for_user, is_user_formatted, is_valid_user_access_token, error_handler
+from version.ver_1_0_0.auth import is_real_user, is_requester_privileged_for_user, is_user_formatted, is_valid_user_access_token
 
 import platform
 
@@ -27,7 +26,6 @@ import json
 from cloud_resources.moment_s3 import upload_base64_image
 
 
-@error_handler
 async def get_using_user_access_token(request: Request) -> JSONResponse:
     """
     Description: Gets the user information with the associated user_access_token {user_access_token}. Returns error if no results found.
@@ -59,7 +57,6 @@ async def get_using_user_access_token(request: Request) -> JSONResponse:
             },
         )
 
-        record_timing(request, note="request time")
 
         record = result.single()
 
@@ -80,7 +77,6 @@ async def get_using_user_access_token(request: Request) -> JSONResponse:
         return JSONResponse(user_data)
 
 
-@error_handler
 async def get_using_user_id(request: Request) -> JSONResponse:
     """
     Description: Gets the user information with the associated user_id {user_id}. Returns error if no results found.
@@ -113,7 +109,6 @@ async def get_using_user_id(request: Request) -> JSONResponse:
             },
         )
 
-        record_timing(request, note="get_using_user_id")
 
         record = result.single()
 
@@ -132,8 +127,6 @@ async def get_using_user_id(request: Request) -> JSONResponse:
 
         return JSONResponse(user_data)
 
-
-@error_handler
 @is_user_formatted
 @is_requester_privileged_for_user
 async def update_using_user_id(request: Request) -> JSONResponse:
@@ -166,6 +159,7 @@ async def update_using_user_id(request: Request) -> JSONResponse:
     else:
         picture = None
 
+    
     username = username.lower()
 
     username = username.strip()
@@ -204,8 +198,6 @@ async def update_using_user_id(request: Request) -> JSONResponse:
         }
         return JSONResponse(updated_user)
 
-
-@error_handler
 @is_requester_privileged_for_user
 async def delete_using_user_id(request: Request) -> JSONResponse:
     """
@@ -236,7 +228,6 @@ async def delete_using_user_id(request: Request) -> JSONResponse:
     return Response(status_code=200, content="User and events deleted")
 
 
-@error_handler
 async def get_event_host(request: Request) -> JSONResponse:
     """
     Description: Gets the host from {event_id}.
@@ -273,7 +264,6 @@ async def get_event_host(request: Request) -> JSONResponse:
             },
         )
 
-        record_timing(request, note="request time")
 
         record = result.single()
 
@@ -292,8 +282,6 @@ async def get_event_host(request: Request) -> JSONResponse:
 
         return JSONResponse(user_data)
 
-
-@error_handler
 @is_requester_privileged_for_user
 async def user_join_update(request: Request) -> JSONResponse:
     """
@@ -358,7 +346,7 @@ async def user_join_update(request: Request) -> JSONResponse:
             if did_join:
                 session.run(
                     """MATCH (u:User{UserID : $user_id}),(e:Event{EventID: $event_id}) 
-                    CREATE (u)-[r:user_join]->(e)""",
+                    MERGE (u)-[r:user_join]->(e)""",
                     parameters={
                         "user_id": user_id,
                         "event_id": event_id,
@@ -372,8 +360,6 @@ async def user_join_update(request: Request) -> JSONResponse:
                     content={"message": "User already did not join"}, status_code=200
                 )
 
-
-@error_handler
 @is_requester_privileged_for_user
 async def user_shoutout_update(request: Request) -> JSONResponse:
     """
@@ -420,8 +406,7 @@ async def user_shoutout_update(request: Request) -> JSONResponse:
         if record != None:
             if did_shoutout:
                 return JSONResponse(
-                    content={
-                        "message": "User already gave a shoutout to the event"},
+                    content={"message": "User already gave a shoutout to the event"},
                     status_code=200,
                 )
             else:
@@ -441,7 +426,7 @@ async def user_shoutout_update(request: Request) -> JSONResponse:
             if did_shoutout:
                 session.run(
                     """MATCH (u:User{UserID : $user_id}),(e:Event{EventID: $event_id})
-                    CREATE (u)-[r:user_shoutout]->(e)""",
+                    MERGE (u)-[r:user_shoutout]->(e)""",
                     parameters={
                         "user_id": user_id,
                         "event_id": event_id,
@@ -458,7 +443,6 @@ async def user_shoutout_update(request: Request) -> JSONResponse:
                 )
 
 
-@error_handler
 @is_valid_user_access_token
 async def get_all_school_users(request: Request) -> JSONResponse:
 
@@ -466,7 +450,7 @@ async def get_all_school_users(request: Request) -> JSONResponse:
     Description: Gets all of the users associated with a school of $school_id
     params:
         user_access_token: string
-
+    
     return:
 
         [
@@ -479,7 +463,7 @@ async def get_all_school_users(request: Request) -> JSONResponse:
     """
 
     school_id = request.path_params["school_id"]
-
+    
     body = await request.json()
 
     user_access_token = body.get("user_access_token")
@@ -492,7 +476,7 @@ async def get_all_school_users(request: Request) -> JSONResponse:
     with get_neo4j_session() as session:
 
         result = session.run(
-            """MATCH ((u:User)-[:user_school]->(s:School{SchoolID: $school_id}))
+                """MATCH ((u:User)-[:user_school]->(s:School{SchoolID: $school_id}))
             RETURN {
                 user_id: u.UserID,
                 display_name: u.DisplayName,
@@ -519,12 +503,12 @@ async def get_all_school_users(request: Request) -> JSONResponse:
                 "display_name": display_name,
                 "username": username,
                 "picture": picture
-            })
+                })
+
 
         return JSONResponse(
             users
         )
-
 
 async def search_users(request: Request) -> JSONResponse:
 
@@ -631,11 +615,11 @@ routes = [
         methods=["UPDATE"],
     ),
     Route("/api_ver_1.0.0/user/school_id/{school_id}",
-          get_all_school_users,
-          methods=["POST"],
-          ),
+        get_all_school_users,
+        methods=["POST"],
+    ),
     Route("/api_ver_1.0.0/user/school_id/{school_id}/search",
           search_users,
           methods=["POST"],
-          ),
+    ),
 ]
