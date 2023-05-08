@@ -1,3 +1,3 @@
-# Moment-Server-Python
+# Moment-Server
 
-Check `api_requirements.txt` to install dependencies
+Run `docker-compose up`
