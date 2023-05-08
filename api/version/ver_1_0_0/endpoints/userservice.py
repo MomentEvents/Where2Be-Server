@@ -573,6 +573,34 @@ async def search_users(request: Request) -> JSONResponse:
             users
         )
 
+async def user_follow_update(request: Request) -> JSONResponse:
+    """
+    body of user_access_token
+    path params of user_id
+    """
+
+    user_id = request.path_params["user_id"]
+
+    body = await request.json()
+
+    user_access_token = body.get("user_access_token")
+
+    try:
+        assert all((user_access_token, user_id))
+    except AssertionError:
+        return Response(status_code=400, content="Incomplete body")
+
+    with get_neo4j_session() as session:
+
+        session.run(
+            """MATCH (u1:User{UserAccessToken: $user_access_token})-[r:user_follow]->(u2:User{UserID: $user_id})
+                    DELETE r""",
+                    parameters={
+                        "user_access_token": user_access_token,
+                        "user_id": user_id,
+                    },
+                )
+
 routes = [
     Route(
         "/api_ver_1.0.0/user/user_access_token/{user_access_token}",
@@ -617,4 +645,8 @@ routes = [
           search_users,
           methods=["POST"],
     ),
+    Route("/api_ver_1.0.0/user/{user_id}/follow",
+          user_follow_update,
+          methods=["UPDATE"],
+    )
 ]

@@ -5,6 +5,8 @@ from starlette.routing import Route
 
 import re
 from better_profanity import profanity
+import socket
+import ipaddress
 
 async def parse_request_data(request: Request):
 
@@ -45,3 +47,8 @@ def contains_url(string):
 
 def contains_profanity(string):
     return profanity.contains_profanity("hi")
+
+def get_ip_address():
+    hostname = socket.gethostname()
+    ip_address = socket.gethostbyname(hostname)
+    return ip_address

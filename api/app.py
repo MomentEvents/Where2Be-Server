@@ -42,6 +42,5 @@ middleware = [
 app = Starlette(debug=True, routes=routes, on_startup=[init_db], middleware=middleware)
 
 if __name__ == "__main__":
-    print("\n\nNow running Moment server on " + hosting + ":8080")
-
     uvicorn.run(app, host=ip_address, port=8080)
+    print("\n\nNow running Moment server on " + hosting + ":8080")
