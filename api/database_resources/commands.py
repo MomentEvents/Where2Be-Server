@@ -9,7 +9,7 @@ from cloud_resources.moment_s3 import get_bucket_url
 
 from utils.models import Problem
 
-def create_user_entity(display_name: str, username: str, email: str, password: str, verified_organization: bool, school_id: str):
+def create_user_entity(display_name: str, username: str, email: str, password: str, verified_organization: bool, school_id: str, is_verified_org: bool):
     username = username.lower()
     username = username.strip()
     display_name = display_name.strip()
@@ -56,7 +56,7 @@ def create_user_entity(display_name: str, username: str, email: str, password: s
         user_id = secrets.token_urlsafe()
 
         result = session.run(
-            """CREATE (u:User {UserID: $user_id, Username: $username, Picture:$picture, DisplayName:$display_name, PasswordHash:$hashed_password, UserAccessToken:$user_access_token})
+            """CREATE (u:User {UserID: $user_id, Username: $username, Picture:$picture, DisplayName:$display_name, PasswordHash:$hashed_password, UserAccessToken:$user_access_token, VerifiedOrganization:$is_verified_org})
             WITH u
             MATCH(n:School{SchoolID: $school_id})
             CREATE (u)-[r:user_school]->(n)
@@ -69,6 +69,7 @@ def create_user_entity(display_name: str, username: str, email: str, password: s
                 "school_id": school_id,
                 "user_access_token": user_access_token,
                 "user_id": user_id,
+                "is_verified_org": is_verified_org,
             },
         )
 
@@ -117,16 +118,18 @@ def create_event_entity(user_access_token: str, event_image: str, title: str, de
         )
 
     return event_id
-def create_school_entity(school_id: str, name: str, abbreviation: str):
+def create_school_entity(school_id: str, name: str, abbreviation: str, latitude: float, longitude: float):
     with get_neo4j_session() as session:
 
         result = session.run(
-            """CREATE (s:School {SchoolID: $school_id, Name: $name, Abbreviation: $abbreviation})
+            """CREATE (s:School {SchoolID: $school_id, Name: $name, Abbreviation: $abbreviation, Latitude: $latitude, Longitude: $longitude})
             RETURN s""",
             parameters={
                 "school_id": school_id,
                 "name": name,
                 "abbreviation": abbreviation,
+                "latitude": latitude,
+                "longitude": longitude,
             },
         )
 

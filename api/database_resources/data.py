@@ -1,8 +1,8 @@
 from cloud_resources.moment_neo4j import get_neo4j_session
 from database_resources.commands import create_user_entity, create_event_entity, create_interest_entity, create_school_entity
 
-do_reset_db = False # PLEASE FOR THE LOVE OF GOD DO NOT SET THIS TO TRUE ON PROD
-do_fill_dummy_data = False
+do_reset_db = True # PLEASE FOR THE LOVE OF GOD DO NOT SET THIS TO TRUE ON PROD
+do_fill_dummy_data = True
 do_create_schema = True
 
 
@@ -75,13 +75,13 @@ def init_schema():
 
 
 def fill_data():
-    school1_id = create_school_entity("test_univ", "Test University", "TU")
+    school1_id = create_school_entity("test_univ", "Test University", "TU", 32.8801, 117.2340)
     interest1_id = create_interest_entity("academic", "Academic")
     interest2_id = create_interest_entity("athletic", "Athletic")
     interest3_id = create_interest_entity("social", "Social")
     interest4_id = create_interest_entity("professional", "Professional")
-    user_access_token_1 = create_user_entity("Test User 1", "test1", "test1@ucsd.edu", "testuser1", False, school1_id)
-    user_access_token_2 = create_user_entity("Test User 2", "test2", "test2@ucsd.edu", "testuser2", False, school1_id)
+    user_access_token_1 = create_user_entity("Test User 1", "test1", "test1@ucsd.edu", "testuser1", False, school1_id, True)
+    user_access_token_2 = create_user_entity("Test User 2", "test2", "test2@ucsd.edu", "testuser2", False, school1_id, False)
     create_event_entity(user_access_token_1, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Frog_on_palm_frond.jpg/1024px-Frog_on_palm_frond.jpg",
     "Nature", "Look at my description :D", "La Jolla Shores", "Public", [interest1_id], "2023-09-20 17:00:00", "2024-09-20 18:00:00")
     create_event_entity(user_access_token_1, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Frog_on_palm_frond.jpg/1024px-Frog_on_palm_frond.jpg",

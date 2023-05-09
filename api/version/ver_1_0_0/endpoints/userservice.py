@@ -68,8 +68,9 @@ async def get_using_user_access_token(request: Request) -> JSONResponse:
             "user_id": data["UserID"],
             "display_name": data["DisplayName"],
             "username": data["Username"],
-            "email": data["Email"],
+            "email": data.get("Email", None),
             "picture": data["Picture"],
+            "verified_organization": data.get("VerifiedOrganization", False),
         }
 
         return JSONResponse(user_data)
@@ -119,6 +120,7 @@ async def get_using_user_id(request: Request) -> JSONResponse:
             "display_name": data["DisplayName"],
             "username": data["Username"],
             "picture": data["Picture"],
+            "verified_organization": data.get("VerifiedOrganization", False),
         }
 
         return JSONResponse(user_data)
@@ -272,6 +274,7 @@ async def get_event_host(request: Request) -> JSONResponse:
             "display_name": data["DisplayName"],
             "username": data["Username"],
             "picture": data["Picture"],
+            "verified_organization": data.get("VerifiedOrganization", False),
         }
 
         return JSONResponse(user_data)
@@ -543,7 +546,8 @@ async def search_users(request: Request) -> JSONResponse:
                 user_id: u.UserID,
                 display_name: u.DisplayName,
                 username: u.Username,
-                picture: u.Picture
+                picture: u.Picture,
+                verified_organization: coalesce(u.VerifiedOrganization, false)
             } as user
             ORDER BY toLower(u.DisplayName)
             LIMIT 20""",
@@ -561,12 +565,13 @@ async def search_users(request: Request) -> JSONResponse:
             display_name = user_data['display_name']
             username = user_data['username']
             picture = user_data['picture']
-
+            verified_organization = user_data['verified_organization']
             users.append({
                 "user_id": user_id,
                 "display_name": display_name,
                 "username": username,
-                "picture": picture
+                "picture": picture,
+                "verified_organization": verified_organization,
             })
 
         return JSONResponse(
