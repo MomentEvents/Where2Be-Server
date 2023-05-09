@@ -151,12 +151,13 @@ async def get_event(request: Request) -> JSONResponse:
 
         # check if email exists
         result = session.run(
-                """MATCH (event:Event{EventID : $event_id}), (user:User{UserAccessToken:$user_access_token}) 
+                """MATCH (event:Event{EventID : $event_id}), (user:User{UserAccessToken:$user_access_token}), (event)<-[:user_host]-(host:User)
                 WITH (event),
                     size ((event)<-[:user_join]-()) as num_joins,
                     size ((event)<-[:user_shoutout]-()) as num_shoutouts,
                     exists ((event)<-[:user_join]-(user)) as user_join,
-                    exists ((event)<-[:user_shoutout]-(user)) as user_shoutout
+                    exists ((event)<-[:user_shoutout]-(user)) as user_shoutout,
+                    host.UserID as host_user_id
                 RETURN{
                     event_id: event.EventID,
                     title: event.Title,
@@ -169,7 +170,8 @@ async def get_event(request: Request) -> JSONResponse:
                     num_joins: num_joins,
                     num_shoutouts: num_shoutouts,
                     user_join: user_join,
-                    user_shoutout: user_shoutout
+                    user_shoutout: user_shoutout,
+                    host_user_id: host_user_id
                 }""",
             parameters={
                 "event_id": event_id,
@@ -201,6 +203,7 @@ async def get_event(request: Request) -> JSONResponse:
             "num_shoutouts": data["num_shoutouts"],
             "user_join": data["user_join"],
             "user_shoutout": data["user_shoutout"],
+            "host_user_id": data["host_user_id"],
         }
 
         return JSONResponse(event_data)
@@ -350,38 +353,11 @@ async def get_events_categorized(request: Request) -> JSONResponse:
 
         if user_access_token == None:
             result = session.run(
-                """
-                MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id})
+                """MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(e)<-[:user_host]-(host:User)
                 WITH DISTINCT e,
                     size( (e)<-[:user_join]-() ) as num_joins,
-                    size( (e)<-[:user_shoutout]-() ) as num_shoutouts
-                WHERE e.StartDateTime >= datetime() AND e.StartDateTime <= datetime() + duration({days: 3})
-                WITH 
-                    { 
-                        event_id: e.EventID,
-                        title: e.Title,
-                        picture: e.Picture,
-                        description: e.Description,
-                        location: e.Location,
-                        start_date_time: e.StartDateTime,
-                        end_date_time: e.EndDateTime,
-                        visibility: e.Visibility,
-                        num_joins: num_joins,
-                        num_shoutouts: num_shoutouts,
-                        user_join: False,
-                        user_shoutout: False 
-                    } as event
-                ORDER BY num_joins+num_shoutouts DESC
-                LIMIT 3
-                WITH collect(event) as events
-                RETURN apoc.map.setKey({}, "Featured", events) as event_dict
-
-                UNION
-
-                MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id})
-                WITH DISTINCT e, 
-                    size( (e)<-[:user_join]-() ) as num_joins,
-                    size( (e)<-[:user_shoutout]-() ) as num_shoutouts
+                    size( (e)<-[:user_shoutout]-() ) as num_shoutouts,
+                    host.UserID as host_user_id
                 WHERE (datetime() < e.EndDateTime) AND (datetime() > e.StartDateTime)
                 WITH
                     { 
@@ -396,7 +372,8 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                         num_joins: num_joins,
                         num_shoutouts: num_shoutouts,
                         user_join: False,
-                        user_shoutout: False 
+                        user_shoutout: False,
+                        host_user_id: host_user_id
                     } as event
                 ORDER BY num_joins+num_shoutouts DESC
                 LIMIT 20
@@ -405,26 +382,28 @@ async def get_events_categorized(request: Request) -> JSONResponse:
 
                 UNION
                 
-                MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}), (e)-[:event_tag]->(i:Interest)
+                MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}), (e)-[:event_tag]->(i:Interest), (e)<-[:user_host]-(host:User)
                 WITH DISTINCT e, i,
                     size( (e)<-[:user_join]-() ) as num_joins,
-                    size( (e)<-[:user_shoutout]-() ) as num_shoutouts
+                    size( (e)<-[:user_shoutout]-() ) as num_shoutouts,
+                    host.UserID as host_user_id
                 WHERE e.StartDateTime >= datetime()
                 WITH i.Name as interest,
-                    { 
-                        event_id: e.EventID,
-                        title: e.Title,
-                        picture: e.Picture,
-                        description: e.Description,
-                        location: e.Location,
-                        start_date_time: e.StartDateTime,
-                        end_date_time: e.EndDateTime,
-                        visibility: e.Visibility,
-                        num_joins: num_joins,
-                        num_shoutouts: num_shoutouts,
-                        user_join: False,
-                        user_shoutout: False 
-                    } as event
+                { 
+                    event_id: e.EventID,
+                    title: e.Title,
+                    picture: e.Picture,
+                    description: e.Description,
+                    location: e.Location,
+                    start_date_time: e.StartDateTime,
+                    end_date_time: e.EndDateTime,
+                    visibility: e.Visibility,
+                    num_joins: num_joins,
+                    num_shoutouts: num_shoutouts,
+                    user_join: False,
+                    user_shoutout: False,
+                    host_user_id: host_user_id
+                } as event
                 ORDER BY e.StartDateTime
                 WITH interest, collect(event) as events
                 ORDER BY interest
@@ -432,46 +411,19 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                 """,
                 parameters={
                     "school_id": school_id,
+                    "user_access_token": user_access_token
                 },
             )
         else:
             result = session.run(
                 """
-                MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(u:User{UserAccessToken: $user_access_token})
+                MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(u:User{UserAccessToken: $user_access_token}),(e)<-[:user_host]-(host:User)
                 WITH DISTINCT e,
                     size( (e)<-[:user_join]-() ) as num_joins,
                     size( (e)<-[:user_shoutout]-() ) as num_shoutouts,
                     exists((u)-[:user_join]->(e)) as user_join,
-                    exists((u)-[:user_shoutout]->(e)) as user_shoutout
-                WHERE e.StartDateTime >= datetime() AND e.StartDateTime <= datetime() + duration({days: 3})
-                WITH 
-                    { 
-                        event_id: e.EventID,
-                        title: e.Title,
-                        picture: e.Picture,
-                        description: e.Description,
-                        location: e.Location,
-                        start_date_time: e.StartDateTime,
-                        end_date_time: e.EndDateTime,
-                        visibility: e.Visibility,
-                        num_joins: num_joins,
-                        num_shoutouts: num_shoutouts,
-                        user_join: user_join,
-                        user_shoutout: user_shoutout 
-                    } as event
-                ORDER BY num_joins+num_shoutouts DESC
-                LIMIT 3
-                WITH collect(event) as events
-                RETURN apoc.map.setKey({}, "Featured", events) as event_dict
-
-                UNION
-
-                MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(u:User{UserAccessToken: $user_access_token})
-                WITH DISTINCT e, 
-                    size( (e)<-[:user_join]-() ) as num_joins,
-                    size( (e)<-[:user_shoutout]-() ) as num_shoutouts,
-                    exists((u)-[:user_join]->(e)) as user_join,
-                    exists((u)-[:user_shoutout]->(e)) as user_shoutout
+                    exists((u)-[:user_shoutout]->(e)) as user_shoutout,
+                    host.UserID as host_user_id
                 WHERE (datetime() < e.EndDateTime) AND (datetime() > e.StartDateTime)
                 WITH
                     { 
@@ -486,7 +438,8 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                         num_joins: num_joins,
                         num_shoutouts: num_shoutouts,
                         user_join: user_join,
-                        user_shoutout: user_shoutout 
+                        user_shoutout: user_shoutout,
+                        host_user_id: host_user_id
                     } as event
                 ORDER BY num_joins+num_shoutouts DESC
                 LIMIT 20
@@ -495,28 +448,30 @@ async def get_events_categorized(request: Request) -> JSONResponse:
 
                 UNION
                 
-                MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}), (e)-[:event_tag]->(i:Interest),(u:User{UserAccessToken: $user_access_token})
+                MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}), (e)-[:event_tag]->(i:Interest), (u:User{UserAccessToken: $user_access_token}), (e)<-[:user_host]-(host:User)
                 WITH DISTINCT e, i,
                     size( (e)<-[:user_join]-() ) as num_joins,
                     size( (e)<-[:user_shoutout]-() ) as num_shoutouts,
                     exists((u)-[:user_join]->(e)) as user_join,
-                    exists((u)-[:user_shoutout]->(e)) as user_shoutout
+                    exists((u)-[:user_shoutout]->(e)) as user_shoutout,
+                    host.UserID as host_user_id
                 WHERE e.StartDateTime >= datetime()
                 WITH i.Name as interest,
-                    { 
-                        event_id: e.EventID,
-                        title: e.Title,
-                        picture: e.Picture,
-                        description: e.Description,
-                        location: e.Location,
-                        start_date_time: e.StartDateTime,
-                        end_date_time: e.EndDateTime,
-                        visibility: e.Visibility,
-                        num_joins: num_joins,
-                        num_shoutouts: num_shoutouts,
-                        user_join: user_join,
-                        user_shoutout: user_shoutout 
-                    } as event
+                { 
+                    event_id: e.EventID,
+                    title: e.Title,
+                    picture: e.Picture,
+                    description: e.Description,
+                    location: e.Location,
+                    start_date_time: e.StartDateTime,
+                    end_date_time: e.EndDateTime,
+                    visibility: e.Visibility,
+                    num_joins: num_joins,
+                    num_shoutouts: num_shoutouts,
+                    user_join: user_join,
+                    user_shoutout: user_shoutout,
+                    host_user_id: host_user_id
+                } as event
                 ORDER BY e.StartDateTime
                 WITH interest, collect(event) as events
                 ORDER BY interest
@@ -549,6 +504,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                     num_shoutouts = event_data['num_shoutouts']
                     user_join = event_data['user_join']
                     user_shoutout = event_data['user_shoutout']
+                    host_user_id = event_data['host_user_id']
 
                     if (event_id not in event_ids): # or (interest == "Featured" ):
 
@@ -567,7 +523,8 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                             'num_joins': num_joins,
                             'num_shoutouts': num_shoutouts,
                             'user_join': user_join,
-                            'user_shoutout': user_shoutout
+                            'user_shoutout': user_shoutout,
+                            'host_user_id': host_user_id,
                         })
 
                 if events!= []:
@@ -576,6 +533,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
         return JSONResponse(categorized_dict)
 
 
+# TO DELETE. PLEASE DELETE THIS FUNCTION AS IT WILL BE DEPRECATED
 async def get_events(request: Request) -> JSONResponse:
     """
     Description: Gets all events attached to a school of {school_id} 
@@ -667,7 +625,7 @@ async def get_events(request: Request) -> JSONResponse:
                 'num_joins': num_joins,
                 'num_shoutouts': num_shoutouts,
                 'user_join': user_join,
-                'user_shoutout': user_shoutout
+                'user_shoutout': user_shoutout,
             })
 
         return JSONResponse(events)
@@ -708,29 +666,37 @@ async def search_events(request: Request) -> JSONResponse:
     with get_neo4j_session() as session:
         # check if email exists
         result = session.run(
-            """MATCH (e:Event)-[:event_school]->(school: School{SchoolID: $school_id})
-            WITH DISTINCT e,
-                size( (e)<-[:user_join]-() ) as num_joins,
-                size( (e)<-[:user_shoutout]-() ) as num_shoutouts
-            WHERE e.StartDateTime >= datetime() AND (toLower(e.Title) CONTAINS toLower($query) OR toLower(e.Location) CONTAINS toLower($query))
-            RETURN { event_id: e.EventID,
-                    title: e.Title,
-                    picture: e.Picture,
-                    description: e.Description,
-                    location: e.Location,
-                    start_date_time: e.StartDateTime,
-                    end_date_time: e.EndDateTime,
-                    visibility: e.Visibility,
-                    num_joins: num_joins,
-                    num_shoutouts: num_shoutouts,
-                    user_join: False,
-                    user_shoutout: False } as event
-            ORDER BY toLower(e.Title)
-            LIMIT 20
-            """,
+    """
+    MATCH (e:Event)-[:event_school]->(school: School{SchoolID: $school_id})
+    MATCH (e)<-[:user_host]-(host:User)
+    MATCH (u:User{UserAccessToken: $user_access_token})
+    WITH DISTINCT e,
+        size((e)<-[:user_join]-()) as num_joins,
+        size((e)<-[:user_shoutout]-()) as num_shoutouts,
+        exists((u)-[:user_join]->(e)) as user_join,
+        exists((u)-[:user_shoutout]->(e)) as user_shoutout,
+        host.UserID as host_user_id
+    WHERE e.StartDateTime >= datetime() AND (toLower(e.Title) CONTAINS toLower($query) OR toLower(e.Location) CONTAINS toLower($query))
+    RETURN { event_id: e.EventID,
+            title: e.Title,
+            picture: e.Picture,
+            description: e.Description,
+            location: e.Location,
+            start_date_time: e.StartDateTime,
+            end_date_time: e.EndDateTime,
+            visibility: e.Visibility,
+            num_joins: num_joins,
+            num_shoutouts: num_shoutouts,
+            user_join: user_join,
+            user_shoutout: user_shoutout,
+            host_user_id: host_user_id } as event
+    ORDER BY toLower(e.Title)
+    LIMIT 20
+    """,
             parameters={
                 "school_id": school_id,
                 "query": query,
+                "user_access_token": user_access_token,
             },
         )
 
@@ -750,6 +716,7 @@ async def search_events(request: Request) -> JSONResponse:
             num_shoutouts = event_data['num_shoutouts']
             user_join = event_data['user_join']
             user_shoutout = event_data['user_shoutout']
+            host_user_id = event_data['host_user_id']
 
             events.append({
                 'event_id': event_id,
@@ -763,7 +730,8 @@ async def search_events(request: Request) -> JSONResponse:
                 'num_joins': num_joins,
                 'num_shoutouts': num_shoutouts,
                 'user_join': user_join,
-                'user_shoutout': user_shoutout
+                'user_shoutout': user_shoutout,
+                'host_user_id': host_user_id
             })
 
         return JSONResponse(events)
@@ -814,7 +782,8 @@ async def host_past(request: Request) -> JSONResponse:
                         num_joins: num_joins,
                         num_shoutouts: num_shoutouts,
                         user_join: user_join,
-                        user_shoutout: user_shoutout } as event
+                        user_shoutout: user_shoutout,
+                        host_user_id: $user_id } as event
                 ORDER BY e.StartDateTime DESC
                 LIMIT 20
                 """
@@ -874,8 +843,9 @@ async def host_future(request: Request) -> JSONResponse:
                         num_joins: num_joins,
                         num_shoutouts: num_shoutouts,
                         user_join: user_join,
-                        user_shoutout: user_shoutout } as event
-                ORDER BY e.StartDateTime
+                        user_shoutout: user_shoutout,
+                        host_user_id: $user_id } as event
+                ORDER BY e.StartDateTime DESC
                 LIMIT 20
                 """
 
@@ -913,12 +883,13 @@ async def join_past(request: Request) -> JSONResponse:
         Response(status_code=400, content="Incomplete body")
 
 
-    query = """MATCH ((e:Event)-[:user_join]-(u:User{UserID:$user_id}))
+    query = """MATCH ((e:Event)-[:user_join]-(u:User{UserID:$user_id})), ((host:User)-[:user_host]->(e))
                 WITH DISTINCT e,
                     size( (e)<-[:user_join]-() ) as num_joins,
                     size( (e)<-[:user_shoutout]-() ) as num_shoutouts,
                     exists((u)-[:user_join]->(e)) as user_join,
-                    exists((u)-[:user_shoutout]->(e)) as user_shoutout
+                    exists((u)-[:user_shoutout]->(e)) as user_shoutout,
+                    host.UserID as host_user_id
                 WHERE e.StartDateTime < datetime()
                 RETURN { event_id: e.EventID,
                         title: e.Title,
@@ -931,7 +902,8 @@ async def join_past(request: Request) -> JSONResponse:
                         num_joins: num_joins,
                         num_shoutouts: num_shoutouts,
                         user_join: user_join,
-                        user_shoutout: user_shoutout } as event
+                        user_shoutout: user_shoutout,
+                        host_user_id: host_user_id } as event
                 ORDER BY e.StartDateTime DESC
                 LIMIT 20
                 """
@@ -963,12 +935,13 @@ async def join_future(request: Request) -> JSONResponse:
     """
     user_id = request.path_params["user_id"]
 
-    query = """MATCH ((e:Event)-[:user_join]-(u:User{UserID:$user_id}))
+    query = """MATCH ((e:Event)-[:user_join]-(u:User{UserID:$user_id})), ((host:User)-[:user_host]->(e))
                 WITH DISTINCT e,
                     size( (e)<-[:user_join]-() ) as num_joins,
                     size( (e)<-[:user_shoutout]-() ) as num_shoutouts,
                     exists((u)-[:user_join]->(e)) as user_join,
-                    exists((u)-[:user_shoutout]->(e)) as user_shoutout
+                    exists((u)-[:user_shoutout]->(e)) as user_shoutout,
+                    host.UserID as host_user_id
                 WHERE e.StartDateTime >= datetime()
                 RETURN { event_id: e.EventID,
                         title: e.Title,
@@ -981,8 +954,9 @@ async def join_future(request: Request) -> JSONResponse:
                         num_joins: num_joins,
                         num_shoutouts: num_shoutouts,
                         user_join: user_join,
-                        user_shoutout: user_shoutout } as event
-                ORDER BY e.StartDateTime
+                        user_shoutout: user_shoutout,
+                        host_user_id: host_user_id } as event
+                ORDER BY e.StartDateTime DESC
                 LIMIT 20
                 """
 
@@ -1065,6 +1039,7 @@ def get_event_list_from_query(query, parameters):
             num_shoutouts = event_data['num_shoutouts']
             user_join = event_data['user_join']
             user_shoutout = event_data['user_shoutout']
+            host_user_id = event_data['host_user_id']
 
             events.append({
                 'event_id': event_id,
@@ -1078,7 +1053,8 @@ def get_event_list_from_query(query, parameters):
                 'num_joins': num_joins,
                 'num_shoutouts': num_shoutouts,
                 'user_join': user_join,
-                'user_shoutout': user_shoutout
+                'user_shoutout': user_shoutout,
+                'host_user_id': host_user_id
             })
             
         return JSONResponse(events)
