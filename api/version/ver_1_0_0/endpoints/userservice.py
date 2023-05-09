@@ -193,6 +193,7 @@ async def update_using_user_id(request: Request) -> JSONResponse:
             "display_name": data["DisplayName"],
             "username": data["Username"],
             "picture": data["Picture"],
+            "verified_org": data["VerifiedOrganization"],
         }
         return JSONResponse(updated_user)
 

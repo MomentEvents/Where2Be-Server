@@ -1,8 +1,8 @@
 from cloud_resources.moment_neo4j import get_neo4j_session
 from database_resources.commands import create_user_entity, create_event_entity, create_interest_entity, create_school_entity
 
-do_reset_db = True # PLEASE FOR THE LOVE OF GOD DO NOT SET THIS TO TRUE ON PROD
-do_fill_dummy_data = True
+do_reset_db = False # PLEASE FOR THE LOVE OF GOD DO NOT SET THIS TO TRUE ON PROD
+do_fill_dummy_data = False
 do_create_schema = True
 
 
