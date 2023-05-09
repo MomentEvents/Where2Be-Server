@@ -966,6 +966,56 @@ async def join_future(request: Request) -> JSONResponse:
 
     return get_event_list_from_query(query, parameters) 
 
+async def get_home_events(request: Request) -> JSONResponse:
+    # WIP
+    query = """MATCH (user:User {UserAccessToken: "A69EvWy6dLCNZW8V8M7LeEBqHItgbvoVZaUlt3ikAqI"})
+WITH user
+MATCH (user)-[:user_follow]->(followed:User)-[:user_host]->(event:Event)
+WHERE event.StartDateTime > datetime() AND event.StartDateTime < datetime() + duration({days: 14})
+WITH user, event, COUNT(event) as followedEvents
+WHERE NOT (user)-[:user_join]->(event)
+WITH user, COLLECT(event)[0..15] as followedAccountEvents, followedEvents
+MATCH (e:Event)
+WHERE e.StartDateTime > datetime() AND e.StartDateTime < datetime() + duration({days: 1000})
+WITH user, followedAccountEvents, e, followedEvents, SIZE((e)<-[:user_join]-()) as num_joins, SIZE((e)<-[:user_shoutout]-()) as num_shoutouts
+WHERE NOT (user)-[:user_join]->(e)
+WITH user, followedAccountEvents, e, followedEvents, num_joins, num_shoutouts, num_joins + num_shoutouts as popularity
+ORDER BY popularity DESC
+WITH user, followedAccountEvents, followedEvents, COLLECT(e)[0..30] as top30Events
+WITH user, followedAccountEvents + top30Events[0..(20 - followedEvents)] as popularEvents
+MATCH (vo:User {VerifiedOrganization: true})-[:user_host]->(voEvent:Event)
+WHERE voEvent.StartDateTime > datetime() AND voEvent.StartDateTime < datetime() + duration({days: 1000})
+WITH user, popularEvents, COLLECT(voEvent)[0..5] as verifiedOrgEvents
+WITH user, popularEvents + verifiedOrgEvents as allEvents
+UNWIND allEvents as e
+MATCH (host:User)-[:user_host]->(e)
+WITH {
+    host: {
+        user_id: host.UserID,
+        display_name: host.DisplayName,
+        username: host.Username,
+        picture: host.Picture,
+        verified_organization: host.VerifiedOrganization
+    },
+    event: {
+        event_id: e.EventID,
+        title: e.Title,
+        picture: e.Picture,
+        description: e.Description,
+        location: e.Location,
+        start_date_time: e.StartDateTime,
+        end_date_time: e.EndDateTime,
+        visibility: e.Visibility,
+        num_joins: SIZE((e)<-[:user_join]-()),
+        num_shoutouts: SIZE((e)<-[:user_shoutout]-()),
+        user_join: EXISTS((user)-[:user_join]->(e)),
+        user_shoutout: EXISTS((user)-[:user_shoutout]->(e)),
+        host_user_id: host.UserID
+    }
+} as result
+WITH collect(result) as results
+RETURN results"""
+
 routes = [
     Route(
         "/api_ver_1.0.0/event/create_event",
