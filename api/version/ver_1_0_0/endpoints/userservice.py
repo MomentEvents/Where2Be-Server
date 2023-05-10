@@ -579,33 +579,48 @@ async def search_users(request: Request) -> JSONResponse:
             users
         )
 
+@is_requester_privileged_for_user
 async def user_follow_update(request: Request) -> JSONResponse:
     """
-    body of user_access_token
-    path params of user_id
+    body of user_access_token, did_follow
+    path params of user_id, to_user_id
     """
 
     user_id = request.path_params["user_id"]
+    to_user_id = request.path_params["to_user_id"]
 
     body = await request.json()
 
     user_access_token = body.get("user_access_token")
+    did_follow = body.get("did_follow")
 
     try:
-        assert all((user_access_token, user_id))
+        assert all((user_id, to_user_id, user_access_token))
+        assert (user_id != to_user_id)
+        assert type(did_follow) == bool
     except AssertionError:
-        return Response(status_code=400, content="Incomplete body")
+        return Response(status_code=400, content="Incomplete body or incorrect parameter")
 
     with get_neo4j_session() as session:
-
-        session.run(
-            """MATCH (u1:User{UserAccessToken: $user_access_token})-[r:user_follow]->(u2:User{UserID: $user_id})
-                    DELETE r""",
+        if(did_follow):
+            session.run(
+                """MATCH (u1:User{UserID: $user_id}),(u2:User{UserID: $to_user_id}) 
+                    MERGE (u1)-[r:user_follow]->(u2)""",
                     parameters={
-                        "user_access_token": user_access_token,
-                        "user_id": user_id,
-                    },
-                )
+                            "user_id": user_id,
+                            "to_user_id": to_user_id,
+                        },
+                    )
+        else:
+            session.run(
+                """MATCH (u1:User{UserID: $user_id})-[r:user_follow]->(u2:User{UserID: $to_user_id})
+                        DELETE r""",
+                        parameters={
+                            "user_id": user_id,
+                            "to_user_id": to_user_id,
+                        },
+                    )
+    return Response(status_code=200,content="Complete follow update")
 
 routes = [
     Route(
@@ -651,7 +666,7 @@ routes = [
           search_users,
           methods=["POST"],
     ),
-    Route("/api_ver_1.0.0/user/{user_id}/follow",
+    Route("/api_ver_1.0.0/user/{user_id}/follow/user_id/{to_user_id}",
           user_follow_update,
           methods=["UPDATE"],
     )
