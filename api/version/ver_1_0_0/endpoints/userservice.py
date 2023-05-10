@@ -76,6 +76,7 @@ async def get_using_user_access_token(request: Request) -> JSONResponse:
         return JSONResponse(user_data)
 
 
+# WILL BE DEPRECATED SOON(?)
 async def get_using_user_id(request: Request) -> JSONResponse:
     """
     Description: Gets the user information with the associated user_id {user_id}. Returns error if no results found.
@@ -121,6 +122,75 @@ async def get_using_user_id(request: Request) -> JSONResponse:
             "username": data["Username"],
             "picture": data["Picture"],
             "verified_organization": data.get("VerifiedOrganization", False),
+        }
+
+        return JSONResponse(user_data)
+
+async def get_using_user_id_with_body(request: Request) -> JSONResponse:
+    """
+    Description: Gets the user information with the associated user_id {user_id}. Returns error if no results found.
+
+    params:
+        user_id: string
+
+    return :
+        user_id: string,
+        display_name: string,
+        username: string,
+        picture: string,
+
+    """
+
+    user_id = request.path_params["user_id"]
+
+    body = await request.json()
+
+    user_access_token = body.get("user_access_token")
+
+    try:
+        assert all((user_id, user_access_token))
+    except AssertionError:
+        return Response(status_code=400, content="Incomplete body")
+
+    with get_neo4j_session() as session:
+        result = session.run(
+            """MATCH (u:User{UserID : $user_id})
+            WITH u, SIZE(()-[:user_follow]->(u)) as num_followers,
+            SIZE(()<-[:user_follow]-(u)) as num_following,
+            EXISTS((u)<-[:user_follow]-(:User{UserAccessToken:$user_access_token})) as user_follow
+            RETURN {
+                user_id: u.UserID,
+                display_name: u.DisplayName,
+                username: u.Username,
+                picture: u.Picture,
+                verified_organization: u.VerifiedOrganization,
+                user_follow: user_follow,
+                num_followers: num_followers,
+                num_following: num_following
+            }""",
+            parameters={
+                "user_id": user_id,
+                "user_access_token": user_access_token,
+            },
+        )
+
+
+        record = result.single()
+
+        if record == None:
+            return Response(status_code=400, content="User does not exist")
+
+        data = record[0]
+
+        user_data = {
+            "user_id": data["user_id"],
+            "display_name": data["display_name"],
+            "username": data["username"],
+            "picture": data["picture"],
+            "verified_organization": data.get("verified_organization", False),
+            "num_followers": data["num_followers"],
+            "num_following": data["num_following"],
+            "user_follow": data["user_follow"]
         }
 
         return JSONResponse(user_data)
@@ -193,7 +263,7 @@ async def update_using_user_id(request: Request) -> JSONResponse:
             "display_name": data["DisplayName"],
             "username": data["Username"],
             "picture": data["Picture"],
-            "verified_org": data["VerifiedOrganization"],
+            "verified_organization": data["VerifiedOrganization"],
         }
         return JSONResponse(updated_user)
 
@@ -635,6 +705,11 @@ routes = [
     ),
     Route(
         "/api_ver_1.0.0/user/user_id/{user_id}",
+        get_using_user_id_with_body,
+        methods=["POST"],
+    ),
+    Route(
+        "/api_ver_1.0.0/user/user_id/{user_id}",
         update_using_user_id,
         methods=["UPDATE"],
     ),
@@ -666,7 +741,7 @@ routes = [
           search_users,
           methods=["POST"],
     ),
-    Route("/api_ver_1.0.0/user/{user_id}/follow/user_id/{to_user_id}",
+    Route("/api_ver_1.0.0/user/user_id/{user_id}/follow/user_id/{to_user_id}",
           user_follow_update,
           methods=["UPDATE"],
     )
