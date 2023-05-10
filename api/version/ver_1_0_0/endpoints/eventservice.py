@@ -9,6 +9,7 @@ from starlette.routing import Route
 from dateutil import parser
 import bcrypt
 import secrets
+import random
 
 from cloud_resources.moment_neo4j import get_neo4j_session
 from version.ver_1_0_0.auth import is_real_user, is_requester_privileged_for_event, is_requester_privileged_for_user, is_event_formatted, is_real_event, is_picture_formatted, is_valid_user_access_token
@@ -486,7 +487,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
         categorized_dict = {}
         event_ids = []
         for record in result:
-            # print("record1: ",record)
+            print("record: ",record)
             interest_data = record['event_dict']
             for interest in interest_data:
                 events = []
@@ -977,6 +978,18 @@ async def get_home_events(request: Request) -> JSONResponse:
         school_id
     """
 
+    
+    school_id = request.path_params["school_id"]
+
+    body = await request.json()
+
+    user_access_token = body.get("user_access_token")
+
+    try:
+        assert all((user_access_token, school_id, user_access_token))
+    except AssertionError:
+        return Response(status_code=400, content="Incomplete body or incorrect parameter")
+
     with get_neo4j_session() as session:
         result = session.run(
             """
@@ -990,8 +1003,27 @@ async def get_home_events(request: Request) -> JSONResponse:
             WITH num_joins + num_shoutouts as popularity, num_joins, num_shoutouts, e, host, user_join, user_shoutout
             ORDER BY popularity DESC
             LIMIT 30
-            WITH collect({event: e, host: host, num_joins: num_joins, num_shoutouts: num_shoutouts, user_join: user_join, user_shoutout: user_shoutout}) AS popular_events
-            WITH apoc.coll.shuffle(popular_events)[0..15] AS results
+            WITH collect({
+                user_id: host.UserID, 
+                display_name: host.DisplayName,
+                username: host.Username,
+                host_picture: host.Picture,
+                verified_organization: host.VerifiedOrganization,
+                event_id: e.EventID,
+                title: e.Title,
+                event_picture: e.Picture,
+                description: e.Description,
+                location: e.Location,
+                start_date_time: e.StartDateTime,
+                end_date_time: e.EndDateTime,
+                visibility: e.Visibility,
+                num_joins: num_joins,
+                num_shoutouts: num_shoutouts,
+                user_join: user_join,
+                user_shoutout: user_shoutout,
+                host_user_id: host.UserID
+                }) AS popular_events
+            UNWIND apoc.coll.shuffle(popular_events)[0..15] AS results
             RETURN results
 
             UNION
@@ -1005,7 +1037,27 @@ async def get_home_events(request: Request) -> JSONResponse:
             WITH e, host, SIZE((e)<-[:user_join]-()) as num_joins, SIZE((e)<-[:user_shoutout]-()) as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
             ORDER BY RAND()
             LIMIT 25
-            WITH collect({event: e, host: host, num_joins: num_joins, num_shoutouts: num_shoutouts, user_join: user_join, user_shoutout: user_shoutout}) AS results
+            WITH collect({
+                user_id: host.UserID, 
+                display_name: host.DisplayName,
+                username: host.Username,
+                host_picture: host.Picture,
+                verified_organization: host.VerifiedOrganization,
+                event_id: e.EventID,
+                title: e.Title,
+                event_picture: e.Picture,
+                description: e.Description,
+                location: e.Location,
+                start_date_time: e.StartDateTime,
+                end_date_time: e.EndDateTime,
+                visibility: e.Visibility,
+                num_joins: num_joins,
+                num_shoutouts: num_shoutouts,
+                user_join: user_join,
+                user_shoutout: user_shoutout,
+                host_user_id: host.UserID
+                }) AS event_data
+            UNWIND event_data as results
             RETURN results
 
             UNION
@@ -1019,7 +1071,27 @@ async def get_home_events(request: Request) -> JSONResponse:
             WITH e, host, SIZE((e)<-[:user_join]-()) as num_joins, SIZE((e)<-[:user_shoutout]-()) as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
             ORDER BY RAND()
             LIMIT 10
-            WITH collect({event: e, host: host, num_joins: num_joins, num_shoutouts: num_shoutouts, user_join: user_join, user_shoutout: user_shoutout}) AS results
+            WITH collect({
+                user_id: host.UserID, 
+                display_name: host.DisplayName,
+                username: host.Username,
+                host_picture: host.Picture,
+                verified_organization: host.VerifiedOrganization,
+                event_id: e.EventID,
+                title: e.Title,
+                event_picture: e.Picture,
+                description: e.Description,
+                location: e.Location,
+                start_date_time: e.StartDateTime,
+                end_date_time: e.EndDateTime,
+                visibility: e.Visibility,
+                num_joins: num_joins,
+                num_shoutouts: num_shoutouts,
+                user_join: user_join,
+                user_shoutout: user_shoutout,
+                host_user_id: host.UserID
+            }) AS event_data
+            UNWIND event_data as results
             RETURN results""",
             parameters={
                 "user_access_token": user_access_token,
@@ -1029,41 +1101,40 @@ async def get_home_events(request: Request) -> JSONResponse:
 
         data = []
         for record in result:
-            host = record["host"]
-            event_data = record["event"]
+            row = record["results"]
 
-            user_id = host["UserID"]
-            display_name = host["DisplayName"]
-            username = host["Username"]
-            picture = host["Picture"]
-            verified_organization = data.get("VerifiedOrganization", False)
+            user_id = row["user_id"]
+            display_name = row["display_name"]
+            username = row["username"]
+            host_picture = row["host_picture"]
+            verified_organization = row.get("VerifiedOrganization", False)
 
-            event_id = event_data['EventID']
-            title = event_data['Title']
-            picture = event_data['Picture']
-            description = event_data['Description']
-            location = event_data['Location']
-            start_date_time = str(event_data['StartDateTime'])
-            end_date_time = None if event_data["EndDateTime"] == "NULL" else str(event_data["EndDateTime"])
-            visibility = event_data['Visibility']
-            num_joins = data["num_joins"]
-            num_shoutouts = data["num_shoutouts"]
-            user_join = data['user_join']
-            user_shoutout = data['user_shoutout']
-            host_user_id = host['UserID']
+            event_id = row['event_id']
+            title = row['title']
+            event_picture = row['event_picture']
+            description = row['description']
+            location = row['location']
+            start_date_time = str(row['start_date_time'])
+            end_date_time = None if row["end_date_time"] == "NULL" else str(row["end_date_time"])
+            visibility = row['visibility']
+            num_joins = row["num_joins"]
+            num_shoutouts = row["num_shoutouts"]
+            user_join = row['user_join']
+            user_shoutout = row['user_shoutout']
+            host_user_id = row['host_user_id']
 
             data.append({
                 "host": {
                     "user_id": user_id,
                     "display_name": display_name,
                     "username": username,
-                    "picture": picture,
+                    "picture": host_picture,
                     "verified_organization": verified_organization,
                 },
                 "event": {
                     'event_id': event_id,
                     'title': title,
-                    'picture': picture,
+                    'picture': event_picture,
                     'description': description,
                     'location': location,
                     'start_date_time': start_date_time,
@@ -1076,7 +1147,8 @@ async def get_home_events(request: Request) -> JSONResponse:
                     'host_user_id': host_user_id
                 }
             })
-            
+        
+        random.shuffle(data)
         return JSONResponse(data)
 
 routes = [

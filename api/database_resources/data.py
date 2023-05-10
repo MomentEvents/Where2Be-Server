@@ -3,7 +3,7 @@ from database_resources.commands import create_user_entity, create_event_entity,
 
 do_reset_db = False # PLEASE FOR THE LOVE OF GOD DO NOT SET THIS TO TRUE ON PROD
 do_fill_dummy_data = False
-do_create_schema = False
+do_create_schema = True
 
 
 def init_schema():
@@ -82,16 +82,19 @@ def fill_data():
     interest4_id = create_interest_entity("professional", "Professional")
     user_access_token_1 = create_user_entity("Test User 1", "test1", "test1@ucsd.edu", "testuser1", False, school1_id, True)
     user_access_token_2 = create_user_entity("Test User 2", "test2", "test2@ucsd.edu", "testuser2", False, school1_id, False)
+    user_access_token_3 = create_user_entity("Test User 3", "test3", "test3@ucsd.edu", "testuser3", False, school1_id, True)
+    user_access_token_4 = create_user_entity("Test User 4", "test4", "test4@ucsd.edu", "testuser4", False, school1_id, False)
+
     create_event_entity(user_access_token_1, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Frog_on_palm_frond.jpg/1024px-Frog_on_palm_frond.jpg",
-    "Nature", "Look at my description :D", "La Jolla Shores", "Public", [interest1_id], "2023-09-20 17:00:00", "2024-09-20 18:00:00")
-    create_event_entity(user_access_token_1, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Frog_on_palm_frond.jpg/1024px-Frog_on_palm_frond.jpg",
-    "Nature", "Look at my description :D", "La Jolla Shores", "Public", [interest1_id], "2023-09-20 17:00:00", "2024-09-20 18:00:00")
-    create_event_entity(user_access_token_1, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Frog_on_palm_frond.jpg/1024px-Frog_on_palm_frond.jpg",
-    "Nature", "Look at my description :D", "La Jolla Shores", "Public", [interest1_id], "2023-09-20 17:00:00", "2024-09-20 18:00:00")
-    create_event_entity(user_access_token_1, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Frog_on_palm_frond.jpg/1024px-Frog_on_palm_frond.jpg",
-    "Nature", "Look at my description :D", "La Jolla Shores", "Public", [interest1_id], "2023-09-20 17:00:00", "2024-09-20 18:00:00")
+    "Nature", "Look at my description :D", "La Jolla Shores", "Public", [interest1_id], "2023-05-20 17:00:00", "2023-05-20 18:00:00")
+    create_event_entity(user_access_token_2, "https://www.theforage.com/blog/wp-content/uploads/2022/10/stock-options.jpg",
+    "Tech Event", "Look at my description :D", "La Jolla Shores", "Public", [interest1_id], "2023-05-20 17:00:00", "2023-05-20 18:00:00")
+    create_event_entity(user_access_token_3, "https://expertphotography.b-cdn.net/wp-content/uploads/2020/06/stock-photography-trends11.jpg",
+    "Music Jam", "Look at my description :D", "La Jolla Shores", "Public", [interest3_id], "2023-05-20 17:00:00", "2023-05-20 18:00:00")
+    create_event_entity(user_access_token_4, "https://umbrellacreative.com.au/wp-content/uploads/2020/01/hide-the-pain-harold-why-you-should-not-use-stock-photos-1024x683.jpg",
+    "Nature", "Look at my description :D", "La Jolla Shores", "Public", [interest4_id], "2023-05-20 17:00:00", "2023-05-20 18:00:00")
     create_event_entity(user_access_token_2, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
-    "Nerdy Event", "Nerds only", "Geisel", "Public", [interest2_id], "2024-02-20 13:00:00", "2024-02-20 13:30:00")
+    "Nerdy Event", "Nerds only", "Geisel", "Public", [interest2_id], "2023-05-20 13:00:00", "2023-05-20 13:30:00")
     return 1
 
 def reset_db():
