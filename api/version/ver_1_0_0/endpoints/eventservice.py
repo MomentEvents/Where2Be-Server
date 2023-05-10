@@ -969,63 +969,28 @@ async def join_future(request: Request) -> JSONResponse:
 async def get_home_events(request: Request) -> JSONResponse:
 
     """
-    Request of type:
+    Request of body type:
 
         user_access_token
+
+    Path params:
+        school_id
     """
 
-    old_query = """MATCH (e:Event)-[:user_host]-(host:User)
-            WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 14})
-            AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token})
-            AND (e)-[:event_school]-(:School{SchoolID: $school_id})
-            WITH e, host, SIZE((e)<-[:user_join]-()) as num_joins, SIZE((e)<-[:user_shoutout]-()) as num_shoutouts
-            WITH num_joins + num_shoutouts as popularity, num_joins, num_shoutouts, e, host
-            ORDER BY popularity DESC
-            LIMIT 30
-            WITH collect({event: e, host: host, num_joins: num_joins, num_shoutouts: num_shoutouts}) AS popular_events
-            WITH apoc.coll.shuffle(popular_events)[0..15] AS results
-            RETURN results
-
-            UNION
-
-            MATCH (e:Event)-[:user_host]-(host:User)
-            WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 21})
-            AND (host)<-[:user_follow]-(:User{UserAccessToken: $user_access_token}) 
-            AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
-            AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
-            AND (e)-[:event_school]-(:School{SchoolID: $school_id})
-            WITH e, host, SIZE((e)<-[:user_join]-()) as num_joins, SIZE((e)<-[:user_shoutout]-()) as num_shoutouts
-            ORDER BY RAND()
-            LIMIT 25
-            WITH collect({event: e, host: host, num_joins: num_joins, num_shoutouts: num_shoutouts}) AS results
-            RETURN results
-
-            UNION
-
-            MATCH (e:Event)-[:user_host]-(host:User)
-            WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 14})
-            AND host.VerifiedOrganization = true 
-            AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
-            AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
-            AND (e)-[:event_school]-(:School{SchoolID: $school_id})
-            WITH e, host, SIZE((e)<-[:user_join]-()) as num_joins, SIZE((e)<-[:user_shoutout]-()) as num_shoutouts
-            ORDER BY RAND()
-            LIMIT 10
-            WITH collect({event: e, host: host, num_joins: num_joins, num_shoutouts: num_shoutouts}) AS results
-            RETURN results"""
     with get_neo4j_session() as session:
-        # check if email exists
         result = session.run(
             """
             MATCH (e:Event)-[:user_host]-(host:User)
             WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 14})
             AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token})
             AND (e)-[:event_school]-(:School{SchoolID: $school_id})
-            WITH e, host, SIZE((e)<-[:user_join]-()) as num_joins, SIZE((e)<-[:user_shoutout]-()) as num_shoutouts
-            WITH num_joins + num_shoutouts as popularity, num_joins, num_shoutouts, e, host
+            WITH e, host, SIZE((e)<-[:user_join]-()) as num_joins, SIZE((e)<-[:user_shoutout]-()) as num_shoutouts,
+                    exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join,
+                    exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
+            WITH num_joins + num_shoutouts as popularity, num_joins, num_shoutouts, e, host, user_join, user_shoutout
             ORDER BY popularity DESC
             LIMIT 30
-            WITH collect({event: e, host: host, num_joins: num_joins, num_shoutouts: num_shoutouts}) AS popular_events
+            WITH collect({event: e, host: host, num_joins: num_joins, num_shoutouts: num_shoutouts, user_join: user_join, user_shoutout: user_shoutout}) AS popular_events
             WITH apoc.coll.shuffle(popular_events)[0..15] AS results
             RETURN results
 
@@ -1037,10 +1002,10 @@ async def get_home_events(request: Request) -> JSONResponse:
             AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
             AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
             AND (e)-[:event_school]-(:School{SchoolID: $school_id})
-            WITH e, host, SIZE((e)<-[:user_join]-()) as num_joins, SIZE((e)<-[:user_shoutout]-()) as num_shoutouts
+            WITH e, host, SIZE((e)<-[:user_join]-()) as num_joins, SIZE((e)<-[:user_shoutout]-()) as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
             ORDER BY RAND()
             LIMIT 25
-            WITH collect({event: e, host: host, num_joins: num_joins, num_shoutouts: num_shoutouts}) AS results
+            WITH collect({event: e, host: host, num_joins: num_joins, num_shoutouts: num_shoutouts, user_join: user_join, user_shoutout: user_shoutout}) AS results
             RETURN results
 
             UNION
@@ -1051,10 +1016,10 @@ async def get_home_events(request: Request) -> JSONResponse:
             AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
             AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
             AND (e)-[:event_school]-(:School{SchoolID: $school_id})
-            WITH e, host, SIZE((e)<-[:user_join]-()) as num_joins, SIZE((e)<-[:user_shoutout]-()) as num_shoutouts
+            WITH e, host, SIZE((e)<-[:user_join]-()) as num_joins, SIZE((e)<-[:user_shoutout]-()) as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
             ORDER BY RAND()
             LIMIT 10
-            WITH collect({event: e, host: host, num_joins: num_joins, num_shoutouts: num_shoutouts}) AS results
+            WITH collect({event: e, host: host, num_joins: num_joins, num_shoutouts: num_shoutouts, user_join: user_join, user_shoutout: user_shoutout}) AS results
             RETURN results""",
             parameters={
                 "user_access_token": user_access_token,
@@ -1066,31 +1031,34 @@ async def get_home_events(request: Request) -> JSONResponse:
         for record in result:
             host = record["host"]
             event_data = record["event"]
-            num_joins = record["num_joins"]
-            num_shoutouts = record["num_shoutouts"]
 
-            event_data = record['event']
-            event_id = event_data['event_id']
-            title = event_data['title']
-            picture = event_data['picture']
-            description = event_data['description']
-            location = event_data['location']
-            start_date_time = str(event_data['start_date_time'])
-            end_date_time = None if event_data["end_date_time"] == "NULL" else str(event_data["end_date_time"])
-            visibility = event_data['visibility']
-            num_joins = record["num_joins"]
-            num_shoutouts = record["num_shoutouts"]
-            user_join = event_data['user_join']
-            user_shoutout = event_data['user_shoutout']
-            host_user_id = event_data['host_user_id']
+            user_id = host["UserID"]
+            display_name = host["DisplayName"]
+            username = host["Username"]
+            picture = host["Picture"]
+            verified_organization = data.get("VerifiedOrganization", False)
+
+            event_id = event_data['EventID']
+            title = event_data['Title']
+            picture = event_data['Picture']
+            description = event_data['Description']
+            location = event_data['Location']
+            start_date_time = str(event_data['StartDateTime'])
+            end_date_time = None if event_data["EndDateTime"] == "NULL" else str(event_data["EndDateTime"])
+            visibility = event_data['Visibility']
+            num_joins = data["num_joins"]
+            num_shoutouts = data["num_shoutouts"]
+            user_join = data['user_join']
+            user_shoutout = data['user_shoutout']
+            host_user_id = host['UserID']
 
             data.append({
                 "host": {
-                    "user_id": data["UserID"],
-                    "display_name": data["DisplayName"],
-                    "username": data["Username"],
-                    "picture": data["Picture"],
-                    "verified_organization": data.get("VerifiedOrganization", False),
+                    "user_id": user_id,
+                    "display_name": display_name,
+                    "username": username,
+                    "picture": picture,
+                    "verified_organization": verified_organization,
                 },
                 "event": {
                     'event_id': event_id,
@@ -1108,23 +1076,8 @@ async def get_home_events(request: Request) -> JSONResponse:
                     'host_user_id': host_user_id
                 }
             })
-            events.append({
-                'event_id': event_id,
-                'title': title,
-                'picture': picture,
-                'description': description,
-                'location': location,
-                'start_date_time': start_date_time,
-                'end_date_time': end_date_time,
-                'visibility': visibility,
-                'num_joins': num_joins,
-                'num_shoutouts': num_shoutouts,
-                'user_join': user_join,
-                'user_shoutout': user_shoutout,
-                'host_user_id': host_user_id
-            })
             
-        return JSONResponse(events)
+        return JSONResponse(data)
 
 routes = [
     Route(
