@@ -1107,7 +1107,7 @@ async def get_home_events(request: Request) -> JSONResponse:
             display_name = row["display_name"]
             username = row["username"]
             host_picture = row["host_picture"]
-            verified_organization = row.get("VerifiedOrganization", False)
+            verified_organization = row.get("verified_organization", False)
 
             event_id = row['event_id']
             title = row['title']
