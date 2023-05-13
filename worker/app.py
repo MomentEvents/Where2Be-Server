@@ -7,10 +7,11 @@ async def example_job():
 
 # list of jobs and how frequently they should run
 jobs = [
-    ("Example Job", example_job, timedelta(seconds=30))
+    ("Example Job", example_job, timedelta(seconds=5))
 ]
 
 async def main():
+    print("Starting worker main...")
     job_tasks: list[asyncio.Task[Any]] = []
     job_last_run: list[datetime] = []
     job_longer_than_delay: list[bool] = []
@@ -37,5 +38,8 @@ async def main():
         await asyncio.sleep(1)
 
 
+print("Starting worker...")
+
 if __name__ == "__main__":
+    print("Starting jobs...")
     asyncio.run(main())

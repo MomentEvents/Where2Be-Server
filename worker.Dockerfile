@@ -6,6 +6,10 @@ WORKDIR /
 
 RUN apt-get update && apt-get install -y libgl1-mesa-glx
 
-WORKDIR /worker
-COPY ./worker .
-CMD python3 app.py
+COPY common common
+COPY worker worker
+
+RUN pip3 install -r common/requirements.txt
+RUN pip3 install -r worker/requirements.txt
+
+CMD python3 worker/app.py

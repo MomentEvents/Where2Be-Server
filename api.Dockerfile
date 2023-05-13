@@ -5,11 +5,11 @@ WORKDIR /
 
 RUN apt-get update && apt-get install -y libgl1-mesa-glx
 
-COPY api_requirements.txt .
 COPY common common
 COPY api api
 
-RUN pip3 install -r api_requirements.txt
+RUN pip3 install -r api/requirements.txt
+RUN pip3 install -r common/requirements.txt
 
 EXPOSE 8080
 
