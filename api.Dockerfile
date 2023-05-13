@@ -6,24 +6,11 @@ WORKDIR /
 RUN apt-get update && apt-get install -y libgl1-mesa-glx
 
 COPY api_requirements.txt .
+COPY common common
+COPY api api
 
-COPY ./.env.api .
-COPY ./.env.database .
-
-# install dependencies
 RUN pip3 install -r api_requirements.txt
 
-# set directory for api
-WORKDIR /api
-
-COPY ./api .
-
-# RUN python3 ./database_resources/neo4j_database.py
-
-# # make script executable
-# RUN chmod +x /Moment-Server/run.sh
-
-# port number it should expose
 EXPOSE 8080
 
-CMD ["sh", "./run.sh"]
+CMD ["sh", "./api/run.sh"]

@@ -4,10 +4,10 @@ import bcrypt
 import secrets
 import random
 
-from cloud_resources.moment_neo4j import get_neo4j_session
-from cloud_resources.moment_s3 import get_bucket_url
+from common.neo4j.moment_neo4j import get_neo4j_session
+from common.s3.moment_s3 import get_bucket_url
 
-from utils.models import Problem
+from common.models import Problem
 
 def create_user_entity(display_name: str, username: str, email: str, password: str, verified_organization: bool, school_id: str, is_verified_org: bool):
     username = username.lower()

@@ -4,14 +4,14 @@ from markupsafe import string
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from starlette.routing import Route
-
+from common.models import Problem
 
 from datetime import datetime
 import bcrypt
 import secrets
 
-from cloud_resources.moment_neo4j import get_neo4j_session
-from version.ver_1_0_0.auth import is_real_user, is_requester_privileged_for_user, is_user_formatted, is_valid_user_access_token
+from common.neo4j.moment_neo4j import get_neo4j_session
+from api.version.ver_1_0_0.auth import is_real_user, is_requester_privileged_for_user, is_user_formatted, is_valid_user_access_token
 
 import platform
 
@@ -23,58 +23,59 @@ import boto3
 import base64
 from PIL import Image
 import json
-from cloud_resources.moment_s3 import upload_base64_image
+from common.s3.moment_s3 import upload_base64_image
 
 
 async def get_using_user_access_token(request: Request) -> JSONResponse:
-    """
-    Description: Gets the user information with the associated user_access_token {user_access_token}. Returns error if no results found.
+    raise Problem(status=400, content="Please log in to continue")
+    # """
+    # Description: Gets the user information with the associated user_access_token {user_access_token}. Returns error if no results found.
 
-    params:
-        user_access_token: string
+    # params:
+    #     user_access_token: string
 
-    return :
-        user_id: string,
-        display_name: string,
-        username: string,
-        picture: string,
-        verified_organization: boolean,
-    """
+    # return :
+    #     user_id: string,
+    #     display_name: string,
+    #     username: string,
+    #     picture: string,
+    #     verified_organization: boolean,
+    # """
 
-    user_access_token = request.path_params["user_access_token"]
+    # user_access_token = request.path_params["user_access_token"]
 
-    try:
-        assert all((user_access_token))
-    except AssertionError:
-        return Response(status_code=400, content="Incomplete body")
+    # try:
+    #     assert all((user_access_token))
+    # except AssertionError:
+    #     return Response(status_code=400, content="Incomplete body")
 
-    with get_neo4j_session() as session:
-        result = session.run(
-            """MATCH (u:User{UserAccessToken : $user_access_token})
-            RETURN u""",
-            parameters={
-                "user_access_token": user_access_token,
-            },
-        )
+    # with get_neo4j_session() as session:
+    #     result = session.run(
+    #         """MATCH (u:User{UserAccessToken : $user_access_token})
+    #         RETURN u""",
+    #         parameters={
+    #             "user_access_token": user_access_token,
+    #         },
+    #     )
 
 
-        record = result.single()
+    #     record = result.single()
 
-        if record == None:
-            return Response(status_code=400, content="User does not exist")
+    #     if record == None:
+    #         return Response(status_code=400, content="User does not exist")
 
-        data = record[0]
+    #     data = record[0]
 
-        user_data = {
-            "user_id": data["UserID"],
-            "display_name": data["DisplayName"],
-            "username": data["Username"],
-            "email": data.get("Email", None),
-            "picture": data["Picture"],
-            "verified_organization": data.get("VerifiedOrganization", False),
-        }
+    #     user_data = {
+    #         "user_id": data["UserID"],
+    #         "display_name": data["DisplayName"],
+    #         "username": data["Username"],
+    #         "email": data.get("Email", None),
+    #         "picture": data["Picture"],
+    #         "verified_organization": data.get("VerifiedOrganization", False),
+    #     }
 
-        return JSONResponse(user_data)
+    #     return JSONResponse(user_data)
 
 
 # WILL BE DEPRECATED SOON(?)
@@ -697,55 +698,47 @@ async def user_follow_update(request: Request) -> JSONResponse:
     return Response(status_code=200,content="Complete follow update")
 
 routes = [
-    Route(
-        "/api_ver_1.0.0/user/user_access_token/{user_access_token}",
+    Route("/user/user_access_token/{user_access_token}",
         get_using_user_access_token,
         methods=["GET"],
     ),
-    Route(
-        "/api_ver_1.0.0/user/user_id/{user_id}",
+    Route("/user/user_id/{user_id}",
         get_using_user_id,
         methods=["GET"],
     ),
-    Route(
-        "/api_ver_1.0.0/user/user_id/{user_id}",
+    Route("/user/user_id/{user_id}",
         get_using_user_id_with_body,
         methods=["POST"],
     ),
-    Route(
-        "/api_ver_1.0.0/user/user_id/{user_id}",
+    Route("/user/user_id/{user_id}",
         update_using_user_id,
         methods=["UPDATE"],
     ),
-    Route(
-        "/api_ver_1.0.0/user/user_id/{user_id}",
+    Route("/user/user_id/{user_id}",
         delete_using_user_id,
         methods=["DELETE"],
     ),
-    Route(
-        "/api_ver_1.0.0/user/event_id/{event_id}/host",
+    Route("/user/event_id/{event_id}/host",
         get_event_host,
         methods=["POST"],
     ),
-    Route(
-        "/api_ver_1.0.0/user/user_id/{user_id}/event_id/{event_id}/join",
+    Route("/user/user_id/{user_id}/event_id/{event_id}/join",
         user_join_update,
         methods=["UPDATE"],
     ),
-    Route(
-        "/api_ver_1.0.0/user/user_id/{user_id}/event_id/{event_id}/shoutout",
+    Route("/user/user_id/{user_id}/event_id/{event_id}/shoutout",
         user_shoutout_update,
         methods=["UPDATE"],
     ),
-    Route("/api_ver_1.0.0/user/school_id/{school_id}",
+    Route("/user/school_id/{school_id}",
         get_all_school_users,
         methods=["POST"],
     ),
-    Route("/api_ver_1.0.0/user/school_id/{school_id}/search",
+    Route("/user/school_id/{school_id}/search",
           search_users,
           methods=["POST"],
     ),
-    Route("/api_ver_1.0.0/user/user_id/{user_id}/follow/user_id/{to_user_id}",
+    Route("/user/user_id/{user_id}/follow/user_id/{to_user_id}",
           user_follow_update,
           methods=["UPDATE"],
     )

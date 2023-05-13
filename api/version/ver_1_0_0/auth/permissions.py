@@ -3,15 +3,15 @@ from starlette.responses import JSONResponse, Response
 from functools import wraps
 from markupsafe import string
 from dateutil import parser
-from cloud_resources.moment_neo4j import get_neo4j_session
-from debug import IS_DEBUG
-from helpers import parse_request_data, contains_profanity, contains_url
+from common.neo4j.moment_neo4j import get_neo4j_session
+from api.helpers import parse_request_data, contains_profanity, contains_url
 import base64
 from PIL import Image
 import json
 from io import BytesIO
 import io
 
+# oh golly delete this someday
 admin_user_access_tokens = {"ogzccTkpufyNJI_8uUxus1YJHnDVo6lKPdEaa5dZqJQ",
                             "JWTntbEefCyMWulyfC4mqTIcYPa3m8wjPM3fOTOY7uc",
                             "NwAcvNpiD8moi0uy4SqpqkizIpZKNwz-j6BqyLkn6lY",

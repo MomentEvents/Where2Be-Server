@@ -1,7 +1,7 @@
 from starlette.middleware.base import BaseHTTPMiddleware
-from utils.models import Problem
+from common.models import Problem
 from starlette.responses import Response
-from debug import IS_DEBUG
+from api.settings import DEBUG
 import traceback
 
 
@@ -12,7 +12,7 @@ class ProblemHandlingMiddleware(BaseHTTPMiddleware):
         except Problem as problem:
             return Response(status_code=problem.status, content=problem.content)
         except Exception as e:  # Catch all other exceptions
-            if IS_DEBUG is False:
+            if DEBUG is False:
                 return Response(status_code=500, content="An unknown server error occurred. Please report this issue to support.")
             else:
                 stack_trace = traceback.format_exc()

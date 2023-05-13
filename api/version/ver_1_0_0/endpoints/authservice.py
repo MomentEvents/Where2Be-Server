@@ -5,18 +5,16 @@ from starlette.responses import Response
 from starlette.routing import Route
 
 
-from version.ver_1_0_0.auth import is_requester_privileged, is_user_formatted
-from helpers import parse_request_data
+from api.version.ver_1_0_0.auth import is_requester_privileged, is_user_formatted
+from api.helpers import parse_request_data
 
 import datetime
 import bcrypt
 import secrets
 
-from cloud_resources.moment_neo4j import get_neo4j_session
-from cloud_resources.moment_s3 import get_bucket_url
+from common.neo4j.moment_neo4j import get_neo4j_session
+from common.s3.moment_s3 import get_bucket_url
 import random
-
-
  
 async def get_token_username(request: Request) -> JSONResponse:
     """
@@ -253,15 +251,14 @@ async def check_if_user_is_admin(request: Request) -> JSONResponse:
     return JSONResponse({"is_admin": is_requester_privileged(user_access_token)})
 
 routes = [
-    Route(
-        "/api_ver_1.0.0/auth/login/username",
+    Route("/auth/login/username",
         get_token_username,
         methods=["POST"],
     ),
-    Route("/api_ver_1.0.0/auth/signup", create_user, methods=["POST"]),
-    Route("/api_ver_1.0.0/auth/change_password",
+    Route("/auth/signup", create_user, methods=["POST"]),
+    Route("/auth/change_password",
           change_password, methods=["POST"]),
-    Route("/api_ver_1.0.0/auth/privileged_admin",
+    Route("/auth/privileged_admin",
           check_if_user_is_admin, methods=["POST"]),
 ]
 

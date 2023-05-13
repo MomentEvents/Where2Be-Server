@@ -11,11 +11,11 @@ import bcrypt
 import secrets
 import random
 
-from cloud_resources.moment_neo4j import get_neo4j_session
-from version.ver_1_0_0.auth import is_real_user, is_requester_privileged_for_event, is_requester_privileged_for_user, is_event_formatted, is_real_event, is_picture_formatted, is_valid_user_access_token
-from helpers import parse_request_data
+from common.neo4j.moment_neo4j import get_neo4j_session
+from api.version.ver_1_0_0.auth import is_real_user, is_requester_privileged_for_event, is_requester_privileged_for_user, is_event_formatted, is_real_event, is_picture_formatted, is_valid_user_access_token
+from api.helpers import parse_request_data
 
-from cloud_resources.moment_s3 import upload_base64_image
+from common.s3.moment_s3 import upload_base64_image
 
 
 import platform
@@ -1152,51 +1152,42 @@ async def get_home_events(request: Request) -> JSONResponse:
         return JSONResponse(data)
 
 routes = [
-    Route(
-        "/api_ver_1.0.0/event/create_event",
+    Route("/event/create_event",
         create_event,
         methods=["POST"],
     ),
-    Route("/api_ver_1.0.0/event/event_id/{event_id}", get_event, methods=["POST"]),
-    Route("/api_ver_1.0.0/event/event_id/{event_id}", update_event, methods=["UPDATE"]),
-    Route("/api_ver_1.0.0/event/event_id/{event_id}", delete_event, methods=["DELETE"]),
-    Route(
-        "/api_ver_1.0.0/event/school_id/{school_id}/categorized",
+    Route("/event/event_id/{event_id}", get_event, methods=["POST"]),
+    Route("/event/event_id/{event_id}", update_event, methods=["UPDATE"]),
+    Route("/event/event_id/{event_id}", delete_event, methods=["DELETE"]),
+    Route("/event/school_id/{school_id}/categorized",
         get_events_categorized,
         methods=["POST"],
     ),
-     Route(
-        "/api_ver_1.0.0/event/school_id/{school_id}",
+     Route("/event/school_id/{school_id}",
         get_events,
         methods=["POST"],
     ),
-    Route(
-        "/api_ver_1.0.0/event/user_id/{user_id}/host_past",
+    Route("/event/user_id/{user_id}/host_past",
         host_past,
         methods=["POST"],
     ),
-    Route(
-        "/api_ver_1.0.0/event/user_id/{user_id}/host_future",
+    Route("/event/user_id/{user_id}/host_future",
         host_future,
         methods=["POST"],
     ),
-    Route(
-        "/api_ver_1.0.0/event/user_id/{user_id}/join_past",
+    Route("/event/user_id/{user_id}/join_past",
         join_past,
         methods=["POST"],
     ),
-    Route(
-        "/api_ver_1.0.0/event/user_id/{user_id}/join_future",
+    Route("/event/user_id/{user_id}/join_future",
         join_future,
         methods=["POST"],
     ),
-    Route(
-        "/api_ver_1.0.0/event/school_id/{school_id}/search",
+    Route("/event/school_id/{school_id}/search",
         search_events,
         methods=["POST"],
     ),
-    Route(
-        "/api_ver_1.0.0/event/school_id/{school_id}/home",
+    Route("/event/school_id/{school_id}/home",
         get_home_events,
         methods=["POST"],
     )

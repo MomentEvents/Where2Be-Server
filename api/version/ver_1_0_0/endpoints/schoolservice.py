@@ -11,11 +11,11 @@ from datetime import datetime
 import bcrypt
 import secrets
 
-from cloud_resources.moment_neo4j import get_neo4j_session
-from version.ver_1_0_0.auth import is_real_user
+from common.neo4j.moment_neo4j import get_neo4j_session
+from api.version.ver_1_0_0.auth import is_real_user
 
 import platform
-from version.ver_1_0_0.auth import is_requester_privileged_for_user, is_event_formatted
+from api.version.ver_1_0_0.auth import is_requester_privileged_for_user, is_event_formatted
 
 
 if platform.system() == "Windows":
@@ -268,28 +268,23 @@ async def update_user_school(request: Request) -> JSONResponse:
 
 
 routes = [
-    Route(
-        "/api_ver_1.0.0/school",
+    Route("/school",
         get_all_schools,
         methods=["GET"],
     ),
-    Route(
-        "/api_ver_1.0.0/school/user_access_token/{user_access_token}",
+    Route("/school/user_access_token/{user_access_token}",
         get_user_access_token_school,
         methods=["GET"],
     ),
-    Route(
-        "/api_ver_1.0.0/school/school_id/{school_id}",
+    Route("/school/school_id/{school_id}",
         get_school,
         methods=["GET"],
     ),
-    Route(
-        "/api_ver_1.0.0/school/user_id/{user_id}",
+    Route("/school/user_id/{user_id}",
         get_user_school,
         methods=["GET"],
     ),
-    Route(
-        "/api_ver_1.0.0/school/user_id/{user_id}",
+    Route("/school/user_id/{user_id}",
         update_user_school,
         methods=["UPDATE"],
     ),

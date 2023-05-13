@@ -10,8 +10,8 @@ from datetime import datetime
 import bcrypt
 import secrets
 
-from cloud_resources.moment_neo4j import get_neo4j_session
-from version.ver_1_0_0.auth import is_real_user, is_requester_privileged_for_user
+from common.neo4j.moment_neo4j import get_neo4j_session
+from api.version.ver_1_0_0.auth import is_real_user, is_requester_privileged_for_user
 
 import platform
 
@@ -265,8 +265,7 @@ async def get_event_interest(request: Request) -> JSONResponse:
         return JSONResponse(interest_array)
 
 routes = [
-    Route(
-        "/api_ver_1.0.0/interest",
+    Route("/interest",
         get_all_interests,
         methods=["GET"],
     ),
@@ -285,8 +284,7 @@ routes = [
     #     update_user_interest,
     #     methods=["UPDATE"],
     # ),
-    Route(
-        "/api_ver_1.0.0/interest/event_id/{event_id}",
+    Route("/interest/event_id/{event_id}",
         get_event_interest,
         methods=["POST"],
     ),

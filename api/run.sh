@@ -1,16 +1,16 @@
 #!/bin/bash
 
+# NOTE: Make sure to call ./api/run.sh outside the directory!
+
 echo "Attempting to start Moment server..."
 
 # Call the test_neo4j_health() function and store the result
-health_check_result=$(python3 -c "from cloud_resources.moment_neo4j import test_neo4j_health; print(test_neo4j_health())")
+neo4j_health=$(python3 -c "from common.neo4j.moment_neo4j import test_neo4j_health; print(test_neo4j_health())")
 
 # If the function returns True, start the uvicorn server and exit the loop
-if [ $health_check_result = "True" ]; then
+if [ $neo4j_health = "True" ]; then
     echo "Neo4j is healthy, starting the server..."
-    ip_address=$(python3 -c "from helpers import get_ip_address; print(get_ip_address())")
-    echo "Running Moment server on ${get_ip_address}"
-    python3 -m uvicorn app:app --port 8080 --host 0.0.0.0 --reload
+    python3 -m uvicorn api.app:app --port 8080 --host 0.0.0.0 --reload
     break
 fi
 

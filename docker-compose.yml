@@ -8,7 +8,7 @@ services:
     container_name: neo4j
     restart: always
     env_file:
-      - .env.database
+      - .env
     environment:
       - NEO4J_ACCEPT_LICENSE_AGREEMENT=yes
     ports:
@@ -31,10 +31,11 @@ services:
     ports:
       - "8080:8080"
     env_file:
-      - .env.api
+      - .env
     volumes:
       - .:/app
       - ./api:/api
+      - ./common:/common
     # command: sh -c "sleep 5"
 
   # worker:
@@ -44,4 +45,4 @@ services:
   #   restart: always
   #   container_name: worker
   #   env_file:
-  #     - .env.api
+  #     - .env
