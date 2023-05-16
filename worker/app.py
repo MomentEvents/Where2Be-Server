@@ -2,9 +2,8 @@ from typing import Any
 import asyncio
 from datetime import timedelta, datetime
 
-print("Moment Worker is starting!")
 async def example_job():
-    print("I am running!")
+    print("I am testing!")
 
 # list of jobs and how frequently they should run
 jobs = [
@@ -39,4 +38,5 @@ async def main():
 
 
 if __name__ == "__main__":
+    print("Running Moment Jobs")
     asyncio.run(main())
