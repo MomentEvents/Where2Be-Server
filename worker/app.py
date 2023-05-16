@@ -2,6 +2,7 @@ from typing import Any
 import asyncio
 from datetime import timedelta, datetime
 
+print("Moment Worker is starting!")
 async def example_job():
     print("I am running!")
 
@@ -11,7 +12,6 @@ jobs = [
 ]
 
 async def main():
-    print("Starting worker main...")
     job_tasks: list[asyncio.Task[Any]] = []
     job_last_run: list[datetime] = []
     job_longer_than_delay: list[bool] = []
@@ -38,8 +38,5 @@ async def main():
         await asyncio.sleep(1)
 
 
-print("Starting worker...")
-
 if __name__ == "__main__":
-    print("Starting jobs...")
     asyncio.run(main())

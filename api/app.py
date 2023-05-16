@@ -1,7 +1,5 @@
 import logging
 
-from fastapi import FastAPI
-
 from starlette.applications import Starlette
 from starlette.middleware import Middleware
 from starlette.routing import Mount
@@ -17,8 +15,6 @@ import uvicorn
 import socket
 import ipaddress
 from builtins import Exception
-
-from fastapi_utils.timing import add_timing_middleware
 
 from api import status
 from common.neo4j.data import init_neo4j

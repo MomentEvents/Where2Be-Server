@@ -1,4 +1,3 @@
-# syntax=docker/dockerfile:1
 FROM python:3.9
 
 # set directory for requirements
@@ -12,4 +11,4 @@ COPY worker worker
 RUN pip3 install -r common/requirements.txt
 RUN pip3 install -r worker/requirements.txt
 
-CMD python3 worker/app.py
+CMD ["sh", "./worker/run.sh"]
