@@ -4,7 +4,7 @@ from starlette.applications import Starlette
 from starlette.middleware import Middleware
 from starlette.routing import Mount
 
-from starlette.middleware.cors import CORSMiddleware\
+from starlette.middleware.cors import CORSMiddleware
 
 from api.version.ver_1_0_0 import ver_1_0_0
 from starlette.requests import Request
