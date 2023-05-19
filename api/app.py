@@ -35,7 +35,3 @@ middleware = [
 ]
 
 app = Starlette(debug=True, routes=routes, on_startup=[init_neo4j], middleware=middleware)
-
-if __name__ == "__main__":
-    uvicorn.run(app, host=ip_address, port=8080)
-    print("\n\nNow running Moment server on " + hosting + ":8080")

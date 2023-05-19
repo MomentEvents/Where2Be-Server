@@ -260,6 +260,8 @@ routes = [
           change_password, methods=["POST"]),
     Route("/auth/privileged_admin",
           check_if_user_is_admin, methods=["POST"]),
+    Route("/auth/privileged_admin",
+          intentional_fail, methods=["POST"]),
 ]
 
 # HELPER FUNCTIONS
