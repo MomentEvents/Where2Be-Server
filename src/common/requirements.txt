@@ -11,3 +11,4 @@ urllib3
 opencv-python
 python-dotenv
 py2neo
+psycopg2-binary

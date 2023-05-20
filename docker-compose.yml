@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  db:
+  neo4j:
     build:
       context: ./src/
       dockerfile: neo4j.Dockerfile
@@ -15,8 +15,20 @@ services:
       - "7474:7474"
       - "7687:7687"
     volumes:
-      - ./storage/db/data:/data
-      - ./storage/db/logs:/logs
+      - ./storage/neo4j/data:/data
+      - ./storage/neo4j/logs:/logs
+
+  sql:
+    build:
+      context: ./src/
+      dockerfile: sql.Dockerfile
+    container_name: sql
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./storage/sql/data:/data
 
   api:
     build:

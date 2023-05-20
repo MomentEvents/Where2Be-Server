@@ -1,9 +1,11 @@
 from common.neo4j.moment_neo4j import get_neo4j_session
 from common.commands import create_user_entity, create_event_entity, create_interest_entity, create_school_entity
+import os
 
-do_reset_db = False # PLEASE FOR THE LOVE OF GOD DO NOT SET THIS TO TRUE ON PROD
+do_reset_db = False
 do_create_schema = True
 
+is_prod = os.environ.get('IS_PROD') # This is a sanity check so we don't accidently reset the DB if it is prod :)
 
 def init_schema():
     schemas = [
@@ -74,6 +76,10 @@ def init_schema():
 
 
 def fill_data():
+    if is_prod is True:
+        return
+
+    
     school1_id = create_school_entity("test_univ", "Test University", "TU", 32.8801, 117.2340)
     interest1_id = create_interest_entity("academic", "Academic")
     interest2_id = create_interest_entity("athletic", "Athletic")
@@ -97,13 +103,15 @@ def fill_data():
     return 1
 
 def reset_db():
+    if is_prod is True:
+        return
     with get_neo4j_session() as session:
         session.run("""MATCH (n)
             DETACH DELETE n""")
     return 1
 
 def init_neo4j():
-    if do_reset_db is True:
+    if do_reset_db is True and is_prod is False:
         reset_db()
         fill_data()
     if do_create_schema is True:
