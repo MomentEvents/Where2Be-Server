@@ -1,7 +1,7 @@
 from common.neo4j.moment_neo4j import get_neo4j_session
 from common.commands import create_user_entity, create_event_entity, create_interest_entity, create_school_entity
 
-do_reset_db = False # PLEASE FOR THE LOVE OF GOD DO NOT SET THIS TO TRUE ON PROD
+do_reset_db = True # PLEASE FOR THE LOVE OF GOD DO NOT SET THIS TO TRUE ON PROD
 do_create_schema = True
 
 

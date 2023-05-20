@@ -1,14 +1,16 @@
 FROM python:3.9
 
 # set directory for requirements
-WORKDIR /
+WORKDIR /usr/src/app
 
 RUN apt-get update && apt-get install -y libgl1-mesa-glx
 
 COPY common common
-COPY worker worker
+COPY api api
 
+RUN pip3 install -r api/requirements.txt
 RUN pip3 install -r common/requirements.txt
-RUN pip3 install -r worker/requirements.txt
 
-CMD ["sh", "./worker/run.sh"]
+EXPOSE 8080
+
+CMD ["sh", "./api/run.sh"]
