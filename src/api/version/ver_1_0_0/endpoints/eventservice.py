@@ -846,7 +846,7 @@ async def host_future(request: Request) -> JSONResponse:
                         user_join: user_join,
                         user_shoutout: user_shoutout,
                         host_user_id: $user_id } as event
-                ORDER BY e.StartDateTime DESC
+                ORDER BY e.StartDateTime ASC
                 LIMIT 20
                 """
 
@@ -957,7 +957,7 @@ async def join_future(request: Request) -> JSONResponse:
                         user_join: user_join,
                         user_shoutout: user_shoutout,
                         host_user_id: host_user_id } as event
-                ORDER BY e.StartDateTime DESC
+                ORDER BY e.StartDateTime ASC
                 LIMIT 20
                 """
 

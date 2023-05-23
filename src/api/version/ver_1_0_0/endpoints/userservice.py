@@ -27,55 +27,55 @@ from common.s3.moment_s3 import upload_base64_image
 
 
 async def get_using_user_access_token(request: Request) -> JSONResponse:
-    raise Problem(status=400, content="Please log in to continue")
-    # """
-    # Description: Gets the user information with the associated user_access_token {user_access_token}. Returns error if no results found.
+    # raise Problem(status=400, content="Please log in to continue")
+    """
+    Description: Gets the user information with the associated user_access_token {user_access_token}. Returns error if no results found.
 
-    # params:
-    #     user_access_token: string
+    params:
+        user_access_token: string
 
-    # return :
-    #     user_id: string,
-    #     display_name: string,
-    #     username: string,
-    #     picture: string,
-    #     verified_organization: boolean,
-    # """
+    return :
+        user_id: string,
+        display_name: string,
+        username: string,
+        picture: string,
+        verified_organization: boolean,
+    """
 
-    # user_access_token = request.path_params["user_access_token"]
+    user_access_token = request.path_params["user_access_token"]
 
-    # try:
-    #     assert all((user_access_token))
-    # except AssertionError:
-    #     return Response(status_code=400, content="Incomplete body")
+    try:
+        assert all((user_access_token))
+    except AssertionError:
+        return Response(status_code=400, content="Incomplete body")
 
-    # with get_neo4j_session() as session:
-    #     result = session.run(
-    #         """MATCH (u:User{UserAccessToken : $user_access_token})
-    #         RETURN u""",
-    #         parameters={
-    #             "user_access_token": user_access_token,
-    #         },
-    #     )
+    with get_neo4j_session() as session:
+        result = session.run(
+            """MATCH (u:User{UserAccessToken : $user_access_token})
+            RETURN u""",
+            parameters={
+                "user_access_token": user_access_token,
+            },
+        )
 
 
-    #     record = result.single()
+        record = result.single()
 
-    #     if record == None:
-    #         return Response(status_code=400, content="User does not exist")
+        if record == None:
+            return Response(status_code=400, content="User does not exist")
 
-    #     data = record[0]
+        data = record[0]
 
-    #     user_data = {
-    #         "user_id": data["UserID"],
-    #         "display_name": data["DisplayName"],
-    #         "username": data["Username"],
-    #         "email": data.get("Email", None),
-    #         "picture": data["Picture"],
-    #         "verified_organization": data.get("VerifiedOrganization", False),
-    #     }
+        user_data = {
+            "user_id": data["UserID"],
+            "display_name": data["DisplayName"],
+            "username": data["Username"],
+            "email": data.get("Email", None),
+            "picture": data["Picture"],
+            "verified_organization": data.get("VerifiedOrganization", False),
+        }
 
-    #     return JSONResponse(user_data)
+        return JSONResponse(user_data)
 
 
 # WILL BE DEPRECATED SOON(?)
