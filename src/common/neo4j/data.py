@@ -3,7 +3,7 @@ from common.commands import create_user_entity, create_event_entity, create_inte
 import os
 
 do_reset_db = False
-do_create_schema = True
+do_create_schema = False
 
 is_prod = os.environ.get('IS_PROD') # This is a sanity check so we don't accidently reset the DB if it is prod :)
 
@@ -111,9 +111,9 @@ def reset_db():
     return 1
 
 def init_neo4j():
-    # if do_reset_db is True and is_prod is False:
-    #     reset_db()
-    #     fill_data()
-    # if do_create_schema is True:
-    #     init_schema()
+    if do_reset_db is True and is_prod is False:
+        reset_db()
+        fill_data()
+    if do_create_schema is True:
+        init_schema()
     test = 1
