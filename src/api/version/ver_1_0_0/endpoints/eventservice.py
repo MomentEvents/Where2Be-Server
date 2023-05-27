@@ -664,6 +664,8 @@ async def search_events(request: Request) -> JSONResponse:
     except:
         return Response(status_code=400, content="Incomplete body")
 
+    query = query.strip()
+
     with get_neo4j_session() as session:
         # check if email exists
         result = session.run(

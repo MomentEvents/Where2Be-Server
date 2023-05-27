@@ -3,7 +3,7 @@ import asyncio
 from datetime import timedelta, datetime
 
 async def example_job():
-    print("I am testing!")
+    test = 1
 
 # list of jobs and how frequently they should run
 jobs = [

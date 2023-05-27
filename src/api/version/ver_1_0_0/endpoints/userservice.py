@@ -613,6 +613,8 @@ async def search_users(request: Request) -> JSONResponse:
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
 
+    query = query.strip()
+    
     with get_neo4j_session() as session:
 
         result = session.run(
