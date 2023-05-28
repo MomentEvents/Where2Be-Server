@@ -1,0 +1,3 @@
+To access the postgreSQL db container data, run...
+
+psql -h localhost -p 5432 -U postgres

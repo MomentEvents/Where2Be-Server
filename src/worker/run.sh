@@ -3,9 +3,10 @@
 # NOTE: Make sure to call ./worker/run.sh outside the directory!
 
 neo4j_health=$(python3 -c "from common.neo4j.moment_neo4j import test_neo4j_health; print(test_neo4j_health())")
+sql_health=$(python3 -c "from common.sql.moment_sql import test_sql_health; print(test_sql_health())")
 
-# If the function returns True, start the uvicorn server and exit the loop
-if [ $neo4j_health = "True" ]; then
+# If both neo4j_health and sql_health are True, start the uvicorn server and exit the loop
+if [ "$neo4j_health" = "True" ] && [ "$sql_health" = "True" ]; then
     echo "Starting Moment worker"
     python3 worker/app.py
     break
