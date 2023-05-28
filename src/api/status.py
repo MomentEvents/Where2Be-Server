@@ -4,7 +4,7 @@ from starlette.responses import Response
 from starlette.routing import Route
 from api.helpers import parse_request_data
 from common.models import Problem
-from common.email.moment_email import send_email
+from common.utils import send_email
 from common.sql.moment_sql import test_sql_health
 
 async def get_health(request: Request) -> JSONResponse:

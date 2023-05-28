@@ -12,3 +12,4 @@ opencv-python
 python-dotenv
 py2neo
 psycopg2-binary
+exponent_server_sdk

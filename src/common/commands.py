@@ -148,3 +148,6 @@ def create_interest_entity(interest_id: str, name: str):
         )
 
         return interest_id
+
+def create_push_token_entity(user_id: str, push_token: str, push_type: str):
+    test = 1

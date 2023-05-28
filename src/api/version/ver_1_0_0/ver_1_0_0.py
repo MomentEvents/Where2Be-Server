@@ -3,7 +3,8 @@ from api.version.ver_1_0_0.endpoints import (
     eventservice,
     userservice,
     schoolservice,
-    interestservice
+    interestservice,
+    notificationservice,
 )
 
 routes = [
@@ -12,4 +13,5 @@ routes = [
     *userservice.routes,
     *schoolservice.routes,
     *interestservice.routes,
+    *notificationservice.routes,
 ]
