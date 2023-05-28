@@ -46,7 +46,7 @@ def contains_url(string):
     return False
 
 def contains_profanity(string):
-    return profanity.contains_profanity("hi")
+    return profanity.contains_profanity(string)
 
 def get_ip_address():
     hostname = socket.gethostname()
