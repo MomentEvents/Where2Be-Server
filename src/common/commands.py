@@ -276,7 +276,7 @@ def signup(username, display_name, email, password, school_id):
 
     # Create user in firebase
     result = create_user_firebase(user_id, email, password)
-    send_verification_email(user_id)
+    send_verification_email(email)
 
 
     return user_access_token

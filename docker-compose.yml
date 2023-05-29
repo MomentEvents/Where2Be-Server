@@ -18,17 +18,19 @@ services:
       - ./storage/neo4j/data:/data
       - ./storage/neo4j/logs:/logs
 
-  sql:
-    build:
-      context: ./src/
-      dockerfile: sql.Dockerfile
-    container_name: sql
-    env_file:
-      - .env
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./storage/sql/data:/data
+  # NOTE: We decided to ditch using a SQL database for our worker and are instead just using one Neo4j instance to store push tokens
+  # and do emails on another service like Firebase. This is here in case we want to go with SQL again.
+  # sql:
+  #   build:
+  #     context: ./src/
+  #     dockerfile: sql.Dockerfile
+  #   container_name: sql
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - ./storage/sql/data:/data
 
   api:
     build:

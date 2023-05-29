@@ -1,5 +1,5 @@
 from common.neo4j.moment_neo4j import get_neo4j_session
-from common.commands import create_user_entity, create_event_entity, create_interest_entity, create_school_entity
+from common.commands import create_user_entity, create_event_entity, create_interest_entity, create_school_entity, signup
 import os
 
 do_reset_db = False
@@ -75,20 +75,16 @@ def init_schema():
     return 1
 
 
-def fill_data():
-    if is_prod is True:
-        return
-
-    
+def fill_data():    
     school1_id = create_school_entity("test_univ", "Test University", "TU", 32.8801, 117.2340)
     interest1_id = create_interest_entity("academic", "Academic")
     interest2_id = create_interest_entity("athletic", "Athletic")
     interest3_id = create_interest_entity("social", "Social")
     interest4_id = create_interest_entity("professional", "Professional")
-    user_access_token_1, user_id_1 = signup("TestUser1", "Test User 1", "clarificationdorad@gmail.com", "test1234", school1_id)
-    user_access_token_2, user_id_2 = signup("TestUser2", "Test User 2", "clarificationdorad2@gmail.com", "test1234", school1_id)
-    user_access_token_3, user_id_3 = signup("TestUser3", "Test User 3", "clarificationdorad3@gmail.com", "test1234", school1_id)
-    user_access_token_4, user_id_4 = signup("TestUser4", "Test User 4", "clarificationdorad4@gmail.com", "test1234", school1_id)
+    user_access_token_1 = signup("TestUser1", "Test User 1", "clarificationdorad@gmail.com", "test1234", school1_id)
+    user_access_token_2 = signup("TestUser2", "Test User 2", "clarificationdorad2@gmail.com", "test1234", school1_id)
+    user_access_token_3 = signup("TestUser3", "Test User 3", "clarificationdorad3@gmail.com", "test1234", school1_id)
+    user_access_token_4 = signup("TestUser4", "Test User 4", "clarificationdorad4@gmail.com", "test1234", school1_id)
 
     create_event_entity(user_access_token_1, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Frog_on_palm_frond.jpg/1024px-Frog_on_palm_frond.jpg",
     "Nature", "Look at my description :D", "La Jolla Shores", "Public", [interest1_id], "2023-06-02 17:00:00", "2023-06-02 18:00:00")
@@ -103,15 +99,13 @@ def fill_data():
     return 1
 
 def reset_db():
-    if is_prod is True:
-        return
     with get_neo4j_session() as session:
         session.run("""MATCH (n)
             DETACH DELETE n""")
     return 1
 
 def init_neo4j():
-    if do_reset_db is True and is_prod is False:
+    if do_reset_db is True:
         reset_db()
         fill_data()
     if do_create_schema is True:

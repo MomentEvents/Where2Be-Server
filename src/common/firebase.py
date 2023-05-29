@@ -77,9 +77,9 @@ def send_password_reset_code(email):
         # Handle any errors that occur during the email update
         raise Problem(status=400, content="Error generating password reset link: " + str(e))
 
-def send_verification_email(uid):
+def send_verification_email(email):
     try:
-        auth.send_email_verification(uid)
+        auth.generate_email_verification_link(email)
         print("Verification email sent successfully.")
     except Exception as e:
         # Handle any errors that occur during the email update

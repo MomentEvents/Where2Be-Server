@@ -1,3 +1,3 @@
-To access the postgreSQL db container data, run...
+NOTE: This is unused for now. We may switch to another SQL db in the future if we want to, but only using neo4j is easiest
 
-psql -h localhost -p 5432 -U postgres
+- Kyle (5/28/2023 at 4:58am)

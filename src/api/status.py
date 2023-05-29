@@ -4,7 +4,6 @@ from starlette.responses import Response
 from starlette.routing import Route
 from api.helpers import parse_request_data
 from common.models import Problem
-from common.utils import send_email
 from common.sql.moment_sql import test_sql_health
 
 async def get_health(request: Request) -> JSONResponse:
@@ -18,9 +17,7 @@ async def get_compatability(request: Request) -> JSONResponse:
     # return Response(content="This version of Moment is not supported. Update to the latest version.", status_code=400)
 
 async def test_1(request: Request) -> JSONResponse:
-    # response = send_email("support@momentevents.app", "MomentAPI test", "This is from localhost tf\n\nThis is a newline\n\nhttps://momentevents.app")
-    response = test_sql_health()
-    return Response(status_code=200, content=str(response))
+    return Response(status_code=200, content="hey lol")
 
 routes = [
     Route("/",
