@@ -12,7 +12,7 @@ import secrets
 import random
 
 from common.neo4j.moment_neo4j import get_neo4j_session
-from api.version.ver_1_0_0.auth import is_real_user, is_requester_privileged_for_event, is_requester_privileged_for_user, is_event_formatted, is_real_event, is_picture_formatted, is_valid_user_access_token
+from api.version.ver_1_0_1.auth import is_real_user, is_requester_privileged_for_event, is_requester_privileged_for_user, is_event_formatted, is_real_event, is_picture_formatted, is_valid_user_access_token
 from api.helpers import parse_request_data
 
 from common.s3.moment_s3 import upload_base64_image

@@ -2,7 +2,7 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from starlette.routing import Route
 
-from api.version.ver_1_0_0.auth import is_real_user, is_requester_privileged_for_user
+from api.version.ver_1_0_1.auth import is_real_user, is_requester_privileged_for_user
 from common.sql.moment_sql import get_sql_connection
 
 @is_requester_privileged_for_user

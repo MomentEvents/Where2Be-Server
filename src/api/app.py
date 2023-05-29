@@ -6,7 +6,7 @@ from starlette.routing import Mount
 
 from starlette.middleware.cors import CORSMiddleware
 
-from api.version.ver_1_0_0 import ver_1_0_0
+from api.version.ver_1_0_1 import ver_1_0_1
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.responses import Response
@@ -26,7 +26,7 @@ hostname = socket.gethostname()
 ip_address = socket.gethostbyname(hostname)
 
 routes = [
-    Mount('/api_ver_1.0.0', routes=[*ver_1_0_0.routes]),
+    Mount('/api_ver_1.0.1', routes=[*ver_1_0_1.routes]),
     *status.routes
 ]
 

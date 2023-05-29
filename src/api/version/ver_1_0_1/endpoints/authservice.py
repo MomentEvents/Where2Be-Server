@@ -5,7 +5,7 @@ from starlette.responses import Response
 from starlette.routing import Route
 
 
-from api.version.ver_1_0_0.auth import is_requester_privileged, is_user_formatted
+from api.version.ver_1_0_1.auth import is_requester_privileged, is_user_formatted
 from api.helpers import parse_request_data
 
 import datetime

@@ -16,8 +16,11 @@ async def get_compatability(request: Request) -> JSONResponse:
     return Response(status_code=200, content="App version is compatible")
     # return Response(content="This version of Moment is not supported. Update to the latest version.", status_code=400)
 
-async def test_1(request: Request) -> JSONResponse:
-    return Response(status_code=200, content="hey lol")
+async def maintenance_response(request: Request) -> JSONResponse:
+    return Response(status_code=400, content="We're currently upgrading our servers. Please come back later!")
+
+async def deprecated_response(request: Request) -> JSONResponse:
+    return Response(status_code=400, content="Please update your app to the latest version of Moment")
 
 routes = [
     Route("/",
@@ -30,8 +33,8 @@ routes = [
         methods=["POST"]
     ),
     Route(
-        "/test_1",
-        test_1,
-        methods=["GET"],
+        "/api_ver_1.0.0/{path:path}",
+        maintenance_response,
+        methods=["GET", "POST", "UPDATE", "DELETE"],
     )
 ]
