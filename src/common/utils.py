@@ -9,6 +9,9 @@ from exponent_server_sdk import (
 import os
 import requests
 from requests.exceptions import ConnectionError, HTTPError
+import re
+
+from common.constants import IS_PROD
 
 # Creating Session With Boto3.
 SES_CLIENT = boto3.client('ses',
@@ -17,8 +20,6 @@ SES_CLIENT = boto3.client('ses',
                           region_name=os.environ.get('SES_REGION'))
 
 SENDER_EMAIL = 'noreply@momentevents.app'
-
-IS_PROD = os.environ.get('IS_PROD')
 
 def send_email(recipient_email, subject, body):
     response = SES_CLIENT.send_email(
@@ -67,3 +68,7 @@ def send_push_token(expo_token, message, extra):
         # Encountered some other per-notification error.
         raise self.retry(exc=exc)
     
+
+def is_email(string):
+    pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+    return re.match(pattern, string) is not None

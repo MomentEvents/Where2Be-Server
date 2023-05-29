@@ -85,10 +85,10 @@ def fill_data():
     interest2_id = create_interest_entity("athletic", "Athletic")
     interest3_id = create_interest_entity("social", "Social")
     interest4_id = create_interest_entity("professional", "Professional")
-    user_access_token_1 = create_user_entity("Test User 1", "test1", "test1@ucsd.edu", "testuser1", False, school1_id, True)
-    user_access_token_2 = create_user_entity("Test User 2", "test2", "test2@ucsd.edu", "testuser2", False, school1_id, False)
-    user_access_token_3 = create_user_entity("Test User 3", "test3", "test3@ucsd.edu", "testuser3", False, school1_id, True)
-    user_access_token_4 = create_user_entity("Test User 4", "test4", "test4@ucsd.edu", "testuser4", False, school1_id, False)
+    user_access_token_1, user_id_1 = signup("TestUser1", "Test User 1", "clarificationdorad@gmail.com", "test1234", school1_id)
+    user_access_token_2, user_id_2 = signup("TestUser2", "Test User 2", "clarificationdorad2@gmail.com", "test1234", school1_id)
+    user_access_token_3, user_id_3 = signup("TestUser3", "Test User 3", "clarificationdorad3@gmail.com", "test1234", school1_id)
+    user_access_token_4, user_id_4 = signup("TestUser4", "Test User 4", "clarificationdorad4@gmail.com", "test1234", school1_id)
 
     create_event_entity(user_access_token_1, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Frog_on_palm_frond.jpg/1024px-Frog_on_palm_frond.jpg",
     "Nature", "Look at my description :D", "La Jolla Shores", "Public", [interest1_id], "2023-06-02 17:00:00", "2023-06-02 18:00:00")
