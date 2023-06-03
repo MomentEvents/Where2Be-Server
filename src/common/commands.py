@@ -192,7 +192,7 @@ def get_user_entity_by_user_id(user_id: str):
 def login(usercred: str, password: str):
 
     if(IS_PROD is False):
-        user_access_token = "TEST DEV ONE HERE"
+        user_access_token = "INSERT ONE HERE"
         return user_access_token
     # Check if it's a username or email
 
@@ -284,11 +284,11 @@ def signup(username, display_name, email, password, school_id):
 
     result = get_firebase_user_by_email(email)
     if(result is not None):
-        raise Problem(status=400, content="Email with this account already exists")
+        raise Problem(status=400, content="An account with this email already exists")
 
     result = get_user_entity_by_username(username)
     if(result is not None):
-        raise Problem(status=400, content="Username already exists")
+        raise Problem(status=400, content="An account with this username already exists")
 
     result = get_school_entity_by_school_id(school_id)
     if(result is None):
