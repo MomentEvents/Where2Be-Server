@@ -14,9 +14,12 @@ import secrets
 
 from common.neo4j.moment_neo4j import get_neo4j_session
 from common.s3.moment_s3 import get_bucket_url
+from common.commands import login, signup
+
+
 import random
  
-async def get_token_username(request: Request) -> JSONResponse:
+async def login_user(request: Request) -> JSONResponse:
     """
     Description: Send a username and password and returns a user_access_token attached to the associated user object
 
@@ -30,48 +33,24 @@ async def get_token_username(request: Request) -> JSONResponse:
     """
 
     body = await request.json()
-    username = body.get("username")
+    usercred = body.get("usercred")
     password = body.get("password")
 
     try:
-        assert all({username, password})
+        assert all({usercred, password})
     except:
         return Response(status_code=400, content="Incomplete body")
 
-    username = username.lower()
+    usercred = usercred.lower()
 
-    # Connect to the database and run a simple query
-    with get_neo4j_session() as session:
-        result = session.run(
-            """MATCH (u:User) 
-            WHERE u.Username = $username 
-            RETURN u""",
-            parameters={"username": username},
-        )
+    user_access_token = login(usercred, password)
 
-        # get the first element of object
-        record = result.single()
-
-        if record == None:
-            return Response(status_code=400, content="Username does not exist")
-
-        data = record[0]
-
-        print(password)
-
-        if not bcrypt.checkpw(password.encode("utf-8"), data.get("PasswordHash")):
-            return Response(status_code=401, content="Incorrect password")
-
-        user_access_token = {
-            "user_access_token": data.get("UserAccessToken"),
-        }
-
-        return JSONResponse(user_access_token)
+    return JSONResponse(user_access_token)
 
 
  
 @is_user_formatted
-async def create_user(request: Request) -> JSONResponse:
+async def signup_user(request: Request) -> JSONResponse:
     """
     Description: Sends the information and creates a new user. Returns a user_access_token attached to the associated user object.
 
@@ -92,84 +71,21 @@ async def create_user(request: Request) -> JSONResponse:
     password = body.get("password")
     display_name = body.get("display_name")
     school_id = body.get("school_id")
+    email = body.get("email")
 
     try:
-        assert all((username, password, display_name, school_id))
+        assert all((username, password, display_name, school_id, email))
     except AssertionError:
         # Handle the error here
         print("Error")
         return Response(status_code=400, content="Invalid request in body")
 
-    # input checks
-    username = username.lower()
-    username = username.strip()
-    display_name = display_name.strip()
+    user_access_token = signup(username, display_name, email, password, school_id)
 
-    if len(password) < 7:
-        return Response(status_code=400, content="Please enter a more complex password")
+    print("CREATED USER")
+    print(user_access_token)
 
-    if len(password) > 30:
-        return Response(status_code=400, content="Your password is over 30 characters. Please enter a shorter password")
-
-    email_exists = False
-    username_exists = False
-
-    random_number = str(random.randint(1, 5))
-    default_user_image = (
-        get_bucket_url()+"app-uploads/images/users/static/default" + random_number + ".png"
-    )
-
-    with get_neo4j_session() as session:
-
-        # check if username exists
-        result = session.run(
-            "MATCH (u:User {Username: $username}) RETURN u",
-            parameters={"username": username},
-        )
-        record = result.single()
-        if record != None:
-            username_exists = True
-
-        if username_exists:
-            return Response(status_code=400, content="Username already exists")
-
-        hashed_password = get_hash_pwd(password)
-        user_access_token = secrets.token_urlsafe()
-        user_id = secrets.token_urlsafe()
-
-        # check if school exists
-
-        result = session.run(
-            """
-            MATCH(s:School{SchoolID: $school_id})
-            RETURN s""",
-            parameters={
-                "school_id": school_id,
-            },
-        )
-        record = result.single()
-
-        if record == None:
-            return Response(status_code=400, content="School does not exist")
-
-        result = session.run(
-            """CREATE (u:User {UserID: $user_id, Username: $username, Picture:$picture, DisplayName:$display_name, PasswordHash:$hashed_password, UserAccessToken:$user_access_token})
-            WITH u
-            MATCH(n:School{SchoolID: $school_id})
-            CREATE (u)-[r:user_school]->(n)
-            RETURN u""",
-            parameters={
-                "username": username,
-                "display_name": display_name,
-                "picture": default_user_image,
-                "hashed_password": hashed_password,
-                "school_id": school_id,
-                "user_access_token": user_access_token,
-                "user_id": user_id,
-            },
-        )
-
-        return JSONResponse({"user_access_token": user_access_token})
+    return Response(status_code=200, content="User created")
 
 
  
@@ -251,11 +167,11 @@ async def check_if_user_is_admin(request: Request) -> JSONResponse:
     return JSONResponse({"is_admin": is_requester_privileged(user_access_token)})
 
 routes = [
-    Route("/auth/login/username",
-        get_token_username,
+    Route("/auth/login",
+        login_user,
         methods=["POST"],
     ),
-    Route("/auth/signup", create_user, methods=["POST"]),
+    Route("/auth/signup", signup_user, methods=["POST"]),
     Route("/auth/change_password",
           change_password, methods=["POST"]),
     Route("/auth/privileged_admin",

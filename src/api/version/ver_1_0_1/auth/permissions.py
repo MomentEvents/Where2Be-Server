@@ -278,7 +278,7 @@ def is_user_formatted(func):
             return Response(status_code=400, content="Incomplete body")
 
         if len(display_name) > 30:
-            return Response(status_code=400, content="Display name cannot exceed 20 characters")
+            return Response(status_code=400, content="Display name cannot exceed 30 characters")
 
         if (display_name.isprintable() is False) or (display_name.isspace() is True):
             return Response(status_code=400, content="Display name is not readable")

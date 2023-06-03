@@ -46,7 +46,7 @@ def create_user_entity(display_name: str, username: str, school_id: str, is_veri
 
         return user_access_token, user_id
  
-def create_event_entity(user_access_token: str, event_image: str, title: str, description: str, location: str, visibility: str, interest_ids: [str], start_date_time_string, end_date_time_string):
+def create_event_entity(user_access_token: str, event_image: str, title: str, description: str, location: str, visibility: str, interest_ids, start_date_time_string, end_date_time_string):
     start_date_time = parser.parse(start_date_time_string).isoformat()
     end_date_time = None if end_date_time_string is None else parser.parse(end_date_time_string).isoformat()
 
@@ -201,11 +201,29 @@ def login(usercred: str, password: str):
 
         # If there is no user with the username
         if(user is None):
-            raise Problem(status=400, content="Username does not exist")
+            raise Problem(status=400, content="An account with this username does not exist")
         
-        firebase_user = get_firebase_user_by_uid(user['user_id'])
+        user_id = user['user_id']
+
+        firebase_user = get_firebase_user_by_uid(user_id)
+
+        if(firebase_user is None):
+            raise Problem(status=400, content="Could not find user with specific UserID. Please report this to support@momentevents.app")
+          
+        if(firebase_user.email_verified is False):
+            raise Problem(status=400, content="You must verify your email before logging in")
+        
         email = firebase_user.email
-    
+    else:
+        # usercred is email
+        firebase_user = get_firebase_user_by_email(usercred)
+
+        if (firebase_user is None):
+            raise Problem(status=400, content="An account with this email does not exist")
+        
+        if(firebase_user.email_verified is False):
+            raise Problem(status=400, content="You must verify your email before logging in")
+
     result = login_user_firebase(email, password)
 
     print(result)
@@ -219,7 +237,7 @@ def login(usercred: str, password: str):
         elif(message == "INVALID_PASSWORD"):
             reason = "Incorrect password"
         else:
-            reason = "An unknown error occurred. Please report this!"
+            reason = "An unknown error occurred. Please report this to support@momentevents.app"
 
         raise Problem(status=400, content=reason)
     
@@ -249,6 +267,7 @@ def signup(username, display_name, email, password, school_id):
     username = username.lower()
     username = username.strip()
     display_name = display_name.strip()
+    email = email.strip()
 
     if len(password) < 7:
         raise Problem(status=400, content="Please enter a more complex password")
@@ -258,7 +277,7 @@ def signup(username, display_name, email, password, school_id):
 
     result = get_firebase_user_by_email(email)
     if(result is not None):
-        raise Problem(status=400, content="Email already exists")
+        raise Problem(status=400, content="Email with this account already exists")
 
     result = get_user_entity_by_username(username)
     if(result is not None):
