@@ -190,10 +190,13 @@ def get_user_entity_by_user_id(user_id: str):
         return user_data
 
 def login(usercred: str, password: str):
+
+    if(IS_PROD is False):
+        user_access_token = "TEST DEV ONE HERE"
+        return user_access_token
     # Check if it's a username or email
 
-    email = usercred
-
+    email = usercred    
     if(is_email(usercred) is False):
 
         # Get user by username
@@ -208,7 +211,7 @@ def login(usercred: str, password: str):
         firebase_user = get_firebase_user_by_uid(user_id)
 
         if(firebase_user is None):
-            raise Problem(status=400, content="Could not find user with specific UserID. Please report this to support@momentevents.app")
+            raise Problem(status=400, content="This specific account does not have an email linked to it. Contact support to link an email address to your account to log in.")
           
         if(firebase_user.email_verified is False):
             raise Problem(status=400, content="You must verify your email before logging in")
@@ -237,7 +240,7 @@ def login(usercred: str, password: str):
         elif(message == "INVALID_PASSWORD"):
             reason = "Incorrect password"
         else:
-            reason = "An unknown error occurred. Please report this to support@momentevents.app"
+            reason = "An unknown error occurred. Please report this to support"
 
         raise Problem(status=400, content=reason)
     
@@ -263,6 +266,10 @@ def login(usercred: str, password: str):
         return data['UserAccessToken']
         
 def signup(username, display_name, email, password, school_id):
+
+    if(IS_PROD is False):
+        raise Problem(status=400, content="""Dev mode has been turned on, so signup is disabled. Signup is through Firebase, not on our own systems.
+        You can simply just hit the login endpoint and return your own user_access_token from the local database to simulate a login.""")
 
     username = username.lower()
     username = username.strip()

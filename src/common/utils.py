@@ -20,7 +20,7 @@ SES_CLIENT = boto3.client('ses',
                           aws_secret_access_key=os.environ.get('SES_SECRET_ACCESS_KEY'),
                           region_name=os.environ.get('SES_REGION'))
 
-SENDER_EMAIL = 'noreply@momentevents.app'
+SENDER_EMAIL = 'moment-team@momentevents.app'
 
 def send_email(recipient_email, subject, body):
     response = SES_CLIENT.send_email(
