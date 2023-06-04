@@ -15,7 +15,7 @@ import secrets
 from common.neo4j.moment_neo4j import get_neo4j_session
 from common.s3.moment_s3 import get_bucket_url
 from common.commands import login, signup
-from common.firebase import send_password_reset_email
+from common.firebase import send_password_reset_email, send_verification_email
 
 import random
  
@@ -88,6 +88,31 @@ async def signup_user(request: Request) -> JSONResponse:
     return Response(status_code=200, content="User created")
 
 
+async def verify_email(request: Request) -> JSONResponse:
+    """
+    Description: Changes the password for an account.
+
+    params:
+        email: string
+
+    return:
+
+    """
+
+    request_data = await parse_request_data(request)
+
+    email = request_data.get("email")
+
+    try:
+        assert all((email))
+    except AssertionError:
+        # Handle the error here
+        return Response(status_code=400, content="Invalid request in body")
+
+    send_verification_email(email)
+
+    return Response(status_code=200, content="Sent verification email")
+
  
 async def reset_password(request: Request) -> JSONResponse:
     """
@@ -115,7 +140,6 @@ async def reset_password(request: Request) -> JSONResponse:
     return Response(status_code=200, content="Sent password reset email")
 
 
- 
 async def check_if_user_is_admin(request: Request) -> JSONResponse:
 
     body = await request.json()
@@ -134,6 +158,7 @@ routes = [
         methods=["POST"],
     ),
     Route("/auth/signup", signup_user, methods=["POST"]),
+    Route("/auth/verify_email", verify_email, methods=["POST"]),
     Route("/auth/reset_password",
           reset_password, methods=["POST"]),
     Route("/auth/privileged_admin",

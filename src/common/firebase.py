@@ -57,7 +57,7 @@ def get_firebase_user_by_email(email):
         # Handle any errors that occur during the retrieval
         return None
 
-def change_user_email(uid, new_email):
+def change_firebase_user_email(uid, new_email):
     try:
         user = auth.update_user(
             uid,
@@ -79,6 +79,13 @@ def send_password_reset_email(email):
         raise Problem(status=400, content="Error generating password reset link: " + str(e))
 
 def send_verification_email(email):
+    user = get_firebase_user_by_email(email)
+    if(user is None):
+        raise Problem(status=400, content="User with that email does not exist") 
+    
+    if(user.email_verified is True):
+        raise Problem(status=400, content="This account is already verified") 
+    
     try:
         verification_link = auth.generate_email_verification_link(email)
         email_message = "Welcome to Moment! We hope you enjoy it here.\n\nTo verify your email, click on this link: " + verification_link + "\n\n\nBest,\nThe Moment Team"
