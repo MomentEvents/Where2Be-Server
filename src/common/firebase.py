@@ -85,4 +85,4 @@ def send_verification_email(email):
         send_email(email, "Verify your Moment account", email_message)
     except Exception as e:
         # Handle any errors that occur during the email update
-        raise Problem(status=400, content="Error generating verification email link: " + str(e))
+        raise Problem(status=400, content="Error sending verification email link: " + str(e))

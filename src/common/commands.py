@@ -282,8 +282,15 @@ def signup(username, display_name, email, password, school_id):
     if len(password) > 30:
         raise Problem(status=400, content="Your password is over 30 characters. Please enter a shorter password")
 
+    if(is_email(email) is False):
+        raise Problem(status=400, content="Please enter a valid email")
+
     result = get_firebase_user_by_email(email)
     if(result is not None):
+        if(result.email_verified is False):
+            send_verification_email(email)
+            raise Problem(status=200, content="Re-sent verification email")
+
         raise Problem(status=400, content="An account with this email already exists")
 
     result = get_user_entity_by_username(username)
