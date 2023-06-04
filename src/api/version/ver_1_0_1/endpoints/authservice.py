@@ -15,7 +15,7 @@ import secrets
 from common.neo4j.moment_neo4j import get_neo4j_session
 from common.s3.moment_s3 import get_bucket_url
 from common.commands import login, signup
-
+from common.firebase import send_password_reset_email
 
 import random
  
@@ -110,7 +110,9 @@ async def reset_password(request: Request) -> JSONResponse:
         # Handle the error here
         return Response(status_code=400, content="Invalid request in body")
 
-    
+    send_password_reset_email(email)
+
+    return Response(status_code=200, content="Sent password reset email")
 
 
  
