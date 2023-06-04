@@ -282,7 +282,7 @@ def signup(username, display_name, email, password, school_id):
     if len(password) > 30:
         raise Problem(status=400, content="Your password is over 30 characters. Please enter a shorter password")
 
-    if(is_email(email) is False):
+    if(is_email(email) is False or email.isspace()):
         raise Problem(status=400, content="Please enter a valid email")
 
     result = get_firebase_user_by_email(email)

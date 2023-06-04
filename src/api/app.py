@@ -22,9 +22,6 @@ from common.neo4j.moment_neo4j import get_neo4j_session, test_neo4j_health
 import sys
 from api.utils.middleware import ProblemHandlingMiddleware
 
-hostname = socket.gethostname()
-ip_address = socket.gethostbyname(hostname)
-
 routes = [
     Mount('/api_ver_1.0.1', routes=[*ver_1_0_1.routes]),
     *status.routes

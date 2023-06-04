@@ -45,7 +45,7 @@ async def login_user(request: Request) -> JSONResponse:
 
     user_access_token = login(usercred, password)
 
-    return JSONResponse(user_access_token)
+    return JSONResponse({"user_access_token": user_access_token})
 
 
  
