@@ -191,7 +191,7 @@ def get_user_entity_by_user_id(user_id: str):
 
 def login(usercred: str, password: str):
 
-    if(IS_PROD is False):
+    if(not IS_PROD):
         user_access_token = "INSERT ONE HERE"
         return user_access_token
     # Check if it's a username or email
@@ -267,7 +267,7 @@ def login(usercred: str, password: str):
         
 def signup(username, display_name, email, password, school_id):
 
-    if(IS_PROD is False):
+    if(not IS_PROD):
         raise Problem(status=400, content="""Dev mode has been turned on, so signup is disabled. Signup is through Firebase, not on our own systems.
         You can simply just hit the login endpoint and return your own user_access_token from the local database to simulate a login.""")
 
