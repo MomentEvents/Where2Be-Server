@@ -9,6 +9,8 @@ def check_is_prod():
     else:
         return False
 
-IS_PROD = check_is_prod() # This is a sanity check so we don't accidently reset the DB if it is prod :)
+IS_PROD = check_is_prod() # This is a check to replicate if the server were to be run on prod.
+                          # does things such as prevent DB resets, stop logins / signups, and
+                          # toggle debug mode
 
 SCRAPER_TOKEN = os.environ.get('SCRAPER_TOKEN')
