@@ -21,6 +21,7 @@ def init_schema():
         "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.PasswordHash);", # Object
         "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.Picture);", # String
         "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.VerifiedOrganization);", # Boolean
+        "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.Administrator);", # Boolean
         #Events
         "CREATE CONSTRAINT IF NOT EXISTS FOR (e:Event) REQUIRE e.EventID IS UNIQUE", # String
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Title);", # String

@@ -10,17 +10,6 @@ import json
 from io import BytesIO
 import io
 
-# oh golly delete this someday
-admin_user_access_tokens = {"ogzccTkpufyNJI_8uUxus1YJHnDVo6lKPdEaa5dZqJQ",
-                            "JWTntbEefCyMWulyfC4mqTIcYPa3m8wjPM3fOTOY7uc",
-                            "NwAcvNpiD8moi0uy4SqpqkizIpZKNwz-j6BqyLkn6lY",
-                            "rAA8AUz-7QRXmcktfjiAWARD-_GoHrpqzbcTrooHY-U",
-                            "Zhz-LH_nkUJQ8pAAVkSdynNC1UFXS_Wk-ddfBhgvEEE",
-                            "QrnQRJRCeulxJeG5e-uQXdev3xgHyUM136693CrmaBM",
-                            "sxjjT2gj6VYDRjR6KsncWBZTN9o2SE-wNAvVG7oeVZ4"
-                            }
-
-
 def is_valid_user_access_token(func):
     @wraps(func)
     async def wrapper(request: Request) -> JSONResponse:
@@ -389,21 +378,23 @@ def is_requester_admin(user_access_token) -> bool:
 
     with get_neo4j_session() as session:
         result = session.run(
-            """MATCH (user:User{UserAccessToken:$user_access_token})
-                RETURN user""",
+            """MATCH (u:User {UserAccessToken: $user_access_token})
+                RETURN {
+                Administrator: COALESCE(u.Administrator, false)
+                } as result""",
                 parameters={
                     "user_access_token": user_access_token
                 },
             )
+        
         record = result.single()
 
-        if (record == None):
+        if(record is None):
             return False
         
         data = record[0]
-        is_admin = data.get("Administrator", False),
-        
         try:
+            is_admin = data['Administrator']
             assert type(is_admin) == bool
         except:
             return False

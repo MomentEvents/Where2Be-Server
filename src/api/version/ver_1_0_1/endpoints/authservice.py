@@ -153,7 +153,7 @@ async def check_if_user_is_admin(request: Request) -> JSONResponse:
         assert ({user_access_token})
     except:
         return Response(status_code=400, content="User access token is blank")
-
+    
     return JSONResponse({"is_admin": is_requester_admin(user_access_token)})
 
 routes = [
@@ -168,9 +168,3 @@ routes = [
     Route("/auth/privileged_admin",
           check_if_user_is_admin, methods=["POST"]),
 ]
-
-# HELPER FUNCTIONS
-
-
-def get_hash_pwd(password):
-    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
