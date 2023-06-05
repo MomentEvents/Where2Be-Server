@@ -134,7 +134,7 @@ def get_user_entity_by_user_access_token(user_access_token: str, show_num_events
             "user_access_token": user_access_token
         }
     
-    match_query = """MATCH (u:User {UserID: $user_id}) """
+    match_query = """MATCH (u:User {UserAccessToken: $user_access_token}) """
 
     statistics_query = """WITH u, SIZE(()-[:user_follow]->(u)) as NumFollowers,
             SIZE(()<-[:user_follow]-(u)) as NumFollowing,
