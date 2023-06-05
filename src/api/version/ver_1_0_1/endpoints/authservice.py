@@ -113,6 +113,7 @@ async def verify_email(request: Request) -> JSONResponse:
         # Handle the error here
         return Response(status_code=400, content="Invalid request in body")
 
+    email = email.strip()
     send_verification_email(email)
 
     return Response(status_code=200, content="Sent verification email")
@@ -139,6 +140,7 @@ async def reset_password(request: Request) -> JSONResponse:
         # Handle the error here
         return Response(status_code=400, content="Invalid request in body")
 
+    email = email.strip()
     send_password_reset_email(email)
 
     return Response(status_code=200, content="Sent password reset email")

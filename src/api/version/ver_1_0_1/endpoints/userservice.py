@@ -1,7 +1,7 @@
 from inspect import Parameter
 
 from markupsafe import string
-from common.firebase import get_firebase_user_by_uid
+from common.firebase import delete_firebase_user_by_uid, get_firebase_user_by_uid
 from common.neo4j.commands.usercommands import get_user_entity_by_user_id
 from common.neo4j.converters import convert_user_entity_to_user
 from starlette.requests import Request
@@ -206,6 +206,8 @@ async def delete_using_user_id(request: Request) -> JSONResponse:
                 "user_id": user_id,
             },
         )
+
+    delete_firebase_user_by_uid(user_id)
 
     return Response(status_code=200, content="User and events deleted")
 
@@ -521,10 +523,9 @@ async def user_follow_update(request: Request) -> JSONResponse:
 async def get_user_email(request: Request) -> JSONResponse:
 
     user_id = request.path_params["user_id"]
-    user_access_token = request.path_params["user_access_token"]
 
     try:
-        assert all((user_id, user_access_token))
+        assert all((user_id))
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
     

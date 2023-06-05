@@ -61,9 +61,7 @@ def get_user_entity_by_username(username: str):
 
         data = record[0]
 
-        user_data = data["u"]
-
-        user = convert_user_entity_to_user(user_data, False)
+        user = convert_user_entity_to_user(data, False)
 
         return user
 

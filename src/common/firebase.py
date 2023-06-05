@@ -68,11 +68,26 @@ def change_firebase_user_email(uid, new_email):
     except Exception as e:
         # Handle any errors that occur during the email update
         raise Problem(status=400, content="Error updating user email: " + str(e))
+    
+def delete_firebase_user_by_uid(uid):
+    try:
+        auth.delete_user(uid)
+        print("Successfully deleted user")
+    except Exception as e:
+        # Handle any errors that occur during the email update
+        raise Problem(status=400, content="Error deleting firebase user: " + str(e)) 
 
 def send_password_reset_email(email):
+    user = get_firebase_user_by_email(email)
+    if(user is None):
+        raise Problem(status=400, content="An account with this email does not exist") 
+    
+    if(user.email_verified is False):
+        raise Problem(status=400, content="This account has not verified their email") 
+
     try:
         reset_link = auth.generate_password_reset_link(email)
-        email_message = "To reset your account's password, click on this link: " + reset_link + "\n\nIf you did not intend to do this action, you can ignore this email.\n\n\nBest,\nThe Moment Team"
+        email_message = "Greetings from Moment!\n\nWe received a password reset request for the Moment account linked to this email. To reset your account's password, click on this link: " + reset_link + "\n\nIf you did not intend to do this action, you can ignore this email.\n\n\nBest,\nThe Moment Team"
         send_email(email, "Reset your Moment password", email_message)
     except Exception as e:
         # Handle any errors that occur during the email update
@@ -81,7 +96,7 @@ def send_password_reset_email(email):
 def send_verification_email(email):
     user = get_firebase_user_by_email(email)
     if(user is None):
-        raise Problem(status=400, content="User with that email does not exist") 
+        raise Problem(status=400, content="An account with this email does not exist") 
     
     if(user.email_verified is True):
         raise Problem(status=400, content="This account is already verified") 

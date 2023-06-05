@@ -1,6 +1,3 @@
-from common.constants import DETAIL_LEVEL
-
-
 def convert_user_entity_to_user(data, show_num_events_followers_following: bool):
     user_data = {
         "user_id": data["UserID"],
