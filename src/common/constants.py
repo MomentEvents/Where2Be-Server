@@ -9,4 +9,6 @@ def check_is_prod():
     else:
         return False
 
-IS_PROD = True # This is a sanity check so we don't accidently reset the DB if it is prod :)
+IS_PROD = check_is_prod() # This is a sanity check so we don't accidently reset the DB if it is prod :)
+
+SCRAPER_TOKEN = os.environ.get('SCRAPER_TOKEN')

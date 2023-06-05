@@ -72,23 +72,6 @@ def get_user_entity_by_user_id(user_id: str, self_user_access_token: str, show_n
     
     if(self_user_access_token):
         parameters["user_access_token"] = self_user_access_token
-
-    # query = """MATCH (u:User {UserID: $user_id})
-    #         WITH u, SIZE(()-[:user_follow]->(u)) as NumFollowers,
-    #         SIZE(()<-[:user_follow]-(u)) as NumFollowing,
-    #         EXISTS((u)<-[:user_follow]-(:User{UserAccessToken: $user_access_token})) as UserFollow,
-    #         SIZE((u)-[:user_host]->(:Event)) as NumEvents
-    #         RETURN {
-    #             UserID: u.UserID,
-    #             DisplayName: u.DisplayName,
-    #             Username: u.Username,
-    #             Picture: u.Picture,
-    #             VerifiedOrganization: u.VerifiedOrganization,
-    #             UserFollow: UserFollow,
-    #             NumFollowers: NumFollowers,
-    #             NumFollowing: NumFollowing,
-    #             NumEvents: NumEvents
-    #         }"""
     
     match_query = """MATCH (u:User {UserID: $user_id}) """
 
@@ -98,6 +81,66 @@ def get_user_entity_by_user_id(user_id: str, self_user_access_token: str, show_n
     
     user_follow_query = """EXISTS((u)<-[:user_follow]-(:User{UserAccessToken: $user_access_token})) 
             as UserFollow""" if self_user_access_token is not None else """False as UserFollow"""
+    
+    return_query = """
+    RETURN {
+                UserID: u.UserID,
+                DisplayName: u.DisplayName,
+                Username: u.Username,
+                Picture: u.Picture,
+                VerifiedOrganization: u.VerifiedOrganization,
+                UserFollow: UserFollow,
+                NumFollowers: NumFollowers,
+                NumFollowing: NumFollowing,
+                NumEvents: NumEvents
+            }
+    """ if show_num_events_followers_following else """
+    RETURN {
+                UserID: u.UserID,
+                DisplayName: u.DisplayName,
+                Username: u.Username,
+                Picture: u.Picture,
+                VerifiedOrganization: u.VerifiedOrganization
+            }
+    """
+    
+    if(show_num_events_followers_following):
+        final_query = match_query + statistics_query + user_follow_query + return_query
+    else:
+        final_query = match_query + return_query
+
+
+    print(final_query)
+    with get_neo4j_session() as session:
+
+        result = session.run(
+            final_query,
+            parameters=parameters,
+        )
+
+        record = result.single()
+
+        if record == None:
+            return None
+
+        data = record[0]
+
+        user_data = convert_user_entity_to_user(data, show_num_events_followers_following)
+
+        return user_data
+
+def get_user_entity_by_user_access_token(user_access_token: str, show_num_events_followers_following: bool):
+    parameters = {
+            "user_access_token": user_access_token
+        }
+    
+    match_query = """MATCH (u:User {UserID: $user_id}) """
+
+    statistics_query = """WITH u, SIZE(()-[:user_follow]->(u)) as NumFollowers,
+            SIZE(()<-[:user_follow]-(u)) as NumFollowing,
+            SIZE((u)-[:user_host]->(:Event)) as NumEvents,"""
+    
+    user_follow_query = """False as UserFollow"""
     
     return_query = """
     RETURN {

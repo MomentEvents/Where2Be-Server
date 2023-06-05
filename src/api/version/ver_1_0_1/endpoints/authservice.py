@@ -1,4 +1,7 @@
 from inspect import Parameter
+from common.models import Problem
+from common.neo4j.commands.schoolcommands import get_school_entity_by_school_id
+from common.neo4j.commands.usercommands import create_user_entity, get_user_entity_by_username
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.responses import Response
@@ -17,7 +20,7 @@ from common.s3.moment_s3 import get_bucket_url
 from common.commands import login, signup
 from common.firebase import send_password_reset_email, send_verification_email
 
-import random
+from common.constants import SCRAPER_TOKEN
  
 async def login_user(request: Request) -> JSONResponse:
     """
@@ -158,6 +161,47 @@ async def check_if_user_is_admin(request: Request) -> JSONResponse:
     
     return JSONResponse({"is_admin": is_requester_admin(user_access_token)})
 
+@is_user_formatted
+async def create_user_without_verify(request: Request) -> JSONResponse:
+    body = await request.json()
+
+    username = body.get("username")
+    password = body.get("password")
+    display_name = body.get("display_name")
+    school_id = body.get("school_id")
+    scraper_token = body.get("scraper_token")
+
+    try:
+        assert all((username, password, display_name, school_id, scraper_token))
+    except AssertionError:
+        # Handle the error here
+        print("Error")
+        return Response(status_code=400, content="Invalid request in body")
+
+    if(scraper_token != SCRAPER_TOKEN):
+        raise Problem(status=401, content="Invalid scraper token")
+
+    username = username.lower()
+    username = username.strip()
+    display_name = display_name.strip()
+
+    school = get_school_entity_by_school_id(school_id)
+
+    if(school is None):
+        raise Problem(status=400, content="School does not exist")
+    
+    user = get_user_entity_by_username(username)
+
+    if(user is not None):
+        raise Problem(status=400, content="Username already exists")
+    
+    user_access_token, user_id = create_user_entity(display_name, username, school_id, False, False)
+
+    return JSONResponse({"user_access_token": user_access_token, "user_id": user_id})
+
+
+
+
 routes = [
     Route("/auth/login",
         login_user,
@@ -169,4 +213,6 @@ routes = [
           reset_password, methods=["POST"]),
     Route("/auth/privileged_admin",
           check_if_user_is_admin, methods=["POST"]),
+    Route("/auth/create_scraper_account",
+          create_user_without_verify, methods=["POST"]),
 ]
