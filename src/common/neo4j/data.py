@@ -1,5 +1,9 @@
 from common.neo4j.moment_neo4j import get_neo4j_session
-from common.commands import create_user_entity, create_event_entity, create_interest_entity, create_school_entity, signup
+from common.neo4j.commands.usercommands import create_user_entity
+from common.neo4j.commands.schoolcommands import create_school_entity
+from common.neo4j.commands.interestcommands import create_interest_entity
+from common.neo4j.commands.eventcommands import create_event_entity
+
 import os
 from common.constants import IS_PROD
 

@@ -1,4 +1,5 @@
-from common.neo4j.commands import create_user_entity, get_school_entity_by_school_id, get_user_entity_by_username
+from common.neo4j.commands.usercommands import create_user_entity, get_user_entity_by_username
+from common.neo4j.commands.schoolcommands import get_school_entity_by_school_id
 from common.neo4j.moment_neo4j import get_neo4j_session
 from common.models import Problem
 from common.utils import is_email

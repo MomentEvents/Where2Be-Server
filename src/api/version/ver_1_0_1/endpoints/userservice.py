@@ -1,28 +1,19 @@
 from inspect import Parameter
 
 from markupsafe import string
+from common.firebase import get_firebase_user_by_uid
+from common.neo4j.commands.usercommands import get_user_entity_by_user_id
+from common.neo4j.converters import convert_user_entity_to_user
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from starlette.routing import Route
 from common.models import Problem
 
-from datetime import datetime
-import bcrypt
 import secrets
 
 from common.neo4j.moment_neo4j import get_neo4j_session
 from api.version.ver_1_0_1.auth import is_real_user, is_requester_privileged_for_user, is_user_formatted, is_valid_user_access_token
 
-import platform
-
-if platform.system() == "Windows":
-    from asyncio.windows_events import NULL
-
-import boto3
-
-import base64
-from PIL import Image
-import json
 from common.s3.moment_s3 import upload_base64_image
 
 async def get_using_user_access_token(request: Request) -> JSONResponse:
@@ -49,30 +40,12 @@ async def get_using_user_access_token(request: Request) -> JSONResponse:
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
 
-    with get_neo4j_session() as session:
-        result = session.run(
-            """MATCH (u:User{UserAccessToken: $user_access_token, UserID: $user_id}) 
-            RETURN u""",
-            parameters={
-                "user_access_token": user_access_token,
-                "user_id": user_id,
-            },
-        )
-        record = result.single()
-        if record == None:
-            return Response(status_code=401, content="User does not exist")
-        
-        data = record[0]
+    user = get_user_entity_by_user_id(user_id=user_id, self_user_access_token=user_access_token, show_num_events_followers_following=True)
 
-        user_data = {
-            "user_id": data["UserID"],
-            "display_name": data["DisplayName"],
-            "username": data["Username"],
-            "picture": data["Picture"],
-            "verified_organization": data.get("VerifiedOrganization", False),
-        }
-
-        return JSONResponse(user_data)
+    if(user is None):
+        raise Problem(status=400, content="User does not exist")
+    
+    return JSONResponse(user)
 
 async def get_using_user_id(request: Request) -> JSONResponse:
     """
@@ -97,45 +70,12 @@ async def get_using_user_id(request: Request) -> JSONResponse:
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
 
-    with get_neo4j_session() as session:
-        result = session.run(
-        """MATCH (u:User{UserID : $user_id})
-            WITH u, SIZE(()-[:user_follow]->(u)) as num_followers,
-            SIZE(()<-[:user_follow]-(u)) as num_following
-            RETURN {
-                user_id: u.UserID,
-                display_name: u.DisplayName,
-                username: u.Username,
-                picture: u.Picture,
-                verified_organization: u.VerifiedOrganization,
-                user_follow: user_follow,
-                num_followers: num_followers,
-                num_following: num_following
-            }""",
-            parameters={
-                "user_id": user_id
-            },
-        )
+    user = get_user_entity_by_user_id(user_id=user_id, self_user_access_token=None, show_num_events_followers_following=True)
 
-
-        record = result.single()
-
-        if record == None:
-            return Response(status_code=400, content="User does not exist")
-
-        data = record[0]
-
-        user_data = {
-            "user_id": data["UserID"],
-            "display_name": data["DisplayName"],
-            "username": data["Username"],
-            "picture": data["Picture"],
-            "verified_organization": data.get("VerifiedOrganization", False),
-            "num_followers": data["num_followers"],
-            "num_following": data["num_following"],
-        }
-
-        return JSONResponse(user_data)
+    if(user is None):
+        raise Problem(status=400, content="User does not exist")
+    
+    return JSONResponse(user)
 
 async def get_using_user_id_with_body(request: Request) -> JSONResponse:
     """
@@ -162,49 +102,11 @@ async def get_using_user_id_with_body(request: Request) -> JSONResponse:
         assert all((user_id, user_access_token))
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
-
-    with get_neo4j_session() as session:
-        result = session.run(
-            """MATCH (u:User{UserID : $user_id})
-            WITH u, SIZE(()-[:user_follow]->(u)) as num_followers,
-            SIZE(()<-[:user_follow]-(u)) as num_following,
-            EXISTS((u)<-[:user_follow]-(:User{UserAccessToken:$user_access_token})) as user_follow
-            RETURN {
-                user_id: u.UserID,
-                display_name: u.DisplayName,
-                username: u.Username,
-                picture: u.Picture,
-                verified_organization: u.VerifiedOrganization,
-                user_follow: user_follow,
-                num_followers: num_followers,
-                num_following: num_following
-            }""",
-            parameters={
-                "user_id": user_id,
-                "user_access_token": user_access_token,
-            },
-        )
-
-
-        record = result.single()
-
-        if record == None:
-            return Response(status_code=400, content="User does not exist")
-
-        data = record[0]
-
-        user_data = {
-            "user_id": data["user_id"],
-            "display_name": data["display_name"],
-            "username": data["username"],
-            "picture": data["picture"],
-            "verified_organization": data.get("verified_organization", False),
-            "num_followers": data["num_followers"],
-            "num_following": data["num_following"],
-            "user_follow": data["user_follow"]
-        }
-
-        return JSONResponse(user_data)
+    
+    user = get_user_entity_by_user_id(user_id=user_id, self_user_access_token=user_access_token, show_num_events_followers_following=True)
+    if(user is None):
+        raise Problem(status=400, content="User does not exist")
+    return JSONResponse(user)
 
 @is_user_formatted
 @is_requester_privileged_for_user
@@ -351,13 +253,7 @@ async def get_event_host(request: Request) -> JSONResponse:
 
         data = record[0]
 
-        user_data = {
-            "user_id": data["UserID"],
-            "display_name": data["DisplayName"],
-            "username": data["Username"],
-            "picture": data["Picture"],
-            "verified_organization": data.get("VerifiedOrganization", False),
-        }
+        user_data = convert_user_entity_to_user(data=data, show_num_events_followers_following=False)
 
         return JSONResponse(user_data)
 
@@ -559,13 +455,7 @@ async def search_users(request: Request) -> JSONResponse:
         result = session.run(
             """MATCH ((u:User)-[:user_school]->(s:School{SchoolID: $school_id}))
                 WHERE (toLower(u.DisplayName) CONTAINS toLower($query) OR toLower(u.Username) CONTAINS toLower($query))
-            RETURN {
-                user_id: u.UserID,
-                display_name: u.DisplayName,
-                username: u.Username,
-                picture: u.Picture,
-                verified_organization: coalesce(u.VerifiedOrganization, false)
-            } as user
+            RETURN u
             ORDER BY toLower(u.DisplayName)
             LIMIT 20""",
             parameters={
@@ -577,19 +467,8 @@ async def search_users(request: Request) -> JSONResponse:
         users = []
 
         for record in result:
-            user_data = record['user']
-            user_id = user_data['user_id']
-            display_name = user_data['display_name']
-            username = user_data['username']
-            picture = user_data['picture']
-            verified_organization = user_data['verified_organization']
-            users.append({
-                "user_id": user_id,
-                "display_name": display_name,
-                "username": username,
-                "picture": picture,
-                "verified_organization": verified_organization,
-            })
+            user_data = record["u"]
+            users.append(convert_user_entity_to_user(data=user_data, show_num_events_followers_following=False))
 
         return JSONResponse(
             users
@@ -641,9 +520,22 @@ async def user_follow_update(request: Request) -> JSONResponse:
 @is_requester_privileged_for_user
 async def get_user_email(request: Request) -> JSONResponse:
 
-    email = "todo"
+    user_id = request.path_params["user_id"]
+    user_access_token = request.path_params["user_access_token"]
 
-    return JSONResponse(status_code=200,content={"email": email})
+    try:
+        assert all((user_id, user_access_token))
+    except AssertionError:
+        return Response(status_code=400, content="Incomplete body")
+    
+    firebase_user = get_firebase_user_by_uid(uid=user_id)
+
+    email = firebase_user.email
+
+    if(email is None):
+        raise Problem(status_code=400,content="Could not retrieve email for user")
+
+    return JSONResponse({"email": email})
 
 routes = [
     Route("/user/user_id/{user_id}/user_access_token/{user_access_token}",

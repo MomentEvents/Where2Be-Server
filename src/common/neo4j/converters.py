@@ -1,7 +1,7 @@
 from common.constants import DETAIL_LEVEL
 
 
-def convert_user_entity_to_user(data, details_list):
+def convert_user_entity_to_user(data, show_num_events_followers_following: bool):
     user_data = {
         "user_id": data["UserID"],
         "display_name": data["DisplayName"],
@@ -10,9 +10,12 @@ def convert_user_entity_to_user(data, details_list):
         "verified_organization": data.get("VerifiedOrganization", False),
     }
 
-    test = ["hi", "hi"]
+    if(show_num_events_followers_following):
+        user_data['num_followers'] = data["NumFollowers"]
+        user_data['num_following'] = data["NumFollowing"]
+        user_data['num_events'] = data["NumEvents"]
+        user_data['user_follow'] = data["UserFollow"]
 
-    if(DETAIL_LEVEL.User)
     return user_data
 
     

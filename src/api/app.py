@@ -23,7 +23,7 @@ import sys
 from api.utils.middleware import ProblemHandlingMiddleware
 
 routes = [
-    Mount('/api_ver_1.0.1', routes=[*ver_1_0_1.routes]),
+    Mount('/v1.0.1', routes=[*ver_1_0_1.routes]),
     *status.routes
 ]
 
