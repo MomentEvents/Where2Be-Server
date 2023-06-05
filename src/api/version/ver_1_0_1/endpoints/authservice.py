@@ -5,7 +5,7 @@ from starlette.responses import Response
 from starlette.routing import Route
 
 
-from api.version.ver_1_0_1.auth import is_requester_privileged, is_user_formatted
+from api.version.ver_1_0_1.auth import is_requester_admin, is_user_formatted
 from api.helpers import parse_request_data
 
 import datetime
@@ -154,7 +154,7 @@ async def check_if_user_is_admin(request: Request) -> JSONResponse:
     except:
         return Response(status_code=400, content="User access token is blank")
 
-    return JSONResponse({"is_admin": is_requester_privileged(user_access_token)})
+    return JSONResponse({"is_admin": is_requester_admin(user_access_token)})
 
 routes = [
     Route("/auth/login",

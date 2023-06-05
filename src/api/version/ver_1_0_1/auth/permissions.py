@@ -326,7 +326,7 @@ def is_requester_privileged_for_user(func):
         except AssertionError:
             return Response(status_code=400, content="Incomplete body")
 
-        if is_requester_privileged(user_access_token):
+        if is_requester_admin(user_access_token):
             return await func(request)
 
         with get_neo4j_session() as session:
@@ -363,7 +363,7 @@ def is_requester_privileged_for_event(func):
         except AssertionError:
             return Response(status_code=400, content="Incomplete body")
 
-        if is_requester_privileged(user_access_token):
+        if is_requester_admin(user_access_token):
             return await func(request)
 
         with get_neo4j_session() as session:
@@ -385,9 +385,31 @@ def is_requester_privileged_for_event(func):
 # HELPER FUNCTIONS
 
 
-def is_requester_privileged(user_access_token) -> bool:
+def is_requester_admin(user_access_token) -> bool:
 
-    return user_access_token in admin_user_access_tokens
+    with get_neo4j_session() as session:
+        result = session.run(
+            """MATCH (user:User{UserAccessToken:$user_access_token})
+                RETURN user""",
+                parameters={
+                    "user_access_token": user_access_token
+                },
+            )
+        record = result.single()
+
+        if (record == None):
+            return False
+        
+        data = record[0]
+        is_admin = data.get("Administrator", False),
+        
+        try:
+            assert type(is_admin) == bool
+        except:
+            return False
+        
+        return is_admin
+        
 
 
 async def parse_request_data(request: Request):

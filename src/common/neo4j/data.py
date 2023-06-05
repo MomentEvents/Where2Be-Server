@@ -84,10 +84,10 @@ def fill_data():
     interest2_id = create_interest_entity("athletic", "Athletic")
     interest3_id = create_interest_entity("social", "Social")
     interest4_id = create_interest_entity("professional", "Professional")
-    user_access_token_1, user_id1 = create_user_entity("Test User 1", "testuser1", school1_id, False)
-    user_access_token_2, user_id2 = create_user_entity("Test User 2", "testuser2", school1_id, False)
-    user_access_token_3, user_id3 = create_user_entity("Test User 3", "testuser3", school1_id, False)
-    user_access_token_4, user_id4 = create_user_entity("Test User 4", "testuser4", school1_id, False)
+    user_access_token_1, user_id1 = create_user_entity("MomentOrg", "momentorg", school1_id, True, False)
+    user_access_token_2, user_id2 = create_user_entity("Test User 1", "testuser1", school1_id, False, False)
+    user_access_token_3, user_id3 = create_user_entity("MomentAdmin", "momentadmin", school1_id, True, True)
+    user_access_token_4, user_id4 = create_user_entity("Test User 2", "testuser2", school1_id, False, False)
 
     event_start_dates = "2023-06-14"
     event_end_dates = "2023-06-14"

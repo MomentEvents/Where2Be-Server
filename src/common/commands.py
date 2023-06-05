@@ -131,9 +131,10 @@ def signup(username, display_name, email, password, school_id):
 
 
     is_verified_org = False
+    is_admin = False
 
     # Create user in the database.
-    user_access_token, user_id = create_user_entity(display_name, username, school_id, is_verified_org)
+    user_access_token, user_id = create_user_entity(display_name, username, school_id, is_verified_org, is_admin)
 
     # Create user in firebase
     result = create_user_firebase(user_id, email, password)
