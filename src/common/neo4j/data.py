@@ -106,15 +106,17 @@ def fill_data():
     return 1
 
 def reset_db():
+    if IS_PROD is True:
+        return
+    
     with get_neo4j_session() as session:
         session.run("""MATCH (n)
             DETACH DELETE n""")
     return 1
 
 def init_neo4j():
-    if do_reset_db is True and not IS_PROD:
+    if do_reset_db is True and IS_PROD is False:
         reset_db()
         fill_data()
     if do_create_schema is True:
         init_schema()
-    test = 1
