@@ -1,10 +1,10 @@
 from common.sql.moment_sql import get_sql_connection
+from common.constants import IS_PROD
+
 import os
 
 do_reset_db = False
 do_create_schema = False
-
-is_prod = os.environ.get('IS_PROD') # This is a sanity check so we don't accidently reset the DB if it is prod :)
 
 def init_schema():
     schemas = [
@@ -19,12 +19,12 @@ def init_schema():
 
 
 def reset_db():
-    if is_prod is True:
+    if IS_PROD is True:
         return
     return 1
 
 def init_sql():
-    if do_reset_db is True and is_prod is False:
+    if do_reset_db is True and IS_PROD is False:
         reset_db()
     if do_create_schema is True:
         init_schema()

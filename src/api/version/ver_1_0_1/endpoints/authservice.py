@@ -43,9 +43,13 @@ async def login_user(request: Request) -> JSONResponse:
 
     usercred = usercred.lower()
 
-    user_access_token = login(usercred, password)
+    usercred = usercred.strip()
 
-    return JSONResponse({"user_access_token": user_access_token})
+    user_id, user_access_token = login(usercred, password)
+    print("user_id returned to API: ", user_id)
+    print("user_access_token returned to API: ", user_access_token)
+
+    return JSONResponse({"user_id": user_id, "user_access_token": user_access_token})
 
 
  

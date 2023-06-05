@@ -25,7 +25,6 @@ from PIL import Image
 import json
 from common.s3.moment_s3 import upload_base64_image
 
-
 async def get_using_user_access_token(request: Request) -> JSONResponse:
     # raise Problem(status=400, content="Please log in to continue")
     """
@@ -42,43 +41,39 @@ async def get_using_user_access_token(request: Request) -> JSONResponse:
         verified_organization: boolean,
     """
 
+    user_id = request.path_params["user_id"]
     user_access_token = request.path_params["user_access_token"]
 
     try:
-        assert all((user_access_token))
+        assert all((user_id, user_access_token))
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
 
     with get_neo4j_session() as session:
         result = session.run(
-            """MATCH (u:User{UserAccessToken : $user_access_token})
+            """MATCH (u:User{UserAccessToken: $user_access_token, UserID: $user_id}) 
             RETURN u""",
             parameters={
                 "user_access_token": user_access_token,
+                "user_id": user_id,
             },
         )
-
-
         record = result.single()
-
         if record == None:
-            return Response(status_code=400, content="User does not exist")
-
+            return Response(status_code=401, content="User does not exist")
+        
         data = record[0]
 
         user_data = {
             "user_id": data["UserID"],
             "display_name": data["DisplayName"],
             "username": data["Username"],
-            "email": data.get("Email", None),
             "picture": data["Picture"],
             "verified_organization": data.get("VerifiedOrganization", False),
         }
 
         return JSONResponse(user_data)
 
-
-# WILL BE DEPRECATED SOON(?)
 async def get_using_user_id(request: Request) -> JSONResponse:
     """
     Description: Gets the user information with the associated user_id {user_id}. Returns error if no results found.
@@ -104,10 +99,21 @@ async def get_using_user_id(request: Request) -> JSONResponse:
 
     with get_neo4j_session() as session:
         result = session.run(
-            """MATCH (u:User{UserID : $user_id})
-            RETURN u""",
+        """MATCH (u:User{UserID : $user_id})
+            WITH u, SIZE(()-[:user_follow]->(u)) as num_followers,
+            SIZE(()<-[:user_follow]-(u)) as num_following
+            RETURN {
+                user_id: u.UserID,
+                display_name: u.DisplayName,
+                username: u.Username,
+                picture: u.Picture,
+                verified_organization: u.VerifiedOrganization,
+                user_follow: user_follow,
+                num_followers: num_followers,
+                num_following: num_following
+            }""",
             parameters={
-                "user_id": user_id,
+                "user_id": user_id
             },
         )
 
@@ -125,6 +131,8 @@ async def get_using_user_id(request: Request) -> JSONResponse:
             "username": data["Username"],
             "picture": data["Picture"],
             "verified_organization": data.get("VerifiedOrganization", False),
+            "num_followers": data["num_followers"],
+            "num_following": data["num_following"],
         }
 
         return JSONResponse(user_data)
@@ -311,7 +319,6 @@ async def get_event_host(request: Request) -> JSONResponse:
         user_id: string,
         display_name: string,
         username: string,
-        email: string,
         picture: string,
         verified_organization: boolean,
 
@@ -514,74 +521,6 @@ async def user_shoutout_update(request: Request) -> JSONResponse:
                     status_code=200,
                 )
 
-
-@is_valid_user_access_token
-async def get_all_school_users(request: Request) -> JSONResponse:
-
-    """
-    Description: Gets all of the users associated with a school of $school_id
-    params:
-        user_access_token: string
-    
-    return:
-
-        [
-        user_id: string,
-        display_name: string,
-        username: string,
-        picture: string
-        ]
-
-    """
-
-    school_id = request.path_params["school_id"]
-    
-    body = await request.json()
-
-    user_access_token = body.get("user_access_token")
-
-    try:
-        assert all((school_id, user_access_token))
-    except AssertionError:
-        return Response(status_code=400, content="Incomplete body")
-
-    with get_neo4j_session() as session:
-
-        result = session.run(
-                """MATCH ((u:User)-[:user_school]->(s:School{SchoolID: $school_id}))
-            RETURN {
-                user_id: u.UserID,
-                display_name: u.DisplayName,
-                username: u.Username,
-                picture: u.Picture
-            } as user
-            ORDER BY toLower(u.DisplayName)""",
-            parameters={
-                "school_id": school_id,
-            },
-        )
-
-        users = []
-
-        for record in result:
-            user_data = record['user']
-            user_id = user_data['user_id']
-            display_name = user_data['display_name']
-            username = user_data['username']
-            picture = user_data['picture']
-
-            users.append({
-                "user_id": user_id,
-                "display_name": display_name,
-                "username": username,
-                "picture": picture
-                })
-
-
-        return JSONResponse(
-            users
-        )
-
 async def search_users(request: Request) -> JSONResponse:
 
     """
@@ -699,8 +638,15 @@ async def user_follow_update(request: Request) -> JSONResponse:
                     )
     return Response(status_code=200,content="Complete follow update")
 
+@is_requester_privileged_for_user
+async def get_user_email(request: Request) -> JSONResponse:
+
+    email = "todo"
+
+    return JSONResponse(status_code=200,content={"email": email})
+
 routes = [
-    Route("/user/user_access_token/{user_access_token}",
+    Route("/user/user_id/{user_id}/user_access_token/{user_access_token}",
         get_using_user_access_token,
         methods=["GET"],
     ),
@@ -732,10 +678,6 @@ routes = [
         user_shoutout_update,
         methods=["UPDATE"],
     ),
-    Route("/user/school_id/{school_id}",
-        get_all_school_users,
-        methods=["POST"],
-    ),
     Route("/user/school_id/{school_id}/search",
           search_users,
           methods=["POST"],
@@ -743,5 +685,9 @@ routes = [
     Route("/user/user_id/{user_id}/follow/user_id/{to_user_id}",
           user_follow_update,
           methods=["UPDATE"],
-    )
+    ),
+    Route("/user/user_id/{user_id}/get_email",
+          get_user_email,
+          methods=["POST"],
+    ),
 ]

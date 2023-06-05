@@ -1,5 +1,7 @@
+from common.constants import DETAIL_LEVEL
 
-def convert_user_entity_to_user(data):
+
+def convert_user_entity_to_user(data, details_list):
     user_data = {
         "user_id": data["UserID"],
         "display_name": data["DisplayName"],
@@ -8,6 +10,9 @@ def convert_user_entity_to_user(data):
         "verified_organization": data.get("VerifiedOrganization", False),
     }
 
+    test = ["hi", "hi"]
+
+    if(DETAIL_LEVEL.User)
     return user_data
 
     
