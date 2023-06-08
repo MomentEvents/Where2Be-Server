@@ -87,13 +87,13 @@ async def signup_user(request: Request) -> JSONResponse:
         print("Error")
         return Response(status_code=400, content="Invalid request in body")
 
-    user_access_token = signup(username, display_name, email, password, school_id)
+    user_id, user_access_token = signup(username, display_name, email, password, school_id)
 
     print("CREATED USER")
     print(user_access_token)
+    print(user_id)
 
-    return Response(status_code=200, content="User created")
-
+    return JSONResponse({"user_id": user_id, "user_access_token": user_access_token})
 
 async def verify_email(request: Request) -> JSONResponse:
     """

@@ -81,9 +81,6 @@ def send_password_reset_email(email):
     user = get_firebase_user_by_email(email)
     if(user is None):
         raise Problem(status=400, content="An account with this email does not exist") 
-    
-    if(user.email_verified is False):
-        raise Problem(status=400, content="This account has not verified their email") 
 
     try:
         reset_link = auth.generate_password_reset_link(email)

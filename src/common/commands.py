@@ -33,9 +33,6 @@ def login(usercred: str, password: str):
 
         if(firebase_user is None):
             raise Problem(status=400, content="This specific account does not have an email linked to it. Please contact support to resolve this issue")
-          
-        if(firebase_user.email_verified is False):
-            raise Problem(status=400, content="You must verify your email before logging in")
         
         email = firebase_user.email
     else:
@@ -44,9 +41,6 @@ def login(usercred: str, password: str):
 
         if (firebase_user is None):
             raise Problem(status=400, content="An account with this email does not exist")
-        
-        if(firebase_user.email_verified is False):
-            raise Problem(status=400, content="You must verify your email before logging in")
 
     result = login_user_firebase(email, password)
 
@@ -115,9 +109,6 @@ def signup(username, display_name, email, password, school_id):
 
     result = get_firebase_user_by_email(email)
     if(result is not None):
-        if(result.email_verified is False):
-            send_verification_email(email)
-            raise Problem(status=200, content="Re-sent verification email")
 
         raise Problem(status=400, content="An account with this email already exists")
 
@@ -138,7 +129,13 @@ def signup(username, display_name, email, password, school_id):
 
     # Create user in firebase
     result = create_user_firebase(user_id, email, password)
-    send_verification_email(email)
+
+    try:
+        send_verification_email(email)
+    except Problem as e:
+        print("COULD NOT SEND VERIFICATION EMAIL! FATAL ERROR PLEASE DOUBLE CHECK" + str(e))
+    except:
+        print("COULD NOT SEND VERIFICATION EMAIL!!")
 
 
-    return user_access_token
+    return user_id, user_access_token
