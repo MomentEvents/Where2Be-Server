@@ -18,7 +18,7 @@ import secrets
 from common.neo4j.moment_neo4j import get_neo4j_session
 from common.s3.moment_s3 import get_bucket_url
 from common.commands import login, signup
-from common.firebase import send_password_reset_email, send_verification_email
+from common.firebase import get_firebase_user_by_email, send_password_reset_email, send_verification_email
 
 from common.constants import SCRAPER_TOKEN
  
@@ -94,6 +94,46 @@ async def signup_user(request: Request) -> JSONResponse:
     print(user_id)
 
     return JSONResponse({"user_id": user_id, "user_access_token": user_access_token})
+
+async def check_username_availability(request: Request) -> JSONResponse:
+
+    request_data = await parse_request_data(request)
+    username = request_data.get("username")
+
+    try:
+        assert all((username))
+    except AssertionError:
+        return Response(status_code=400, content="Incomplete body")
+    
+    username = username.lower()
+    username = username.strip()
+
+    user = get_user_entity_by_username(username)
+
+    if(user is not None):
+        return Response(status_code=400, content="A user with this username already exists")
+    
+    return Response(status_code=200, content="This username is available")
+
+async def check_email_availability(request: Request) -> JSONResponse:
+
+    request_data = await parse_request_data(request)
+    email = request_data.get("email")
+
+    try:
+        assert all((email))
+    except AssertionError:
+        return Response(status_code=400, content="Incomplete body")
+    
+    email = email.lower()
+    email = email.strip()
+
+    firebase_user = get_firebase_user_by_email(email)
+
+    if(firebase_user is not None):
+        return Response(status_code=400, content="A user with this email already exists")
+    
+    return Response(status_code=200, content="This email is available")
 
 async def verify_email(request: Request) -> JSONResponse:
     """
@@ -208,6 +248,8 @@ routes = [
         methods=["POST"],
     ),
     Route("/auth/signup", signup_user, methods=["POST"]),
+    Route("/auth/check_username_availability", check_username_availability, methods=["POST"]),
+    Route("/auth/check_email_availability", check_email_availability, methods=["POST"]),
     Route("/auth/verify_email", verify_email, methods=["POST"]),
     Route("/auth/reset_password",
           reset_password, methods=["POST"]),
