@@ -188,3 +188,29 @@ def get_user_entity_by_user_access_token(user_access_token: str, show_num_events
         user_data = convert_user_entity_to_user(data, show_num_events_followers_following)
 
         return user_data
+
+def create_follow_connection(from_user_id, to_user_id):
+    query = """MATCH (u1:User{UserID: $from_user_id}),(u2:User{UserID: $to_user_id}) 
+                    MERGE (u1)-[r:user_follow]->(u2)"""
+    parameters = {
+            "from_user_id": from_user_id,
+            "to_user_id": to_user_id,
+    }
+
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
+
+    return 0
+
+def delete_follow_connection(from_user_id, to_user_id):
+    query = """MATCH (u1:User{UserID: $from_user_id})-[r:user_follow]->(u2:User{UserID: $to_user_id})
+                        DELETE r"""
+    parameters = {
+            "from_user_id": from_user_id,
+            "to_user_id": to_user_id,
+    }
+
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
+
+    return 0

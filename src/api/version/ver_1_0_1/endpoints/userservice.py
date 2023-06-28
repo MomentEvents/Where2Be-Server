@@ -2,7 +2,7 @@ from inspect import Parameter
 
 from markupsafe import string
 from common.firebase import delete_firebase_user_by_uid, get_firebase_user_by_uid
-from common.neo4j.commands.usercommands import get_user_entity_by_user_access_token, get_user_entity_by_user_id
+from common.neo4j.commands.usercommands import create_follow_connection, delete_follow_connection, get_user_entity_by_user_access_token, get_user_entity_by_user_id
 from common.neo4j.converters import convert_user_entity_to_user
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
@@ -498,25 +498,11 @@ async def user_follow_update(request: Request) -> JSONResponse:
     except AssertionError:
         return Response(status_code=400, content="Incomplete body or incorrect parameter")
 
-    with get_neo4j_session() as session:
-        if(did_follow):
-            session.run(
-                """MATCH (u1:User{UserID: $user_id}),(u2:User{UserID: $to_user_id}) 
-                    MERGE (u1)-[r:user_follow]->(u2)""",
-                    parameters={
-                            "user_id": user_id,
-                            "to_user_id": to_user_id,
-                        },
-                    )
-        else:
-            session.run(
-                """MATCH (u1:User{UserID: $user_id})-[r:user_follow]->(u2:User{UserID: $to_user_id})
-                        DELETE r""",
-                        parameters={
-                            "user_id": user_id,
-                            "to_user_id": to_user_id,
-                        },
-                    )
+    if(did_follow):
+        create_follow_connection(user_id, to_user_id)
+    else:
+        delete_follow_connection(user_id, to_user_id)
+    
     return Response(status_code=200,content="Complete follow update")
 
 @is_requester_privileged_for_user
