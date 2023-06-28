@@ -987,7 +987,7 @@ async def get_home_events(request: Request) -> JSONResponse:
         result = session.run(
             """
             MATCH (e:Event)-[:user_host]-(host:User)
-            WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 14})
+            WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 21})
             AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
             AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token})
             AND (e)-[:event_school]-(:School{SchoolID: $school_id})
@@ -1023,7 +1023,7 @@ async def get_home_events(request: Request) -> JSONResponse:
             UNION
 
             MATCH (e:Event)-[:user_host]-(host:User)
-            WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 21})
+            WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 30})
             AND (host)<-[:user_follow]-(:User{UserAccessToken: $user_access_token}) 
             AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
             AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})

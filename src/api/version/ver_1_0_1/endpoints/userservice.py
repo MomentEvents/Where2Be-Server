@@ -503,7 +503,7 @@ async def user_follow_update(request: Request) -> JSONResponse:
     else:
         delete_follow_connection(user_id, to_user_id)
     
-    return Response(status_code=200,content="Complete follow update")
+    return Response(status_code=200)
 
 @is_requester_privileged_for_user
 async def get_user_email(request: Request) -> JSONResponse:
