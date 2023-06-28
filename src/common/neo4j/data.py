@@ -90,8 +90,8 @@ def fill_data():
     user_access_token_3, user_id3 = create_user_entity("MomentAdmin", "momentadmin", school1_id, True, True)
     user_access_token_4, user_id4 = create_user_entity("Test User 2", "testuser2", school1_id, False, False)
 
-    event_start_dates = "2023-06-14"
-    event_end_dates = "2023-06-14"
+    event_start_dates = "2023-06-26"
+    event_end_dates = "2023-06-26"
 
     create_event_entity(user_access_token_1, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Frog_on_palm_frond.jpg/1024px-Frog_on_palm_frond.jpg",
     "Nature", "Look at my description :D", "La Jolla Shores", "Public", [interest1_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
