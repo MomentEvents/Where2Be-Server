@@ -82,7 +82,7 @@ def init_schema():
 
 def fill_data():    
     school1_id = create_school_entity("test_univ", "Test University", "TU", 32.8801, 117.2340)
-    school2_id = create_school_entity("test_univ", "Test University 2", "TU2", 30.4233, 100.4323)
+    school2_id = create_school_entity("test_univ2", "Test University 2", "TU2", 30.4233, 100.4323)
     interest1_id = create_interest_entity("academic", "Academic")
     interest2_id = create_interest_entity("athletic", "Athletic")
     interest3_id = create_interest_entity("social", "Social")
