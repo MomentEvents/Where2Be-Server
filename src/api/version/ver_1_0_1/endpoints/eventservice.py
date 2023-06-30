@@ -187,8 +187,6 @@ async def get_event(request: Request) -> JSONResponse:
             return Response(status_code=400, content="Event does not exist")
 
         data = record[0]
-
-        print("Testing\n\n\n\n")
         print(data["end_date_time"])
         
         event_data = {
@@ -807,8 +805,11 @@ async def host_future(request: Request) -> JSONResponse:
     except:
         Response(status_code=400, content="Incomplete body")
 
+    print(cursor_event_id)
+    print(cursor_start_date_time)
     cursor_clause = ""
     if cursor_event_id and cursor_start_date_time:
+        print("GOING INTO CURSOR CLAUSE")
         cursor_clause = "AND (e.StartDateTime > datetime($cursor_start_date_time) OR (e.StartDateTime = datetime($cursor_start_date_time) AND e.EventID > $cursor_event_id))"
 
     query = f"""MATCH ((e:Event)-[:user_host]-(u:User{{UserID:$user_id}})), (c:User{{UserAccessToken: $user_access_token}})
