@@ -38,5 +38,5 @@ async def main():
 
 
 if __name__ == "__main__":
-    print("Running Moment jobs")
+    print("Running Where2Be jobs")
     asyncio.run(main())
