@@ -9,8 +9,8 @@ from common.constants import IS_PROD
 def login(usercred: str, password: str):
 
     if(not IS_PROD):
-        user_access_token = "gHL9LK-4bgALRzdNJFW5KZWkMdBmxrfQCnjdhZRpYG4"
-        user_id = "Ez7o28WpYX2bsrri0udD9xtNzv7SzC_D3FCjPnjv21g"
+        user_access_token = None
+        user_id = None
         return user_id, user_access_token
     # Check if it's a username or email
 
