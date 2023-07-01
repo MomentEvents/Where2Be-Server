@@ -215,6 +215,58 @@ def fill_data():
 "PAST NERD ONLY EVENT", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 16:00:00", event_end_dates + " 17:00:00")
     create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
 "LITTLE BEFORE PAST NERD ONLY EVENT", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 18:30:00", event_end_dates + " 19:00:00")
+    
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event 1", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event 2", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event 3", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event 4", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event 5", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event 6", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event 7", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event 8", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event 9", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event 10", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event 11", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event 12", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event1 13", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event 14", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event 15", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event 16", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event 17", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event 18", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event 19", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event 20", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event 21", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event 22", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event 23", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event 24", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    create_event_entity(user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Nerdy Event 25", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    
     # Future events
 
     event_start_dates = "2023-07-16"
