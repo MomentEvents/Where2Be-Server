@@ -524,6 +524,124 @@ async def get_user_email(request: Request) -> JSONResponse:
 
     return JSONResponse({"email": email})
 
+async def get_following_list(request: Request) -> JSONResponse:
+
+    """
+    body: {
+        user_access_token,
+        cursor (optional)
+    }
+    return: {
+        list of users without their followers and following
+    }
+    """
+
+    user_id = request.path_params["user_id"]
+
+    body = await request.json()
+    user_access_token = body.get("user_access_token")
+    cursor = body.get("cursor")
+
+    try:
+        assert all((user_id, user_access_token))
+    except AssertionError:
+        return Response(status_code=400, content="Incomplete body")
+    
+    with get_neo4j_session() as session:
+
+        if cursor:
+            query = """
+                MATCH (follower:User)<-[follow:user_follow]-(user:User{UserID: $user_id})
+                WHERE follow.Timestamp < datetime($cursor)
+                RETURN follower
+                ORDER BY follow.Timestamp DESC
+                LIMIT 20
+            """
+        else:
+            query = """
+                MATCH (follower:User)<-[follow:user_follow]-(user:User{UserID: $user_id})
+                RETURN follower
+                ORDER BY follow.Timestamp DESC
+                LIMIT 20
+            """
+
+        result = session.run(
+            query,
+            parameters={
+                "user_id": user_id,
+                "cursor": cursor,
+            },
+        )
+
+        users = []
+
+        for record in result:
+            user_data = record["follower"]
+            users.append(convert_user_entity_to_user(data=user_data, show_num_events_followers_following=False))
+
+        return JSONResponse(
+            users
+        )
+
+async def get_follower_list(request: Request) -> JSONResponse:
+
+    """
+    body: {
+        user_access_token,
+        cursor (optional)
+    }
+    return: {
+        list of users without their followers and following
+    }
+    """
+
+    user_id = request.path_params["user_id"]
+
+    body = await request.json()
+    user_access_token = body.get("user_access_token")
+    cursor = body.get("cursor")
+
+    try:
+        assert all((user_id, user_access_token))
+    except AssertionError:
+        return Response(status_code=400, content="Incomplete body")
+    
+    with get_neo4j_session() as session:
+
+        if cursor:
+            query = """
+                MATCH (follower:User)-[follow:user_follow]->(user:User{UserID: $user_id})
+                WHERE follow.Timestamp < datetime($cursor)
+                RETURN follower
+                ORDER BY follow.Timestamp DESC
+                LIMIT 20
+            """
+        else:
+            query = """
+                MATCH (follower:User)-[follow:user_follow]->(user:User{UserID: $user_id})
+                RETURN follower
+                ORDER BY follow.Timestamp DESC
+                LIMIT 20
+            """
+
+        result = session.run(
+            query,
+            parameters={
+                "user_id": user_id,
+                "cursor": cursor,
+            },
+        )
+
+        users = []
+
+        for record in result:
+            user_data = record["follower"]
+            users.append(convert_user_entity_to_user(data=user_data, show_num_events_followers_following=False))
+
+        return JSONResponse(
+            users
+        )
+
 routes = [
     Route("/user/user_access_token/{user_access_token}",
         get_using_user_access_token,
@@ -567,6 +685,14 @@ routes = [
     ),
     Route("/user/user_id/{user_id}/get_email",
           get_user_email,
+          methods=["POST"],
+    ),
+    Route("/user/user_id/{user_id}/followers",
+          get_follower_list,
+          methods=["POST"],
+    ),
+    Route("/user/user_id/{user_id}/following",
+          get_following_list,
           methods=["POST"],
     ),
 ]
