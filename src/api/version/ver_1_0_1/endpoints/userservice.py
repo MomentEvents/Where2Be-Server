@@ -525,11 +525,10 @@ async def get_user_email(request: Request) -> JSONResponse:
     return JSONResponse({"email": email})
 
 async def get_following_list(request: Request) -> JSONResponse:
-
     """
     body: {
         user_access_token,
-        cursor (optional)
+        user_id_cursor (optional)
     }
     return: {
         list of users without their followers and following
@@ -540,7 +539,7 @@ async def get_following_list(request: Request) -> JSONResponse:
 
     body = await request.json()
     user_access_token = body.get("user_access_token")
-    cursor = body.get("cursor")
+    cursor = body.get("user_id_cursor")  # Cursor (user_id) could be None.
 
     try:
         assert all((user_id, user_access_token))
@@ -548,17 +547,37 @@ async def get_following_list(request: Request) -> JSONResponse:
         return Response(status_code=400, content="Incomplete body")
     
     with get_neo4j_session() as session:
+        cursor_timestamp = None
 
+        # If a cursor is provided, get its associated timestamp.
         if cursor:
-            query = """
+            cursor_query = """
+                MATCH (cursor_follower:User)<-[cursor_follow:user_follow]-(user:User{UserID: $user_id})
+                WHERE cursor_follower.UserID = $cursor
+                RETURN cursor_follow.Timestamp as timestamp
+            """
+            cursor_result = session.run(
+                cursor_query,
+                parameters={
+                    "user_id": user_id,
+                    "cursor": cursor,
+                },
+            )
+
+            for record in cursor_result:
+                cursor_timestamp = record["timestamp"]
+
+        # Now use the cursor timestamp (if any) to filter the main query.
+        if cursor_timestamp:
+            main_query = """
                 MATCH (follower:User)<-[follow:user_follow]-(user:User{UserID: $user_id})
-                WHERE follow.Timestamp < datetime($cursor)
+                WHERE follow.Timestamp < datetime($cursor_timestamp) AND follower.UserID <> $cursor
                 RETURN follower
                 ORDER BY follow.Timestamp DESC
                 LIMIT 20
             """
         else:
-            query = """
+            main_query = """
                 MATCH (follower:User)<-[follow:user_follow]-(user:User{UserID: $user_id})
                 RETURN follower
                 ORDER BY follow.Timestamp DESC
@@ -566,10 +585,11 @@ async def get_following_list(request: Request) -> JSONResponse:
             """
 
         result = session.run(
-            query,
+            main_query,
             parameters={
                 "user_id": user_id,
                 "cursor": cursor,
+                "cursor_timestamp": cursor_timestamp,
             },
         )
 
@@ -588,7 +608,7 @@ async def get_follower_list(request: Request) -> JSONResponse:
     """
     body: {
         user_access_token,
-        cursor (optional)
+        user_id_cursor (optional)
     }
     return: {
         list of users without their followers and following
@@ -599,7 +619,7 @@ async def get_follower_list(request: Request) -> JSONResponse:
 
     body = await request.json()
     user_access_token = body.get("user_access_token")
-    cursor = body.get("cursor")
+    cursor = body.get("user_id_cursor")  # Cursor (user_id) could be None.
 
     try:
         assert all((user_id, user_access_token))
@@ -607,17 +627,37 @@ async def get_follower_list(request: Request) -> JSONResponse:
         return Response(status_code=400, content="Incomplete body")
     
     with get_neo4j_session() as session:
+        cursor_timestamp = None
 
+        # If a cursor is provided, get its associated timestamp.
         if cursor:
-            query = """
+            cursor_query = """
+                MATCH (cursor_follower:User)-[cursor_follow:user_follow]->(user:User{UserID: $user_id})
+                WHERE cursor_follower.UserID = $cursor
+                RETURN cursor_follow.Timestamp as timestamp
+            """
+            cursor_result = session.run(
+                cursor_query,
+                parameters={
+                    "user_id": user_id,
+                    "cursor": cursor,
+                },
+            )
+
+            for record in cursor_result:
+                cursor_timestamp = record["timestamp"]
+
+        # Now use the cursor timestamp (if any) to filter the main query.
+        if cursor_timestamp:
+            main_query = """
                 MATCH (follower:User)-[follow:user_follow]->(user:User{UserID: $user_id})
-                WHERE follow.Timestamp < datetime($cursor)
+                WHERE follow.Timestamp < datetime($cursor_timestamp) AND follower.UserID <> $cursor
                 RETURN follower
                 ORDER BY follow.Timestamp DESC
                 LIMIT 20
             """
         else:
-            query = """
+            main_query = """
                 MATCH (follower:User)-[follow:user_follow]->(user:User{UserID: $user_id})
                 RETURN follower
                 ORDER BY follow.Timestamp DESC
@@ -625,10 +665,11 @@ async def get_follower_list(request: Request) -> JSONResponse:
             """
 
         result = session.run(
-            query,
+            main_query,
             parameters={
                 "user_id": user_id,
                 "cursor": cursor,
+                "cursor_timestamp": cursor_timestamp,
             },
         )
 
