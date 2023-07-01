@@ -187,8 +187,6 @@ async def get_event(request: Request) -> JSONResponse:
             return Response(status_code=400, content="Event does not exist")
 
         data = record[0]
-
-        print("Testing\n\n\n\n")
         print(data["end_date_time"])
         
         event_data = {
@@ -533,104 +531,6 @@ async def get_events_categorized(request: Request) -> JSONResponse:
 
         return JSONResponse(categorized_dict)
 
-
-# TO DELETE. PLEASE DELETE THIS FUNCTION AS IT WILL BE DEPRECATED
-async def get_events(request: Request) -> JSONResponse:
-    """
-    Description: Gets all events attached to a school of {school_id} 
-
-    params:
-
-    return:
-        [{
-			event_id: string,
-			title: string,
-			picture: string,
-			description: string,
-			location: string,
-			start_date_time: string (convert to Date),
-			end_date_time: string (convert to Date),
-			visibility: boolean,
-			num_joins: int  
-			num_shoutouts: int
-			user_join: boolean
-			user_shoutout: boolean
-        }]
-    """
-    school_id = request.path_params["school_id"]
-
-    body = await request.json()
-
-    user_access_token = body.get("user_access_token")
-
-    try:
-        assert all({user_access_token, school_id})
-    except:
-        Response(status_code=400, content="Incomplete body")
-
-    with get_neo4j_session() as session:
-        # check if email exists
-        result = session.run(
-                """MATCH (e:Event)-[:event_school]->(school: School{SchoolID: $school_id}), (u:User{UserAccessToken:$user_access_token})
-            WITH DISTINCT e,
-                size( (e)<-[:user_join]-() ) as num_joins,
-                size( (e)<-[:user_shoutout]-() ) as num_shoutouts,    
-                exists((u)-[:user_join]->(e)) as user_join,
-                exists((u)-[:user_shoutout]->(e)) as user_shoutout
-            WHERE e.StartDateTime >= datetime()
-            RETURN { event_id: e.EventID,
-                    title: e.Title,
-                    picture: e.Picture,
-                    description: e.Description,
-                    location: e.Location,
-                    start_date_time: e.StartDateTime,
-                    end_date_time: e.EndDateTime,
-                    visibility: e.Visibility,
-                    num_joins: num_joins,
-                    num_shoutouts: num_shoutouts,
-                    user_join: user_join,
-                    user_shoutout: user_shoutout } as event
-            ORDER BY toLower(e.Title)
-            """,
-            parameters={
-                "school_id": school_id,
-                "user_access_token": user_access_token,
-            },
-        )
-
-        events = []
-        for record in result:
-            event_data = record['event']
-            event_id = event_data['event_id']
-            title = event_data['title']
-            picture = event_data['picture']
-            description = event_data['description']
-            location = event_data['location']
-            start_date_time = str(event_data['start_date_time'])
-            end_date_time = None if event_data["end_date_time"] == "NULL" else str(event_data["end_date_time"]),
-            visibility = event_data['visibility']
-            num_joins = event_data['num_joins']
-            num_shoutouts = event_data['num_shoutouts']
-            user_join = event_data['user_join']
-            user_shoutout = event_data['user_shoutout']
-
-            events.append({
-                'event_id': event_id,
-                'title': title,
-                'picture': picture,
-                'description': description,
-                'location': location,
-                'start_date_time': start_date_time,
-                'end_date_time': end_date_time,
-                'visibility': visibility,
-                'num_joins': num_joins,
-                'num_shoutouts': num_shoutouts,
-                'user_join': user_join,
-                'user_shoutout': user_shoutout,
-            })
-
-        return JSONResponse(events)
-
 async def search_events(request: Request) -> JSONResponse:
     """
     Description: Searches events in a query
@@ -742,39 +642,31 @@ async def search_events(request: Request) -> JSONResponse:
 
  
 async def host_past(request: Request) -> JSONResponse:
-    """
-    Description: Gets the past hosted events attached to a user of {user_id}. Limits to 20 events. Orders from closest start time all the way until further out.
-    params:
 
-    return:
-    Array of… {
-        event_id: string,
-        title: string,
-        description: string,
-        location: string,
-        start_date_time: Date(?),
-        end_date_time: Date(?),
-        visibility: boolean
-
-    """
     user_id = request.path_params["user_id"]
 
     body = await request.json()
     user_access_token = body["user_access_token"]
+    cursor_event_id = body.get("cursor_event_id", None)
+    cursor_start_date_time = body.get("cursor_start_date_time", None)
 
     try:
         assert all({user_access_token, user_id})
     except:
         Response(status_code=400, content="Incomplete body")
 
-    query = """MATCH ((e:Event)-[:user_host]-(u:User{UserID:$user_id})), (c:User{UserAccessToken: $user_access_token})
+    cursor_clause = ""
+    if cursor_event_id and cursor_start_date_time:
+        cursor_clause = "AND (e.StartDateTime < datetime($cursor_start_date_time) OR (e.StartDateTime = datetime($cursor_start_date_time) AND e.EventID < $cursor_event_id))"
+
+    query = f"""MATCH ((e:Event)-[:user_host]-(u:User{{UserID:$user_id}})), (c:User{{UserAccessToken: $user_access_token}})
                 WITH DISTINCT e,
                     size( (e)<-[:user_join]-() ) as num_joins,
                     size( (e)<-[:user_shoutout]-() ) as num_shoutouts,
                     exists((c)-[:user_join]->(e)) as user_join,
                     exists((c)-[:user_shoutout]->(e)) as user_shoutout
-                WHERE e.StartDateTime < datetime()
-                RETURN { event_id: e.EventID,
+                WHERE e.StartDateTime < datetime() {cursor_clause}
+                RETURN {{ event_id: e.EventID,
                         title: e.Title,
                         picture: e.Picture,
                         description: e.Description,
@@ -786,56 +678,50 @@ async def host_past(request: Request) -> JSONResponse:
                         num_shoutouts: num_shoutouts,
                         user_join: user_join,
                         user_shoutout: user_shoutout,
-                        host_user_id: $user_id } as event
-                ORDER BY e.StartDateTime DESC
+                        host_user_id: $user_id }} as event
+                ORDER BY e.StartDateTime DESC, e.EventID DESC
                 LIMIT 20
                 """
 
     parameters={
         "user_id": user_id,
-        "user_access_token": user_access_token
+        "user_access_token": user_access_token,
+        "cursor_event_id": cursor_event_id,
+        "cursor_start_date_time": cursor_start_date_time
         }
 
     return get_event_list_from_query(query, parameters)    
 
  
 async def host_future(request: Request) -> JSONResponse:
-    """
-    Description: Gets the future hosted events attached to a user of {user_id}. Limits to 20 events. Orders from closest start time all the way until further out.
 
-    params:
-        user_access_token
-
-    return:
-    Array of… {
-        event_id: string,
-        title: string,
-        description: string,
-        location: string,
-        start_date_time: Date(?),
-        end_date_time: Date(?),
-        visibility: boolean
-
-    """
-    
     user_id = request.path_params["user_id"]
 
     body = await request.json()
     user_access_token = body["user_access_token"]
+    cursor_event_id = body.get("cursor_event_id", None)
+    cursor_start_date_time = body.get("cursor_start_date_time", None)
 
     try:
         assert all({user_access_token, user_id})
     except:
         Response(status_code=400, content="Incomplete body")
 
-    query = """MATCH ((e:Event)-[:user_host]-(u:User{UserID:$user_id})), (c:User{UserAccessToken: $user_access_token})
+    print(cursor_event_id)
+    print(cursor_start_date_time)
+    cursor_clause = ""
+    if cursor_event_id and cursor_start_date_time:
+        print("GOING INTO CURSOR CLAUSE")
+        cursor_clause = "AND (e.StartDateTime > datetime($cursor_start_date_time) OR (e.StartDateTime = datetime($cursor_start_date_time) AND e.EventID > $cursor_event_id))"
+
+    query = f"""MATCH ((e:Event)-[:user_host]-(u:User{{UserID:$user_id}})), (c:User{{UserAccessToken: $user_access_token}})
                 WITH DISTINCT e,
                     size( (e)<-[:user_join]-() ) as num_joins,
                     size( (e)<-[:user_shoutout]-() ) as num_shoutouts,
                     exists((c)-[:user_join]->(e)) as user_join,
                     exists((c)-[:user_shoutout]->(e)) as user_shoutout
-                WHERE e.StartDateTime >= datetime()
-                RETURN { event_id: e.EventID,
+                WHERE e.StartDateTime >= datetime() {cursor_clause}
+                RETURN {{ event_id: e.EventID,
                         title: e.Title,
                         picture: e.Picture,
                         description: e.Description,
@@ -847,14 +733,16 @@ async def host_future(request: Request) -> JSONResponse:
                         num_shoutouts: num_shoutouts,
                         user_join: user_join,
                         user_shoutout: user_shoutout,
-                        host_user_id: $user_id } as event
-                ORDER BY e.StartDateTime ASC
+                        host_user_id: $user_id }} as event
+                ORDER BY e.StartDateTime ASC, e.EventID ASC
                 LIMIT 20
                 """
 
     parameters={
         "user_id": user_id,
-        "user_access_token": user_access_token
+        "user_access_token": user_access_token,
+        "cursor_event_id": cursor_event_id,
+        "cursor_start_date_time": cursor_start_date_time
         }
 
     return get_event_list_from_query(query, parameters)
@@ -862,39 +750,30 @@ async def host_future(request: Request) -> JSONResponse:
 
 @is_requester_privileged_for_user
 async def join_past(request: Request) -> JSONResponse:
-    """
-    Description: Gets the past joined events attached to a user of {user_id}. Limits to 20 events. Orders from closest start time all the way until further out.
-
-    params:
-
-    return:
-    Array of… {
-        event_id: string,
-        title: string,
-        description: string,
-        location: string,
-        start_date_time: Date(?),
-        end_date_time: Date(?),
-        visibility: boolean
-
-    """
     user_id = request.path_params["user_id"]
+
+    body = await request.json()
+    cursor_event_id = body.get("cursor_event_id", None)
+    cursor_start_date_time = body.get("cursor_start_date_time", None)
 
     try:
         assert all({user_id})
     except:
         Response(status_code=400, content="Incomplete body")
 
+    cursor_clause = ""
+    if cursor_event_id and cursor_start_date_time:
+        cursor_clause = "AND (e.StartDateTime < datetime($cursor_start_date_time) OR (e.StartDateTime = datetime($cursor_start_date_time) AND e.EventID < $cursor_event_id))"
 
-    query = """MATCH ((e:Event)-[:user_join]-(u:User{UserID:$user_id})), ((host:User)-[:user_host]->(e))
+    query = f"""MATCH ((e:Event)-[:user_join]-(u:User{{UserID:$user_id}})), ((host:User)-[:user_host]->(e))
                 WITH DISTINCT e,
                     size( (e)<-[:user_join]-() ) as num_joins,
                     size( (e)<-[:user_shoutout]-() ) as num_shoutouts,
                     exists((u)-[:user_join]->(e)) as user_join,
                     exists((u)-[:user_shoutout]->(e)) as user_shoutout,
                     host.UserID as host_user_id
-                WHERE e.StartDateTime < datetime()
-                RETURN { event_id: e.EventID,
+                WHERE e.StartDateTime < datetime() {cursor_clause}
+                RETURN {{ event_id: e.EventID,
                         title: e.Title,
                         picture: e.Picture,
                         description: e.Description,
@@ -906,13 +785,15 @@ async def join_past(request: Request) -> JSONResponse:
                         num_shoutouts: num_shoutouts,
                         user_join: user_join,
                         user_shoutout: user_shoutout,
-                        host_user_id: host_user_id } as event
-                ORDER BY e.StartDateTime DESC
+                        host_user_id: host_user_id }} as event
+                ORDER BY e.StartDateTime DESC, e.EventID DESC
                 LIMIT 20
                 """
 
     parameters={
-        "user_id": user_id
+        "user_id": user_id,
+        "cursor_event_id": cursor_event_id,
+        "cursor_start_date_time": cursor_start_date_time
         }
 
     return get_event_list_from_query(query, parameters) 
@@ -920,33 +801,25 @@ async def join_past(request: Request) -> JSONResponse:
  
 @is_requester_privileged_for_user
 async def join_future(request: Request) -> JSONResponse:
-    """
-    Description: Gets the future joined events attached to a user of {user_id}. Limits to 20 events. Orders from closest start time all the way until further out.
-
-    params:
-
-    return:
-    Array of… {
-        event_id: string,
-        title: string,
-        description: string,
-        location: string,
-        start_date_time: Date(?),
-        end_date_time: Date(?),
-        visibility: boolean
-
-    """
     user_id = request.path_params["user_id"]
 
-    query = """MATCH ((e:Event)-[:user_join]-(u:User{UserID:$user_id})), ((host:User)-[:user_host]->(e))
+    body = await request.json()
+    cursor_event_id = body.get("cursor_event_id", None)
+    cursor_start_date_time = body.get("cursor_start_date_time", None)
+
+    cursor_clause = ""
+    if cursor_event_id and cursor_start_date_time:
+        cursor_clause = "AND (e.StartDateTime > datetime($cursor_start_date_time) OR (e.StartDateTime = datetime($cursor_start_date_time) AND e.EventID > $cursor_event_id))"
+
+    query = f"""MATCH ((e:Event)-[:user_join]-(u:User{{UserID:$user_id}})), ((host:User)-[:user_host]->(e))
                 WITH DISTINCT e,
                     size( (e)<-[:user_join]-() ) as num_joins,
                     size( (e)<-[:user_shoutout]-() ) as num_shoutouts,
                     exists((u)-[:user_join]->(e)) as user_join,
                     exists((u)-[:user_shoutout]->(e)) as user_shoutout,
                     host.UserID as host_user_id
-                WHERE e.StartDateTime >= datetime()
-                RETURN { event_id: e.EventID,
+                WHERE e.StartDateTime >= datetime() {cursor_clause}
+                RETURN {{ event_id: e.EventID,
                         title: e.Title,
                         picture: e.Picture,
                         description: e.Description,
@@ -958,16 +831,19 @@ async def join_future(request: Request) -> JSONResponse:
                         num_shoutouts: num_shoutouts,
                         user_join: user_join,
                         user_shoutout: user_shoutout,
-                        host_user_id: host_user_id } as event
-                ORDER BY e.StartDateTime ASC
+                        host_user_id: host_user_id }} as event
+                ORDER BY e.StartDateTime ASC, e.EventID ASC
                 LIMIT 20
                 """
 
     parameters={
-        "user_id": user_id
+        "user_id": user_id,
+        "cursor_event_id": cursor_event_id,
+        "cursor_start_date_time": cursor_start_date_time
         }
 
     return get_event_list_from_query(query, parameters) 
+
 
 async def get_home_events(request: Request) -> JSONResponse:
 
@@ -996,7 +872,8 @@ async def get_home_events(request: Request) -> JSONResponse:
         result = session.run(
             """
             MATCH (e:Event)-[:user_host]-(host:User)
-            WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 14})
+            WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 21})
+            AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
             AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token})
             AND (e)-[:event_school]-(:School{SchoolID: $school_id})
             WITH e, host, SIZE((e)<-[:user_join]-()) as num_joins, SIZE((e)<-[:user_shoutout]-()) as num_shoutouts,
@@ -1031,7 +908,7 @@ async def get_home_events(request: Request) -> JSONResponse:
             UNION
 
             MATCH (e:Event)-[:user_host]-(host:User)
-            WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 21})
+            WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 30})
             AND (host)<-[:user_follow]-(:User{UserAccessToken: $user_access_token}) 
             AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
             AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
@@ -1163,10 +1040,6 @@ routes = [
     Route("/event/event_id/{event_id}", delete_event, methods=["DELETE"]),
     Route("/event/school_id/{school_id}/categorized",
         get_events_categorized,
-        methods=["POST"],
-    ),
-     Route("/event/school_id/{school_id}",
-        get_events,
         methods=["POST"],
     ),
     Route("/event/user_id/{user_id}/host_past",

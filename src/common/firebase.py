@@ -84,8 +84,8 @@ def send_password_reset_email(email):
 
     try:
         reset_link = auth.generate_password_reset_link(email)
-        email_message = "Greetings from Moment!\n\nWe received a password reset request for the Moment account linked to this email. To reset your account's password, click on this link: " + reset_link + "\n\nIf you did not intend to do this action, you can ignore this email.\n\n\nBest,\nThe Moment Team"
-        send_email(email, "Reset your Moment password", email_message)
+        email_message = "Greetings from Where2Be!\n\nWe received a password reset request for the Where2Be account linked to this email. To reset your account's password, click on this link: " + reset_link + "\n\nIf you did not intend to do this action, you can ignore this email.\n\n\nBest,\nThe Where2Be Team"
+        send_email(email, "Reset your Where2Be password", email_message)
     except Exception as e:
         # Handle any errors that occur during the email update
         raise Problem(status=400, content="Error generating password reset link: " + str(e))
@@ -100,8 +100,8 @@ def send_verification_email(email):
     
     try:
         verification_link = auth.generate_email_verification_link(email)
-        email_message = "Welcome to Moment! We hope you enjoy it here.\n\nTo verify your email, click on this link: " + verification_link + "\n\n\nBest,\nThe Moment Team"
-        send_email(email, "Verify your Moment account", email_message)
+        email_message = "Welcome to Where2Be! We hope you enjoy it here.\n\nTo verify your email, click on this link: " + verification_link + "\n\n\nBest,\nThe Where2Be Team"
+        send_email(email, "Verify your Where2Be account", email_message)
     except Exception as e:
         # Handle any errors that occur during the email update
         raise Problem(status=400, content="Error sending verification email link: " + str(e))

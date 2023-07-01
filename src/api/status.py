@@ -6,20 +6,19 @@ from api.helpers import parse_request_data
 from common.models import Problem
 
 async def get_health(request: Request) -> JSONResponse:
-    return Response(status_code=200, content="Moment server is healthy")
+    return Response(status_code=200, content="Where2Be server is healthy")
 
 async def get_compatability(request: Request) -> JSONResponse:
 
     request_data = await parse_request_data(request)
     print(request_data.get("app_version"))
     return Response(status_code=200, content="App version is compatible")
-    # return Response(content="This version of Moment is not supported. Update to the latest version.", status_code=400)
 
 async def maintenance_response(request: Request) -> JSONResponse:
     return Response(status_code=400, content="We're currently upgrading our servers. Please come back later!")
 
 async def deprecated_response(request: Request) -> JSONResponse:
-    return Response(status_code=404, content="Please update your app to the latest version of Moment on the app store")
+    return Response(status_code=404, content="Please update your app to the latest version of Where2Be on the app store")
 
 
 routes = [
