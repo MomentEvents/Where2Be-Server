@@ -59,6 +59,8 @@ async def get_all_schools(request: Request) -> JSONResponse:
                     "school_id": data["SchoolID"],
                     "name": data["Name"],
                     "abbreviation": data["Abbreviation"],
+                    "latitude": data["Latitude"],
+                    "longitude": data["Longitude"],
                 }
             )
 
