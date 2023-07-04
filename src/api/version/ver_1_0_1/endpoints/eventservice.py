@@ -1,7 +1,7 @@
 from inspect import Parameter
 
 from markupsafe import string
-from common.firebase import get_firebase_user_by_uid
+from common.firebase import get_firebase_user_by_uid, send_verification_email
 from common.models import Problem
 from common.neo4j.commands.usercommands import get_user_entity_by_user_access_token
 from starlette.requests import Request
@@ -65,9 +65,14 @@ async def create_event(request: Request) -> JSONResponse:
 
     if(user_access_token is None):
         raise Problem(status=400, content="No user_access_token has been passed in.")
+    
     user = get_user_entity_by_user_access_token(user_access_token, False)
     firebase_user = get_firebase_user_by_uid(user['user_id'])
     if(firebase_user.email_verified is None or firebase_user.email_verified is False):
+        try:
+            send_verification_email(firebase_user.email)
+        except:
+            print("UNABLE TO SEND VERIFICATION EMAIL")
         raise Problem(status=400, content="You must verify your email before you can post events. Check " + firebase_user.email)
 
     title = request_data.get("title")
