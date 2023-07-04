@@ -872,6 +872,76 @@ async def get_home_events(request: Request) -> JSONResponse:
         result = session.run(
             """
             MATCH (e:Event)-[:user_host]-(host:User)
+            WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 30})
+            AND (host)<-[:user_follow]-(:User{UserAccessToken: $user_access_token}) 
+            AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
+            AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
+            AND (e)-[:event_school]-(:School{SchoolID: $school_id})
+            WITH e, host, SIZE((e)<-[:user_join]-()) as num_joins, SIZE((e)<-[:user_shoutout]-()) as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
+            ORDER BY RAND()
+            LIMIT 25
+            WITH collect({
+                user_id: host.UserID, 
+                display_name: host.DisplayName,
+                username: host.Username,
+                host_picture: host.Picture,
+                verified_organization: host.VerifiedOrganization,
+                event_id: e.EventID,
+                title: e.Title,
+                event_picture: e.Picture,
+                description: e.Description,
+                location: e.Location,
+                start_date_time: e.StartDateTime,
+                end_date_time: e.EndDateTime,
+                visibility: e.Visibility,
+                num_joins: num_joins,
+                num_shoutouts: num_shoutouts,
+                user_join: user_join,
+                user_shoutout: user_shoutout,
+                host_user_id: host.UserID,
+                reason: "From an account you follow"
+                }) AS event_data
+            UNWIND event_data as results
+            RETURN results
+
+            UNION
+
+                        MATCH (e:Event)-[:user_host]-(host:User)
+            WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 14})
+            AND host.VerifiedOrganization = true 
+            AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
+            AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
+            AND (e)-[:event_school]-(:School{SchoolID: $school_id})
+            WITH e, host, SIZE((e)<-[:user_join]-()) as num_joins, SIZE((e)<-[:user_shoutout]-()) as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
+            ORDER BY RAND()
+            LIMIT 10
+            WITH collect({
+                user_id: host.UserID, 
+                display_name: host.DisplayName,
+                username: host.Username,
+                host_picture: host.Picture,
+                verified_organization: host.VerifiedOrganization,
+                event_id: e.EventID,
+                title: e.Title,
+                event_picture: e.Picture,
+                description: e.Description,
+                location: e.Location,
+                start_date_time: e.StartDateTime,
+                end_date_time: e.EndDateTime,
+                visibility: e.Visibility,
+                num_joins: num_joins,
+                num_shoutouts: num_shoutouts,
+                user_join: user_join,
+                user_shoutout: user_shoutout,
+                host_user_id: host.UserID,
+                reason: "From a reputable organization"
+            }) AS event_data
+            UNWIND event_data as results
+            RETURN results
+
+            UNION
+            
+            MATCH (e:Event)-[:user_host]-(host:User)
             WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 21})
             AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
             AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token})
@@ -903,74 +973,6 @@ async def get_home_events(request: Request) -> JSONResponse:
                 host_user_id: host.UserID
                 }) AS popular_events
             UNWIND apoc.coll.shuffle(popular_events)[0..15] AS results
-            RETURN results
-
-            UNION
-
-            MATCH (e:Event)-[:user_host]-(host:User)
-            WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 30})
-            AND (host)<-[:user_follow]-(:User{UserAccessToken: $user_access_token}) 
-            AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
-            AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
-            AND (e)-[:event_school]-(:School{SchoolID: $school_id})
-            WITH e, host, SIZE((e)<-[:user_join]-()) as num_joins, SIZE((e)<-[:user_shoutout]-()) as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
-            ORDER BY RAND()
-            LIMIT 25
-            WITH collect({
-                user_id: host.UserID, 
-                display_name: host.DisplayName,
-                username: host.Username,
-                host_picture: host.Picture,
-                verified_organization: host.VerifiedOrganization,
-                event_id: e.EventID,
-                title: e.Title,
-                event_picture: e.Picture,
-                description: e.Description,
-                location: e.Location,
-                start_date_time: e.StartDateTime,
-                end_date_time: e.EndDateTime,
-                visibility: e.Visibility,
-                num_joins: num_joins,
-                num_shoutouts: num_shoutouts,
-                user_join: user_join,
-                user_shoutout: user_shoutout,
-                host_user_id: host.UserID
-                }) AS event_data
-            UNWIND event_data as results
-            RETURN results
-
-            UNION
-
-            MATCH (e:Event)-[:user_host]-(host:User)
-            WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 14})
-            AND host.VerifiedOrganization = true 
-            AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
-            AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
-            AND (e)-[:event_school]-(:School{SchoolID: $school_id})
-            WITH e, host, SIZE((e)<-[:user_join]-()) as num_joins, SIZE((e)<-[:user_shoutout]-()) as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
-            ORDER BY RAND()
-            LIMIT 10
-            WITH collect({
-                user_id: host.UserID, 
-                display_name: host.DisplayName,
-                username: host.Username,
-                host_picture: host.Picture,
-                verified_organization: host.VerifiedOrganization,
-                event_id: e.EventID,
-                title: e.Title,
-                event_picture: e.Picture,
-                description: e.Description,
-                location: e.Location,
-                start_date_time: e.StartDateTime,
-                end_date_time: e.EndDateTime,
-                visibility: e.Visibility,
-                num_joins: num_joins,
-                num_shoutouts: num_shoutouts,
-                user_join: user_join,
-                user_shoutout: user_shoutout,
-                host_user_id: host.UserID
-            }) AS event_data
-            UNWIND event_data as results
             RETURN results""",
             parameters={
                 "user_access_token": user_access_token,
@@ -979,6 +981,8 @@ async def get_home_events(request: Request) -> JSONResponse:
         )
 
         data = []
+        event_id_list = {}
+
         for record in result:
             row = record["results"]
 
@@ -989,6 +993,9 @@ async def get_home_events(request: Request) -> JSONResponse:
             verified_organization = row.get("verified_organization", False)
 
             event_id = row['event_id']
+            if(event_id_list.get(event_id)):
+                continue
+            event_id_list[event_id] = True
             title = row['title']
             event_picture = row['event_picture']
             description = row['description']
@@ -1001,6 +1008,7 @@ async def get_home_events(request: Request) -> JSONResponse:
             user_join = row['user_join']
             user_shoutout = row['user_shoutout']
             host_user_id = row['host_user_id']
+            reason = row.get("reason", False)
 
             data.append({
                 "host": {
@@ -1024,7 +1032,8 @@ async def get_home_events(request: Request) -> JSONResponse:
                     'user_join': user_join,
                     'user_shoutout': user_shoutout,
                     'host_user_id': host_user_id
-                }
+                },
+                "reason": reason
             })
         
         random.shuffle(data)
