@@ -32,7 +32,7 @@ async def add_user_notification_token(request: Request) -> JSONResponse:
     print(type(push_token))
     print("Info up above ^")
 
-    return Response(status_code=200, content="Added push token (PLEASE REMOVE THIS ERROR MESSAGE FROM SERVER)")
+    return Response(status_code=400, content="Added push token (PLEASE REMOVE THIS ERROR MESSAGE FROM SERVER)")
 
 routes = [
     Route("/notification/user_id/{user_id}/add_token",
