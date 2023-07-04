@@ -523,11 +523,12 @@ async def get_user_email(request: Request) -> JSONResponse:
     firebase_user = get_firebase_user_by_uid(uid=user_id)
 
     email = firebase_user.email
+    email_verified = firebase_user.email_verified
 
     if(email is None):
         raise Problem(status_code=400,content="Could not retrieve email for user")
 
-    return JSONResponse({"email": email})
+    return JSONResponse({"email": email, "email_verified": email_verified})
 
 async def get_following_list(request: Request) -> JSONResponse:
     """
