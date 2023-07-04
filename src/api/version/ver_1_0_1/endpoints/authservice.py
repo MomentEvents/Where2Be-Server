@@ -2,6 +2,7 @@ from inspect import Parameter
 from common.models import Problem
 from common.neo4j.commands.schoolcommands import get_school_entity_by_school_id
 from common.neo4j.commands.usercommands import create_user_entity, get_user_entity_by_username
+from common.utils import is_email
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.responses import Response
@@ -9,7 +10,7 @@ from starlette.routing import Route
 
 
 from api.version.ver_1_0_1.auth import is_requester_admin, is_user_formatted
-from api.helpers import parse_request_data
+from api.helpers import contains_profanity, contains_url, parse_request_data
 
 import datetime
 import bcrypt
@@ -108,6 +109,22 @@ async def check_username_availability(request: Request) -> JSONResponse:
     username = username.lower()
     username = username.strip()
 
+    if len(username) > 30:
+        return Response(status_code=400, content="Username cannot exceed 30 characters")
+
+    if len(username) < 6:
+        return Response(status_code=400, content="Username cannot be under 6 characters")
+
+    if username.isalnum() is False:
+        return Response(status_code=400, content="Username must be alphanumeric")
+
+    if (contains_profanity(username)):
+        return Response(status_code=400, content="We detected profanity in your username. Please change it")
+
+    if (contains_url(username)):
+        return Response(status_code=400, content="Username cannot contain a url")
+
+
     user = get_user_entity_by_username(username)
 
     if(user is not None):
@@ -128,6 +145,8 @@ async def check_email_availability(request: Request) -> JSONResponse:
     email = email.lower()
     email = email.strip()
 
+    if(not is_email(email)):
+        raise Problem(status=400, content="A proper email was not entered")
     firebase_user = get_firebase_user_by_email(email)
 
     if(firebase_user is not None):

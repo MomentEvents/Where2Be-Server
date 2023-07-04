@@ -2,7 +2,7 @@ from inspect import Parameter
 
 from markupsafe import string
 from common.firebase import delete_firebase_user_by_uid, get_firebase_user_by_uid
-from common.neo4j.commands.usercommands import create_follow_connection, delete_follow_connection, get_user_entity_by_user_access_token, get_user_entity_by_user_id
+from common.neo4j.commands.usercommands import create_follow_connection, delete_follow_connection, get_user_entity_by_user_access_token, get_user_entity_by_user_id, get_user_entity_by_username
 from common.neo4j.converters import convert_user_entity_to_user
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
@@ -145,6 +145,11 @@ async def update_using_user_id(request: Request) -> JSONResponse:
 
     username = username.strip()
     display_name = display_name.strip()
+
+    user = get_user_entity_by_username(username)
+
+    if(user is not None):
+        return Response(status_code=400, content="A user with this username already exists")
 
     with get_neo4j_session() as session:
         result = session.run(
