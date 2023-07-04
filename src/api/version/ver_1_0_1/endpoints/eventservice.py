@@ -1,6 +1,9 @@
 from inspect import Parameter
 
 from markupsafe import string
+from common.firebase import get_firebase_user_by_uid
+from common.models import Problem
+from common.neo4j.commands.usercommands import get_user_entity_by_user_access_token
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from starlette.routing import Route
@@ -32,7 +35,6 @@ import cv2
 import numpy as np
 
 
-@is_valid_user_access_token
 @is_picture_formatted
 @is_event_formatted
 async def create_event(request: Request) -> JSONResponse:
@@ -60,6 +62,14 @@ async def create_event(request: Request) -> JSONResponse:
 
     end_date_time = None
     user_access_token = request_data.get("user_access_token")
+
+    if(user_access_token is None):
+        raise Problem(status=400, content="No user_access_token has been passed in.")
+    user = get_user_entity_by_user_access_token(user_access_token, False)
+    firebase_user = get_firebase_user_by_uid(user['user_id'])
+    if(firebase_user.email_verified is None or firebase_user.email_verified is False):
+        raise Problem(status=400, content="You must verify your email before you can post events. Check " + firebase_user.email)
+
     title = request_data.get("title")
     description = request_data.get("description")
     location = request_data.get("location")
@@ -940,7 +950,7 @@ async def get_home_events(request: Request) -> JSONResponse:
             RETURN results
 
             UNION
-            
+
             MATCH (e:Event)-[:user_host]-(host:User)
             WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 21})
             AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})

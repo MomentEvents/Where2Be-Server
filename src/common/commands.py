@@ -89,8 +89,9 @@ def login(usercred: str, password: str):
         
 def signup(username, display_name, email, password, school_id):
     if(not IS_PROD):
-        raise Problem(status=400, content="""Dev mode has been turned on, so signup is disabled. Signup is through Firebase, not on our own systems.
-        You can simply just hit the login endpoint and return your own user_access_token from the local database to simulate a login.""")
+        user_access_token = "gHL9LK-4bgALRzdNJFW5KZWkMdBmxrfQCnjdhZRpYG4"
+        user_id = "Ez7o28WpYX2bsrri0udD9xtNzv7SzC_D3FCjPnjv21g"
+        return user_id, user_access_token
 
     username = username.lower()
     username = username.strip()
