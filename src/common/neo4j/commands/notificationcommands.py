@@ -5,7 +5,7 @@ from dateutil import parser
 import secrets
 import random
 
-def create_push_token_entity(user_id: str, push_token: str, push_type: str):
+def add_push_token(user_id: str, push_token: str, push_type: str):
     test = 1
 
     
