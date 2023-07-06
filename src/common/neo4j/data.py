@@ -22,6 +22,8 @@ def init_schema():
         "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.Picture);", # String
         "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.VerifiedOrganization);", # Boolean
         "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.Administrator);", # Boolean
+        "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.PushTokens);", # List<String>
+        
         #Events
         "CREATE CONSTRAINT IF NOT EXISTS FOR (e:Event) REQUIRE e.EventID IS UNIQUE", # String
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Title);", # String
@@ -31,6 +33,7 @@ def init_schema():
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.StartDateTime);", # String / null
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.EndDateTime);", # String
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.TimeCreated);", # Date
+
         #Schools
         "CREATE CONSTRAINT IF NOT EXISTS FOR (s:School) REQUIRE s.SchoolID IS UNIQUE", # String
         "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Name);", # String
