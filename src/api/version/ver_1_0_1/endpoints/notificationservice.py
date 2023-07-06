@@ -75,8 +75,8 @@ routes = [
         add_user_notification_token,
         methods=["POST"],
     ),
-    Route("/notification/user_id/{user_id}/add_token",
-        add_user_notification_token,
+    Route("/notification/user_id/{user_id}/remove_token",
+        remove_user_notification_token,
         methods=["POST"],
     )
 ]
