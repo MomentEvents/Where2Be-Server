@@ -225,4 +225,20 @@ def delete_follow_connection(from_user_id, to_user_id):
     return 0
 
 def get_all_follower_push_tokens(user_id: str):
-    
+    query = """
+    MATCH (u:User{UserID: $user_id})<-[:user_follow]-(follower:User)
+    UNWIND follower.PushTokens AS pushTokensList
+    RETURN COLLECT({token: pushTokensList, user_id: follower.UserID}) AS allPushTokens
+    """
+    parameters = {
+        "user_id": user_id
+    }
+
+    with get_neo4j_session() as session:
+        result = session.run(query, parameters)
+        # Assuming you have only one record returned
+        record = result.single()
+        if record is not None:
+            return record['allPushTokens']
+        else:
+            return None
