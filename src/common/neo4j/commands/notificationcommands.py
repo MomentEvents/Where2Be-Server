@@ -34,9 +34,3 @@ def remove_push_token(user_id: str, push_token: str, push_type: str):
             })
     
     return 0
-
-
-
-
-
-    

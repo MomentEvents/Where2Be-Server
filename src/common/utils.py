@@ -1,4 +1,5 @@
 import boto3
+from common.neo4j.commands.notificationcommands import remove_push_token
 from exponent_server_sdk import (
     DeviceNotRegisteredError,
     PushClient,
@@ -34,7 +35,11 @@ def send_email(recipient_email, subject, body):
 
     return response
 
-def send_push_token(expo_token, message, extra):
+def _send_push_token(expo_token: str, message: str, extra) -> bool:
+
+    attempts = 0
+    max_attempts = 10
+
     session = requests.Session()
     session.headers.update(
         {
@@ -43,31 +48,53 @@ def send_push_token(expo_token, message, extra):
             "content-type": "application/json"
         }
     )
+    while attempts < max_attempts: 
+        try:
+            print("Attempt " + str(attempts) + "/" + str(max_attempts))
+            response = PushClient(session=session).publish(
+                PushMessage(to=expo_token,
+                            body=message,
+                            data=extra))
+            
+        except PushServerError as exc:
+            # Encountered some likely formatting/validation error.
+            raise
+        except (ConnectionError, HTTPError) as exc:
+            # Encountered some Connection or HTTP error - retry a few times in
+            # case it is transient.
+            print("ENCOUNTERED CONNECTIONERROR OR HTTPERROR \n\n" + str(exc))
+            attempts += 1
+            continue
+        try:
+            # We got a response back, but we don't know whether it's an error yet.
+            # This call raises errors so we can handle them with normal exception
+            # flows.
+            response.validate_response()
+
+            return True
+        except DeviceNotRegisteredError:
+            # Mark the push token as inactive
+            return False
+        except PushTicketError as exc:
+            # Encountered some other per-notification error.
+
+            print("PUSH TICKET ERROR \n\n" + str(exc))
+            attempts += 1
+            continue
+
+    print("FATAL ERROR: DID NOT SEND PUSH NOTIFICATION")
+    return True
     
-    try:
-        response = PushClient(session=session).publish(
-            PushMessage(to=expo_token,
-                        body=message,
-                        data=extra))
-    except PushServerError as exc:
-        # Encountered some likely formatting/validation error.
-        raise
-    except (ConnectionError, HTTPError) as exc:
-        # Encountered some Connection or HTTP error - retry a few times in
-        # case it is transient.
-        raise self.retry(exc=exc)
-    try:
-        # We got a response back, but we don't know whether it's an error yet.
-        # This call raises errors so we can handle them with normal exception
-        # flows.
-        response.validate_response()
-    except DeviceNotRegisteredError:
-        # Mark the push token as inactive
-        raise
-    except PushTicketError as exc:
-        # Encountered some other per-notification error.
-        raise self.retry(exc=exc)
-    
+
+def send_and_validate_expo_push_notifications(tokens_with_user_id: "set[dict[str, str]]", message: str, extra):
+    # test = {{
+    #     "user_id": "blah",
+    #     "token": "blah2",
+    # }}
+    for token_with_user_id in tokens_with_user_id:
+        if(not _send_push_token(token_with_user_id["token"], message, extra)):
+            remove_push_token(token_with_user_id["user_id"], token_with_user_id["token"], "Expo")
+
 
 def is_email(string):
     pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"

@@ -18,7 +18,7 @@ import secrets
 
 from common.neo4j.moment_neo4j import get_neo4j_session
 from common.s3.moment_s3 import get_bucket_url
-from common.commands import login, signup
+from common.authentication.commands import login, signup
 from common.firebase import get_firebase_user_by_email, send_password_reset_email, send_verification_email
 
 from common.constants import SCRAPER_TOKEN

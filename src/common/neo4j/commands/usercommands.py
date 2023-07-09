@@ -223,3 +223,6 @@ def delete_follow_connection(from_user_id, to_user_id):
         session.run(query, parameters)
 
     return 0
+
+def get_all_follower_push_tokens(user_id: str):
+    

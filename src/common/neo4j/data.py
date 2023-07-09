@@ -45,18 +45,12 @@ def init_schema():
         "CREATE INDEX IF NOT EXISTS FOR (i:Interest) ON (i.Name);", # String
 
         #user_shoutout
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_shoutout]->() ON (r.DoNotify);", #Bool
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_shoutout]->() ON (r.MinutesToNotify);", #Int
         "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_shoutout]->() ON (r.DidNotify);", #Bool
 
         #user_join
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_join]->() ON (r.DoNotify);", #Bool
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_join]->() ON (r.MinutesToNotify);", #Int
         "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_join]->() ON (r.DidNotify);", #Bool
 
         #user_host
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_host]->() ON (r.DoNotify);", #Bool
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_host]->() ON (r.MinutesToNotify);", #Int
         "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_host]->() ON (r.DidNotify);", #Bool
 
         #user_follow
