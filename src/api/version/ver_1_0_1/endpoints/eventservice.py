@@ -3,7 +3,9 @@ from inspect import Parameter
 from markupsafe import string
 from common.firebase import get_firebase_user_by_uid, send_verification_email
 from common.models import Problem
+from common.neo4j.commands.notificationcommands import get_all_follower_push_tokens
 from common.neo4j.commands.usercommands import get_user_entity_by_user_access_token
+from common.utils import send_and_validate_expo_push_notifications
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from starlette.routing import Route
@@ -86,6 +88,9 @@ async def create_event(request: Request) -> JSONResponse:
 
     event_id = secrets.token_urlsafe()
     image_id = secrets.token_urlsafe()
+
+
+
     event_image = await upload_base64_image(picture, "app-uploads/images/events/event-id/"+event_id+"/", image_id)
 
     title = title.strip()
@@ -128,6 +133,12 @@ async def create_event(request: Request) -> JSONResponse:
         "event_id": str(event_id),
     }
 
+    try:
+        follower_push_tokens_with_user_id = get_all_follower_push_tokens(user['user_id'])
+        send_and_validate_expo_push_notifications(follower_push_tokens_with_user_id, "" + str(user["username"] + " just posted an event: " + str(title)), None)
+    except Exception as e:
+        print("ERROR SENDING FOLLOWER PUSH NOTIFICATION: \n\n" + str(e))
+    
     return JSONResponse(event_data)
 
 async def get_event(request: Request) -> JSONResponse:
