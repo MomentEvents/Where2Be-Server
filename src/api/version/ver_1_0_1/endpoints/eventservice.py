@@ -902,6 +902,7 @@ async def get_home_events(request: Request) -> JSONResponse:
             AND (host)<-[:user_follow]-(:User{UserAccessToken: $user_access_token}) 
             AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
             AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
+            AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
             AND (e)-[:event_school]-(:School{SchoolID: $school_id})
             WITH e, host, SIZE((e)<-[:user_join]-()) as num_joins, SIZE((e)<-[:user_shoutout]-()) as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
             ORDER BY RAND()
@@ -937,6 +938,7 @@ async def get_home_events(request: Request) -> JSONResponse:
             AND host.VerifiedOrganization = true 
             AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
             AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
+            AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
             AND (e)-[:event_school]-(:School{SchoolID: $school_id})
             WITH e, host, SIZE((e)<-[:user_join]-()) as num_joins, SIZE((e)<-[:user_shoutout]-()) as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
             ORDER BY RAND()
@@ -971,6 +973,7 @@ async def get_home_events(request: Request) -> JSONResponse:
             WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 21})
             AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
             AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token})
+            AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
             AND (e)-[:event_school]-(:School{SchoolID: $school_id})
             WITH e, host, SIZE((e)<-[:user_join]-()) as num_joins, SIZE((e)<-[:user_shoutout]-()) as num_shoutouts,
                     exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join,

@@ -40,15 +40,22 @@ def init_schema():
         "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Abbreviation);", # String
         "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Latitude);", # Float
         "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Longitude);", # Float
+
         #Interests
         "CREATE CONSTRAINT IF NOT EXISTS FOR (i:Interest) REQUIRE i.InterestID IS UNIQUE", # String
         "CREATE INDEX IF NOT EXISTS FOR (i:Interest) ON (i.Name);", # String
 
+        #user_not_interested
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_not_interested]->() ON (r.DidNotify);", #Bool
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_not_interested]->() ON (r.Timestamp);", #DateTime
+
         #user_shoutout
         "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_shoutout]->() ON (r.DidNotify);", #Bool
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_shoutout]->() ON (r.Timestamp);", #DateTime
 
         #user_join
         "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_join]->() ON (r.DidNotify);", #Bool
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_join]->() ON (r.Timestamp);", #DateTime
 
         #user_host
         "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_host]->() ON (r.DidNotify);", #Bool
