@@ -2,7 +2,7 @@ from inspect import Parameter
 
 from markupsafe import string
 from common.firebase import delete_firebase_user_by_uid, get_firebase_user_by_uid
-from common.neo4j.commands.usercommands import create_follow_connection, delete_follow_connection, get_user_entity_by_user_access_token, get_user_entity_by_user_id, get_user_entity_by_username
+from common.neo4j.commands.usercommands import create_follow_connection, create_join_connection, create_not_interested_connection, create_shoutout_connection, delete_follow_connection, delete_join_connection, delete_not_interested_connection, delete_shoutout_connection, get_user_entity_by_user_access_token, get_user_entity_by_user_id, get_user_entity_by_username
 from common.neo4j.converters import convert_user_entity_to_user
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
@@ -293,54 +293,12 @@ async def user_join_update(request: Request) -> JSONResponse:
     except AssertionError:
         return Response(status_code=400, content="Incomplete body or incorrect parameter")
 
-    with get_neo4j_session() as session:
-        result = session.run(
-            """MATCH (u:User{UserID : $user_id, UserAccessToken: $user_access_token})-[r:user_join]->(e:Event{EventID: $event_id})
-            RETURN r""",
-            parameters={
-                "user_access_token": user_access_token,
-                "user_id": user_id,
-                "event_id": event_id,
-            },
-        )
-
-        record = result.single()
-
-        if record != None:
-            if did_join:
-                return JSONResponse(
-                    content={"message": "User already joined the event"},
-                    status_code=200,
-                )
-            else:
-                session.run(
-                    """MATCH (u:User{UserID : $user_id})-[r:user_join]->(e:Event{EventID: $event_id})
-                    DELETE r""",
-                    parameters={
-                        "user_id": user_id,
-                        "event_id": event_id,
-                    },
-                )
-                return JSONResponse(
-                    content={"message": "Join removed successfully"}, status_code=200
-                )
-        else:
-            if did_join:
-                session.run(
-                    """MATCH (u:User{UserID : $user_id}),(e:Event{EventID: $event_id}) 
-                    MERGE (u)-[r:user_join]->(e)""",
-                    parameters={
-                        "user_id": user_id,
-                        "event_id": event_id,
-                    },
-                )
-                return JSONResponse(
-                    content={"message": "Join created successfully"}, status_code=200
-                )
-            else:
-                return JSONResponse(
-                    content={"message": "User already did not join"}, status_code=200
-                )
+    if(did_join):
+        create_join_connection(user_id, event_id)
+    else:
+        delete_join_connection(user_id, event_id)
+    
+    return Response(status_code=200)
 
 @is_requester_privileged_for_user
 async def user_shoutout_update(request: Request) -> JSONResponse:
@@ -371,58 +329,40 @@ async def user_shoutout_update(request: Request) -> JSONResponse:
     except AssertionError:
         return Response(status_code=400, content="Incomplete body or incorrect parameter")
 
-    with get_neo4j_session() as session:
-        # check if user already gave a shoutout to the event
-        result = session.run(
-            """MATCH (u:User{UserID : $user_id, UserAccessToken: $user_access_token})-[r:user_shoutout]->(e:Event{EventID: $event_id})
-            RETURN r""",
-            parameters={
-                "user_access_token": user_access_token,
-                "user_id": user_id,
-                "event_id": event_id,
-            },
-        )
+    if(did_shoutout):
+        create_shoutout_connection(user_id, event_id)
+    else:
+        delete_shoutout_connection(user_id, event_id)
+    
+    return Response(status_code=200)
 
-        record = result.single()
+@is_requester_privileged_for_user
+async def user_not_interested_update(request: Request) -> JSONResponse:
+    """
+    body of user_access_token, not_interested
+    path params of user_id, to_user_id
+    """
 
-        if record != None:
-            if did_shoutout:
-                return JSONResponse(
-                    content={"message": "User already gave a shoutout to the event"},
-                    status_code=200,
-                )
-            else:
-                session.run(
-                    """MATCH (u:User{UserID : $user_id})-[r:user_shoutout]->(e:Event{EventID: $event_id})
-                    DELETE r""",
-                    parameters={
-                        "user_id": user_id,
-                        "event_id": event_id,
-                    },
-                )
-                return JSONResponse(
-                    content={"message": "shoutout removed successfully"},
-                    status_code=200,
-                )
-        else:
-            if did_shoutout:
-                session.run(
-                    """MATCH (u:User{UserID : $user_id}),(e:Event{EventID: $event_id})
-                    MERGE (u)-[r:user_shoutout]->(e)""",
-                    parameters={
-                        "user_id": user_id,
-                        "event_id": event_id,
-                    },
-                )
-                return JSONResponse(
-                    content={"message": "shoutout created successfully"},
-                    status_code=200,
-                )
-            else:
-                return JSONResponse(
-                    content={"message": "User already did not give shoutout"},
-                    status_code=200,
-                )
+    user_id = request.path_params["user_id"]
+    event_id = request.path_params["event_id"]
+
+    body = await request.json()
+
+    user_access_token = body.get("user_access_token")
+    did_not_interested = body.get("did_not_interested")
+
+    try:
+        assert all((user_id, user_access_token))
+        assert type(did_not_interested) == bool
+    except AssertionError:
+        return Response(status_code=400, content="Incomplete body or incorrect parameter")
+
+    if(did_not_interested):
+        create_not_interested_connection(user_id, event_id)
+    else:
+        delete_not_interested_connection(user_id, event_id)
+    
+    return Response(status_code=200)
 
 async def search_users(request: Request) -> JSONResponse:
 
@@ -720,6 +660,10 @@ routes = [
     ),
     Route("/user/user_id/{user_id}/event_id/{event_id}/shoutout",
         user_shoutout_update,
+        methods=["UPDATE"],
+    ),
+    Route("/user/user_id/{user_id}/event_id/{event_id}/not_interested",
+        user_not_interested_update,
         methods=["UPDATE"],
     ),
     Route("/user/school_id/{school_id}/search",
