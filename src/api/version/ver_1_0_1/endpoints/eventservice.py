@@ -135,7 +135,10 @@ async def create_event(request: Request) -> JSONResponse:
 
     try:
         follower_push_tokens_with_user_id = get_all_follower_push_tokens(user['user_id'])
-        send_and_validate_expo_push_notifications(follower_push_tokens_with_user_id, "" + str(user["username"] + " just posted an event: " + str(title)), None)
+        send_and_validate_expo_push_notifications(follower_push_tokens_with_user_id, "" + str(user["username"] + " just posted an event: " + str(title)), {
+            'action': 'ViewEventDetails',
+            'event_id': event_id,
+        })
     except Exception as e:
         print("ERROR SENDING FOLLOWER PUSH NOTIFICATION: \n\n" + str(e))
     
