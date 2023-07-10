@@ -87,7 +87,7 @@ def _send_push_token(expo_token: str, message: str, extra) -> bool:
     
 
 def send_and_validate_expo_push_notifications(tokens_with_user_id: "set[dict[str, str]]", message: str, extra):
-    # test = {{
+    # input = {{
     #     "user_id": "blah",
     #     "token": "blah2",
     # }}
