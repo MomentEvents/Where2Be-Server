@@ -38,6 +38,7 @@ def remove_push_token(user_id: str, push_token: str, push_type: str):
 def get_all_follower_push_tokens(user_id: str):
     query = """
     MATCH (u:User{UserID: $user_id})<-[:user_follow]-(follower:User)
+    WHERE NOT exists(follower.DoNotifyFollowing) OR follower.DoNotifyFollowing = true
     UNWIND follower.PushTokens AS pushTokensList
     RETURN COLLECT({token: pushTokensList, user_id: follower.UserID}) AS allPushTokens
     """
@@ -53,3 +54,54 @@ def get_all_follower_push_tokens(user_id: str):
             return record['allPushTokens']
         else:
             return None
+        
+def get_notification_preferences(user_id: str):
+    preferences = {
+        "DoNotifyFollowing": False
+    }
+
+    query = """
+    MATCH (u:User{UserID: $user_id})
+    RETURN COALESCE(u.DoNotifyFollowing, true) AS DoNotifyFollowing
+    """
+    parameters = {
+        "user_id": user_id
+    }
+
+    with get_neo4j_session() as session:
+        result = session.run(query, parameters)
+        record = result.single()
+        if record is None:
+            return None
+        else:
+            preferences["DoNotifyFollowing"] = record["DoNotifyFollowing"]
+            return preferences
+        
+
+
+def set_notification_preferences(user_id: str, preferences: dict):
+
+
+    permitted_keys = ["DoNotifyFollowing"]
+
+    if any(key not in permitted_keys or not isinstance(value, bool) for key, value in preferences.items()):
+        print("INVALID KEY IN SET_NOTIFICATION_PREFERENCES")
+        return False
+
+    query = """
+    MATCH (u:User{UserID: $user_id})
+    SET u += $properties
+    RETURN u
+    """
+    parameters = {
+        "user_id": user_id,
+        "properties": preferences
+    }
+
+    with get_neo4j_session() as session:
+        result = session.run(query, parameters)
+        record = result.single()
+        if record is None:
+            return None
+        else:
+            return record["u"]
