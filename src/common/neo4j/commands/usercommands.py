@@ -223,3 +223,105 @@ def delete_follow_connection(from_user_id, to_user_id):
         session.run(query, parameters)
 
     return 0
+
+def create_not_interested_connection(user_id, event_id):
+    timestamp = datetime.now()
+
+    query = """
+    MATCH (u:User{UserID: $user_id}),(e:Event{EventID: $event_id}) 
+    MERGE (u)-[r:user_not_interested]->(e)
+    SET r.Timestamp = datetime($timestamp)
+    """
+
+    parameters = {
+        "user_id": user_id,
+        "event_id": event_id,
+        "timestamp": timestamp.isoformat()  # Convert DateTime object to ISO 8601 string format
+    }
+
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
+
+    return 0
+
+def delete_not_interested_connection(user_id, event_id):
+    query = """MATCH (u:User{UserID: $user_id})-[r:user_not_interested]->(e:Event{EventID: $event_id})
+                DELETE r"""
+
+    parameters = {
+        "user_id": user_id,
+        "event_id": event_id,
+    }
+
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
+
+    return 0
+
+def create_join_connection(user_id, event_id):
+    timestamp = datetime.now()
+
+    query = """
+    MATCH (u:User{UserID: $user_id}),(e:Event{EventID: $event_id}) 
+    MERGE (u)-[r:user_join]->(e)
+    SET r.Timestamp = datetime($timestamp)
+    """
+
+    parameters = {
+        "user_id": user_id,
+        "event_id": event_id,
+        "timestamp": timestamp.isoformat()  # Convert DateTime object to ISO 8601 string format
+    }
+
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
+
+    return 0
+
+def delete_join_connection(user_id, event_id):
+    query = """MATCH (u:User{UserID: $user_id})-[r:user_join]->(e:Event{EventID: $event_id})
+                DELETE r"""
+
+    parameters = {
+        "user_id": user_id,
+        "event_id": event_id,
+    }
+
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
+
+    return 0
+
+def create_shoutout_connection(user_id, event_id):
+    timestamp = datetime.now()
+
+    query = """
+    MATCH (u:User{UserID: $user_id}),(e:Event{EventID: $event_id}) 
+    MERGE (u)-[r:user_shoutout]->(e)
+    SET r.Timestamp = datetime($timestamp)
+    """
+
+    parameters = {
+        "user_id": user_id,
+        "event_id": event_id,
+        "timestamp": timestamp.isoformat()  # Convert DateTime object to ISO 8601 string format
+    }
+
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
+
+    return 0
+
+def delete_shoutout_connection(user_id, event_id):
+    query = """MATCH (u:User{UserID: $user_id})-[r:user_shoutout]->(e:Event{EventID: $event_id})
+                DELETE r"""
+
+    parameters = {
+        "user_id": user_id,
+        "event_id": event_id,
+    }
+
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
+
+    return 0
