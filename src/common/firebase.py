@@ -1,7 +1,8 @@
+from datetime import datetime, timezone
 import requests
 import json
 import firebase_admin
-from firebase_admin import auth
+from firebase_admin import auth, firestore
 import re
 import os
 
@@ -10,7 +11,8 @@ from common.utils import send_email
 
 API_KEY = os.environ.get('FIREBASE_API_KEY')
 cred = firebase_admin.credentials.Certificate(json.loads(os.environ.get('FIREBASE_CREDENTIALS')))
-firebase_admin.initialize_app(cred)
+app = firebase_admin.initialize_app(cred)
+db = firestore.client()
 
 def login_user_firebase(email, password):
     url = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" + API_KEY
@@ -105,3 +107,45 @@ def send_verification_email(email):
     except Exception as e:
         # Handle any errors that occur during the email update
         raise Problem(status=400, content="Error sending verification email link: " + str(e))
+    
+def create_firestore_document(collection: str, document: str, data):
+    # if document is None, then a randomized id will be assigned
+    if document:
+        doc_ref = db.collection(collection).document(document)
+    else:
+        doc_ref = db.collection(collection).document()
+
+    doc_ref.set(data)
+
+    return doc_ref.id
+
+def get_firestore_document(collection: str, document: str):
+    doc_ref = db.collection(collection).document(document)
+    doc = doc_ref.get()
+
+    if doc.exists:
+        return doc.to_dict()
+    else:
+        return None
+
+def delete_firestore_document(collection: str, document: str) -> bool:
+    if document:
+        db.collection(collection).document(document).delete()
+        return True
+    else:
+        return False
+
+def create_firestore_event_message(event_id: str, user_id: str, message: str):
+
+    data = {
+        'user_id': user_id,
+        'message': message,
+        'timestamp': datetime.now(timezone.utc)
+    }
+
+    return create_firestore_document("EVENT_MESSAGES_" + event_id, None, data)
+
+def delete_firestore_event_message(event_id: str, message_id: str):
+
+    # THIS ASSUMES THAT THE USER OWNS THIS MESSAGE AND CAN DELETE IT. THIS IS BECAUSE ONLY HOSTS CAN POST MESSAGES
+    return delete_firestore_document("EVENT_MESSAGES_" + event_id, message_id)

@@ -1,10 +1,11 @@
 from inspect import Parameter
 
 from markupsafe import string
-from common.firebase import get_firebase_user_by_uid, send_verification_email
+from common.firebase import create_firestore_document, create_firestore_event_message, delete_firestore_event_message, get_firebase_user_by_uid, get_firestore_document, send_verification_email
 from common.models import Problem
-from common.neo4j.commands.notificationcommands import get_all_follower_push_tokens
-from common.neo4j.commands.usercommands import get_user_entity_by_user_access_token
+from common.neo4j.commands.eventcommands import create_event_entity, get_event_entity_by_event_id
+from common.neo4j.commands.notificationcommands import get_all_follower_push_tokens, get_all_joins_and_host_push_tokens
+from common.neo4j.commands.usercommands import get_user_entity_by_user_access_token, get_user_entity_by_user_id
 from common.utils import send_and_validate_expo_push_notifications
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
@@ -54,7 +55,7 @@ async def create_event(request: Request) -> JSONResponse:
         visibility: boolean,
         interest_id: string[],
         picture: string,
-
+        ping_followers: boolean,
 
     return:
         event_id: string
@@ -83,68 +84,43 @@ async def create_event(request: Request) -> JSONResponse:
     title = request_data.get("title")
     description = request_data.get("description")
     location = request_data.get("location")
-    start_date_time = parser.parse(request_data.get("start_date_time"))
-    end_date_time = None if request_data.get("end_date_time") is None else parser.parse(request_data.get("end_date_time"))
+    start_date_time = request_data.get("start_date_time")
+    end_date_time = request_data.get("end_date_time")
     visibility = request_data.get("visibility")
     interest_ids = [*set(json.loads(request_data.get("interest_ids")))]
     picture = request_data.get("picture")
 
+    ping_followers = request_data.get("ping_followers")
+
+    try:
+        assert({ping_followers})
+        assert type(ping_followers) == bool
+    except AssertionError:
+        return Response(status_code=400, content="Incomplete body or incorrect parameter")
+        
+
     event_id = secrets.token_urlsafe()
     image_id = secrets.token_urlsafe()
-
-
-
     event_image = await upload_base64_image(picture, "app-uploads/images/events/event-id/"+event_id+"/", image_id)
-
     title = title.strip()
     location = location.strip()
 
-    with get_neo4j_session() as session:
-        result = session.run(
-            """MATCH (user:User {UserAccessToken: $user_access_token})-[:user_school]->(school:School)
-                CREATE (event:Event {
-                    EventID: $event_id,
-                    Title: $title,
-                    Description: $description,
-                    Picture: $image,
-                    Location: $location,
-                    StartDateTime: $start_date_time,
-                    EndDateTime: $end_date_time,
-                    Visibility: $visibility,
-                    TimeCreated: datetime()
-                })<-[:user_host]-(user),
-                (event)-[:event_school]->(school)
-                WITH user, event
-                UNWIND $interest_ids as interest_id
-                MATCH (tag:Interest {InterestID: interest_id})
-                CREATE (tag)<-[:event_tag]-(event)""",
-            parameters={
-                "event_id": event_id,
-                "user_access_token": user_access_token,
-                "image": event_image,
-                "title": title,
-                "description": description,
-                "location": location,
-                "start_date_time": start_date_time,
-                "end_date_time": end_date_time,
-                "visibility": visibility,
-                "interest_ids": interest_ids,
-            },
-        )
+    create_event_entity(user_access_token, event_image, title, description, location, visibility, interest_ids, start_date_time, end_date_time)
 
     event_data = {
         "event_id": str(event_id),
     }
 
-    try:
-        follower_push_tokens_with_user_id = get_all_follower_push_tokens(user['user_id'])
-        if(follower_push_tokens_with_user_id is not None):
-            send_and_validate_expo_push_notifications(follower_push_tokens_with_user_id, None, "" + str(user["username"] + " just posted an event: " + str(title)), {
-                'action': 'ViewEventDetails',
-                'event_id': event_id,
-            })
-    except Exception as e:
-        print("ERROR SENDING FOLLOWER PUSH NOTIFICATION: \n\n" + str(e))
+    if(ping_followers):
+        try:
+            follower_push_tokens_with_user_id = get_all_follower_push_tokens(user['user_id'])
+            if(follower_push_tokens_with_user_id is not None):
+                send_and_validate_expo_push_notifications(follower_push_tokens_with_user_id, "New event posted", "" + str(user["username"] + " just posted \"" + str(title)) + "\"", {
+                    'action': 'ViewEventDetails',
+                    'event_id': event_id,
+                })
+        except Exception as e:
+            print("ERROR SENDING FOLLOWER PUSH NOTIFICATION: \n\n" + str(e))
     
     return JSONResponse(event_data)
 
@@ -181,64 +157,10 @@ async def get_event(request: Request) -> JSONResponse:
         return Response(status_code=400, content="Parameter Missing")
 
     print("about to go to connection")
-    with get_neo4j_session() as session:
 
-        # check if email exists
-        result = session.run(
-                """MATCH (event:Event{EventID : $event_id}), (user:User{UserAccessToken:$user_access_token}), (event)<-[:user_host]-(host:User)
-                WITH (event),
-                    size ((event)<-[:user_join]-()) as num_joins,
-                    size ((event)<-[:user_shoutout]-()) as num_shoutouts,
-                    exists ((event)<-[:user_join]-(user)) as user_join,
-                    exists ((event)<-[:user_shoutout]-(user)) as user_shoutout,
-                    host.UserID as host_user_id
-                RETURN{
-                    event_id: event.EventID,
-                    title: event.Title,
-                    description: event.Description,
-                    start_date_time: event.StartDateTime,
-                    end_date_time: event.EndDateTime,
-                    picture: event.Picture,
-                    visibility: event.Visibility,
-                    location: event.Location,
-                    num_joins: num_joins,
-                    num_shoutouts: num_shoutouts,
-                    user_join: user_join,
-                    user_shoutout: user_shoutout,
-                    host_user_id: host_user_id
-                }""",
-            parameters={
-                "event_id": event_id,
-                "user_access_token": user_access_token,
-            },
-        )
+    event_data = get_event_entity_by_event_id(event_id, user_access_token)
 
-        # get the first element of object
-        record = result.single()
-
-        if record == None:
-            return Response(status_code=400, content="Event does not exist")
-
-        data = record[0]
-        print(data["end_date_time"])
-        
-        event_data = {
-            "event_id": data["event_id"],
-            "picture": data["picture"],
-            "title": data["title"],
-            "description": data["description"],
-            "location": data["location"],
-            "start_date_time": str(data["start_date_time"]),
-            "end_date_time": None if data["end_date_time"] == "NULL" else str(data["end_date_time"]),
-            "visibility": data["visibility"],
-            "num_joins": data["num_joins"],
-            "num_shoutouts": data["num_shoutouts"],
-            "user_join": data["user_join"],
-            "user_shoutout": data["user_shoutout"],
-            "host_user_id": data["host_user_id"],
-        }
-
-        return JSONResponse(event_data)
+    return JSONResponse(event_data)
 
 @is_real_event
 @is_requester_privileged_for_event
@@ -284,6 +206,7 @@ async def update_event(request: Request) -> JSONResponse:
         start_date_time: Date(?) | null,
         end_date_time: Date(?) | null,
         visibility: boolean | null,
+        ping_joined_users: bool,
 
     return:
 
@@ -301,6 +224,12 @@ async def update_event(request: Request) -> JSONResponse:
     visibility = request_data["visibility"]
     interest_ids = [*set(json.loads(request_data["interest_ids"]))]
     picture = request_data["picture"]
+    
+    ping_joined_users = request_data["ping_joined_users"]
+    try:
+        assert type(ping_joined_users) == bool
+    except AssertionError:
+        return Response(status_code=400, content="Incomplete body or incorrect parameter")
 
     print(event_id)
 
@@ -331,6 +260,9 @@ async def update_event(request: Request) -> JSONResponse:
                 en.EndDateTime = COALESCE($end_date_time, en.EndDateTime),
                 en.Visibility = COALESCE($visibility, en.Visibility),
                 en.TimeCreated = datetime()
+            RETURN{
+                    title: en.Title,
+                }
             """,
             parameters={
                 "event_id": event_id,
@@ -344,7 +276,26 @@ async def update_event(request: Request) -> JSONResponse:
                 "interest_ids": interest_ids,
             },
         )
+        # get the first element of object
+        record = result.single()
 
+        if record == None:
+            return None
+
+        data = record[0]
+        new_title = data["title"]
+
+        if(ping_joined_users):
+            user = get_user_entity_by_user_access_token(user_access_token)
+            try:
+                joins_and_host_push_tokens_with_user_id = get_all_joins_and_host_push_tokens(user["user_id"])
+                if(joins_and_host_push_tokens_with_user_id is not None):
+                    send_and_validate_expo_push_notifications(joins_and_host_push_tokens_with_user_id, "Event update", str(user['username']) + " changed details for \"" + str(new_title) + "\"", {
+                        'action': 'ViewEventDetails',
+                        'event_id': event_id,
+                    })
+            except Exception as e:
+                print("ERROR SENDING FOLLOWER PUSH NOTIFICATION: \n\n" + str(e))
     return Response(status_code=200, content="event updated")
 
 async def get_events_categorized(request: Request) -> JSONResponse:
@@ -1074,6 +1025,81 @@ async def get_home_events(request: Request) -> JSONResponse:
         
         random.shuffle(data)
         return JSONResponse(data)
+    
+@is_requester_privileged_for_user
+@is_requester_privileged_for_event    
+async def post_event_message(request: Request) -> JSONResponse:
+
+    """
+    parameters: {
+        user_access_token: string,
+        message: string,
+        ping_joined_users: boolean,
+    }
+    """
+
+    user_id = request.path_params.get("user_id")
+    event_id = request.path_params.get("event_id")
+
+    request_data = await parse_request_data(request)
+
+    user_access_token = request_data.get("user_access_token")
+    message = request_data.get("message")
+    ping_joined_users = request_data.get("ping_joined_users")
+
+    try:
+        assert all((user_id, event_id, user_access_token))
+        assert type(ping_joined_users) == bool
+    except AssertionError:
+        return Response(status_code=400, content="Incomplete body or incorrect parameter")
+    
+    if(len(message) > 3000):
+        return Response(status_code=400, content="Message is beyond 3000 characters. Please shorten it")
+    
+    document_id = create_firestore_event_message(event_id, user_id, message)
+
+    if(ping_joined_users):
+        user = get_user_entity_by_user_id(user_id, None, False)
+        try:
+            joins_and_host_push_tokens_with_user_id = get_all_joins_and_host_push_tokens(user_id)
+            if(joins_and_host_push_tokens_with_user_id is not None):
+                send_and_validate_expo_push_notifications(joins_and_host_push_tokens_with_user_id, "New event message", str(user['username']) + ": " + str(message), {
+                    'action': 'ViewEventDetailsMessages',
+                    'event_id': event_id,
+                })
+        except Exception as e:
+            print("ERROR SENDING FOLLOWER PUSH NOTIFICATION: \n\n" + str(e))
+
+    return JSONResponse({
+        'message_id': document_id
+    })
+
+@is_requester_privileged_for_user 
+@is_requester_privileged_for_event    
+async def delete_event_message(request: Request) -> JSONResponse:
+
+    """
+    parameters: {
+        user_access_token: string,
+        message_id: string,
+    }
+    """
+
+    user_id = request.path_params.get("user_id")
+    event_id = request.path_params.get("event_id")
+
+    request_data = await parse_request_data(request)
+
+    user_access_token = request_data.get("user_access_token")
+    message_id = request_data.get("message_id")
+
+    try:
+        assert all((user_id, event_id, user_access_token, message_id))
+    except AssertionError:
+        return Response(status_code=400, content="Incomplete body or incorrect parameter")
+    
+    delete_firestore_event_message(event_id, message_id)
+    return Response(content="Message deleted")
 
 routes = [
     Route("/event/create_event",
@@ -1109,6 +1135,14 @@ routes = [
     ),
     Route("/event/school_id/{school_id}/home",
         get_home_events,
+        methods=["POST"],
+    ),
+    Route("/event/event_id/{event_id}/user_id/{user_id}/post_message",
+        post_event_message,
+        methods=["POST"],
+    ),
+    Route("/event/event_id/{event_id}/user_id/{user_id}/delete_message",
+        delete_event_message,
         methods=["POST"],
     )
 ]

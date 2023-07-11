@@ -5,7 +5,7 @@ from common.models import Problem
 from dateutil import parser
 import secrets
 import random
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 
@@ -68,6 +68,8 @@ def get_user_entity_by_username(username: str):
         return user
 
 def get_user_entity_by_user_id(user_id: str, self_user_access_token: str, show_num_events_followers_following: bool):
+
+    #self_user_access token is used to get UserFollow with show_num_events_followers_following. In other words, both have to exist or neither exist
     parameters = {
             "user_id": user_id
         }
@@ -192,7 +194,7 @@ def get_user_entity_by_user_access_token(user_access_token: str, show_num_events
         return user_data
 
 def create_follow_connection(from_user_id, to_user_id):
-    timestamp = datetime.now()
+    timestamp = datetime.now(timezone.utc)
 
     query = """
     MATCH (u1:User{UserID: $from_user_id}),(u2:User{UserID: $to_user_id}) 
@@ -225,7 +227,7 @@ def delete_follow_connection(from_user_id, to_user_id):
     return 0
 
 def create_not_interested_connection(user_id, event_id):
-    timestamp = datetime.now()
+    timestamp = datetime.now(timezone.utc)
 
     query = """
     MATCH (u:User{UserID: $user_id}),(e:Event{EventID: $event_id}) 
@@ -259,7 +261,7 @@ def delete_not_interested_connection(user_id, event_id):
     return 0
 
 def create_join_connection(user_id, event_id):
-    timestamp = datetime.now()
+    timestamp = datetime.now(timezone.utc)
 
     query = """
     MATCH (u:User{UserID: $user_id}),(e:Event{EventID: $event_id}) 
@@ -293,7 +295,7 @@ def delete_join_connection(user_id, event_id):
     return 0
 
 def create_shoutout_connection(user_id, event_id):
-    timestamp = datetime.now()
+    timestamp = datetime.now(timezone.utc)
 
     query = """
     MATCH (u:User{UserID: $user_id}),(e:Event{EventID: $event_id}) 
