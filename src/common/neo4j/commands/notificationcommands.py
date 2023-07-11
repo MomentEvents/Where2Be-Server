@@ -55,6 +55,30 @@ def get_all_follower_push_tokens(user_id: str):
         else:
             return None
         
+def get_all_joins_and_host_push_tokens(event_id: str):
+    query = """
+    MATCH (e:Event{EventID: $event_id})<-[:user_join]-(joinedUser:User)
+    UNWIND joinedUser.PushTokens AS pushTokensList
+    WITH e, COLLECT({token: pushTokensList, user_id: joinedUser.UserID}) AS joinedUserPushTokens
+    MATCH (e)<-[:user_host]-(host:User)
+    UNWIND host.PushTokens AS pushTokensList
+    RETURN joinedUserPushTokens, COLLECT({token: pushTokensList, user_id: host.UserID}) AS hostPushTokens
+    """
+    parameters = {
+        "event_id": event_id
+    }
+
+    with get_neo4j_session() as session:
+        result = session.run(query, parameters)
+        record = result.single()
+        if record is not None:
+            return {
+                "joinedUserPushTokens": record['joinedUserPushTokens'],
+                "hostPushTokens": record['hostPushTokens']
+            }
+        else:
+            return None
+        
 def get_notification_preferences(user_id: str):
     preferences = {
         "DoNotifyFollowing": False
