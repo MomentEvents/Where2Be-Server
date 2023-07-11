@@ -14,8 +14,6 @@ import re
 
 from common.constants import IS_PROD
 
-# NOTE: SES is unused as of now, but we can switch back to it by uncommenting this code
-# Creating Session With Boto3.
 SES_CLIENT = boto3.client('ses',
                           aws_access_key_id=os.environ.get('SES_ACCESS_KEY'),
                           aws_secret_access_key=os.environ.get('SES_SECRET_ACCESS_KEY'),
@@ -35,7 +33,7 @@ def send_email(recipient_email, subject, body):
 
     return response
 
-def _send_push_token(expo_token: str, message: str, extra) -> bool:
+def _send_push_token(expo_token: str, title: str, message: str, extra) -> bool:
 
     attempts = 0
     max_attempts = 10
@@ -51,10 +49,14 @@ def _send_push_token(expo_token: str, message: str, extra) -> bool:
     while attempts < max_attempts: 
         try:
             print("Attempt " + str(attempts) + "/" + str(max_attempts))
-            response = PushClient(session=session).publish(
-                PushMessage(to=expo_token,
-                            body=message,
-                            data=extra))
+            
+            # Create parameters dictionary
+            params = {"to": expo_token, "body": message, "data": extra}
+            # Conditionally add title if it is not None
+            if title is not None:
+                params["title"] = title
+
+            response = PushClient(session=session).publish(PushMessage(**params))
             
         except PushServerError as exc:
             # Encountered some likely formatting/validation error.
@@ -84,15 +86,16 @@ def _send_push_token(expo_token: str, message: str, extra) -> bool:
 
     print("FATAL ERROR: DID NOT SEND PUSH NOTIFICATION")
     return True
+
     
 
-def send_and_validate_expo_push_notifications(tokens_with_user_id: "set[dict[str, str]]", message: str, extra):
+def send_and_validate_expo_push_notifications(tokens_with_user_id: "set[dict[str, str]]", title: str, message: str, extra):
     # input = {{
     #     "user_id": "blah",
     #     "token": "blah2",
     # }}
     for token_with_user_id in tokens_with_user_id:
-        if(not _send_push_token(token_with_user_id["token"], message, extra)):
+        if(not _send_push_token(token_with_user_id["token"], title, message, extra)):
             remove_push_token(token_with_user_id["user_id"], token_with_user_id["token"], "Expo")
 
 

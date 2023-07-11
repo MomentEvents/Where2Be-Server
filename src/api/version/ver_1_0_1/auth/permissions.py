@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from functools import wraps
@@ -204,6 +205,9 @@ def is_event_formatted(func):
                     return Response(status_code=400, content="Start date cannot be equal to or after end date")
             except:
                 return Response(status_code=400, content="Could not parse end date")
+            
+        if start_date_time_test < datetime.now(timezone.utc):
+            return Response(status_code=400, content="This event cannot be in the past")
 
         if (location.isprintable() is False) or (location.isspace() is True):
             return Response(status_code=400, content="Location is not printable")

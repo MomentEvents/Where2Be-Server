@@ -35,6 +35,7 @@ from PIL import Image
 import json
 import cv2
 import numpy as np
+from common.constants import IS_PROD
 
 
 @is_picture_formatted
@@ -69,13 +70,15 @@ async def create_event(request: Request) -> JSONResponse:
         raise Problem(status=400, content="No user_access_token has been passed in.")
     
     user = get_user_entity_by_user_access_token(user_access_token, False)
-    firebase_user = get_firebase_user_by_uid(user['user_id'])
-    if(firebase_user.email_verified is None or firebase_user.email_verified is False):
-        try:
-            send_verification_email(firebase_user.email)
-        except:
-            print("UNABLE TO SEND VERIFICATION EMAIL")
-        raise Problem(status=400, content="You must verify your email before you can post events. Check " + firebase_user.email)
+    if(IS_PROD):
+
+        firebase_user = get_firebase_user_by_uid(user['user_id'])
+        if(firebase_user.email_verified is None or firebase_user.email_verified is False):
+            try:
+                send_verification_email(firebase_user.email)
+            except:
+                print("UNABLE TO SEND VERIFICATION EMAIL")
+            raise Problem(status=400, content="You must verify your email before you can post events. Check " + firebase_user.email)
 
     title = request_data.get("title")
     description = request_data.get("description")
@@ -136,7 +139,7 @@ async def create_event(request: Request) -> JSONResponse:
     try:
         follower_push_tokens_with_user_id = get_all_follower_push_tokens(user['user_id'])
         if(follower_push_tokens_with_user_id is not None):
-            send_and_validate_expo_push_notifications(follower_push_tokens_with_user_id, "" + str(user["username"] + " just posted an event: " + str(title)), {
+            send_and_validate_expo_push_notifications(follower_push_tokens_with_user_id, None, "" + str(user["username"] + " just posted an event: " + str(title)), {
                 'action': 'ViewEventDetails',
                 'event_id': event_id,
             })
