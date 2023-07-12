@@ -55,14 +55,11 @@ def get_all_follower_push_tokens(user_id: str):
         else:
             return None
         
-def get_all_joins_and_host_push_tokens(event_id: str):
+def get_all_joined_users_push_tokens(event_id: str):
     query = """
     MATCH (e:Event{EventID: $event_id})<-[:user_join]-(joinedUser:User)
     UNWIND joinedUser.PushTokens AS pushTokensList
-    WITH e, COLLECT({token: pushTokensList, user_id: joinedUser.UserID}) AS joinedUserPushTokens
-    MATCH (e)<-[:user_host]-(host:User)
-    UNWIND host.PushTokens AS pushTokensList
-    RETURN joinedUserPushTokens, COLLECT({token: pushTokensList, user_id: host.UserID}) AS hostPushTokens
+    RETURN COLLECT({token: pushTokensList, user_id: joinedUser.UserID}) AS allPushTokens
     """
     parameters = {
         "event_id": event_id
@@ -70,12 +67,29 @@ def get_all_joins_and_host_push_tokens(event_id: str):
 
     with get_neo4j_session() as session:
         result = session.run(query, parameters)
+        # Assuming you have only one record returned
         record = result.single()
         if record is not None:
-            return {
-                "joinedUserPushTokens": record['joinedUserPushTokens'],
-                "hostPushTokens": record['hostPushTokens']
-            }
+            return record['allPushTokens']
+        else:
+            return None
+        
+def get_host_push_tokens(event_id: str):
+    query = """
+    MATCH (e:Event{EventID: $event_id})<-[:user_host]-(host:User)
+    UNWIND host.PushTokens AS pushTokensList
+    RETURN COLLECT({token: pushTokensList, user_id: joinedUser.UserID}) AS allPushTokens
+    """
+    parameters = {
+        "event_id": event_id
+    }
+
+    with get_neo4j_session() as session:
+        result = session.run(query, parameters)
+        # Assuming you have only one record returned
+        record = result.single()
+        if record is not None:
+            return record['allPushTokens']
         else:
             return None
         

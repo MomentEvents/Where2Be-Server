@@ -5,7 +5,7 @@ from dateutil import parser
 import secrets
 import random
 
-def create_event_entity(user_access_token: str, event_image: str, title: str, description: str, location: str, visibility: str, interest_ids, start_date_time_string, end_date_time_string):
+def create_event_entity(event_id: str, user_access_token: str, event_image: str, title: str, description: str, location: str, visibility: str, interest_ids, start_date_time_string, end_date_time_string):
     start_date_time = parser.parse(start_date_time_string)
     end_date_time = None if end_date_time_string is None else parser.parse(end_date_time_string)
 
@@ -13,7 +13,8 @@ def create_event_entity(user_access_token: str, event_image: str, title: str, de
     title = title.strip()
     description = description.strip()
     location = location.strip()
-    event_id = secrets.token_urlsafe()
+    if(event_id is None):
+        event_id = secrets.token_urlsafe()
 
 
 

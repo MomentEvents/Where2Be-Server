@@ -4,7 +4,7 @@ from markupsafe import string
 from common.firebase import create_firestore_document, create_firestore_event_message, delete_firestore_event_message, get_firebase_user_by_uid, get_firestore_document, send_verification_email
 from common.models import Problem
 from common.neo4j.commands.eventcommands import create_event_entity, get_event_entity_by_event_id
-from common.neo4j.commands.notificationcommands import get_all_follower_push_tokens, get_all_joins_and_host_push_tokens
+from common.neo4j.commands.notificationcommands import get_all_follower_push_tokens, get_all_joined_users_push_tokens
 from common.neo4j.commands.usercommands import get_user_entity_by_user_access_token, get_user_entity_by_user_id
 from common.utils import send_and_validate_expo_push_notifications
 from starlette.requests import Request
@@ -90,28 +90,28 @@ async def create_event(request: Request) -> JSONResponse:
     interest_ids = [*set(json.loads(request_data.get("interest_ids")))]
     picture = request_data.get("picture")
 
-    ping_followers = request_data.get("ping_followers")
+    ping_followers = True if request_data.get("ping_followers") == "true" else False
 
     try:
         assert({ping_followers})
         assert type(ping_followers) == bool
     except AssertionError:
         return Response(status_code=400, content="Incomplete body or incorrect parameter")
-        
 
-    event_id = secrets.token_urlsafe()
+    event_id = secrets.token_urlsafe()   
     image_id = secrets.token_urlsafe()
     event_image = await upload_base64_image(picture, "app-uploads/images/events/event-id/"+event_id+"/", image_id)
     title = title.strip()
     location = location.strip()
 
-    create_event_entity(user_access_token, event_image, title, description, location, visibility, interest_ids, start_date_time, end_date_time)
+    event_id = create_event_entity(event_id, user_access_token, event_image, title, description, location, visibility, interest_ids, start_date_time, end_date_time)
 
     event_data = {
         "event_id": str(event_id),
     }
 
     if(ping_followers):
+        print("PINGING FOLLOWERS")
         try:
             follower_push_tokens_with_user_id = get_all_follower_push_tokens(user['user_id'])
             if(follower_push_tokens_with_user_id is not None):
@@ -225,7 +225,7 @@ async def update_event(request: Request) -> JSONResponse:
     interest_ids = [*set(json.loads(request_data["interest_ids"]))]
     picture = request_data["picture"]
     
-    ping_joined_users = request_data["ping_joined_users"]
+    ping_joined_users = True if request_data.get("ping_joined_users") == "true" else False
     try:
         assert type(ping_joined_users) == bool
     except AssertionError:
@@ -261,7 +261,7 @@ async def update_event(request: Request) -> JSONResponse:
                 en.Visibility = COALESCE($visibility, en.Visibility),
                 en.TimeCreated = datetime()
             RETURN{
-                    title: en.Title,
+                    title: en.Title
                 }
             """,
             parameters={
@@ -286,11 +286,13 @@ async def update_event(request: Request) -> JSONResponse:
         new_title = data["title"]
 
         if(ping_joined_users):
-            user = get_user_entity_by_user_access_token(user_access_token)
+            print("PINGING JOINED USERS")
+            user = get_user_entity_by_user_access_token(user_access_token=user_access_token, show_num_events_followers_following=False)
             try:
-                joins_and_host_push_tokens_with_user_id = get_all_joins_and_host_push_tokens(user["user_id"])
-                if(joins_and_host_push_tokens_with_user_id is not None):
-                    send_and_validate_expo_push_notifications(joins_and_host_push_tokens_with_user_id, "Event update", str(user['username']) + " changed details for \"" + str(new_title) + "\"", {
+                joined_users_push_tokens_with_user_id = get_all_joined_users_push_tokens(event_id)
+                print(joined_users_push_tokens_with_user_id)
+                if(joined_users_push_tokens_with_user_id is not None):
+                    send_and_validate_expo_push_notifications(joined_users_push_tokens_with_user_id, "Event updated", str(user['username']) + " changed details for \"" + str(new_title) + "\"", {
                         'action': 'ViewEventDetails',
                         'event_id': event_id,
                     })
@@ -1061,9 +1063,9 @@ async def post_event_message(request: Request) -> JSONResponse:
     if(ping_joined_users):
         user = get_user_entity_by_user_id(user_id, None, False)
         try:
-            joins_and_host_push_tokens_with_user_id = get_all_joins_and_host_push_tokens(user_id)
-            if(joins_and_host_push_tokens_with_user_id is not None):
-                send_and_validate_expo_push_notifications(joins_and_host_push_tokens_with_user_id, "New event message", str(user['username']) + ": " + str(message), {
+            joined_users_push_tokens_with_user_id = get_all_joined_users_push_tokens(event_id)
+            if(joined_users_push_tokens_with_user_id is not None):
+                send_and_validate_expo_push_notifications(joined_users_push_tokens_with_user_id, "New event message", str(user['username']) + ": " + str(message), {
                     'action': 'ViewEventDetailsMessages',
                     'event_id': event_id,
                 })
