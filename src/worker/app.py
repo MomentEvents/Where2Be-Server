@@ -1,42 +1,33 @@
-from typing import Any
-import asyncio
-from datetime import timedelta, datetime
+import schedule
+import time
 
-async def example_job():
-    test = 1
+# def job():
+#     print("I'm working...")
 
-# list of jobs and how frequently they should run
-jobs = [
-    ("Example Job", example_job, timedelta(seconds=5))
-]
+# schedule.every(10).seconds.do(job)
+# schedule.every(10).minutes.do(job)
+# schedule.every().hour.do(job)
+# schedule.every().day.at("10:30").do(job)
+# schedule.every(5).to(10).minutes.do(job)
+# schedule.every().monday.do(job)
+# schedule.every().wednesday.at("13:15").do(job)
+# schedule.every().day.at("12:42", "Europe/Amsterdam").do(job)
+# schedule.every().minute.at(":17").do(job)
 
-async def main():
-    job_tasks: list[asyncio.Task[Any]] = []
-    job_last_run: list[datetime] = []
-    job_longer_than_delay: list[bool] = []
-    for i, (_, job_func, _) in enumerate(jobs):
-        job_last_run.append(datetime.utcnow())
-        job_tasks.append(asyncio.create_task(job_func()))
-        job_longer_than_delay.append(False)
+# def job_with_argument(name):
+#     print(f"I am {name}")
 
-    while True:
-        for i, (job_name, job_func, job_delay) in enumerate(jobs):
-            time_since_last_run = datetime.utcnow() - job_last_run[i]
-            if time_since_last_run >= job_delay:
-                if job_tasks[i].done():
-                    if job_longer_than_delay[i]:
-                        print(f"Job '{job_name}' took {time_since_last_run}, when delay is {job_delay}")
-                        job_longer_than_delay[i] = False
-                    
-                    job_last_run[i] = datetime.utcnow()
-                    job_tasks[i] = asyncio.create_task(job_func())
-                else:
-                    if not job_longer_than_delay[i]:
-                        print(f"Job '{job_name}' is still running after delay of {job_delay}")
-                        job_longer_than_delay[i] = True
-        await asyncio.sleep(1)
+# schedule.every(10).seconds.do(job_with_argument, name="Peter")
 
+def notify_starting_soon():
+    print("Notify events that are starting within 1 hour")
 
-if __name__ == "__main__":
-    print("Running Where2Be jobs")
-    asyncio.run(main())
+def notify_recommended_events(school_ids):
+    print("Notifying all users recommended events by school_id " + str(school_ids))
+
+schedule.every(5).minutes.do(notify_starting_soon)
+schedule.every().day.at("1:30", "America/Los_Angeles").do(notify_recommended_events, school_ids=["test_univ"])
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)
