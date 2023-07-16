@@ -254,7 +254,7 @@ async def create_user_without_verify(request: Request) -> JSONResponse:
     if(user is not None):
         raise Problem(status=400, content="Username already exists")
     
-    user_access_token, user_id = create_user_entity(display_name, username, school_id, False, False)
+    user_access_token, user_id = create_user_entity(display_name, username, school_id, False, False, is_scraper_account=True)
 
     return JSONResponse({"user_access_token": user_access_token, "user_id": user_id})
 

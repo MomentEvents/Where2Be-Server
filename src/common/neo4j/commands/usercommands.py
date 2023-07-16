@@ -9,7 +9,7 @@ from datetime import datetime, timezone
 
 
 
-def create_user_entity(display_name: str, username: str, school_id: str, is_verified_org: bool, is_admin: bool):
+def create_user_entity(display_name: str, username: str, school_id: str, is_verified_org: bool, is_admin: bool, is_scraper_account=False):
     username = username.lower()
     username = username.strip()
     display_name = display_name.strip()
@@ -25,7 +25,7 @@ def create_user_entity(display_name: str, username: str, school_id: str, is_veri
         user_id = secrets.token_urlsafe()
 
         result = session.run(
-            """CREATE (u:User {UserID: $user_id, Username: $username, Picture:$picture, DisplayName:$display_name, UserAccessToken:$user_access_token, VerifiedOrganization:$is_verified_org, Administrator:$is_admin})
+            """CREATE (u:User {UserID: $user_id, Username: $username, Picture:$picture, DisplayName:$display_name, UserAccessToken:$user_access_token, VerifiedOrganization:$is_verified_org, Administrator:$is_admin, ScraperAccount:$is_scraper_account})
             WITH u
             MATCH(n:School{SchoolID: $school_id})
             CREATE (u)-[r:user_school]->(n)
@@ -39,6 +39,7 @@ def create_user_entity(display_name: str, username: str, school_id: str, is_veri
                 "user_id": user_id,
                 "is_verified_org": is_verified_org,
                 "is_admin": is_admin,
+                "is_scraper_account": is_scraper_account,
             },
         )
 
