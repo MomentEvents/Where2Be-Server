@@ -101,8 +101,8 @@ def signup(username, display_name, email, password, school_id):
     email = email.lower()
     email = email.strip()
 
-    if len(password) < 7:
-        raise Problem(status=400, content="Please enter a more complex password")
+    if len(password) < 6:
+        raise Problem(status=400, content="Please enter a longer password")
 
     if len(password) > 30:
         raise Problem(status=400, content="Your password is over 30 characters. Please enter a shorter password")
