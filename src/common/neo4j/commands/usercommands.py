@@ -80,9 +80,9 @@ def get_user_entity_by_user_id(user_id: str, self_user_access_token: str, show_n
     
     match_query = """MATCH (u:User {UserID: $user_id}) """
 
-    statistics_query = """WITH u, SIZE(()-[:user_follow]->(u)) as NumFollowers,
-            SIZE(()<-[:user_follow]-(u)) as NumFollowing,
-            SIZE((u)-[:user_host]->(:Event)) as NumEvents,"""
+    statistics_query = """WITH u, COUNT{()-[:user_follow]->(u)} as NumFollowers,
+            COUNT{()<-[:user_follow]-(u)} as NumFollowing,
+            COUNT{(u)-[:user_host]->(:Event)} as NumEvents,"""
     
     user_follow_query = """EXISTS((u)<-[:user_follow]-(:User{UserAccessToken: $user_access_token})) 
             as UserFollow""" if self_user_access_token is not None else """False as UserFollow"""
@@ -141,9 +141,9 @@ def get_user_entity_by_user_access_token(user_access_token: str, show_num_events
     
     match_query = """MATCH (u:User {UserAccessToken: $user_access_token}) """
 
-    statistics_query = """WITH u, SIZE(()-[:user_follow]->(u)) as NumFollowers,
-            SIZE(()<-[:user_follow]-(u)) as NumFollowing,
-            SIZE((u)-[:user_host]->(:Event)) as NumEvents,"""
+    statistics_query = """WITH u, COUNT{()-[:user_follow]->(u)} as NumFollowers,
+            COUNT{()<-[:user_follow]-(u)} as NumFollowing,
+            COUNT{(u)-[:user_host]->(:Event)} as NumEvents,"""
     
     user_follow_query = """False as UserFollow"""
     
@@ -249,6 +249,40 @@ def create_not_interested_connection(user_id, event_id):
 
 def delete_not_interested_connection(user_id, event_id):
     query = """MATCH (u:User{UserID: $user_id})-[r:user_not_interested]->(e:Event{EventID: $event_id})
+                DELETE r"""
+
+    parameters = {
+        "user_id": user_id,
+        "event_id": event_id,
+    }
+
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
+
+    return 0
+
+def create_viewed_connection(user_id, event_id):
+    timestamp = datetime.now(timezone.utc)
+
+    query = """
+    MATCH (u:User{UserID: $user_id}),(e:Event{EventID: $event_id}) 
+    MERGE (u)-[r:user_viewed]->(e)
+    SET r.Timestamp = datetime($timestamp)
+    """
+
+    parameters = {
+        "user_id": user_id,
+        "event_id": event_id,
+        "timestamp": timestamp.isoformat()  # Convert DateTime object to ISO 8601 string format
+    }
+
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
+
+    return 0
+
+def delete_viewed_connection(user_id, event_id):
+    query = """MATCH (u:User{UserID: $user_id})-[r:user_viewed]->(e:Event{EventID: $event_id})
                 DELETE r"""
 
     parameters = {

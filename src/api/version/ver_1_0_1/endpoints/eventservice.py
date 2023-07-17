@@ -341,8 +341,8 @@ async def get_events_categorized(request: Request) -> JSONResponse:
             result = session.run(
                 """MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(e)<-[:user_host]-(host:User)
                 WITH DISTINCT e,
-                    size( (e)<-[:user_join]-() ) as num_joins,
-                    size( (e)<-[:user_shoutout]-() ) as num_shoutouts,
+                    COUNT{ (e)<-[:user_join]-() } as num_joins,
+                    COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
                     host.UserID as host_user_id
                 WHERE (datetime() < e.EndDateTime) AND (datetime() > e.StartDateTime)
                 WITH
@@ -370,8 +370,8 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                 
                 MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}), (e)-[:event_tag]->(i:Interest), (e)<-[:user_host]-(host:User)
                 WITH DISTINCT e, i,
-                    size( (e)<-[:user_join]-() ) as num_joins,
-                    size( (e)<-[:user_shoutout]-() ) as num_shoutouts,
+                    COUNT{ (e)<-[:user_join]-() } as num_joins,
+                    COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
                     host.UserID as host_user_id
                 WHERE e.StartDateTime >= datetime()
                 WITH i.Name as interest,
@@ -405,8 +405,8 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                 """
                 MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(u:User{UserAccessToken: $user_access_token}),(e)<-[:user_host]-(host:User)
                 WITH DISTINCT e,
-                    size( (e)<-[:user_join]-() ) as num_joins,
-                    size( (e)<-[:user_shoutout]-() ) as num_shoutouts,
+                    COUNT{ (e)<-[:user_join]-() } as num_joins,
+                    COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
                     exists((u)-[:user_join]->(e)) as user_join,
                     exists((u)-[:user_shoutout]->(e)) as user_shoutout,
                     host.UserID as host_user_id
@@ -436,8 +436,8 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                 
                 MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}), (e)-[:event_tag]->(i:Interest), (u:User{UserAccessToken: $user_access_token}), (e)<-[:user_host]-(host:User)
                 WITH DISTINCT e, i,
-                    size( (e)<-[:user_join]-() ) as num_joins,
-                    size( (e)<-[:user_shoutout]-() ) as num_shoutouts,
+                    COUNT{ (e)<-[:user_join]-() } as num_joins,
+                    COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
                     exists((u)-[:user_join]->(e)) as user_join,
                     exists((u)-[:user_shoutout]->(e)) as user_shoutout,
                     host.UserID as host_user_id
@@ -561,8 +561,8 @@ async def search_events(request: Request) -> JSONResponse:
     MATCH (e)<-[:user_host]-(host:User)
     MATCH (u:User{UserAccessToken: $user_access_token})
     WITH DISTINCT e,
-        size((e)<-[:user_join]-()) as num_joins,
-        size((e)<-[:user_shoutout]-()) as num_shoutouts,
+        COUNT{(e)<-[:user_join]-()} as num_joins,
+        COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts,
         exists((u)-[:user_join]->(e)) as user_join,
         exists((u)-[:user_shoutout]->(e)) as user_shoutout,
         host.UserID as host_user_id
@@ -648,8 +648,8 @@ async def host_past(request: Request) -> JSONResponse:
 
     query = f"""MATCH ((e:Event)-[:user_host]-(u:User{{UserID:$user_id}})), (c:User{{UserAccessToken: $user_access_token}})
                 WITH DISTINCT e,
-                    size( (e)<-[:user_join]-() ) as num_joins,
-                    size( (e)<-[:user_shoutout]-() ) as num_shoutouts,
+                    COUNT{{ (e)<-[:user_join]-() }} as num_joins,
+                    COUNT{{ (e)<-[:user_shoutout]-() }} as num_shoutouts,
                     exists((c)-[:user_join]->(e)) as user_join,
                     exists((c)-[:user_shoutout]->(e)) as user_shoutout
                 WHERE e.StartDateTime < datetime() {cursor_clause}
@@ -703,8 +703,8 @@ async def host_future(request: Request) -> JSONResponse:
 
     query = f"""MATCH ((e:Event)-[:user_host]-(u:User{{UserID:$user_id}})), (c:User{{UserAccessToken: $user_access_token}})
                 WITH DISTINCT e,
-                    size( (e)<-[:user_join]-() ) as num_joins,
-                    size( (e)<-[:user_shoutout]-() ) as num_shoutouts,
+                    COUNT{{ (e)<-[:user_join]-() }} as num_joins,
+                    COUNT{{ (e)<-[:user_shoutout]-() }} as num_shoutouts,
                     exists((c)-[:user_join]->(e)) as user_join,
                     exists((c)-[:user_shoutout]->(e)) as user_shoutout
                 WHERE e.StartDateTime >= datetime() {cursor_clause}
@@ -754,8 +754,8 @@ async def join_past(request: Request) -> JSONResponse:
 
     query = f"""MATCH ((e:Event)-[:user_join]-(u:User{{UserID:$user_id}})), ((host:User)-[:user_host]->(e))
                 WITH DISTINCT e,
-                    size( (e)<-[:user_join]-() ) as num_joins,
-                    size( (e)<-[:user_shoutout]-() ) as num_shoutouts,
+                    COUNT{{ (e)<-[:user_join]-() }} as num_joins,
+                    COUNT{{ (e)<-[:user_shoutout]-() }} as num_shoutouts,
                     exists((u)-[:user_join]->(e)) as user_join,
                     exists((u)-[:user_shoutout]->(e)) as user_shoutout,
                     host.UserID as host_user_id
@@ -800,8 +800,8 @@ async def join_future(request: Request) -> JSONResponse:
 
     query = f"""MATCH ((e:Event)-[:user_join]-(u:User{{UserID:$user_id}})), ((host:User)-[:user_host]->(e))
                 WITH DISTINCT e,
-                    size( (e)<-[:user_join]-() ) as num_joins,
-                    size( (e)<-[:user_shoutout]-() ) as num_shoutouts,
+                    COUNT{{(e)<-[:user_join]-() }} as num_joins,
+                    COUNT{{ (e)<-[:user_shoutout]-() }} as num_shoutouts,
                     exists((u)-[:user_join]->(e)) as user_join,
                     exists((u)-[:user_shoutout]->(e)) as user_shoutout,
                     host.UserID as host_user_id
@@ -865,7 +865,7 @@ async def get_home_events(request: Request) -> JSONResponse:
             AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
             AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
             AND (e)-[:event_school]-(:School{SchoolID: $school_id})
-            WITH e, host, SIZE((e)<-[:user_join]-()) as num_joins, SIZE((e)<-[:user_shoutout]-()) as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
+            WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
             ORDER BY RAND()
             LIMIT 25
             WITH collect({
@@ -900,8 +900,8 @@ async def get_home_events(request: Request) -> JSONResponse:
             AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
             AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
             AND (e)-[:event_school]-(:School{SchoolID: $school_id})
-            AND EXISTS(host.ScraperAccount) AND host.ScraperAccount = True
-            WITH e, host, SIZE((e)<-[:user_join]-()) as num_joins, SIZE((e)<-[:user_shoutout]-()) as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
+            AND host.ScraperAccount IS NOT NULL AND host.ScraperAccount = True
+            WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
             ORDER BY RAND()
             LIMIT 10
             WITH collect({
@@ -936,7 +936,7 @@ async def get_home_events(request: Request) -> JSONResponse:
             AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
             AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
             AND (e)-[:event_school]-(:School{SchoolID: $school_id})
-            WITH e, host, SIZE((e)<-[:user_join]-()) as num_joins, SIZE((e)<-[:user_shoutout]-()) as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
+            WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
             ORDER BY RAND()
             LIMIT 10
             WITH collect({
@@ -971,7 +971,7 @@ async def get_home_events(request: Request) -> JSONResponse:
             AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token})
             AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
             AND (e)-[:event_school]-(:School{SchoolID: $school_id})
-            WITH e, host, SIZE((e)<-[:user_join]-()) as num_joins, SIZE((e)<-[:user_shoutout]-()) as num_shoutouts,
+            WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts,
                     exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join,
                     exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
             WITH num_joins + num_shoutouts as popularity, num_joins, num_shoutouts, e, host, user_join, user_shoutout

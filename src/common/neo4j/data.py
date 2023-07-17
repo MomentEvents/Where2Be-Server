@@ -64,6 +64,9 @@ def init_schema():
         "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_follow]->() ON (r.Timestamp);", #DateTime
         "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_follow]->() ON (r.EventNotify);", #Bool
 
+        #user_viewed
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_viewed]->() ON (r.Timestamp);", #DateTime
+
         #user_school
         "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_school]->() ON (r.NullAttribute)", #null
 
@@ -273,8 +276,8 @@ def fill_data():
     
     # Future events
 
-    event_start_dates = "2023-07-16"
-    event_end_dates = "2023-07-16"
+    event_start_dates = "2023-07-27"
+    event_end_dates = "2023-07-27"
 
     create_event_entity(None, user_access_token_1, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Frog_on_palm_frond.jpg/1024px-Frog_on_palm_frond.jpg",
     "Nature", "Look at my description :D", "La Jolla Shores", "Public", [interest1_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
@@ -353,8 +356,8 @@ def reset_db():
     return 1
 
 def init_neo4j():
+    if do_create_schema is True:
+        init_schema()
     if do_reset_db is True and IS_PROD is False:
         reset_db()
         fill_data()
-    if do_create_schema is True:
-        init_schema()

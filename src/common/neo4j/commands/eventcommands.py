@@ -60,10 +60,10 @@ def get_event_entity_by_event_id(event_id: str, user_access_token: str):
         result = session.run(
                 """MATCH (event:Event{EventID : $event_id}), (user:User{UserAccessToken:$user_access_token}), (event)<-[:user_host]-(host:User)
                 WITH (event),
-                    size ((event)<-[:user_join]-()) as num_joins,
-                    size ((event)<-[:user_shoutout]-()) as num_shoutouts,
-                    exists ((event)<-[:user_join]-(user)) as user_join,
-                    exists ((event)<-[:user_shoutout]-(user)) as user_shoutout,
+                    COUNT{(event)<-[:user_join]-()} as num_joins,
+                    COUNT{(event)<-[:user_shoutout]-()} as num_shoutouts,
+                    exists((event)<-[:user_join]-(user)) as user_join,
+                    exists((event)<-[:user_shoutout]-(user)) as user_shoutout,
                     host.UserID as host_user_id
                 RETURN{
                     event_id: event.EventID,
