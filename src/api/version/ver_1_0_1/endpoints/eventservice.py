@@ -344,6 +344,35 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                     COUNT{ (e)<-[:user_join]-() } as num_joins,
                     COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
                     host.UserID as host_user_id
+                WHERE e.Featured IS NOT NULL AND e.Featured = true
+                WITH
+                    { 
+                        event_id: e.EventID,
+                        title: e.Title,
+                        picture: e.Picture,
+                        description: e.Description,
+                        location: e.Location,
+                        start_date_time: e.StartDateTime,
+                        end_date_time: e.EndDateTime,
+                        visibility: e.Visibility,
+                        num_joins: num_joins,
+                        num_shoutouts: num_shoutouts,
+                        user_join: False,
+                        user_shoutout: False,
+                        host_user_id: host_user_id
+                    } as event
+                ORDER BY num_joins+num_shoutouts DESC
+                LIMIT 10
+                WITH collect(event) as events
+                RETURN apoc.map.setKey({}, "Featured", events) as event_dict
+                
+                UNION
+
+                MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(e)<-[:user_host]-(host:User)
+                WITH DISTINCT e,
+                    COUNT{ (e)<-[:user_join]-() } as num_joins,
+                    COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
+                    host.UserID as host_user_id
                 WHERE (datetime() < e.EndDateTime) AND (datetime() > e.StartDateTime)
                 WITH
                     { 
@@ -362,7 +391,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                         host_user_id: host_user_id
                     } as event
                 ORDER BY num_joins+num_shoutouts DESC
-                LIMIT 20
+                LIMIT 10
                 WITH collect(event) as events
                 RETURN apoc.map.setKey({}, "Ongoing", events) as event_dict
 
@@ -403,6 +432,37 @@ async def get_events_categorized(request: Request) -> JSONResponse:
         else:
             result = session.run(
                 """
+                MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(e)<-[:user_host]-(host:User)
+                WITH DISTINCT e,
+                    COUNT{ (e)<-[:user_join]-() } as num_joins,
+                    COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
+                    exists((u)-[:user_join]->(e)) as user_join,
+                    exists((u)-[:user_shoutout]->(e)) as user_shoutout,
+                    host.UserID as host_user_id
+                WHERE e.Featured IS NOT NULL AND e.Featured = true
+                WITH
+                    { 
+                        event_id: e.EventID,
+                        title: e.Title,
+                        picture: e.Picture,
+                        description: e.Description,
+                        location: e.Location,
+                        start_date_time: e.StartDateTime,
+                        end_date_time: e.EndDateTime,
+                        visibility: e.Visibility,
+                        num_joins: num_joins,
+                        num_shoutouts: num_shoutouts,
+                        user_join: False,
+                        user_shoutout: False,
+                        host_user_id: host_user_id
+                    } as event
+                ORDER BY num_joins+num_shoutouts DESC
+                LIMIT 10
+                WITH collect(event) as events
+                RETURN apoc.map.setKey({}, "Featured", events) as event_dict
+                
+                UNION
+                
                 MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(u:User{UserAccessToken: $user_access_token}),(e)<-[:user_host]-(host:User)
                 WITH DISTINCT e,
                     COUNT{ (e)<-[:user_join]-() } as num_joins,
@@ -428,7 +488,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                         host_user_id: host_user_id
                     } as event
                 ORDER BY num_joins+num_shoutouts DESC
-                LIMIT 20
+                LIMIT 10
                 WITH collect(event) as events
                 RETURN apoc.map.setKey({}, "Ongoing", events) as event_dict
 
