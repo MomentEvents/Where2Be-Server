@@ -432,7 +432,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
         else:
             result = session.run(
                 """
-                MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(e)<-[:user_host]-(host:User)
+                MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(u:User{UserAccessToken: $user_access_token}),(e)<-[:user_host]-(host:User)
                 WITH DISTINCT e,
                     COUNT{ (e)<-[:user_join]-() } as num_joins,
                     COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
@@ -519,6 +519,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                     host_user_id: host_user_id
                 } as event
                 ORDER BY e.StartDateTime
+                LIMIT 10
                 WITH interest, collect(event) as events
                 ORDER BY interest
                 RETURN apoc.map.setKey({}, interest, events) as event_dict
