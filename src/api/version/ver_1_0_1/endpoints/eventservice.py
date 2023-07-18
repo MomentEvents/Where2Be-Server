@@ -893,6 +893,42 @@ async def get_home_events(request: Request) -> JSONResponse:
             RETURN results
 
             UNION
+            
+            MATCH (e:Event)-[:user_host]-(host:User)
+            WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 14})
+            AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
+            AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
+            AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
+            AND NOT (e)<-[:user_viewed]-(:User{UserAccessToken: $user_access_token})
+            AND (e)-[:event_school]-(:School{SchoolID: $school_id})
+            WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
+            ORDER BY RAND()
+            LIMIT 10
+            WITH collect({
+                user_id: host.UserID, 
+                display_name: host.DisplayName,
+                username: host.Username,
+                host_picture: host.Picture,
+                verified_organization: host.VerifiedOrganization,
+                event_id: e.EventID,
+                title: e.Title,
+                event_picture: e.Picture,
+                description: e.Description,
+                location: e.Location,
+                start_date_time: e.StartDateTime,
+                end_date_time: e.EndDateTime,
+                visibility: e.Visibility,
+                num_joins: num_joins,
+                num_shoutouts: num_shoutouts,
+                user_join: user_join,
+                user_shoutout: user_shoutout,
+                host_user_id: host.UserID,
+                reason: "New!"
+                }) AS event_data
+            UNWIND event_data as results
+            RETURN results
+
+            UNION
 
             MATCH (e:Event)-[:user_host]-(host:User)
             WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 7})

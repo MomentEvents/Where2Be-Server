@@ -261,33 +261,21 @@ def delete_not_interested_connection(user_id, event_id):
 
     return 0
 
-def create_viewed_connection(user_id, event_id):
+def create_viewed_connections(user_id, event_ids):
     timestamp = datetime.now(timezone.utc)
-
+    
     query = """
-    MATCH (u:User{UserID: $user_id}),(e:Event{EventID: $event_id}) 
+    MATCH (u:User {UserID: $user_id})
+    UNWIND $event_ids AS eventId
+    MATCH (e:Event {EventID: eventId})
     MERGE (u)-[r:user_viewed]->(e)
-    SET r.Timestamp = datetime($timestamp)
+    ON CREATE SET r.Timestamp = datetime($timestamp)
     """
 
     parameters = {
         "user_id": user_id,
-        "event_id": event_id,
+        "event_ids": event_ids,
         "timestamp": timestamp.isoformat()  # Convert DateTime object to ISO 8601 string format
-    }
-
-    with get_neo4j_session() as session:
-        session.run(query, parameters)
-
-    return 0
-
-def delete_viewed_connection(user_id, event_id):
-    query = """MATCH (u:User{UserID: $user_id})-[r:user_viewed]->(e:Event{EventID: $event_id})
-                DELETE r"""
-
-    parameters = {
-        "user_id": user_id,
-        "event_id": event_id,
     }
 
     with get_neo4j_session() as session:

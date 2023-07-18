@@ -2,12 +2,14 @@ from inspect import Parameter
 
 from markupsafe import string
 from common.firebase import delete_firebase_user_by_uid, get_firebase_user_by_uid
-from common.neo4j.commands.usercommands import create_follow_connection, create_join_connection, create_not_interested_connection, create_shoutout_connection, create_viewed_connection, delete_follow_connection, delete_join_connection, delete_not_interested_connection, delete_shoutout_connection, delete_viewed_connection, get_user_entity_by_user_access_token, get_user_entity_by_user_id, get_user_entity_by_username
+from common.neo4j.commands.usercommands import create_follow_connection, create_join_connection, create_not_interested_connection, create_shoutout_connection, create_viewed_connections, delete_follow_connection, delete_join_connection, delete_not_interested_connection, delete_shoutout_connection, get_user_entity_by_user_access_token, get_user_entity_by_user_id, get_user_entity_by_username
 from common.neo4j.converters import convert_user_entity_to_user
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from starlette.routing import Route
 from common.models import Problem
+from typing import List
+
 
 from datetime import datetime
 import secrets
@@ -372,23 +374,20 @@ async def user_viewed_update(request: Request) -> JSONResponse:
     """
 
     user_id = request.path_params["user_id"]
-    event_id = request.path_params["event_id"]
 
     body = await request.json()
 
     user_access_token = body.get("user_access_token")
-    did_viewed = body.get("did_viewed")
+    event_ids = body.get("event_ids")
 
+    print(type(event_ids))
     try:
-        assert all((user_id, user_access_token))
-        assert type(did_viewed) == bool
+        assert all((user_id, user_access_token, event_ids))
+        assert type(event_ids) == list
     except AssertionError:
         return Response(status_code=400, content="Incomplete body or incorrect parameter")
 
-    if(did_viewed):
-        create_viewed_connection(user_id, event_id)
-    else:
-        delete_viewed_connection(user_id, event_id)
+    create_viewed_connections(user_id, event_ids)
     
     return Response(status_code=200)
 
@@ -694,7 +693,7 @@ routes = [
         user_not_interested_update,
         methods=["UPDATE"],
     ),
-    Route("/user/user_id/{user_id}/event_id/{event_id}/viewed",
+    Route("/user/user_id/{user_id}/set_viewed_events",
         user_viewed_update,
         methods=["UPDATE"],
     ),
