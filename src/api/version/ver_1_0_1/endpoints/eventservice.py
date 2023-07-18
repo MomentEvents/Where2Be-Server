@@ -924,7 +924,7 @@ async def get_home_events(request: Request) -> JSONResponse:
                 user_join: user_join,
                 user_shoutout: user_shoutout,
                 host_user_id: host.UserID,
-                reason: "New!",
+                reason: "An event you have not seen before",
                 user_viewed: user_viewed
                 }) AS event_data
             UNWIND event_data as results
@@ -1014,7 +1014,7 @@ async def get_home_events(request: Request) -> JSONResponse:
             WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts,
                     exists((:User{UserAccessToken: $user_access_token})-[:user_viewed]->(e)) as user_viewed, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join,
                     exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
-            WITH num_joins + num_shoutouts as popularity, num_joins, num_shoutouts, e, host, user_join, user_shoutout
+            WITH num_joins + num_shoutouts as popularity, num_joins, num_shoutouts, e, host, user_join, user_shoutout, user_viewed
             ORDER BY popularity DESC
             LIMIT 30
             WITH collect({
