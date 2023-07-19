@@ -347,7 +347,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                     COUNT{ (e)<-[:user_join]-() } as num_joins,
                     COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
                     host.UserID as host_user_id
-                WHERE e.Featured IS NOT NULL AND e.Featured = true
+                WHERE e.Featured IS NOT NULL AND e.Featured = true AND (datetime() > e.StartDateTime)
                 WITH
                     { 
                         event_id: e.EventID,
@@ -442,7 +442,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                     exists((u)-[:user_join]->(e)) as user_join,
                     exists((u)-[:user_shoutout]->(e)) as user_shoutout,
                     host.UserID as host_user_id
-                WHERE e.Featured IS NOT NULL AND e.Featured = true
+                WHERE e.Featured IS NOT NULL AND e.Featured = true AND (datetime() > e.StartDateTime)
                 WITH
                     { 
                         event_id: e.EventID,

@@ -35,6 +35,25 @@ def remove_push_token(user_id: str, push_token: str, push_type: str):
     
     return 0
 
+def get_all_school_users_push_tokens(school_id: str):
+    query = """
+    MATCH (u:User)-[:user_school]->(school:School{SchoolID: $school_id})
+    UNWIND u.PushTokens AS pushTokensList
+    RETURN COLLECT({token: pushTokensList, user_id: u.UserID}) AS allPushTokens
+    """
+    parameters = {
+        "school_id": school_id
+    }
+
+    with get_neo4j_session() as session:
+        result = session.run(query, parameters)
+        # Assuming you have only one record returned
+        record = result.single()
+        if record is not None:
+            return record['allPushTokens']
+        else:
+            return None
+
 def get_all_follower_push_tokens(user_id: str):
     query = """
     MATCH (u:User{UserID: $user_id})<-[:user_follow]-(follower:User)
