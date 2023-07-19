@@ -1,6 +1,6 @@
 from common.neo4j.commands.usercommands import create_user_entity, get_user_entity_by_username
 from common.neo4j.commands.schoolcommands import get_school_entity_by_school_id
-from common.neo4j.moment_neo4j import get_neo4j_driver, run_neo4j_command
+from common.neo4j.moment_neo4j import get_neo4j_session
 from common.models import Problem
 from common.utils import is_email
 from common.firebase import login_user_firebase, create_user_firebase, get_firebase_user_by_uid, get_firebase_user_by_email, send_verification_email
@@ -66,25 +66,28 @@ def login(usercred: str, password: str):
     print("login success")
 
     # get user access token from user_id
-    result = run_neo4j_command(
-        """MATCH (u:User {UserID: $user_id})
-        RETURN u""",
-        parameters={
-            "user_id": user_id
-        },
-    )
 
-    record = result.single()
+    with get_neo4j_session() as session:
 
-    if(record is None):
-        raise Problem(status=400, content="There is no user associated with this returned UserID. Please contact support to resolve this issue")
-    
-    data = record[0]
+        result = session.run(
+            """MATCH (u:User {UserID: $user_id})
+            RETURN u""",
+            parameters={
+                "user_id": user_id
+            },
+        )
 
-    print("user_id ", user_id)
-    print("user_access_token ", data['UserAccessToken'])
+        record = result.single()
 
-    return user_id, data['UserAccessToken']
+        if(record is None):
+            raise Problem(status=400, content="There is no user associated with this returned UserID. Please contact support to resolve this issue")
+        
+        data = record[0]
+
+        print("user_id ", user_id)
+        print("user_access_token ", data['UserAccessToken'])
+
+        return user_id, data['UserAccessToken']
         
 def signup(username, display_name, email, password, school_id):
     if(not enable_firebase):

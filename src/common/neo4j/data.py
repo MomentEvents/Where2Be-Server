@@ -1,4 +1,4 @@
-from common.neo4j.moment_neo4j import get_neo4j_driver, run_neo4j_command
+from common.neo4j.moment_neo4j import get_neo4j_session
 from common.neo4j.commands.usercommands import create_follow_connection, create_user_entity
 from common.neo4j.commands.schoolcommands import create_school_entity
 from common.neo4j.commands.interestcommands import create_interest_entity
@@ -77,11 +77,13 @@ def init_schema():
         "CREATE INDEX IF NOT EXISTS FOR ()-[r:event_school]->() ON (r.NullAttribute)", #null
     ]
 
-    for schema in schemas:
-        try:
-            run_neo4j_command(schema)
-        except Exception as e:
-            print("\n\n" + str(e))
+    #Run initializing the schema here
+    with get_neo4j_session() as session:
+        for schema in schemas:
+            try:
+                session.run(schema)
+            except Exception as e:
+                print("\n\n" + str(e))
     return 1
 
 
@@ -347,9 +349,10 @@ def fill_data():
 def reset_db():
     if IS_PROD is True:
         return
-
-    run_neo4j_command("""MATCH (n)
-        DETACH DELETE n""")
+    
+    with get_neo4j_session() as session:
+        session.run("""MATCH (n)
+            DETACH DELETE n""")
     return 1
 
 def init_neo4j():

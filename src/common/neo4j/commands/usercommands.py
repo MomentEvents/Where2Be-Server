@@ -1,4 +1,4 @@
-from common.neo4j.moment_neo4j import get_neo4j_driver, run_neo4j_command
+from common.neo4j.moment_neo4j import get_neo4j_session
 from common.neo4j.converters import convert_user_entity_to_user, convert_school_entity_to_school
 from common.s3.moment_s3 import get_bucket_url
 from common.models import Problem
@@ -19,52 +19,54 @@ def create_user_entity(display_name: str, username: str, school_id: str, is_veri
         get_bucket_url()+"app-uploads/images/users/static/default" + random_number + ".png"
     )
 
+    with get_neo4j_session() as session:
 
-    user_access_token = secrets.token_urlsafe()
-    user_id = secrets.token_urlsafe()
+        user_access_token = secrets.token_urlsafe()
+        user_id = secrets.token_urlsafe()
 
-    result = run_neo4j_command(
-        """CREATE (u:User {UserID: $user_id, Username: $username, Picture:$picture, DisplayName:$display_name, UserAccessToken:$user_access_token, VerifiedOrganization:$is_verified_org, Administrator:$is_admin, ScraperAccount:$is_scraper_account})
-        WITH u
-        MATCH(n:School{SchoolID: $school_id})
-        CREATE (u)-[r:user_school]->(n)
-        RETURN u""",
-        parameters={
-            "username": username,
-            "display_name": display_name,
-            "picture": default_user_image,
-            "school_id": school_id,
-            "user_access_token": user_access_token,
-            "user_id": user_id,
-            "is_verified_org": is_verified_org,
-            "is_admin": is_admin,
-            "is_scraper_account": is_scraper_account,
-        },
-    )
+        result = session.run(
+            """CREATE (u:User {UserID: $user_id, Username: $username, Picture:$picture, DisplayName:$display_name, UserAccessToken:$user_access_token, VerifiedOrganization:$is_verified_org, Administrator:$is_admin, ScraperAccount:$is_scraper_account})
+            WITH u
+            MATCH(n:School{SchoolID: $school_id})
+            CREATE (u)-[r:user_school]->(n)
+            RETURN u""",
+            parameters={
+                "username": username,
+                "display_name": display_name,
+                "picture": default_user_image,
+                "school_id": school_id,
+                "user_access_token": user_access_token,
+                "user_id": user_id,
+                "is_verified_org": is_verified_org,
+                "is_admin": is_admin,
+                "is_scraper_account": is_scraper_account,
+            },
+        )
 
-    return user_access_token, user_id
+        return user_access_token, user_id
  
 
 def get_user_entity_by_username(username: str):
+    with get_neo4j_session() as session:
 
-    result = run_neo4j_command(
-        """MATCH (u:User {Username: $username})
-        RETURN u""",
-        parameters={
-            "username": username
-        },
-    )
+        result = session.run(
+            """MATCH (u:User {Username: $username})
+            RETURN u""",
+            parameters={
+                "username": username
+            },
+        )
 
-    record = result.single()
+        record = result.single()
 
-    if record == None:
-        return None
+        if record == None:
+            return None
 
-    data = record[0]
+        data = record[0]
 
-    user = convert_user_entity_to_user(data, False)
+        user = convert_user_entity_to_user(data, False)
 
-    return user
+        return user
 
 def get_user_entity_by_user_id(user_id: str, self_user_access_token: str, show_num_events_followers_following: bool):
 
@@ -114,22 +116,23 @@ def get_user_entity_by_user_id(user_id: str, self_user_access_token: str, show_n
 
 
     print(final_query)
+    with get_neo4j_session() as session:
 
-    result = run_neo4j_command(
-        final_query,
-        parameters=parameters,
-    )
+        result = session.run(
+            final_query,
+            parameters=parameters,
+        )
 
-    record = result.single()
+        record = result.single()
 
-    if record == None:
-        return None
+        if record == None:
+            return None
 
-    data = record[0]
+        data = record[0]
 
-    user_data = convert_user_entity_to_user(data, show_num_events_followers_following)
+        user_data = convert_user_entity_to_user(data, show_num_events_followers_following)
 
-    return user_data
+        return user_data
 
 def get_user_entity_by_user_access_token(user_access_token: str, show_num_events_followers_following: bool):
     parameters = {
@@ -173,22 +176,23 @@ def get_user_entity_by_user_access_token(user_access_token: str, show_num_events
 
 
     print(final_query)
+    with get_neo4j_session() as session:
 
-    result = run_neo4j_command(
-        final_query,
-        parameters=parameters,
-    )
+        result = session.run(
+            final_query,
+            parameters=parameters,
+        )
 
-    record = result.single()
+        record = result.single()
 
-    if record == None:
-        return None
+        if record == None:
+            return None
 
-    data = record[0]
+        data = record[0]
 
-    user_data = convert_user_entity_to_user(data, show_num_events_followers_following)
+        user_data = convert_user_entity_to_user(data, show_num_events_followers_following)
 
-    return user_data
+        return user_data
 
 def create_follow_connection(from_user_id, to_user_id):
     timestamp = datetime.now(timezone.utc)
@@ -205,7 +209,8 @@ def create_follow_connection(from_user_id, to_user_id):
         "timestamp": timestamp.isoformat()  # Convert DateTime object to ISO 8601 string format
     }
 
-    run_neo4j_command(query, parameters)
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
 
     return 0
 
@@ -217,7 +222,8 @@ def delete_follow_connection(from_user_id, to_user_id):
             "to_user_id": to_user_id,
     }
 
-    run_neo4j_command(query, parameters)
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
 
     return 0
 
@@ -236,7 +242,8 @@ def create_not_interested_connection(user_id, event_id):
         "timestamp": timestamp.isoformat()  # Convert DateTime object to ISO 8601 string format
     }
 
-    run_neo4j_command(query, parameters)
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
 
     return 0
 
@@ -249,7 +256,8 @@ def delete_not_interested_connection(user_id, event_id):
         "event_id": event_id,
     }
 
-    run_neo4j_command(query, parameters)
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
 
     return 0
 
@@ -270,7 +278,8 @@ def create_viewed_connections(user_id, event_ids):
         "timestamp": timestamp.isoformat()  # Convert DateTime object to ISO 8601 string format
     }
 
-    run_neo4j_command(query, parameters)
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
 
     return 0
 
@@ -289,7 +298,8 @@ def create_join_connection(user_id, event_id):
         "timestamp": timestamp.isoformat()  # Convert DateTime object to ISO 8601 string format
     }
 
-    run_neo4j_command(query, parameters)
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
 
     return 0
 
@@ -302,7 +312,8 @@ def delete_join_connection(user_id, event_id):
         "event_id": event_id,
     }
 
-    run_neo4j_command(query, parameters)
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
 
     return 0
 
@@ -321,7 +332,8 @@ def create_shoutout_connection(user_id, event_id):
         "timestamp": timestamp.isoformat()  # Convert DateTime object to ISO 8601 string format
     }
 
-    run_neo4j_command(query, parameters)
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
 
     return 0
 
@@ -334,6 +346,7 @@ def delete_shoutout_connection(user_id, event_id):
         "event_id": event_id,
     }
 
-    run_neo4j_command(query, parameters)
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
 
     return 0

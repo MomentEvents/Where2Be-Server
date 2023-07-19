@@ -11,7 +11,7 @@ import bcrypt
 import secrets
 from common.models import Problem
 
-from common.neo4j.moment_neo4j import get_neo4j_driver, run_neo4j_command
+from common.neo4j.moment_neo4j import get_neo4j_session
 from api.version.ver_1_0_1.auth import is_real_user, is_requester_privileged_for_user
 
 import platform
@@ -32,31 +32,32 @@ async def get_all_interests(request: Request) -> JSONResponse:
                         category: string,
             }
     """
-
-    result = run_neo4j_command(
-        """MATCH (i:Interest) 
-        RETURN i
-        ORDER BY toLower(i.Name)""",
-    )
-
-
-    interest_array = []
-    for record in result:
-
-        if record == None:
-            return Response(status_code=400, content="Interests do not exist")
-
-        data = record[0]
-        interest_array.append(
-            {
-                "interest_id": data["InterestID"],
-                "name": data["Name"],
-                # "category": data["Category"],
-            }
+    with get_neo4j_session() as session:
+        # check if email exists
+        result = session.run(
+            """MATCH (i:Interest) 
+            RETURN i
+            ORDER BY toLower(i.Name)""",
         )
 
-    print(interest_array)
-    return JSONResponse(interest_array)
+
+        interest_array = []
+        for record in result:
+
+            if record == None:
+                return Response(status_code=400, content="Interests do not exist")
+
+            data = record[0]
+            interest_array.append(
+                {
+                    "interest_id": data["InterestID"],
+                    "name": data["Name"],
+                    # "category": data["Category"],
+                }
+            )
+
+        print(interest_array)
+        return JSONResponse(interest_array)
     
 async def get_event_interest(request: Request) -> JSONResponse:
     """
@@ -85,26 +86,27 @@ async def get_event_interest(request: Request) -> JSONResponse:
         print("Error")
         return Response(status_code=400, content="Parameter Missing")
 
+    with get_neo4j_session() as session:
 
-    result = run_neo4j_command(
-        """MATCH (event:Event{EventID: $event_id})-[:event_tag]->(i:Interest) 
-        RETURN i
-        ORDER BY toLower(i.Name)""",
-        parameters={"event_id": event_id},
-    )
-
-    interest_array = []
-
-    for record in result:
-        data = record[0]
-        interest_array.append(
-            {
-                "interest_id": data["InterestID"],
-                "name": data["Name"],
-            }
+        result = session.run(
+            """MATCH (event:Event{EventID: $event_id})-[:event_tag]->(i:Interest) 
+            RETURN i
+            ORDER BY toLower(i.Name)""",
+            parameters={"event_id": event_id},
         )
 
-    return JSONResponse(interest_array)
+        interest_array = []
+
+        for record in result:
+            data = record[0]
+            interest_array.append(
+                {
+                    "interest_id": data["InterestID"],
+                    "name": data["Name"],
+                }
+            )
+
+        return JSONResponse(interest_array)
 
 routes = [
     Route("/interest",
