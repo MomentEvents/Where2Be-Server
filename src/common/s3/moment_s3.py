@@ -32,7 +32,7 @@ def compress_image(image_bytes):
         resized_dimensions = (int(width * percentage), int(height * percentage))
     
     print("resized image specs = ",resized_dimensions)
-    resized_image = image.resize(resized_dimensions,Image.ANTIALIAS)
+    resized_image = image.resize(resized_dimensions,Image.LANCZOS)
     output_io = io.BytesIO()
     resized_image.save(output_io, format='PNG', optimize=True, quality=85)
     return output_io.getvalue()
