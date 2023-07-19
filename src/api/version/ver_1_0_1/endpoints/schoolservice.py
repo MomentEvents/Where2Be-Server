@@ -255,8 +255,6 @@ async def update_user_school(request: Request) -> JSONResponse:
             parameters={"user_id": user_id, "school_id": school_id},
         )
 
-        driver.close()
-
         return Response(status_code=200, content="Connection created exists")
 
 

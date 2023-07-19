@@ -91,7 +91,7 @@ async def get_user_notification_preferences(request: Request) -> JSONResponse:
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
     
-    preferences = get_notification_preferences(user_id)
+    preferences = await get_notification_preferences(user_id)
     
     if(not preferences):
         raise Problem(status=400, content="Preferences do not exist. Either the user does not exist or there is some other error.")
@@ -116,7 +116,7 @@ async def set_user_notification_preferences(request: Request) -> JSONResponse:
 
     # We assume the set_notification_preferences handles this input checking for us
 
-    result = set_notification_preferences(user_id, preferences)
+    result = await set_notification_preferences(user_id, preferences)
     if result is None or not result:
         raise Problem(status=400, content="Invalid notification preferences were given.")
 
