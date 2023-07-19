@@ -5,9 +5,9 @@ from dateutil import parser
 import secrets
 import random
 
-def create_interest_entity(interest_id: str, name: str):
+async def create_interest_entity(interest_id: str, name: str):
 
-    result = run_neo4j_command(
+    result = await run_neo4j_command(
         """CREATE (i:Interest {InterestID: $interest_id, Name: $name})
         RETURN i""",
         parameters={

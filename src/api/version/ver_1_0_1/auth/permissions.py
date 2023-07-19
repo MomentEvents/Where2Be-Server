@@ -27,7 +27,7 @@ def is_valid_user_access_token(func):
         except AssertionError:
             return Response(status_code=400, content="User access token is blank")
 
-        result = run_neo4j_command(query="""MATCH (u:User{UserAccessToken: $user_access_token}) 
+        result = await run_neo4j_command(query="""MATCH (u:User{UserAccessToken: $user_access_token}) 
                 RETURN u""",
                 parameters={
                     "user_access_token": user_access_token
@@ -54,7 +54,7 @@ def is_real_user(func):
         except AssertionError:
             return Response(status_code=400, content="Invalid user id")
 
-        result = run_neo4j_command(query="""MATCH (u:User{UserID: $user_id}) 
+        result = await run_neo4j_command(query="""MATCH (u:User{UserID: $user_id}) 
                 RETURN u""", 
                 parameters={
                     "user_id": user_id
@@ -80,7 +80,7 @@ def is_real_event(func):
         except AssertionError:
             return Response(status_code=400, content="Invalid event id")
 
-        result = run_neo4j_command(query="""MATCH (e:Event{EventID: $event_id}) 
+        result = await run_neo4j_command(query="""MATCH (e:Event{EventID: $event_id}) 
                 RETURN e""",
                 parameters={
                     "event_id": event_id
@@ -222,7 +222,7 @@ def is_event_formatted(func):
         if (visibility != "Public" and visibility != "Private"):
             return Response(status_code=400, content="Visibility must be either \"Public\" or \"Private\"")
 
-        result = run_neo4j_command(query="""UNWIND $interest_ids as interest_id
+        result = await run_neo4j_command(query="""UNWIND $interest_ids as interest_id
                     MATCH (interests:Interest {InterestID: interest_id})
                     RETURN interests""",
                     parameters={
@@ -316,7 +316,7 @@ def is_requester_privileged_for_user(func):
             return Response(status_code=400, content="Incomplete body")
 
 
-        result = run_neo4j_command(
+        result = await run_neo4j_command(
             """MATCH (u:User{UserAccessToken: $user_access_token}) 
             RETURN u""",
             parameters={
@@ -355,7 +355,7 @@ def is_requester_privileged_for_event(func):
         except AssertionError:
             return Response(status_code=400, content="Incomplete body")
 
-        result = run_neo4j_command(
+        result = await run_neo4j_command(
             """MATCH ((e:Event{EventID : $event_id})<-[r:user_host]-(u:User{UserAccessToken:$user_access_token}))
             RETURN r, u""",
             parameters={
@@ -377,9 +377,9 @@ def is_requester_privileged_for_event(func):
 # HELPER FUNCTIONS
 
 
-def is_requester_admin(user_access_token) -> bool:
+async def is_requester_admin(user_access_token) -> bool:
 
-    result = run_neo4j_command(
+    result = await run_neo4j_command(
         """MATCH (u:User {UserAccessToken: $user_access_token})
             RETURN {
             Administrator: COALESCE(u.Administrator, false)

@@ -38,7 +38,7 @@ async def get_all_schools(request: Request) -> JSONResponse:
 
     """
 
-    result = run_neo4j_command(
+    result = await run_neo4j_command(
         """MATCH (s:School) 
         RETURN s
         ORDER BY toLower(s.Abbreviation + s.Name)""",
@@ -90,7 +90,7 @@ async def get_school(request: Request) -> JSONResponse:
         print("Error")
         return Response(status_code=400, content="Parameter Missing")
 
-    result = run_neo4j_command(
+    result = await run_neo4j_command(
         """match (u:School{SchoolID : $school_id}) return u""",
         parameters={
             "school_id": school_id,
@@ -140,7 +140,7 @@ async def get_user_school(request: Request) -> JSONResponse:
         print("Error")
         return Response(status_code=400, content="Parameter Missing")
 
-    result = run_neo4j_command(
+    result = await run_neo4j_command(
         """match (u:User{UserID : $user_id})-[:user_school]->(s:School) return s""",
         parameters={
             "user_id": user_id,
@@ -178,7 +178,7 @@ async def get_user_access_token_school(request: Request) -> JSONResponse:
         print("Error")
         return Response(status_code=400, content="Parameter Missing")
 
-    result = run_neo4j_command(
+    result = await run_neo4j_command(
         """match (u:User{UserAccessToken : $user_access_token})-[:user_school]->(s:School) return s""",
         parameters={
             "user_access_token": user_access_token,
@@ -236,7 +236,7 @@ async def update_user_school(request: Request) -> JSONResponse:
         print("Error")
         return Response(status_code=400, content="Parameter Missing")
         
-    result = run_neo4j_command(
+    result = await run_neo4j_command(
         """match (u:User{UserID : $user_id})-[:user_school]->(s:School {SchoolID: $school_id}) return s""",
         parameters={"user_id": user_id, "school_id": school_id},
     )
@@ -248,7 +248,7 @@ async def update_user_school(request: Request) -> JSONResponse:
     if record != None:
         return Response(status_code=200, content="Connection already exists")
     else:
-        result = run_neo4j_command(
+        result = await run_neo4j_command(
             """match (u:User{UserID : $user_id})-[r:user_school]->(prev_s), (s:School {SchoolID: $school_id}) 
             delete r
             create (u)-[:user_school]->(s)""",

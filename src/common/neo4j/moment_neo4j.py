@@ -5,7 +5,7 @@ async def run_neo4j_command(query, parameters=None):
     driver = get_neo4j_driver()
     session = driver.session()
     try:
-        result = run_neo4j_command(
+        result = await run_neo4j_command(
                 query,
                 parameters=parameters,
             )
@@ -18,9 +18,9 @@ async def run_neo4j_command(query, parameters=None):
 
 
 
-def test_neo4j_health():
+async def test_neo4j_health():
     try:
-        run_neo4j_command("MATCH (n) RETURN n LIMIT 1")
+        await run_neo4j_command("MATCH (n) RETURN n LIMIT 1")
         return True
 
     except:

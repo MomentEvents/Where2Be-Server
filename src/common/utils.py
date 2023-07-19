@@ -89,14 +89,14 @@ def _send_push_token(expo_token: str, title: str, message: str, extra) -> bool:
 
     
 
-def send_and_validate_expo_push_notifications(tokens_with_user_id: "set[dict[str, str]]", title: str, message: str, extra):
+async def send_and_validate_expo_push_notifications(tokens_with_user_id: "set[dict[str, str]]", title: str, message: str, extra):
     # input = {{
     #     "user_id": "blah",
     #     "token": "blah2",
     # }}
     for token_with_user_id in tokens_with_user_id:
         if(not _send_push_token(token_with_user_id["token"], title, message, extra)):
-            remove_push_token(token_with_user_id["user_id"], token_with_user_id["token"], "Expo")
+            await remove_push_token(token_with_user_id["user_id"], token_with_user_id["token"], "Expo")
 
 
 def is_email(string):

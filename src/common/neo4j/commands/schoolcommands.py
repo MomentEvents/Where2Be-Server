@@ -6,9 +6,9 @@ from dateutil import parser
 import secrets
 import random
 
-def create_school_entity(school_id: str, name: str, abbreviation: str, latitude: float, longitude: float):
+async def create_school_entity(school_id: str, name: str, abbreviation: str, latitude: float, longitude: float):
 
-    result = run_neo4j_command(
+    result = await run_neo4j_command(
         """CREATE (s:School {SchoolID: $school_id, Name: $name, Abbreviation: $abbreviation, Latitude: $latitude, Longitude: $longitude})
         RETURN s""",
         parameters={
@@ -22,8 +22,8 @@ def create_school_entity(school_id: str, name: str, abbreviation: str, latitude:
 
     return school_id
 
-def get_school_entity_by_school_id(school_id: str):
-    result = run_neo4j_command(
+async def get_school_entity_by_school_id(school_id: str):
+    result = await run_neo4j_command(
             """
             MATCH(s:School{SchoolID: $school_id})
             RETURN s""",

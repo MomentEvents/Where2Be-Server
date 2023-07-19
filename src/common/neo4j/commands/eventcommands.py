@@ -5,7 +5,7 @@ from dateutil import parser
 import secrets
 import random
 
-def create_event_entity(event_id: str, user_access_token: str, event_image: str, title: str, description: str, location: str, visibility: str, interest_ids, start_date_time_string, end_date_time_string):
+async def create_event_entity(event_id: str, user_access_token: str, event_image: str, title: str, description: str, location: str, visibility: str, interest_ids, start_date_time_string, end_date_time_string):
     start_date_time = parser.parse(start_date_time_string)
     end_date_time = None if end_date_time_string is None else parser.parse(end_date_time_string)
 
@@ -17,7 +17,7 @@ def create_event_entity(event_id: str, user_access_token: str, event_image: str,
         event_id = secrets.token_urlsafe()
 
 
-    result = run_neo4j_command(
+    result = await run_neo4j_command(
         """MATCH (user:User {UserAccessToken: $user_access_token})-[:user_school]->(school:School)
             CREATE (event:Event {
                 EventID: $event_id,
@@ -51,9 +51,9 @@ def create_event_entity(event_id: str, user_access_token: str, event_image: str,
 
     return event_id
 
-def get_event_entity_by_event_id(event_id: str, user_access_token: str):
-    
-    result = run_neo4j_command(
+async def get_event_entity_by_event_id(event_id: str, user_access_token: str):
+
+    result = await run_neo4j_command(
             """MATCH (event:Event{EventID : $event_id}), (user:User{UserAccessToken:$user_access_token}), (event)<-[:user_host]-(host:User)
             WITH (event),
                 COUNT{(event)<-[:user_join]-()} as num_joins,

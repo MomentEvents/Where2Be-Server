@@ -105,7 +105,7 @@ async def create_event(request: Request) -> JSONResponse:
     title = title.strip()
     location = location.strip()
 
-    event_id = create_event_entity(event_id, user_access_token, event_image, title, description, location, visibility, interest_ids, start_date_time, end_date_time)
+    event_id = await create_event_entity(event_id, user_access_token, event_image, title, description, location, visibility, interest_ids, start_date_time, end_date_time)
 
     event_data = {
         "event_id": str(event_id),
@@ -114,7 +114,7 @@ async def create_event(request: Request) -> JSONResponse:
     if(ping_followers):
         print("PINGING FOLLOWERS")
         try:
-            follower_push_tokens_with_user_id = get_all_follower_push_tokens(user['user_id'])
+            follower_push_tokens_with_user_id = await get_all_follower_push_tokens(user['user_id'])
             if(follower_push_tokens_with_user_id is not None):
                 send_and_validate_expo_push_notifications(follower_push_tokens_with_user_id, "New event posted", "" + str(user["username"] + " just posted \"" + str(title)) + "\"", {
                     'action': 'ViewEventDetails',
@@ -159,7 +159,7 @@ async def get_event(request: Request) -> JSONResponse:
 
     print("about to go to connection")
 
-    event_data = get_event_entity_by_event_id(event_id, user_access_token)
+    event_data = await get_event_entity_by_event_id(event_id, user_access_token)
 
     return JSONResponse(event_data)
 
@@ -180,7 +180,7 @@ async def delete_event(request: Request) -> JSONResponse:
     user_access_token = body.get("user_access_token")
 
 
-    result = run_neo4j_command(
+    result = await run_neo4j_command(
         """MATCH (e:Event{EventID : $event_id})
         DETACH DELETE e""",
         parameters={
@@ -189,7 +189,7 @@ async def delete_event(request: Request) -> JSONResponse:
         },
     )
 
-    return Response(status_code=200, content="event deleted " + event_id)
+    return Response(status_code=200, content="Event deleted " + event_id)
 
 @is_event_formatted
 @is_real_event
@@ -243,7 +243,7 @@ async def update_event(request: Request) -> JSONResponse:
     title = title.strip()
     location = location.strip()
 
-    result = run_neo4j_command(
+    result = await run_neo4j_command(
         """MATCH (e:Event{EventID : $event_id})-[r:event_tag]->(i:Interest), (en:Event{EventID: $event_id})
         DELETE r
         WITH en
@@ -288,7 +288,7 @@ async def update_event(request: Request) -> JSONResponse:
         print("PINGING JOINED USERS")
         user = get_user_entity_by_user_access_token(user_access_token=user_access_token, show_num_events_followers_following=False)
         try:
-            joined_users_push_tokens_with_user_id = get_all_joined_users_push_tokens(event_id)
+            joined_users_push_tokens_with_user_id = await get_all_joined_users_push_tokens(event_id)
             print(joined_users_push_tokens_with_user_id)
             if(joined_users_push_tokens_with_user_id is not None):
                 send_and_validate_expo_push_notifications(joined_users_push_tokens_with_user_id, "Event updated", str(user['username']) + " changed details for \"" + str(new_title) + "\"", {
@@ -335,7 +335,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
         Response(status_code=400, content="Incomplete body")
 
     if user_access_token == None:
-        result = run_neo4j_command(
+        result = await run_neo4j_command(
             """MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(e)<-[:user_host]-(host:User)
             WITH DISTINCT e,
                 COUNT{ (e)<-[:user_join]-() } as num_joins,
@@ -427,7 +427,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
             },
         )
     else:
-        result = run_neo4j_command(
+        result = await run_neo4j_command(
             """
             MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(u:User{UserAccessToken: $user_access_token}),(e)<-[:user_host]-(host:User)
             WITH DISTINCT e,
@@ -613,7 +613,7 @@ async def search_events(request: Request) -> JSONResponse:
 
 
     # check if email exists
-    result = run_neo4j_command(
+    result = await run_neo4j_command(
     """
     MATCH (e:Event)-[:event_school]->(school: School{SchoolID: $school_id})
     MATCH (e)<-[:user_host]-(host:User)
@@ -698,7 +698,7 @@ async def host_past(request: Request) -> JSONResponse:
     try:
         assert all({user_access_token, user_id})
     except:
-        Response(status_code=400, content="Incomplete body")
+        return Response(status_code=400, content="Incomplete body")
 
     cursor_clause = ""
     if cursor_event_id and cursor_start_date_time:
@@ -735,7 +735,7 @@ async def host_past(request: Request) -> JSONResponse:
         "cursor_start_date_time": cursor_start_date_time
         }
 
-    return get_event_list_from_query(query, parameters)    
+    return await get_event_list_from_query(query, parameters)    
 
  
 async def host_future(request: Request) -> JSONResponse:
@@ -750,7 +750,7 @@ async def host_future(request: Request) -> JSONResponse:
     try:
         assert all({user_access_token, user_id})
     except:
-        Response(status_code=400, content="Incomplete body")
+        return Response(status_code=400, content="Incomplete body")
 
     print(cursor_event_id)
     print(cursor_start_date_time)
@@ -790,7 +790,7 @@ async def host_future(request: Request) -> JSONResponse:
         "cursor_start_date_time": cursor_start_date_time
         }
 
-    return get_event_list_from_query(query, parameters)
+    return await get_event_list_from_query(query, parameters)
 
 
 @is_requester_privileged_for_user
@@ -804,7 +804,7 @@ async def join_past(request: Request) -> JSONResponse:
     try:
         assert all({user_id})
     except:
-        Response(status_code=400, content="Incomplete body")
+        return Response(status_code=400, content="Incomplete body")
 
     cursor_clause = ""
     if cursor_event_id and cursor_start_date_time:
@@ -841,7 +841,7 @@ async def join_past(request: Request) -> JSONResponse:
         "cursor_start_date_time": cursor_start_date_time
         }
 
-    return get_event_list_from_query(query, parameters) 
+    return await get_event_list_from_query(query, parameters) 
 
  
 @is_requester_privileged_for_user
@@ -887,7 +887,7 @@ async def join_future(request: Request) -> JSONResponse:
         "cursor_start_date_time": cursor_start_date_time
         }
 
-    return get_event_list_from_query(query, parameters) 
+    return await get_event_list_from_query(query, parameters) 
 
 
 async def get_home_events(request: Request) -> JSONResponse:
@@ -913,7 +913,7 @@ async def get_home_events(request: Request) -> JSONResponse:
     except AssertionError:
         return Response(status_code=400, content="Incomplete body or incorrect parameter")
 
-    result = run_neo4j_command(
+    result = await run_neo4j_command(
         """
         MATCH (e:Event)-[:user_host]-(host:User)
         WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 30})
@@ -1192,12 +1192,12 @@ async def post_event_message(request: Request) -> JSONResponse:
     if(len(message) > 3000):
         return Response(status_code=400, content="Message is beyond 3000 characters. Please shorten it")
     
-    document_id = create_firestore_event_message(event_id, user_id, message)
+    document_id = await create_firestore_event_message(event_id, user_id, message)
 
     if(ping_joined_users):
-        user = get_user_entity_by_user_id(user_id, None, False)
+        user = await get_user_entity_by_user_id(user_id, None, False)
         try:
-            joined_users_push_tokens_with_user_id = get_all_joined_users_push_tokens(event_id)
+            joined_users_push_tokens_with_user_id = await get_all_joined_users_push_tokens(event_id)
             if(joined_users_push_tokens_with_user_id is not None):
                 send_and_validate_expo_push_notifications(joined_users_push_tokens_with_user_id, "New event message", str(user['username']) + ": " + str(message), {
                     'action': 'ViewEventDetailsMessages',
@@ -1234,7 +1234,7 @@ async def delete_event_message(request: Request) -> JSONResponse:
     except AssertionError:
         return Response(status_code=400, content="Incomplete body or incorrect parameter")
     
-    delete_firestore_event_message(event_id, message_id)
+    await delete_firestore_event_message(event_id, message_id)
     return Response(content="Message deleted")
 
 routes = [
@@ -1286,10 +1286,10 @@ routes = [
 
 # HELPER FUNCTIONS
 
-def get_event_list_from_query(query, parameters):
+async def get_event_list_from_query(query, parameters):
 
     # check if email exists
-    result = run_neo4j_command(
+    result = await run_neo4j_command(
         query,
         parameters   
     )

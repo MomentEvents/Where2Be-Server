@@ -48,7 +48,7 @@ async def login_user(request: Request) -> JSONResponse:
 
     usercred = usercred.strip()
 
-    user_id, user_access_token = login(usercred, password)
+    user_id, user_access_token = await login(usercred, password)
     print("user_id returned to API: ", user_id)
     print("user_access_token returned to API: ", user_access_token)
 
@@ -87,7 +87,7 @@ async def signup_user(request: Request) -> JSONResponse:
         print("Error")
         return Response(status_code=400, content="Invalid request in body")
 
-    user_id, user_access_token = signup(username, display_name, email, password, school_id)
+    user_id, user_access_token = await signup(username, display_name, email, password, school_id)
 
     print("CREATED USER")
     print(user_access_token)

@@ -42,7 +42,7 @@ async def get_using_user_access_token(request: Request) -> JSONResponse:
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
 
-    user = get_user_entity_by_user_access_token(user_access_token=user_access_token, show_num_events_followers_following=True)
+    user = await get_user_entity_by_user_access_token(user_access_token=user_access_token, show_num_events_followers_following=True)
 
     if(user is None):
         raise Problem(status=400, content="User does not exist")
@@ -72,7 +72,7 @@ async def get_using_user_id(request: Request) -> JSONResponse:
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
 
-    user = get_user_entity_by_user_id(user_id=user_id, self_user_access_token=None, show_num_events_followers_following=True)
+    user = await get_user_entity_by_user_id(user_id=user_id, self_user_access_token=None, show_num_events_followers_following=True)
 
     if(user is None):
         raise Problem(status=400, content="User does not exist")
@@ -105,7 +105,7 @@ async def get_using_user_id_with_body(request: Request) -> JSONResponse:
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
     
-    user = get_user_entity_by_user_id(user_id=user_id, self_user_access_token=user_access_token, show_num_events_followers_following=True)
+    user = await get_user_entity_by_user_id(user_id=user_id, self_user_access_token=user_access_token, show_num_events_followers_following=True)
     if(user is None):
         raise Problem(status=400, content="User does not exist")
     return JSONResponse(user)
@@ -148,12 +148,12 @@ async def update_using_user_id(request: Request) -> JSONResponse:
     username = username.strip()
     display_name = display_name.strip()
 
-    user = get_user_entity_by_username(username)
+    user = await get_user_entity_by_username(username)
 
     if(user is not None):
         return Response(status_code=400, content="A user with this username already exists")
 
-    result = run_neo4j_command(
+    result = await run_neo4j_command(
         """MATCH (u:User{UserID: $user_id}) 
         SET 
             u.DisplayName = COALESCE($display_name, u.DisplayName),
@@ -203,7 +203,7 @@ async def delete_using_user_id(request: Request) -> JSONResponse:
 
     user_access_token = body.get("user_access_token")
 
-    result = run_neo4j_command(
+    result = await run_neo4j_command(
         """MATCH (u:User{UserID: $user_id})
         OPTIONAL MATCH (u)-[:user_host]->(e:Event) 
         DETACH DELETE u, e""",
@@ -212,7 +212,7 @@ async def delete_using_user_id(request: Request) -> JSONResponse:
         },
     )
 
-    delete_firebase_user_by_uid(user_id)
+    await delete_firebase_user_by_uid(user_id)
 
     return Response(status_code=200, content="User and events deleted")
 
@@ -243,7 +243,7 @@ async def get_event_host(request: Request) -> JSONResponse:
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
 
-    result = run_neo4j_command(
+    result = await run_neo4j_command(
         """MATCH (e:Event{EventID : $event_id})<-[:user_host]-(u:User)
         RETURN u""",
         parameters={
@@ -292,9 +292,9 @@ async def user_join_update(request: Request) -> JSONResponse:
         return Response(status_code=400, content="Incomplete body or incorrect parameter")
 
     if(did_join):
-        create_join_connection(user_id, event_id)
+        await create_join_connection(user_id, event_id)
     else:
-        delete_join_connection(user_id, event_id)
+        await delete_join_connection(user_id, event_id)
     
     return Response(status_code=200)
 
@@ -328,9 +328,9 @@ async def user_shoutout_update(request: Request) -> JSONResponse:
         return Response(status_code=400, content="Incomplete body or incorrect parameter")
 
     if(did_shoutout):
-        create_shoutout_connection(user_id, event_id)
+        await create_shoutout_connection(user_id, event_id)
     else:
-        delete_shoutout_connection(user_id, event_id)
+        await delete_shoutout_connection(user_id, event_id)
     
     return Response(status_code=200)
 
@@ -356,9 +356,9 @@ async def user_not_interested_update(request: Request) -> JSONResponse:
         return Response(status_code=400, content="Incomplete body or incorrect parameter")
 
     if(did_not_interested):
-        create_not_interested_connection(user_id, event_id)
+        await create_not_interested_connection(user_id, event_id)
     else:
-        delete_not_interested_connection(user_id, event_id)
+        await delete_not_interested_connection(user_id, event_id)
     
     return Response(status_code=200)
 
@@ -420,7 +420,7 @@ async def search_users(request: Request) -> JSONResponse:
 
     query = query.strip()
     
-    result = run_neo4j_command(
+    result = await run_neo4j_command(
         """MATCH ((u:User)-[:user_school]->(s:School{SchoolID: $school_id}))
             WHERE (toLower(u.DisplayName) CONTAINS toLower($query) OR toLower(u.Username) CONTAINS toLower($query))
         RETURN u
@@ -465,9 +465,9 @@ async def user_follow_update(request: Request) -> JSONResponse:
         return Response(status_code=400, content="Incomplete body or incorrect parameter")
 
     if(did_follow):
-        create_follow_connection(user_id, to_user_id)
+        await create_follow_connection(user_id, to_user_id)
     else:
-        delete_follow_connection(user_id, to_user_id)
+        await delete_follow_connection(user_id, to_user_id)
     
     return Response(status_code=200)
 
@@ -481,7 +481,7 @@ async def get_user_email(request: Request) -> JSONResponse:
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
     
-    firebase_user = get_firebase_user_by_uid(uid=user_id)
+    firebase_user = await get_firebase_user_by_uid(uid=user_id)
 
     email = firebase_user.email
     email_verified = firebase_user.email_verified
@@ -522,7 +522,7 @@ async def get_following_list(request: Request) -> JSONResponse:
             WHERE cursor_follower.UserID = $cursor
             RETURN cursor_follow.Timestamp as timestamp
         """
-        cursor_result = run_neo4j_command(
+        cursor_result = await run_neo4j_command(
             cursor_query,
             parameters={
                 "user_id": user_id,
@@ -550,7 +550,7 @@ async def get_following_list(request: Request) -> JSONResponse:
             LIMIT 20
         """
 
-    result = run_neo4j_command(
+    result = await run_neo4j_command(
         main_query,
         parameters={
             "user_id": user_id,
@@ -601,7 +601,7 @@ async def get_follower_list(request: Request) -> JSONResponse:
             WHERE cursor_follower.UserID = $cursor
             RETURN cursor_follow.Timestamp as timestamp
         """
-        cursor_result = run_neo4j_command(
+        cursor_result = await run_neo4j_command(
             cursor_query,
             parameters={
                 "user_id": user_id,
@@ -629,7 +629,7 @@ async def get_follower_list(request: Request) -> JSONResponse:
             LIMIT 20
         """
 
-    result = run_neo4j_command(
+    result = await run_neo4j_command(
         main_query,
         parameters={
             "user_id": user_id,

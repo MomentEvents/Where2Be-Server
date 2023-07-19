@@ -33,7 +33,7 @@ async def get_all_interests(request: Request) -> JSONResponse:
             }
     """
 
-    result = run_neo4j_command(
+    result = await run_neo4j_command(
         """MATCH (i:Interest) 
         RETURN i
         ORDER BY toLower(i.Name)""",
@@ -51,7 +51,6 @@ async def get_all_interests(request: Request) -> JSONResponse:
             {
                 "interest_id": data["InterestID"],
                 "name": data["Name"],
-                # "category": data["Category"],
             }
         )
 
@@ -86,7 +85,7 @@ async def get_event_interest(request: Request) -> JSONResponse:
         return Response(status_code=400, content="Parameter Missing")
 
 
-    result = run_neo4j_command(
+    result = await run_neo4j_command(
         """MATCH (event:Event{EventID: $event_id})-[:event_tag]->(i:Interest) 
         RETURN i
         ORDER BY toLower(i.Name)""",

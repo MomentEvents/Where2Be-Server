@@ -5,9 +5,9 @@ from dateutil import parser
 import secrets
 import random
 
-def add_push_token(user_id: str, push_token: str, push_type: str):
+async def add_push_token(user_id: str, push_token: str, push_type: str):
     
-    run_neo4j_command("""MATCH (u:User {UserID: $user_id})
+    await run_neo4j_command("""MATCH (u:User {UserID: $user_id})
         SET u.PushTokens = CASE
         WHEN u.PushTokens IS NULL THEN [ $push_token ]
         WHEN NOT $push_token IN u.PushTokens THEN u.PushTokens + $push_token
@@ -21,9 +21,9 @@ def add_push_token(user_id: str, push_token: str, push_type: str):
     return 0
 
 
-def remove_push_token(user_id: str, push_token: str, push_type: str):
+async def remove_push_token(user_id: str, push_token: str, push_type: str):
     
-    run_neo4j_command("""MATCH (u:User {UserID: $user_id})
+    await run_neo4j_command("""MATCH (u:User {UserID: $user_id})
             WHERE u.PushTokens IS NOT NULL AND ANY(s in u.PushTokens WHERE s = $push_token)
             SET u.PushTokens = [x IN u.PushTokens WHERE x <> $push_token]""", 
             parameters={
@@ -33,7 +33,7 @@ def remove_push_token(user_id: str, push_token: str, push_type: str):
     
     return 0
 
-def get_all_follower_push_tokens(user_id: str):
+async def get_all_follower_push_tokens(user_id: str):
     query = """
     MATCH (u:User{UserID: $user_id})<-[:user_follow]-(follower:User)
     WHERE follower.DoNotifyFollowing IS NULL OR follower.DoNotifyFollowing = true
@@ -44,7 +44,7 @@ def get_all_follower_push_tokens(user_id: str):
         "user_id": user_id
     }
 
-    result = run_neo4j_command(query, parameters)
+    result = await run_neo4j_command(query, parameters)
     # Assuming you have only one record returned
     record = result.single()
     if record is not None:
@@ -52,7 +52,7 @@ def get_all_follower_push_tokens(user_id: str):
     else:
         return None
         
-def get_all_joined_users_push_tokens(event_id: str):
+async def get_all_joined_users_push_tokens(event_id: str):
     query = """
     MATCH (e:Event{EventID: $event_id})<-[:user_join]-(joinedUser:User)
     UNWIND joinedUser.PushTokens AS pushTokensList
@@ -62,7 +62,7 @@ def get_all_joined_users_push_tokens(event_id: str):
         "event_id": event_id
     }
 
-    result = run_neo4j_command(query, parameters)
+    result = await run_neo4j_command(query, parameters)
     # Assuming you have only one record returned
     record = result.single()
     if record is not None:
@@ -70,7 +70,7 @@ def get_all_joined_users_push_tokens(event_id: str):
     else:
         return None
         
-def get_host_push_tokens(event_id: str):
+async def get_host_push_tokens(event_id: str):
     query = """
     MATCH (e:Event{EventID: $event_id})<-[:user_host]-(host:User)
     UNWIND host.PushTokens AS pushTokensList
@@ -80,7 +80,7 @@ def get_host_push_tokens(event_id: str):
         "event_id": event_id
     }
 
-    result = run_neo4j_command(query, parameters)
+    result = await run_neo4j_command(query, parameters)
     # Assuming you have only one record returned
     record = result.single()
     if record is not None:
@@ -88,7 +88,7 @@ def get_host_push_tokens(event_id: str):
     else:
         return None
         
-def get_notification_preferences(user_id: str):
+async def get_notification_preferences(user_id: str):
     preferences = {
         "DoNotifyFollowing": False
     }
@@ -101,7 +101,7 @@ def get_notification_preferences(user_id: str):
         "user_id": user_id
     }
 
-    result = run_neo4j_command(query, parameters)
+    result = await run_neo4j_command(query, parameters)
     record = result.single()
     if record is None:
         return None
@@ -111,7 +111,7 @@ def get_notification_preferences(user_id: str):
         
 
 
-def set_notification_preferences(user_id: str, preferences: dict):
+async def set_notification_preferences(user_id: str, preferences: dict):
 
 
     permitted_keys = ["DoNotifyFollowing"]
@@ -130,7 +130,7 @@ def set_notification_preferences(user_id: str, preferences: dict):
         "properties": preferences
     }
 
-    result = run_neo4j_command(query, parameters)
+    result = await run_neo4j_command(query, parameters)
     record = result.single()
     if record is None:
         return None
