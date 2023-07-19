@@ -1,4 +1,4 @@
-from common.neo4j.moment_neo4j import get_neo4j_session
+from common.neo4j.moment_neo4j import get_neo4j_driver, run_neo4j_command
 from common.s3.moment_s3 import get_bucket_url
 from common.models import Problem
 from dateutil import parser
@@ -7,31 +7,29 @@ import random
 
 def add_push_token(user_id: str, push_token: str, push_type: str):
     
-    with get_neo4j_session() as session:
-        session.run("""MATCH (u:User {UserID: $user_id})
-            SET u.PushTokens = CASE
-            WHEN u.PushTokens IS NULL THEN [ $push_token ]
-            WHEN NOT $push_token IN u.PushTokens THEN u.PushTokens + $push_token
-            ELSE u.PushTokens
-            END""", 
-            parameters={
-                "user_id": user_id,
-                "push_token": push_token
-            })
+    run_neo4j_command("""MATCH (u:User {UserID: $user_id})
+        SET u.PushTokens = CASE
+        WHEN u.PushTokens IS NULL THEN [ $push_token ]
+        WHEN NOT $push_token IN u.PushTokens THEN u.PushTokens + $push_token
+        ELSE u.PushTokens
+        END""", 
+        parameters={
+            "user_id": user_id,
+            "push_token": push_token
+        })
     
     return 0
 
 
 def remove_push_token(user_id: str, push_token: str, push_type: str):
     
-    with get_neo4j_session() as session:
-        session.run("""MATCH (u:User {UserID: $user_id})
-                WHERE u.PushTokens IS NOT NULL AND ANY(s in u.PushTokens WHERE s = $push_token)
-                SET u.PushTokens = [x IN u.PushTokens WHERE x <> $push_token]""", 
-                parameters={
-                "user_id": user_id,
-                "push_token": push_token
-            })
+    run_neo4j_command("""MATCH (u:User {UserID: $user_id})
+            WHERE u.PushTokens IS NOT NULL AND ANY(s in u.PushTokens WHERE s = $push_token)
+            SET u.PushTokens = [x IN u.PushTokens WHERE x <> $push_token]""", 
+            parameters={
+            "user_id": user_id,
+            "push_token": push_token
+        })
     
     return 0
 
@@ -46,14 +44,13 @@ def get_all_follower_push_tokens(user_id: str):
         "user_id": user_id
     }
 
-    with get_neo4j_session() as session:
-        result = session.run(query, parameters)
-        # Assuming you have only one record returned
-        record = result.single()
-        if record is not None:
-            return record['allPushTokens']
-        else:
-            return None
+    result = run_neo4j_command(query, parameters)
+    # Assuming you have only one record returned
+    record = result.single()
+    if record is not None:
+        return record['allPushTokens']
+    else:
+        return None
         
 def get_all_joined_users_push_tokens(event_id: str):
     query = """
@@ -65,14 +62,13 @@ def get_all_joined_users_push_tokens(event_id: str):
         "event_id": event_id
     }
 
-    with get_neo4j_session() as session:
-        result = session.run(query, parameters)
-        # Assuming you have only one record returned
-        record = result.single()
-        if record is not None:
-            return record['allPushTokens']
-        else:
-            return None
+    result = run_neo4j_command(query, parameters)
+    # Assuming you have only one record returned
+    record = result.single()
+    if record is not None:
+        return record['allPushTokens']
+    else:
+        return None
         
 def get_host_push_tokens(event_id: str):
     query = """
@@ -84,14 +80,13 @@ def get_host_push_tokens(event_id: str):
         "event_id": event_id
     }
 
-    with get_neo4j_session() as session:
-        result = session.run(query, parameters)
-        # Assuming you have only one record returned
-        record = result.single()
-        if record is not None:
-            return record['allPushTokens']
-        else:
-            return None
+    result = run_neo4j_command(query, parameters)
+    # Assuming you have only one record returned
+    record = result.single()
+    if record is not None:
+        return record['allPushTokens']
+    else:
+        return None
         
 def get_notification_preferences(user_id: str):
     preferences = {
@@ -106,14 +101,13 @@ def get_notification_preferences(user_id: str):
         "user_id": user_id
     }
 
-    with get_neo4j_session() as session:
-        result = session.run(query, parameters)
-        record = result.single()
-        if record is None:
-            return None
-        else:
-            preferences["DoNotifyFollowing"] = record["DoNotifyFollowing"]
-            return preferences
+    result = run_neo4j_command(query, parameters)
+    record = result.single()
+    if record is None:
+        return None
+    else:
+        preferences["DoNotifyFollowing"] = record["DoNotifyFollowing"]
+        return preferences
         
 
 
@@ -136,10 +130,9 @@ def set_notification_preferences(user_id: str, preferences: dict):
         "properties": preferences
     }
 
-    with get_neo4j_session() as session:
-        result = session.run(query, parameters)
-        record = result.single()
-        if record is None:
-            return None
-        else:
-            return record["u"]
+    result = run_neo4j_command(query, parameters)
+    record = result.single()
+    if record is None:
+        return None
+    else:
+        return record["u"]

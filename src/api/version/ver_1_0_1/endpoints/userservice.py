@@ -14,7 +14,7 @@ from typing import List
 from datetime import datetime
 import secrets
 
-from common.neo4j.moment_neo4j import get_neo4j_session
+from common.neo4j.moment_neo4j import get_neo4j_driver, run_neo4j_command
 from api.version.ver_1_0_1.auth import is_real_user, is_requester_privileged_for_user, is_user_formatted, is_valid_user_access_token
 
 from common.s3.moment_s3 import upload_base64_image
@@ -153,39 +153,38 @@ async def update_using_user_id(request: Request) -> JSONResponse:
     if(user is not None):
         return Response(status_code=400, content="A user with this username already exists")
 
-    with get_neo4j_session() as session:
-        result = session.run(
-            """MATCH (u:User{UserID: $user_id}) 
-            SET 
-                u.DisplayName = COALESCE($display_name, u.DisplayName),
-                u.Username = COALESCE($username, u.Username),
-                u.Picture = COALESCE($picture, u.Picture)
-            RETURN
-                u
-            """,
-            parameters={
-                "user_id": user_id,
-                "display_name": display_name,
-                "username": username,
-                "picture": picture
-            },
-        )
+    result = run_neo4j_command(
+        """MATCH (u:User{UserID: $user_id}) 
+        SET 
+            u.DisplayName = COALESCE($display_name, u.DisplayName),
+            u.Username = COALESCE($username, u.Username),
+            u.Picture = COALESCE($picture, u.Picture)
+        RETURN
+            u
+        """,
+        parameters={
+            "user_id": user_id,
+            "display_name": display_name,
+            "username": username,
+            "picture": picture
+        },
+    )
 
-        record = result.single()
+    record = result.single()
 
-        if record == None:
-            Response(status_code=400, content="User does not exist")
+    if record == None:
+        Response(status_code=400, content="User does not exist")
 
-        data = record[0]
+    data = record[0]
 
-        updated_user = {
-            "user_id": data["UserID"],
-            "display_name": data["DisplayName"],
-            "username": data["Username"],
-            "picture": data["Picture"],
-            "verified_organization": data["VerifiedOrganization"],
-        }
-        return JSONResponse(updated_user)
+    updated_user = {
+        "user_id": data["UserID"],
+        "display_name": data["DisplayName"],
+        "username": data["Username"],
+        "picture": data["Picture"],
+        "verified_organization": data["VerifiedOrganization"],
+    }
+    return JSONResponse(updated_user)
 
 @is_requester_privileged_for_user
 async def delete_using_user_id(request: Request) -> JSONResponse:
@@ -204,15 +203,14 @@ async def delete_using_user_id(request: Request) -> JSONResponse:
 
     user_access_token = body.get("user_access_token")
 
-    with get_neo4j_session() as session:
-        result = session.run(
-            """MATCH (u:User{UserID: $user_id})
-            OPTIONAL MATCH (u)-[:user_host]->(e:Event) 
-            DETACH DELETE u, e""",
-            parameters={
-                "user_id": user_id,
-            },
-        )
+    result = run_neo4j_command(
+        """MATCH (u:User{UserID: $user_id})
+        OPTIONAL MATCH (u)-[:user_host]->(e:Event) 
+        DETACH DELETE u, e""",
+        parameters={
+            "user_id": user_id,
+        },
+    )
 
     delete_firebase_user_by_uid(user_id)
 
@@ -245,26 +243,24 @@ async def get_event_host(request: Request) -> JSONResponse:
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
 
-    with get_neo4j_session() as session:
-        result = session.run(
-            """MATCH (e:Event{EventID : $event_id})<-[:user_host]-(u:User)
-            RETURN u""",
-            parameters={
-                "event_id": event_id,
-            },
-        )
+    result = run_neo4j_command(
+        """MATCH (e:Event{EventID : $event_id})<-[:user_host]-(u:User)
+        RETURN u""",
+        parameters={
+            "event_id": event_id,
+        },
+    )
 
+    record = result.single()
 
-        record = result.single()
+    if record == None:
+        return Response(status_code=400, content="Event does not exist")
 
-        if record == None:
-            return Response(status_code=400, content="Event does not exist")
+    data = record[0]
 
-        data = record[0]
+    user_data = convert_user_entity_to_user(data=data, show_num_events_followers_following=False)
 
-        user_data = convert_user_entity_to_user(data=data, show_num_events_followers_following=False)
-
-        return JSONResponse(user_data)
+    return JSONResponse(user_data)
 
 @is_requester_privileged_for_user
 async def user_join_update(request: Request) -> JSONResponse:
@@ -424,29 +420,27 @@ async def search_users(request: Request) -> JSONResponse:
 
     query = query.strip()
     
-    with get_neo4j_session() as session:
+    result = run_neo4j_command(
+        """MATCH ((u:User)-[:user_school]->(s:School{SchoolID: $school_id}))
+            WHERE (toLower(u.DisplayName) CONTAINS toLower($query) OR toLower(u.Username) CONTAINS toLower($query))
+        RETURN u
+        ORDER BY toLower(u.DisplayName)
+        LIMIT 20""",
+        parameters={
+            "school_id": school_id,
+            "query": query,
+        },
+    )
 
-        result = session.run(
-            """MATCH ((u:User)-[:user_school]->(s:School{SchoolID: $school_id}))
-                WHERE (toLower(u.DisplayName) CONTAINS toLower($query) OR toLower(u.Username) CONTAINS toLower($query))
-            RETURN u
-            ORDER BY toLower(u.DisplayName)
-            LIMIT 20""",
-            parameters={
-                "school_id": school_id,
-                "query": query,
-            },
-        )
+    users = []
 
-        users = []
+    for record in result:
+        user_data = record["u"]
+        users.append(convert_user_entity_to_user(data=user_data, show_num_events_followers_following=False))
 
-        for record in result:
-            user_data = record["u"]
-            users.append(convert_user_entity_to_user(data=user_data, show_num_events_followers_following=False))
-
-        return JSONResponse(
-            users
-        )
+    return JSONResponse(
+        users
+    )
 
 @is_requester_privileged_for_user
 async def user_follow_update(request: Request) -> JSONResponse:
@@ -519,62 +513,61 @@ async def get_following_list(request: Request) -> JSONResponse:
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
     
-    with get_neo4j_session() as session:
-        cursor_timestamp = None
+    cursor_timestamp = None
 
-        # If a cursor is provided, get its associated timestamp.
-        if cursor:
-            cursor_query = """
-                MATCH (cursor_follower:User)<-[cursor_follow:user_follow]-(user:User{UserID: $user_id})
-                WHERE cursor_follower.UserID = $cursor
-                RETURN cursor_follow.Timestamp as timestamp
-            """
-            cursor_result = session.run(
-                cursor_query,
-                parameters={
-                    "user_id": user_id,
-                    "cursor": cursor,
-                },
-            )
-
-            for record in cursor_result:
-                cursor_timestamp = record["timestamp"]
-
-        # Now use the cursor timestamp (if any) to filter the main query.
-        if cursor_timestamp:
-            main_query = """
-                MATCH (follower:User)<-[follow:user_follow]-(user:User{UserID: $user_id})
-                WHERE follow.Timestamp < datetime($cursor_timestamp) AND follower.UserID <> $cursor
-                RETURN follower
-                ORDER BY follow.Timestamp DESC
-                LIMIT 20
-            """
-        else:
-            main_query = """
-                MATCH (follower:User)<-[follow:user_follow]-(user:User{UserID: $user_id})
-                RETURN follower
-                ORDER BY follow.Timestamp DESC
-                LIMIT 20
-            """
-
-        result = session.run(
-            main_query,
+    # If a cursor is provided, get its associated timestamp.
+    if cursor:
+        cursor_query = """
+            MATCH (cursor_follower:User)<-[cursor_follow:user_follow]-(user:User{UserID: $user_id})
+            WHERE cursor_follower.UserID = $cursor
+            RETURN cursor_follow.Timestamp as timestamp
+        """
+        cursor_result = run_neo4j_command(
+            cursor_query,
             parameters={
                 "user_id": user_id,
                 "cursor": cursor,
-                "cursor_timestamp": cursor_timestamp,
             },
         )
 
-        users = []
+        for record in cursor_result:
+            cursor_timestamp = record["timestamp"]
 
-        for record in result:
-            user_data = record["follower"]
-            users.append(convert_user_entity_to_user(data=user_data, show_num_events_followers_following=False))
+    # Now use the cursor timestamp (if any) to filter the main query.
+    if cursor_timestamp:
+        main_query = """
+            MATCH (follower:User)<-[follow:user_follow]-(user:User{UserID: $user_id})
+            WHERE follow.Timestamp < datetime($cursor_timestamp) AND follower.UserID <> $cursor
+            RETURN follower
+            ORDER BY follow.Timestamp DESC
+            LIMIT 20
+        """
+    else:
+        main_query = """
+            MATCH (follower:User)<-[follow:user_follow]-(user:User{UserID: $user_id})
+            RETURN follower
+            ORDER BY follow.Timestamp DESC
+            LIMIT 20
+        """
 
-        return JSONResponse(
-            users
-        )
+    result = run_neo4j_command(
+        main_query,
+        parameters={
+            "user_id": user_id,
+            "cursor": cursor,
+            "cursor_timestamp": cursor_timestamp,
+        },
+    )
+
+    users = []
+
+    for record in result:
+        user_data = record["follower"]
+        users.append(convert_user_entity_to_user(data=user_data, show_num_events_followers_following=False))
+
+    return JSONResponse(
+        users
+    )
 
 async def get_follower_list(request: Request) -> JSONResponse:
 
@@ -599,62 +592,61 @@ async def get_follower_list(request: Request) -> JSONResponse:
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
     
-    with get_neo4j_session() as session:
-        cursor_timestamp = None
+    cursor_timestamp = None
 
-        # If a cursor is provided, get its associated timestamp.
-        if cursor:
-            cursor_query = """
-                MATCH (cursor_follower:User)-[cursor_follow:user_follow]->(user:User{UserID: $user_id})
-                WHERE cursor_follower.UserID = $cursor
-                RETURN cursor_follow.Timestamp as timestamp
-            """
-            cursor_result = session.run(
-                cursor_query,
-                parameters={
-                    "user_id": user_id,
-                    "cursor": cursor,
-                },
-            )
-
-            for record in cursor_result:
-                cursor_timestamp = record["timestamp"]
-
-        # Now use the cursor timestamp (if any) to filter the main query.
-        if cursor_timestamp:
-            main_query = """
-                MATCH (follower:User)-[follow:user_follow]->(user:User{UserID: $user_id})
-                WHERE follow.Timestamp < datetime($cursor_timestamp) AND follower.UserID <> $cursor
-                RETURN follower
-                ORDER BY follow.Timestamp DESC
-                LIMIT 20
-            """
-        else:
-            main_query = """
-                MATCH (follower:User)-[follow:user_follow]->(user:User{UserID: $user_id})
-                RETURN follower
-                ORDER BY follow.Timestamp DESC
-                LIMIT 20
-            """
-
-        result = session.run(
-            main_query,
+    # If a cursor is provided, get its associated timestamp.
+    if cursor:
+        cursor_query = """
+            MATCH (cursor_follower:User)-[cursor_follow:user_follow]->(user:User{UserID: $user_id})
+            WHERE cursor_follower.UserID = $cursor
+            RETURN cursor_follow.Timestamp as timestamp
+        """
+        cursor_result = run_neo4j_command(
+            cursor_query,
             parameters={
                 "user_id": user_id,
                 "cursor": cursor,
-                "cursor_timestamp": cursor_timestamp,
             },
         )
 
-        users = []
+        for record in cursor_result:
+            cursor_timestamp = record["timestamp"]
 
-        for record in result:
-            user_data = record["follower"]
-            users.append(convert_user_entity_to_user(data=user_data, show_num_events_followers_following=False))
+    # Now use the cursor timestamp (if any) to filter the main query.
+    if cursor_timestamp:
+        main_query = """
+            MATCH (follower:User)-[follow:user_follow]->(user:User{UserID: $user_id})
+            WHERE follow.Timestamp < datetime($cursor_timestamp) AND follower.UserID <> $cursor
+            RETURN follower
+            ORDER BY follow.Timestamp DESC
+            LIMIT 20
+        """
+    else:
+        main_query = """
+            MATCH (follower:User)-[follow:user_follow]->(user:User{UserID: $user_id})
+            RETURN follower
+            ORDER BY follow.Timestamp DESC
+            LIMIT 20
+        """
 
-        return JSONResponse(
-            users
-        )
+    result = run_neo4j_command(
+        main_query,
+        parameters={
+            "user_id": user_id,
+            "cursor": cursor,
+            "cursor_timestamp": cursor_timestamp,
+        },
+    )
+
+    users = []
+
+    for record in result:
+        user_data = record["follower"]
+        users.append(convert_user_entity_to_user(data=user_data, show_num_events_followers_following=False))
+
+    return JSONResponse(
+        users
+    )
 
 routes = [
     Route("/user/user_access_token/{user_access_token}",

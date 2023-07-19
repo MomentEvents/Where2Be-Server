@@ -1,21 +1,30 @@
 import os
 from neo4j import GraphDatabase
 
+async def run_neo4j_command(query, parameters=None):
+    driver = get_neo4j_driver()
+    session = driver.session()
+    try:
+        result = run_neo4j_command(
+                query,
+                parameters=parameters,
+            )
+        
+        driver.close()
+        return result
+    except Exception as e:
+        driver.close()
+        raise e
+
+
 
 def test_neo4j_health():
     try:
-        with get_neo4j_session() as session:
-            session.run("MATCH (n) RETURN n LIMIT 1")
+        run_neo4j_command("MATCH (n) RETURN n LIMIT 1")
         return True
 
     except:
         return False
-
-def get_neo4j_session():
-    driver = get_neo4j_driver()
-    driver_session = driver.session()
-    return driver_session
-
 
 def get_neo4j_driver():
     # Set the connection details for the Neo4j database

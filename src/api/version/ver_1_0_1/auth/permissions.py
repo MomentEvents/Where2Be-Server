@@ -3,7 +3,7 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from functools import wraps
 from dateutil import parser
-from common.neo4j.moment_neo4j import get_neo4j_session
+from common.neo4j.moment_neo4j import get_neo4j_driver, run_neo4j_command
 from api.helpers import parse_request_data, contains_profanity, contains_url
 import base64
 from PIL import Image
@@ -27,19 +27,18 @@ def is_valid_user_access_token(func):
         except AssertionError:
             return Response(status_code=400, content="User access token is blank")
 
-        with get_neo4j_session() as session:
-            result = session.run(
-                """MATCH (u:User{UserAccessToken: $user_access_token}) 
+        result = run_neo4j_command(query="""MATCH (u:User{UserAccessToken: $user_access_token}) 
                 RETURN u""",
                 parameters={
                     "user_access_token": user_access_token
-                },
-            )
-            record = result.single()
-            if record == None:
-                return Response(status_code=400, content="User does not exist")
+                })
+        
+        record = result.single()
+        if record == None:
+            return Response(status_code=400, content="User does not exist")
+            
 
-            return await func(request)
+        return await func(request)
 
     return wrapper
 
@@ -55,19 +54,17 @@ def is_real_user(func):
         except AssertionError:
             return Response(status_code=400, content="Invalid user id")
 
-        with get_neo4j_session() as session:
-            result = session.run(
-                """MATCH (u:User{UserID: $user_id}) 
-                RETURN u""",
+        result = run_neo4j_command(query="""MATCH (u:User{UserID: $user_id}) 
+                RETURN u""", 
                 parameters={
                     "user_id": user_id
-                },
-            )
-            record = result.single()
-            if record == None:
-                return Response(status_code=400, content="User does not exist")
+                })
 
-            return await func(request)
+        record = result.single()
+        if record == None:
+            return Response(status_code=400, content="User does not exist")
+            
+        return await func(request)
 
     return wrapper
 
@@ -83,19 +80,17 @@ def is_real_event(func):
         except AssertionError:
             return Response(status_code=400, content="Invalid event id")
 
-        with get_neo4j_session() as session:
-            result = session.run(
-                """MATCH (e:Event{EventID: $event_id}) 
+        result = run_neo4j_command(query="""MATCH (e:Event{EventID: $event_id}) 
                 RETURN e""",
                 parameters={
                     "event_id": event_id
-                },
-            )
-            record = result.single()
-            if record == None:
-                return Response(status_code=401, content="Event does not exist")
+                })
+        
+        record = result.single()
+        if record == None:
+            return Response(status_code=401, content="Event does not exist")
 
-            return await func(request)
+        return await func(request)
 
     return wrapper
 
@@ -227,23 +222,21 @@ def is_event_formatted(func):
         if (visibility != "Public" and visibility != "Private"):
             return Response(status_code=400, content="Visibility must be either \"Public\" or \"Private\"")
 
-        with get_neo4j_session() as session:
-            result = session.run(
-                """UNWIND $interest_ids as interest_id
+        result = run_neo4j_command(query="""UNWIND $interest_ids as interest_id
                     MATCH (interests:Interest {InterestID: interest_id})
                     RETURN interests""",
-                parameters={
+                    parameters={
                     "interest_ids": interest_ids,
-                },
-            )
+                })
 
-            # this code sucks
-            num_interests = 0
-            for record in result:
-                num_interests = num_interests + 1
+        # this code sucks
+        num_interests = 0
+        for record in result:
+            num_interests = num_interests + 1
 
-            if num_interests != len(interest_ids):
-                return Response(status_code=400, content="One or more interests do not exist")
+        if num_interests != len(interest_ids):
+            return Response(status_code=400, content="One or more interests do not exist")
+            
 
         return await func(request)
 
@@ -322,23 +315,26 @@ def is_requester_privileged_for_user(func):
         except AssertionError:
             return Response(status_code=400, content="Incomplete body")
 
-        if is_requester_admin(user_access_token):
-            return await func(request)
 
-        with get_neo4j_session() as session:
-            result = session.run(
-                """MATCH (u:User{UserAccessToken: $user_access_token, UserID: $user_id}) 
-                RETURN u""",
-                parameters={
-                    "user_access_token": user_access_token,
-                    "user_id": user_id,
-                },
-            )
-            record = result.single()
-            if record == None:
-                return Response(status_code=401, content="Unauthorized access")
+        result = run_neo4j_command(
+            """MATCH (u:User{UserAccessToken: $user_access_token}) 
+            RETURN u""",
+            parameters={
+                "user_access_token": user_access_token,
+            },
+        )
+        record = result.single()
 
+        if record == None:
+            return Response(status_code=401, content="Unauthorized access")
+        
+        data = record[0]
+
+        if((data["UserID"] == user_id) or data.get("Administrator", False)):
             return await func(request)
+        
+        return Response(status_code=403, content="Forbidden")
+
     return wrapper
 
 
@@ -359,23 +355,23 @@ def is_requester_privileged_for_event(func):
         except AssertionError:
             return Response(status_code=400, content="Incomplete body")
 
-        if is_requester_admin(user_access_token):
+        result = run_neo4j_command(
+            """MATCH ((e:Event{EventID : $event_id})<-[r:user_host]-(u:User{UserAccessToken:$user_access_token}))
+            RETURN r, u""",
+            parameters={
+                "user_access_token": user_access_token,
+                "event_id": event_id,
+            },
+        )
+        
+        record = result.single()
+        if record == None:
+            return Response(status_code=401, content="Unauthorized access")
+        
+        if(record.get("r", False) or (record["u"].get("Administrator", False))):
             return await func(request)
 
-        with get_neo4j_session() as session:
-            result = session.run(
-                """MATCH ((event:Event{EventID : $event_id})<-[r:user_host]-(user:User{UserAccessToken:$user_access_token}))
-                RETURN r""",
-                parameters={
-                    "user_access_token": user_access_token,
-                    "event_id": event_id,
-                },
-            )
-            record = result.single()
-            if record == None:
-                return Response(status_code=401, content="Unauthorized access")
-
-            return await func(request)
+        return Response(status_code=403, content="Forbidden")
     return wrapper
 
 # HELPER FUNCTIONS
@@ -383,30 +379,29 @@ def is_requester_privileged_for_event(func):
 
 def is_requester_admin(user_access_token) -> bool:
 
-    with get_neo4j_session() as session:
-        result = session.run(
-            """MATCH (u:User {UserAccessToken: $user_access_token})
-                RETURN {
-                Administrator: COALESCE(u.Administrator, false)
-                } as result""",
-                parameters={
-                    "user_access_token": user_access_token
-                },
-            )
-        
-        record = result.single()
+    result = run_neo4j_command(
+        """MATCH (u:User {UserAccessToken: $user_access_token})
+            RETURN {
+            Administrator: COALESCE(u.Administrator, false)
+            } as result""",
+            parameters={
+                "user_access_token": user_access_token
+            },
+        )
+    
+    record = result.single()
 
-        if(record is None):
-            return False
-        
-        data = record[0]
-        try:
-            is_admin = data['Administrator']
-            assert type(is_admin) == bool
-        except:
-            return False
-        
-        return is_admin
+    if(record is None):
+        return False
+    
+    data = record[0]
+    try:
+        is_admin = data['Administrator']
+        assert type(is_admin) == bool
+    except:
+        return False
+    
+    return is_admin
         
 
 
