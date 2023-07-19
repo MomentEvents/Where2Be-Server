@@ -5,7 +5,7 @@ async def run_neo4j_command(query, parameters=None):
     driver = get_neo4j_driver()
     session = driver.session()
     try:
-        result = await run_neo4j_command(
+        result = session.run(
                 query,
                 parameters=parameters,
             )
@@ -34,5 +34,5 @@ def get_neo4j_driver():
 
     # Create a driver for the Neo4j database
     driver = GraphDatabase.driver(
-        NEO4J_BOLT_URL, auth=(NEO4J_USERNAME, NEO4J_PASSWORD))
+        NEO4J_BOLT_URL, auth=(NEO4J_USERNAME, NEO4J_PASSWORD), max_connection_lifetime=200)
     return driver
