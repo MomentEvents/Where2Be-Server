@@ -1,11 +1,11 @@
 import os
 from neo4j import GraphDatabase
 
-async def run_neo4j_command(query, parameters=None):
+def run_neo4j_command(query, parameters=None):
     driver = get_neo4j_driver()
     session = driver.session()
     try:
-        result = run_neo4j_command(
+        result = session.run(
                 query,
                 parameters=parameters,
             )
