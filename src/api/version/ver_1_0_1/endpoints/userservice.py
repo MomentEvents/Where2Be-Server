@@ -366,30 +366,30 @@ async def user_not_interested_update(request: Request) -> JSONResponse:
     
     return Response(status_code=200)
 
-@is_requester_privileged_for_user
-async def user_viewed_update(request: Request) -> JSONResponse:
-    """
-    body of user_access_token, not_interested
-    path params of user_id, to_user_id
-    """
+# @is_requester_privileged_for_user
+# async def user_viewed_update(request: Request) -> JSONResponse:
+#     """
+#     body of user_access_token, not_interested
+#     path params of user_id, to_user_id
+#     """
 
-    user_id = request.path_params["user_id"]
+#     user_id = request.path_params["user_id"]
 
-    body = await request.json()
+#     body = await request.json()
 
-    user_access_token = body.get("user_access_token")
-    event_ids = body.get("event_ids")
+#     user_access_token = body.get("user_access_token")
+#     event_ids = body.get("event_ids")
 
-    print(type(event_ids))
-    try:
-        assert all((user_id, user_access_token, event_ids))
-        assert type(event_ids) == list
-    except AssertionError:
-        return Response(status_code=400, content="Incomplete body or incorrect parameter")
+#     print(type(event_ids))
+#     try:
+#         assert all((user_id, user_access_token, event_ids))
+#         assert type(event_ids) == list
+#     except AssertionError:
+#         return Response(status_code=400, content="Incomplete body or incorrect parameter")
 
-    create_viewed_connections(user_id, event_ids)
+#     create_viewed_connections(user_id, event_ids)
     
-    return Response(status_code=200)
+#     return Response(status_code=200)
 
 async def search_users(request: Request) -> JSONResponse:
 
@@ -693,10 +693,10 @@ routes = [
         user_not_interested_update,
         methods=["UPDATE"],
     ),
-    Route("/user/user_id/{user_id}/set_viewed_events",
-        user_viewed_update,
-        methods=["UPDATE"],
-    ),
+    # Route("/user/user_id/{user_id}/set_viewed_events",
+    #     user_viewed_update,
+    #     methods=["UPDATE"],
+    # ),
     Route("/user/school_id/{school_id}/search",
           search_users,
           methods=["POST"],
