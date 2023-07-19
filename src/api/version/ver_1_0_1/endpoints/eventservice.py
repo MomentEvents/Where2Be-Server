@@ -926,7 +926,7 @@ async def get_home_events(request: Request) -> JSONResponse:
             AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
             AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
             AND (e)-[:event_school]-(:School{SchoolID: $school_id})
-            WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_viewed]->(e)) as user_viewed, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
+            WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, exists((:User{UserAccessToken: $user_access_token})-[:user_follow]->(host)) as user_follow_host,  COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_viewed]->(e)) as user_viewed, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
             ORDER BY RAND()
             LIMIT 25
             WITH collect({
@@ -949,7 +949,8 @@ async def get_home_events(request: Request) -> JSONResponse:
                 user_shoutout: user_shoutout,
                 host_user_id: host.UserID,
                 reason: "From an account you follow",
-                user_viewed: user_viewed
+                user_viewed: user_viewed,
+                user_follow_host: user_follow_host
                 }) AS event_data
             UNWIND event_data as results
             RETURN results
@@ -963,7 +964,7 @@ async def get_home_events(request: Request) -> JSONResponse:
             AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
             AND NOT (e)<-[:user_viewed]-(:User{UserAccessToken: $user_access_token})
             AND (e)-[:event_school]-(:School{SchoolID: $school_id})
-            WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_viewed]->(e)) as user_viewed, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
+            WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, exists((:User{UserAccessToken: $user_access_token})-[:user_follow]->(host)) as user_follow_host, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_viewed]->(e)) as user_viewed, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
             ORDER BY RAND()
             LIMIT 10
             WITH collect({
@@ -985,8 +986,8 @@ async def get_home_events(request: Request) -> JSONResponse:
                 user_join: user_join,
                 user_shoutout: user_shoutout,
                 host_user_id: host.UserID,
-                reason: "An event you have not seen before",
-                user_viewed: user_viewed
+                user_viewed: user_viewed,
+                user_follow_host: user_follow_host
                 }) AS event_data
             UNWIND event_data as results
             RETURN results
@@ -1000,7 +1001,7 @@ async def get_home_events(request: Request) -> JSONResponse:
             AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
             AND (e)-[:event_school]-(:School{SchoolID: $school_id})
             AND host.ScraperAccount IS NOT NULL AND host.ScraperAccount = True
-            WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_viewed]->(e)) as user_viewed, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
+            WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, exists((:User{UserAccessToken: $user_access_token})-[:user_follow]->(host)) as user_follow_host, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_viewed]->(e)) as user_viewed, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
             ORDER BY RAND()
             LIMIT 10
             WITH collect({
@@ -1022,7 +1023,8 @@ async def get_home_events(request: Request) -> JSONResponse:
                 user_join: user_join,
                 user_shoutout: user_shoutout,
                 host_user_id: host.UserID,
-                user_viewed: user_viewed
+                user_viewed: user_viewed,
+                user_follow_host: user_follow_host
                 }) AS event_data
             UNWIND event_data as results
             RETURN results
@@ -1036,7 +1038,7 @@ async def get_home_events(request: Request) -> JSONResponse:
             AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
             AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
             AND (e)-[:event_school]-(:School{SchoolID: $school_id})
-            WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_viewed]->(e)) as user_viewed, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
+            WITH e, host, exists((:User{UserAccessToken: $user_access_token})-[:user_follow]->(host)) as user_follow_host, COUNT{(e)<-[:user_join]-()} as num_joins, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_viewed]->(e)) as user_viewed, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
             ORDER BY RAND()
             LIMIT 10
             WITH collect({
@@ -1059,7 +1061,8 @@ async def get_home_events(request: Request) -> JSONResponse:
                 user_shoutout: user_shoutout,
                 host_user_id: host.UserID,
                 reason: "From a reputable organization",
-                user_viewed: user_viewed
+                user_viewed: user_viewed,
+                user_follow_host: user_follow_host
             }) AS event_data
             UNWIND event_data as results
             RETURN results
@@ -1072,10 +1075,10 @@ async def get_home_events(request: Request) -> JSONResponse:
             AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token})
             AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
             AND (e)-[:event_school]-(:School{SchoolID: $school_id})
-            WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts,
+            WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_follow]->(host)) as user_follow_host,
                     exists((:User{UserAccessToken: $user_access_token})-[:user_viewed]->(e)) as user_viewed, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join,
                     exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
-            WITH num_joins + num_shoutouts as popularity, num_joins, num_shoutouts, e, host, user_join, user_shoutout, user_viewed
+            WITH num_joins + num_shoutouts as popularity, num_joins, num_shoutouts, e, host, user_join, user_shoutout, user_viewed, user_follow_host
             ORDER BY popularity DESC
             LIMIT 30
             WITH collect({
@@ -1097,7 +1100,8 @@ async def get_home_events(request: Request) -> JSONResponse:
                 user_join: user_join,
                 user_shoutout: user_shoutout,
                 host_user_id: host.UserID,
-                user_viewed: user_viewed
+                user_viewed: user_viewed,
+                user_follow_host: user_follow_host
                 }) AS popular_events
             UNWIND apoc.coll.shuffle(popular_events)[0..15] AS results
             RETURN results""",
@@ -1136,7 +1140,8 @@ async def get_home_events(request: Request) -> JSONResponse:
             user_shoutout = row['user_shoutout']
             host_user_id = row['host_user_id']
             user_viewed = row['user_viewed']
-            reason = row.get("reason", False)
+            user_follow_host = row['user_follow_host']
+            reason = row.get("reason")
 
             data.append({
                 "host": {
@@ -1160,7 +1165,8 @@ async def get_home_events(request: Request) -> JSONResponse:
                     'user_join': user_join,
                     'user_shoutout': user_shoutout,
                     'host_user_id': host_user_id,
-                    'user_viewed': user_viewed
+                    'user_viewed': user_viewed,
+                    'user_follow_host': user_follow_host
                 },
                 "reason": reason
             })
