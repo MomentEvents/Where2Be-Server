@@ -161,6 +161,9 @@ async def get_event(request: Request) -> JSONResponse:
 
     event_data = get_event_entity_by_event_id(event_id, user_access_token)
 
+    if(event_data == None):
+        return Response(status_code=400, content="Event does not exist")
+
     return JSONResponse(event_data)
 
 @is_real_event

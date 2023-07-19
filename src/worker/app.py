@@ -1,5 +1,5 @@
-import schedule
 import time
+import schedule
 
 # def job():
 #     print("I'm working...")
@@ -22,11 +22,11 @@ import time
 def notify_starting_soon():
     print("Notify events that are starting within 1 hour")
 
-def notify_recommended_events(school_ids):
-    print("Notifying all users recommended events by school_id " + str(school_ids))
+def notify_recommended_events():
+    print("Notifying all users recommended events by school_id")
 
 schedule.every(5).minutes.do(notify_starting_soon)
-schedule.every().day.at("1:30", "America/Los_Angeles").do(notify_recommended_events, school_ids=["test_univ"])
+schedule.every().day.at("04:21:41", "America/Los_Angeles").do(notify_recommended_events)
 
 while True:
     schedule.run_pending()
