@@ -249,12 +249,12 @@ async def update_event(request: Request) -> JSONResponse:
 
     with get_neo4j_session() as session:
         result = session.run(
-            """MATCH (e:Event{EventID : $event_id})-[r:event_tag]->(i:Interest), (en:Event{EventID: $event_id})
+            """MATCH (e:Event{EventID : $event_id})-[r:EVENT_TAG]->(i:Interest), (en:Event{EventID: $event_id})
             DELETE r
             WITH en
             UNWIND $interest_ids as interest_id
             MERGE (i:Interest{InterestID: interest_id})
-            CREATE (en)-[:event_tag]->(i)
+            CREATE (en)-[:EVENT_TAG]->(i)
             SET 
                 en.Title = COALESCE($title, en.Title),
                 en.Description = COALESCE($description, en.Description),
@@ -342,7 +342,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
 
         if user_access_token == None:
             result = session.run(
-                """MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(e)<-[:user_host]-(host:User)
+                """MATCH (e:Event)-[:EVENT_SCHOOL]->(school:School {SchoolID: $school_id}),(e)<-[:user_host]-(host:User)
                 WITH DISTINCT e,
                     COUNT{ (e)<-[:user_join]-() } as num_joins,
                     COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
@@ -371,7 +371,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                 
                 UNION
 
-                MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(e)<-[:user_host]-(host:User)
+                MATCH (e:Event)-[:EVENT_SCHOOL]->(school:School {SchoolID: $school_id}),(e)<-[:user_host]-(host:User)
                 WITH DISTINCT e,
                     COUNT{ (e)<-[:user_join]-() } as num_joins,
                     COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
@@ -400,7 +400,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
 
                 UNION
                 
-                MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}), (e)-[:event_tag]->(i:Interest), (e)<-[:user_host]-(host:User)
+                MATCH (e:Event)-[:EVENT_SCHOOL]->(school:School {SchoolID: $school_id}), (e)-[:EVENT_TAG]->(i:Interest), (e)<-[:user_host]-(host:User)
                 WITH DISTINCT e, i,
                     COUNT{ (e)<-[:user_join]-() } as num_joins,
                     COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
@@ -435,7 +435,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
         else:
             result = session.run(
                 """
-                MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(u:User{UserAccessToken: $user_access_token}),(e)<-[:user_host]-(host:User)
+                MATCH (e:Event)-[:EVENT_SCHOOL]->(school:School {SchoolID: $school_id}),(u:User{UserAccessToken: $user_access_token}),(e)<-[:user_host]-(host:User)
                 WITH DISTINCT e,
                     COUNT{ (e)<-[:user_join]-() } as num_joins,
                     COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
@@ -466,7 +466,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                 
                 UNION
                 
-                MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(u:User{UserAccessToken: $user_access_token}),(e)<-[:user_host]-(host:User)
+                MATCH (e:Event)-[:EVENT_SCHOOL]->(school:School {SchoolID: $school_id}),(u:User{UserAccessToken: $user_access_token}),(e)<-[:user_host]-(host:User)
                 WITH DISTINCT e,
                     COUNT{ (e)<-[:user_join]-() } as num_joins,
                     COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
@@ -497,7 +497,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
 
                 UNION
                 
-                MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}), (e)-[:event_tag]->(i:Interest), (u:User{UserAccessToken: $user_access_token}), (e)<-[:user_host]-(host:User)
+                MATCH (e:Event)-[:EVENT_SCHOOL]->(school:School {SchoolID: $school_id}), (e)-[:EVENT_TAG]->(i:Interest), (u:User{UserAccessToken: $user_access_token}), (e)<-[:user_host]-(host:User)
                 WITH DISTINCT e, i,
                     COUNT{ (e)<-[:user_join]-() } as num_joins,
                     COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
@@ -621,7 +621,7 @@ async def search_events(request: Request) -> JSONResponse:
         # check if email exists
         result = session.run(
     """
-    MATCH (e:Event)-[:event_school]->(school: School{SchoolID: $school_id})
+    MATCH (e:Event)-[:EVENT_SCHOOL]->(school: School{SchoolID: $school_id})
     MATCH (e)<-[:user_host]-(host:User)
     MATCH (u:User{UserAccessToken: $user_access_token})
     WITH DISTINCT e,
@@ -928,7 +928,7 @@ async def get_home_events(request: Request) -> JSONResponse:
             AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
             AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
             AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
-            AND (e)-[:event_school]-(:School{SchoolID: $school_id})
+            AND (e)-[:EVENT_SCHOOL]-(:School{SchoolID: $school_id})
             WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, exists((:User{UserAccessToken: $user_access_token})-[:user_follow]->(host)) as user_follow_host,  COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
             ORDER BY RAND()
             LIMIT 25
@@ -964,7 +964,7 @@ async def get_home_events(request: Request) -> JSONResponse:
             AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
             AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
             AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
-            AND (e)-[:event_school]-(:School{SchoolID: $school_id})
+            AND (e)-[:EVENT_SCHOOL]-(:School{SchoolID: $school_id})
             WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, exists((:User{UserAccessToken: $user_access_token})-[:user_follow]->(host)) as user_follow_host, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
             ORDER BY RAND()
             LIMIT 10
@@ -999,7 +999,7 @@ async def get_home_events(request: Request) -> JSONResponse:
             AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
             AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
             AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
-            AND (e)-[:event_school]-(:School{SchoolID: $school_id})
+            AND (e)-[:EVENT_SCHOOL]-(:School{SchoolID: $school_id})
             AND host.ScraperAccount IS NOT NULL AND host.ScraperAccount = True
             WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, exists((:User{UserAccessToken: $user_access_token})-[:user_follow]->(host)) as user_follow_host, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
             ORDER BY RAND()
@@ -1036,7 +1036,7 @@ async def get_home_events(request: Request) -> JSONResponse:
             AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
             AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
             AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
-            AND (e)-[:event_school]-(:School{SchoolID: $school_id})
+            AND (e)-[:EVENT_SCHOOL]-(:School{SchoolID: $school_id})
             WITH e, host, exists((:User{UserAccessToken: $user_access_token})-[:user_follow]->(host)) as user_follow_host, COUNT{(e)<-[:user_join]-()} as num_joins, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
             ORDER BY RAND()
             LIMIT 10
@@ -1072,7 +1072,7 @@ async def get_home_events(request: Request) -> JSONResponse:
             AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
             AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token})
             AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
-            AND (e)-[:event_school]-(:School{SchoolID: $school_id})
+            AND (e)-[:EVENT_SCHOOL]-(:School{SchoolID: $school_id})
             WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_follow]->(host)) as user_follow_host,
                     exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join,
                     exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout

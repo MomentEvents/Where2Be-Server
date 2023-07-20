@@ -427,7 +427,7 @@ async def search_users(request: Request) -> JSONResponse:
     with get_neo4j_session() as session:
 
         result = session.run(
-            """MATCH ((u:User)-[:user_school]->(s:School{SchoolID: $school_id}))
+            """MATCH ((u:User)-[:USER_SCHOOL]->(s:School{SchoolID: $school_id}))
                 WHERE (toLower(u.DisplayName) CONTAINS toLower($query) OR toLower(u.Username) CONTAINS toLower($query))
             RETURN u
             ORDER BY toLower(u.DisplayName)

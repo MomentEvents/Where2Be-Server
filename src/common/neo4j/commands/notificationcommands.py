@@ -37,7 +37,7 @@ def remove_push_token(user_id: str, push_token: str, push_type: str):
 
 def get_all_school_users_push_tokens(school_id: str):
     query = """
-    MATCH (u:User)-[:user_school]->(school:School{SchoolID: $school_id})
+    MATCH (u:User)-[:USER_SCHOOL]->(school:School{SchoolID: $school_id})
     UNWIND u.PushTokens AS pushTokensList
     RETURN COLLECT({token: pushTokensList, user_id: u.UserID}) AS allPushTokens
     """

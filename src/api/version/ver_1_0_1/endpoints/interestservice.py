@@ -89,7 +89,7 @@ async def get_event_interest(request: Request) -> JSONResponse:
     with get_neo4j_session() as session:
 
         result = session.run(
-            """MATCH (event:Event{EventID: $event_id})-[:event_tag]->(i:Interest) 
+            """MATCH (event:Event{EventID: $event_id})-[:EVENT_TAG]->(i:Interest) 
             RETURN i
             ORDER BY toLower(i.Name)""",
             parameters={"event_id": event_id},

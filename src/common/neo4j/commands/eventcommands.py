@@ -20,7 +20,7 @@ def create_event_entity(event_id: str, user_access_token: str, event_image: str,
 
     with get_neo4j_session() as session:
         result = session.run(
-            """MATCH (user:User {UserAccessToken: $user_access_token})-[:user_school]->(school:School)
+            """MATCH (user:User {UserAccessToken: $user_access_token})-[:USER_SCHOOL]->(school:School)
                 CREATE (event:Event {
                     EventID: $event_id,
                     Title: $title,
@@ -32,11 +32,11 @@ def create_event_entity(event_id: str, user_access_token: str, event_image: str,
                     Visibility: $visibility,
                     TimeCreated: datetime()
                 })<-[:user_host]-(user),
-                (event)-[:event_school]->(school)
+                (event)-[:EVENT_SCHOOL]->(school)
                 WITH user, event
                 UNWIND $interest_ids as interest_id
                 MATCH (tag:Interest {InterestID: interest_id})
-                CREATE (tag)<-[:event_tag]-(event)""",
+                CREATE (tag)<-[:EVENT_TAG]-(event)""",
             parameters={
                 "event_id": event_id,
                 "user_access_token": user_access_token,
@@ -116,7 +116,7 @@ def get_event_entity_by_event_id(event_id: str, user_access_token: str):
 def get_random_popular_event_within_x_days(days: int, school_id: str):
 
     with get_neo4j_session() as session:
-        result = session.run("""MATCH (e:Event)-[:event_school]->(school:School{SchoolID: $school_id}), (e)<-[:user_host]-(host:User)
+        result = session.run("""MATCH (e:Event)-[:EVENT_SCHOOL]->(school:School{SchoolID: $school_id}), (e)<-[:user_host]-(host:User)
                 WHERE e.StartDateTime <= datetime() + duration({days: $days})
                 WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_follow]->(host)) as user_follow_host,
                     exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join,

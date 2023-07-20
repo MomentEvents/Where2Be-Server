@@ -147,7 +147,7 @@ async def get_user_school(request: Request) -> JSONResponse:
     with get_neo4j_session() as session:
         # check if email exists
         result = session.run(
-            """match (u:User{UserID : $user_id})-[:user_school]->(s:School) return s""",
+            """match (u:User{UserID : $user_id})-[:USER_SCHOOL]->(s:School) return s""",
             parameters={
                 "user_id": user_id,
             },
@@ -187,7 +187,7 @@ async def get_user_access_token_school(request: Request) -> JSONResponse:
 
     with get_neo4j_session() as session:
         result = session.run(
-            """match (u:User{UserAccessToken : $user_access_token})-[:user_school]->(s:School) return s""",
+            """match (u:User{UserAccessToken : $user_access_token})-[:USER_SCHOOL]->(s:School) return s""",
             parameters={
                 "user_access_token": user_access_token,
             },
@@ -247,7 +247,7 @@ async def update_user_school(request: Request) -> JSONResponse:
     with get_neo4j_session() as session:
         # check if email exists
         result = session.run(
-            """match (u:User{UserID : $user_id})-[:user_school]->(s:School {SchoolID: $school_id}) return s""",
+            """match (u:User{UserID : $user_id})-[:USER_SCHOOL]->(s:School {SchoolID: $school_id}) return s""",
             parameters={"user_id": user_id, "school_id": school_id},
         )
 
@@ -260,9 +260,9 @@ async def update_user_school(request: Request) -> JSONResponse:
             return Response(status_code=200, content="Connection already exists")
         else:
             result = session.run(
-                """match (u:User{UserID : $user_id})-[r:user_school]->(prev_s), (s:School {SchoolID: $school_id}) 
+                """match (u:User{UserID : $user_id})-[r:USER_SCHOOL]->(prev_s), (s:School {SchoolID: $school_id}) 
                 delete r
-                create (u)-[:user_school]->(s)""",
+                create (u)-[:USER_SCHOOL]->(s)""",
                 parameters={"user_id": user_id, "school_id": school_id},
             )
 

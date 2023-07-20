@@ -14,21 +14,20 @@ def init_schema():
     schemas = [
         # Users
         "CREATE CONSTRAINT IF NOT EXISTS FOR (u:User) REQUIRE u.UserID IS UNIQUE", # String
-        "CREATE CONSTRAINT IF NOT EXISTS FOR (u:User) REQUIRE u.Email IS UNIQUE;", # String
         "CREATE CONSTRAINT IF NOT EXISTS FOR (u:User) REQUIRE u.Username IS UNIQUE", # String
         "CREATE CONSTRAINT IF NOT EXISTS FOR (u:User) REQUIRE u.UserAccessToken IS UNIQUE;", # String
         "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.DisplayName);", # String
-        "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.PasswordHash);", # Object
         "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.Picture);", # String
         "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.VerifiedOrganization);", # Boolean
         "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.Administrator);", # Boolean
+        "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.ScraperAccount);", # Boolean
         "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.PushTokens);", # List<String>
         
         #Events
         "CREATE CONSTRAINT IF NOT EXISTS FOR (e:Event) REQUIRE e.EventID IS UNIQUE", # String
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Title);", # String
-        "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Description);", # String
-        "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Picture);", # String
+        # "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Description);", # String
+        # "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Picture);", # String
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Location);", # String
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.StartDateTime);", # String / null
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.EndDateTime);", # String
@@ -36,45 +35,38 @@ def init_schema():
 
         #Schools
         "CREATE CONSTRAINT IF NOT EXISTS FOR (s:School) REQUIRE s.SchoolID IS UNIQUE", # String
-        "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Name);", # String
-        "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Abbreviation);", # String
-        "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Latitude);", # Float
-        "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Longitude);", # Float
+        # "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Name);", # String
+        # "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Abbreviation);", # String
+        # "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Latitude);", # Float
+        # "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Longitude);", # Float
 
         #Interests
         "CREATE CONSTRAINT IF NOT EXISTS FOR (i:Interest) REQUIRE i.InterestID IS UNIQUE", # String
         "CREATE INDEX IF NOT EXISTS FOR (i:Interest) ON (i.Name);", # String
 
-        #user_not_interested
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_not_interested]->() ON (r.DidNotify);", #Bool
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_not_interested]->() ON (r.Timestamp);", #DateTime
+        #USER_TO_EVENT
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:USER_TO_EVENT]->() ON (r.UserJoin);", #Bool
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:USER_TO_EVENT]->() ON (r.UserJoinDidNotify);", #Bool
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:USER_TO_EVENT]->() ON (r.UserJoinTimestamp);", #DateTime
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:USER_TO_EVENT]->() ON (r.UserShoutout);", #Bool
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:USER_TO_EVENT]->() ON (r.UserShoutoutTimestamp);", #DateTime
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:USER_TO_EVENT]->() ON (r.UserHost);", #Bool
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:USER_TO_EVENT]->() ON (r.UserHostDidNotify);", #Bool
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:USER_TO_EVENT]->() ON (r.UserHostTimestamp);", #DateTime
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:USER_TO_EVENT]->() ON (r.UserNotInterested);", #Bool
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:USER_TO_EVENT]->() ON (r.UserNotInterestedTimestamp);", #DateTime
 
-        #user_shoutout
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_shoutout]->() ON (r.DidNotify);", #Bool
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_shoutout]->() ON (r.Timestamp);", #DateTime
+        #USER_TO_USER
+        
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:USER_TO_USER]->() ON (r.Follow);", #Bool
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:USER_TO_USER]->() ON (r.FollowEventNotify);", #Bool
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:USER_TO_USER]->() ON (r.FollowTimestamp);", #DateTime
 
-        #user_join
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_join]->() ON (r.DidNotify);", #Bool
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_join]->() ON (r.Timestamp);", #DateTime
+        #USER_SCHOOL
 
-        #user_host
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_host]->() ON (r.DidNotify);", #Bool
+        #EVENT_TAG
 
-        #user_follow
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_follow]->() ON (r.Timestamp);", #DateTime
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_follow]->() ON (r.EventNotify);", #Bool
-
-        #user_viewed
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_viewed]->() ON (r.Timestamp);", #DateTime
-
-        #user_school
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_school]->() ON (r.NullAttribute)", #null
-
-        #event_tag
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:event_tag]->() ON (r.NullAttribute)", #null
-
-        #event_school
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:event_school]->() ON (r.NullAttribute)", #null
+        #EVENT_SCHOOL
     ]
 
     #Run initializing the schema here
