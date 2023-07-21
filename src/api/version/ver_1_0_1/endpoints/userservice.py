@@ -148,10 +148,13 @@ async def update_using_user_id(request: Request) -> JSONResponse:
     username = username.strip()
     display_name = display_name.strip()
 
-    user = get_user_entity_by_username(username)
+    user = get_user_entity_by_user_access_token(user_access_token, False)
 
-    if(user is not None):
-        return Response(status_code=400, content="A user with this username already exists")
+    if(user["username"] != username):
+        user_with_username = get_user_entity_by_username(username)
+        if(user_with_username is not None):
+            return Response(status_code=400, content="A user with this username already exists")
+
 
     with get_neo4j_session() as session:
         result = session.run(
