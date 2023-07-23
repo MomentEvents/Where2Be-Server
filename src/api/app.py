@@ -23,9 +23,9 @@ import sys
 from api.utils.middleware import ProblemHandlingMiddleware
 
 routes = [
-    Mount('/v1.0.1', routes=[*ver_1_0_1.routes]),
-    *status.routes
-]
+    *status.routes,
+    Mount('/v1.0.1', routes=[*ver_1_0_1.routes])
+    ]
 
 middleware = [
     Middleware(ProblemHandlingMiddleware)
