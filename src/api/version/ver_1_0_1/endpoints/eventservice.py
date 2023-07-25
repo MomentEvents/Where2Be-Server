@@ -1280,14 +1280,14 @@ routes = [
         get_home_events,
         methods=["POST"],
     ),
-    Route("/event/event_id/{event_id}/user_id/{user_id}/post_message",
-        post_event_message,
-        methods=["POST"],
-    ),
-    Route("/event/event_id/{event_id}/user_id/{user_id}/delete_message",
-        delete_event_message,
-        methods=["POST"],
-    )
+    # Route("/event/event_id/{event_id}/user_id/{user_id}/post_message",
+    #     post_event_message,
+    #     methods=["POST"],
+    # ),
+    # Route("/event/event_id/{event_id}/user_id/{user_id}/delete_message",
+    #     delete_event_message,
+    #     methods=["POST"],
+    # )
 ]
 
 
