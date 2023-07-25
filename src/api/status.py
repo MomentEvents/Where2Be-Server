@@ -15,7 +15,7 @@ async def get_compatability(request: Request) -> JSONResponse:
     return Response(status_code=200, content="App version is compatible")
 
 async def maintenance_response(request: Request) -> JSONResponse:
-    return Response(status_code=503, content="We're currently upgrading our servers. Please come back later!")
+    return Response(status_code=503, content="We're currently upgrading our servers. Please come back in a bit!")
 
 async def deprecated_response(request: Request) -> JSONResponse:
     return Response(status_code=404, content="Please update your app to the latest version of Where2Be on the app store")
