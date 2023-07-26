@@ -52,3 +52,11 @@ def get_ip_address():
     hostname = socket.gethostname()
     ip_address = socket.gethostbyname(hostname)
     return ip_address
+
+def get_email_domain(email):
+    try:
+        # Split by '@' and get the domain part
+        domain = email.split('@')[1]
+        return domain
+    except IndexError:
+        return None

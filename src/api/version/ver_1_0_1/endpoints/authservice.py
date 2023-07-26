@@ -1,6 +1,6 @@
 from inspect import Parameter
 from common.models import Problem
-from common.neo4j.commands.schoolcommands import get_school_entity_by_school_id
+from common.neo4j.commands.schoolcommands import get_school_entity_by_email_domain, get_school_entity_by_school_id
 from common.neo4j.commands.usercommands import create_user_entity, get_user_entity_by_username
 from common.utils import is_email
 from starlette.requests import Request
@@ -10,7 +10,7 @@ from starlette.routing import Route
 
 
 from api.version.ver_1_0_1.auth import is_requester_admin, is_user_formatted
-from api.helpers import contains_profanity, contains_url, parse_request_data
+from api.helpers import contains_profanity, contains_url, get_email_domain, parse_request_data
 
 import datetime
 import bcrypt
@@ -152,6 +152,16 @@ async def check_email_availability(request: Request) -> JSONResponse:
     if(firebase_user is not None):
         return Response(status_code=400, content="A user with this email already exists")
     
+    email_domain = get_email_domain(email)
+    
+    if(email_domain is None):
+        return Response(status_code=400, content="An email domain was not provided")
+    
+    school_entity = get_school_entity_by_email_domain(email_domain)
+
+    if(school_entity is None):
+        return Response(status_code=400, content="Where2Be does not support your university yet!")
+
     return Response(status_code=200, content="This email is available")
 
 async def verify_email(request: Request) -> JSONResponse:

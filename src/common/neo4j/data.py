@@ -40,6 +40,7 @@ def init_schema():
         "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Abbreviation);", # String
         "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Latitude);", # Float
         "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Longitude);", # Float
+        "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.EmailDomain);", # string
 
         #Interests
         "CREATE CONSTRAINT IF NOT EXISTS FOR (i:Interest) REQUIRE i.InterestID IS UNIQUE", # String
