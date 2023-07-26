@@ -9,7 +9,7 @@ def check_is_prod():
     else:
         return False
 
-IS_PROD = True # This is a check to replicate if the server were to be run on prod.
+IS_PROD = check_is_prod() # This is a check to replicate if the server were to be run on prod.
                           # does things such as prevent DB resets, stop logins / signups, and
                           # toggle debug mode
 

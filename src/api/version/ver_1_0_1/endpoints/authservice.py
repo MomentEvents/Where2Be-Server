@@ -7,7 +7,7 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.responses import Response
 from starlette.routing import Route
-
+from starlette.background import BackgroundTasks
 
 from api.version.ver_1_0_1.auth import is_requester_admin, is_user_formatted
 from api.helpers import contains_profanity, contains_url, get_email_domain, parse_request_data
@@ -91,6 +91,8 @@ async def signup_user(request: Request) -> JSONResponse:
     print("CREATED USER")
     print(user_access_token)
     print(user_id)
+
+    request.state.background = BackgroundTasks()
 
     try:
         request.state.background.add_task(send_verification_email, email)
