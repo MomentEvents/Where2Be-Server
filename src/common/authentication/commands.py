@@ -1,5 +1,6 @@
+from api.helpers import get_email_domain
 from common.neo4j.commands.usercommands import create_user_entity, get_user_entity_by_username
-from common.neo4j.commands.schoolcommands import get_school_entity_by_school_id
+from common.neo4j.commands.schoolcommands import get_school_entity_by_email_domain, get_school_entity_by_school_id
 from common.neo4j.moment_neo4j import get_neo4j_session
 from common.models import Problem
 from common.utils import is_email
@@ -89,7 +90,7 @@ def login(usercred: str, password: str):
 
         return user_id, data['UserAccessToken']
         
-def signup(username, display_name, email, password, school_id):
+def signup(username, display_name, email, password):
     if(not enable_firebase):
         user_access_token = "gHL9LK-4bgALRzdNJFW5KZWkMdBmxrfQCnjdhZRpYG4"
         user_id = "Ez7o28WpYX2bsrri0udD9xtNzv7SzC_D3FCjPnjv21g"
@@ -111,18 +112,25 @@ def signup(username, display_name, email, password, school_id):
         raise Problem(status=400, content="Please enter a valid email")
 
     result = get_firebase_user_by_email(email)
-    if(result is not None):
 
+    if(result is not None):
         raise Problem(status=400, content="An account with this email already exists")
+    
+    email_domain = get_email_domain(email)
+    
+    if(email_domain is None):
+        raise Problem(status=400, content="An email domain was not provided")
+    
+    school_entity = get_school_entity_by_email_domain(email_domain)
+
+    if(school_entity is None):
+        raise Problem(status=400, content="Where2Be does not support your university yet!")
+
+    school_id = school_entity['school_id']
 
     result = get_user_entity_by_username(username)
     if(result is not None):
         raise Problem(status=400, content="An account with this username already exists")
-
-    result = get_school_entity_by_school_id(school_id)
-    if(result is None):
-        raise Problem(status=400, content="School does not exist")
-
 
     is_verified_org = False
     is_admin = False

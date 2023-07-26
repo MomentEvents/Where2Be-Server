@@ -66,7 +66,6 @@ async def signup_user(request: Request) -> JSONResponse:
         username: string,
         display_name: string,
         password: string,
-        school_id: string
 
     return:
         user_access_token: string,
@@ -78,17 +77,16 @@ async def signup_user(request: Request) -> JSONResponse:
     username = body.get("username")
     password = body.get("password")
     display_name = body.get("display_name")
-    school_id = body.get("school_id")
     email = body.get("email")
 
     try:
-        assert all((username, password, display_name, school_id, email))
+        assert all((username, password, display_name, email))
     except AssertionError:
         # Handle the error here
         print("Error")
         return Response(status_code=400, content="Invalid request in body")
 
-    user_id, user_access_token = signup(username, display_name, email, password, school_id)
+    user_id, user_access_token = signup(username, display_name, email, password)
 
     print("CREATED USER")
     print(user_access_token)
@@ -150,7 +148,7 @@ async def check_email_availability(request: Request) -> JSONResponse:
     firebase_user = get_firebase_user_by_email(email)
 
     if(firebase_user is not None):
-        return Response(status_code=400, content="A user with this email already exists")
+        return Response(status_code=400, content="A user with this email already exists. Recover your account by clicking \"Forgot Password\" on login")
     
     email_domain = get_email_domain(email)
     
@@ -162,7 +160,8 @@ async def check_email_availability(request: Request) -> JSONResponse:
     if(school_entity is None):
         return Response(status_code=400, content="Where2Be does not support your university yet!")
 
-    return Response(status_code=200, content="This email is available")
+    print(school_entity)
+    return JSONResponse(school_entity)
 
 async def verify_email(request: Request) -> JSONResponse:
     """

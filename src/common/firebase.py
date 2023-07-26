@@ -92,7 +92,7 @@ def send_password_reset_email(email):
         # Handle any errors that occur during the email update
         raise Problem(status=400, content="Error generating password reset link: " + str(e))
 
-def send_verification_email(email):
+async def send_verification_email(email):
     user = get_firebase_user_by_email(email)
     if(user is None):
         raise Problem(status=400, content="An account with this email does not exist") 
