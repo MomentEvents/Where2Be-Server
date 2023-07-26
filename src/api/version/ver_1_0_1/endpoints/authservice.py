@@ -92,7 +92,14 @@ async def signup_user(request: Request) -> JSONResponse:
     print(user_access_token)
     print(user_id)
 
-    return JSONResponse({"user_id": user_id, "user_access_token": user_access_token})
+    try:
+        request.state.background.add_task(send_verification_email, email)
+    except Problem as e:
+        print("COULD NOT SEND VERIFICATION EMAIL! FATAL ERROR PLEASE DOUBLE CHECK" + str(e))
+    except:
+        print("COULD NOT SEND VERIFICATION EMAIL!!")
+
+    return JSONResponse({"user_id": user_id, "user_access_token": user_access_token}, background=request.state.background)
 
 async def check_username_availability(request: Request) -> JSONResponse:
 
@@ -185,7 +192,7 @@ async def verify_email(request: Request) -> JSONResponse:
         return Response(status_code=400, content="Invalid request in body")
 
     email = email.strip()
-    send_verification_email(email)
+    await send_verification_email(email)
 
     return Response(status_code=200, content="Sent verification email")
 
@@ -212,7 +219,7 @@ async def reset_password(request: Request) -> JSONResponse:
         return Response(status_code=400, content="Invalid request in body")
 
     email = email.strip()
-    send_password_reset_email(email)
+    await send_password_reset_email(email)
 
     return Response(status_code=200, content="Sent password reset email")
 

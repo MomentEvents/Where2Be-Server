@@ -141,12 +141,4 @@ def signup(username, display_name, email, password):
     # Create user in firebase
     result = create_user_firebase(user_id, email, password)
 
-    try:
-        send_verification_email(email)
-    except Problem as e:
-        print("COULD NOT SEND VERIFICATION EMAIL! FATAL ERROR PLEASE DOUBLE CHECK" + str(e))
-    except:
-        print("COULD NOT SEND VERIFICATION EMAIL!!")
-
-
     return user_id, user_access_token
