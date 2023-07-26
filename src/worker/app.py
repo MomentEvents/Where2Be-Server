@@ -1,5 +1,5 @@
-import schedule
 import time
+import schedule
 
 # def job():
 #     print("I'm working...")
@@ -62,7 +62,7 @@ import time
 #                     if job_longer_than_delay[i]:
 #                         print(f"Job '{job_name}' took {time_since_last_run}, when delay is {job_delay}")
 #                         job_longer_than_delay[i] = False
-                    
+
 #                     job_last_run[i] = datetime.utcnow()
 #                     job_tasks[i] = asyncio.create_task(job_func())
 #                 else:
@@ -86,21 +86,21 @@ import time
 #         self.task_count = task_count
 #         self.running = set()
 #         self.waiting = deque()
-        
+
 #     @property
 #     def running_task_count(self):
 #         return len(self.running)
-        
+
 #     def add_task(self, coro):
 #         if len(self.running) >= self.task_count:
 #             self.waiting.append(coro)
 #         else:
 #             self._start_task(coro)
-        
+
 #     def _start_task(self, coro):
 #         self.running.add(coro)
 #         asyncio.create_task(self._task(coro))
-        
+
 #     async def _task(self, coro):
 #         try:
 #             return await coro
@@ -109,7 +109,7 @@ import time
 #             if self.waiting:
 #                 coro2 = self.waiting.popleft()
 #                 self._start_task(coro2)
-            
+
 # async def main():
 #     runner = RunSome()
 #     async def rand_delay():
@@ -124,7 +124,7 @@ import time
 #     # keep the program alive until all the tasks are done
 #     while runner.running_task_count > 0:
 #         await asyncio.sleep(0.1)
-        
+
 # if __name__ == "__main__":
 #     asyncio.run(main())
 
@@ -132,14 +132,17 @@ import asyncio
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from datetime import datetime, timedelta
 
+
 async def check_events(db_pool):
     async with db_pool.acquire() as connection:
         rows = await connection.fetch("SELECT * FROM events WHERE event_time >= $1", datetime.now())
     return rows
 
+
 async def notify(event):
     dt_string = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     print(f"Notification sent for event {event} at {dt_string}")
+
 
 async def run_scraper():
     dt_string = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
@@ -148,35 +151,40 @@ async def run_scraper():
     dt_string = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     print(f"Scraper run ended: at {dt_string}")
 
+
 async def worker():
     while True:
         print("Checking events...")
 
-        # get_events() title, 
+        # get_events() title,
 
         events = ["test1", "test2"]
 
-        tasks = [send_and_validate_expo_push_notifications(tokens_with_user_id, title, message, extra) ]
-        
+        tasks = [send_and_validate_expo_push_notifications(
+            tokens_with_user_id, title, message, extra)]
+
         # use asyncio.gather to start all tasks in parallel
         await asyncio.gather(*tasks)
         await asyncio.sleep(1)
-        
+
         dt_string = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         print(f"Event notify complete at {dt_string}")
 
         await asyncio.sleep(5)
+
 
 def start_worker():
     loop = asyncio.get_event_loop()
     loop.create_task(worker())
     loop.run_forever()
 
+
 async def daily_job():
     await run_scraper()
 
 scheduler = AsyncIOScheduler()
-scheduler.add_job(daily_job, 'interval', seconds=5) #, start_date='2023-07-25 02:00:00')
+# , start_date='2023-07-25 02:00:00')
+scheduler.add_job(daily_job, 'interval', seconds=5)
 scheduler.start()
 
 start_worker()

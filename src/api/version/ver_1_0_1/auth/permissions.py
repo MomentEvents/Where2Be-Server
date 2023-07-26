@@ -327,18 +327,23 @@ def is_requester_privileged_for_user(func):
 
         with get_neo4j_session() as session:
             result = session.run(
-                """MATCH (u:User{UserAccessToken: $user_access_token, UserID: $user_id}) 
-                RETURN u""",
-                parameters={
-                    "user_access_token": user_access_token,
-                    "user_id": user_id,
-                },
-            )
+            """MATCH (u:User{UserAccessToken: $user_access_token}) 
+            RETURN u""",
+            parameters={
+                "user_access_token": user_access_token,
+            },
+        )
             record = result.single()
-            if record == None:
-                return Response(status_code=401, content="Unauthorized access")
 
+        if record == None:
+            return Response(status_code=401, content="Unauthorized")
+        
+        data = record[0]
+
+        if((data["UserID"] == user_id) or data.get("Administrator", False)):
             return await func(request)
+        
+        return Response(status_code=403, content="Forbidden")
     return wrapper
 
 
@@ -359,23 +364,27 @@ def is_requester_privileged_for_event(func):
         except AssertionError:
             return Response(status_code=400, content="Incomplete body")
 
-        if is_requester_admin(user_access_token):
-            return await func(request)
-
         with get_neo4j_session() as session:
             result = session.run(
-                """MATCH ((event:Event{EventID : $event_id})<-[r:user_host]-(user:User{UserAccessToken:$user_access_token}))
-                RETURN r""",
-                parameters={
-                    "user_access_token": user_access_token,
-                    "event_id": event_id,
-                },
-            )
+            """MATCH (u:User{UserAccessToken: $user_access_token}), (e:Event{EventID: $event_id})
+            RETURN exists((u)-[:user_host]->(e)) as did_host, u""",
+            parameters={
+                "user_access_token": user_access_token,
+                "event_id": event_id,
+            },
+        )
+        
             record = result.single()
-            if record == None:
-                return Response(status_code=401, content="Unauthorized access")
+            print(record)
 
+        if record == None:
+            return Response(status_code=401, content="Unauthorized")
+        
+        if(record["did_host"] or (record["u"].get("Administrator", False))):
             return await func(request)
+        
+        return Response(status_code=403, content="Forbidden")
+
     return wrapper
 
 # HELPER FUNCTIONS

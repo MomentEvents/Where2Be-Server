@@ -42,3 +42,24 @@ def get_school_entity_by_school_id(school_id: str):
         school_data = convert_school_entity_to_school(data)
 
         return school_data
+
+def get_all_school_entities():
+    with get_neo4j_session() as session:
+        # check if email exists
+        result = session.run(
+            """MATCH (s:School) 
+            RETURN s
+            ORDER BY toLower(s.Abbreviation + s.Name)""",
+        )
+
+
+        school_array = []
+        for record in result:
+
+            if record == None:
+                return []
+            data = record[0]
+            school_array.append(convert_school_entity_to_school(data)
+            )
+        
+        return school_array
