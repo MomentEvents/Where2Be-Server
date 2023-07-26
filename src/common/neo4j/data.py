@@ -90,7 +90,22 @@ def init_schema():
 
 def fill_data():    
     school1_id = create_school_entity("gmail_univ", "Gmail University", "GU", 32.8801, 117.2340, "gmail.com")
-    school2_id = create_school_entity("ucsd_unic", "UC San Diego", "UCSD", 30.4233, 100.4323, "ucsd.edu")
+    school2_id = create_school_entity("ucsd_univ", "UC San Diego", "UCSD", 30.4233, 100.4323, "ucsd.edu")
+    school3_id = create_school_entity("ucla_univ", "UC Los Angeles", "UCLA", 30.4233, 100.4323, "ucla.edu")
+    school4_id = create_school_entity("ucb_univ", "UC Berkeley", "UCB", 30.4233, 100.4323, "berkeley.edu")
+    school5_id = create_school_entity("uiuc_univ", "University of Illinois Urbana-Champaign", "UIUC", 30.4233, 100.4323, "uiuc.edu")
+    school6_id = create_school_entity("usc_univ", "University of Southern California", "USC", 30.4233, 100.4323, "usc.edu")
+    school7_id = create_school_entity("ucsb_univ", "University of California, Santa Barbara", "UCSB", 30.4233, 100.4323, "ucsb.edu")
+    school8_id = create_school_entity("uci_univ", "University of California, Irvine", "UCI", 30.4233, 100.4323, "uci.edu")
+    school9_id = create_school_entity("ucd_univ", "University of California, Davis", "UCD", 30.4233, 100.4323, "ucd.edu")
+    school10_id = create_school_entity("cornell_univ", "Cornell University", "Cornell", 30.4233, 100.4323, "cornell.edu")
+    school11_id = create_school_entity("harvard_univ", "Harvard University", "Harvard", 30.4233, 100.4323, "harvard.edu")
+    school12_id = create_school_entity("princeton_univ", "Princeton University", "Princeton", 30.4233, 100.4323, "princeton.edu")
+
+
+
+
+
     interest1_id = create_interest_entity("academic", "Academic")
     interest2_id = create_interest_entity("athletic", "Athletic")
     interest3_id = create_interest_entity("social", "Social")
