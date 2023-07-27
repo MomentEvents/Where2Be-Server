@@ -31,7 +31,8 @@ services:
     env_file:
       - .env
     volumes:
-      - ./src:/usr/src/app
+      - ./src:/usr/src/app/
+      - ./src/api/run.sh:/usr/src/app/api/run.sh
 
   worker:
     build:
@@ -45,4 +46,5 @@ services:
     env_file:
       - .env
     volumes:
-      - ./src:/usr/src/app
+      - ./src:/usr/src/app/
+      - ./src/worker/run.sh:/usr/src/app/worker/run.sh

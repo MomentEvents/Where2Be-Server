@@ -6,10 +6,10 @@ def test_neo4j_health():
     try:
         with get_neo4j_session() as session:
             session.run("MATCH (n) RETURN n LIMIT 1")
-        return True
+        return 0
 
-    except:
-        return False
+    except Exception as e:
+        return str(e)
 
 def get_neo4j_session():
     driver = get_neo4j_driver()

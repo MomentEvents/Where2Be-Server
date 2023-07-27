@@ -1,14 +1,13 @@
 #!/bin/bash
 
-# NOTE: Make sure to call ./worker/run.sh outside the directory!
+# Call the test_neo4j_health() function
+python3 -c "from common.neo4j.moment_neo4j import test_neo4j_health; exit(test_neo4j_health())"
 
-neo4j_health=$(python3 -c "from common.neo4j.moment_neo4j import test_neo4j_health; print(test_neo4j_health())")
-
-# If neo4j_health is good, start the worker.
-if [ "$neo4j_health" = "True" ]; then
-    echo "Starting Where2Be worker"
+# If neo4j_health is good (exit code is 0), start the api.
+if [ $? -eq 0 ]; then
+    echo "Starting Where2Be Worker"
     python3 worker/app.py
-    break
+else
+    echo "Neo4j health check failed. Not starting the API."
+    exit 1
 fi
-
-exit 1
