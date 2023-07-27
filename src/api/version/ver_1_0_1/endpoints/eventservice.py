@@ -10,6 +10,10 @@ from common.utils import send_and_validate_expo_push_notifications
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from starlette.routing import Route
+from starlette.background import BackgroundTasks
+
+
+
 
 # from datetime import datetime
 from dateutil import parser
@@ -71,16 +75,18 @@ async def create_event(request: Request) -> JSONResponse:
     if(user_access_token is None):
         raise Problem(status=400, content="No user_access_token has been passed in.")
     
+    request.state.background = BackgroundTasks()
+
     user = get_user_entity_by_user_access_token(user_access_token, False)
     if(IS_PROD and scraper_token != SCRAPER_TOKEN):
 
         firebase_user = get_firebase_user_by_uid(user['user_id'])
         if(firebase_user.email_verified is None or firebase_user.email_verified is False):
             try:
-                send_verification_email(firebase_user.email)
+                request.state.background.add_task(send_verification_email, firebase_user.email)
             except:
                 print("UNABLE TO SEND VERIFICATION EMAIL")
-            raise Problem(status=400, content="You must verify your email before you can post events. Check " + firebase_user.email)
+            return Response(status_code=400, content="You must verify your email before you can post events. Check " + firebase_user.email, background=request.state.background)
 
     title = request_data.get("title")
     description = request_data.get("description")
@@ -116,14 +122,14 @@ async def create_event(request: Request) -> JSONResponse:
         try:
             follower_push_tokens_with_user_id = get_all_follower_push_tokens(user['user_id'])
             if(follower_push_tokens_with_user_id is not None):
-                send_and_validate_expo_push_notifications(follower_push_tokens_with_user_id, "New event posted", "" + str(user["username"] + " just posted \"" + str(title)) + "\"", {
-                    'action': 'ViewEventDetails',
-                    'event_id': event_id,
-                })
+                request.state.background.add_task(send_and_validate_expo_push_notifications, follower_push_tokens_with_user_id, "New event posted", "" + str(user["username"] + " just posted \"" + str(title)) + "\"", {
+                        'action': 'ViewEventDetails',
+                        'event_id': event_id,
+                    })
         except Exception as e:
             print("ERROR SENDING FOLLOWER PUSH NOTIFICATION: \n\n" + str(e))
     
-    return JSONResponse(event_data)
+    return JSONResponse(event_data, background=request.state.background)
 
 async def get_event(request: Request) -> JSONResponse:
     """
@@ -215,6 +221,9 @@ async def update_event(request: Request) -> JSONResponse:
     return:
 
     """
+    request.state.background = BackgroundTasks()
+
+
     event_id = request.path_params["event_id"]
 
     request_data = await parse_request_data(request)
@@ -296,13 +305,19 @@ async def update_event(request: Request) -> JSONResponse:
                 joined_users_push_tokens_with_user_id = get_all_joined_users_push_tokens(event_id)
                 print(joined_users_push_tokens_with_user_id)
                 if(joined_users_push_tokens_with_user_id is not None):
-                    send_and_validate_expo_push_notifications(joined_users_push_tokens_with_user_id, "Event updated", str(user['username']) + " changed details for \"" + str(new_title) + "\"", {
-                        'action': 'ViewEventDetails',
-                        'event_id': event_id,
-                    })
+                    request.state.background.add_task(
+                        send_and_validate_expo_push_notifications, 
+                        joined_users_push_tokens_with_user_id, 
+                        "Event updated", 
+                        str(user['username']) + " changed details for \"" + str(new_title) + "\"", 
+                        {
+                            'action': 'ViewEventDetails',
+                            'event_id': event_id,
+                        }
+                    )
             except Exception as e:
                 print("ERROR SENDING FOLLOWER PUSH NOTIFICATION: \n\n" + str(e))
-    return Response(status_code=200, content="event updated")
+    return Response(status_code=200, content="event updated", background=request.state.background)
 
 async def get_events_categorized(request: Request) -> JSONResponse:
     """
@@ -1183,6 +1198,8 @@ async def post_event_message(request: Request) -> JSONResponse:
 
     user_id = request.path_params.get("user_id")
     event_id = request.path_params.get("event_id")
+    
+    request.state.background = BackgroundTasks()
 
     request_data = await parse_request_data(request)
 
@@ -1206,10 +1223,12 @@ async def post_event_message(request: Request) -> JSONResponse:
         try:
             joined_users_push_tokens_with_user_id = get_all_joined_users_push_tokens(event_id)
             if(joined_users_push_tokens_with_user_id is not None):
-                send_and_validate_expo_push_notifications(joined_users_push_tokens_with_user_id, "New event message", str(user['username']) + ": " + str(message), {
-                    'action': 'ViewEventDetailsMessages',
-                    'event_id': event_id,
-                })
+                request.state.background.add_task(
+                        send_and_validate_expo_push_notifications, 
+                        joined_users_push_tokens_with_user_id, "New event message", str(user['username']) + ": " + str(message), {
+                        'action': 'ViewEventDetailsMessages',
+                        'event_id': event_id,
+                    })
         except Exception as e:
             print("ERROR SENDING FOLLOWER PUSH NOTIFICATION: \n\n" + str(e))
 

@@ -79,20 +79,20 @@ def delete_firebase_user_by_uid(uid):
         # Handle any errors that occur during the email update
         raise Problem(status=400, content="Error deleting firebase user: " + str(e)) 
 
-def send_password_reset_email(email):
+async def send_password_reset_email(email):
     user = get_firebase_user_by_email(email)
     if(user is None):
         raise Problem(status=400, content="An account with this email does not exist") 
 
     try:
         reset_link = auth.generate_password_reset_link(email)
-        email_message = "Greetings from Where2Be!\n\nWe received a password reset request for the Where2Be account linked to this email. To reset your account's password, click on this link: " + reset_link + "\n\nIf you did not intend to do this action, you can ignore this email.\n\n\nBest,\nThe Where2Be Team"
+        email_message = "Greetings from Where2Be!\n\nWe received a password reset request for the Where2Be account linked to this email. To reset your account's password, click on this link: " + reset_link + "\n\nIf you did not intend to do this action, you can ignore this email.\n\n\nBest,\nThe Where2Be Team\nhttps://where2be.app"
         send_email(email, "Reset your Where2Be password", email_message)
     except Exception as e:
         # Handle any errors that occur during the email update
         raise Problem(status=400, content="Error generating password reset link: " + str(e))
 
-def send_verification_email(email):
+async def send_verification_email(email):
     user = get_firebase_user_by_email(email)
     if(user is None):
         raise Problem(status=400, content="An account with this email does not exist") 
@@ -102,7 +102,7 @@ def send_verification_email(email):
     
     try:
         verification_link = auth.generate_email_verification_link(email)
-        email_message = "Welcome to Where2Be! We hope you enjoy it here.\n\nTo verify your email, click on this link: " + verification_link + "\n\n\nBest,\nThe Where2Be Team"
+        email_message = "Welcome to Where2Be! We hope you enjoy it here.\n\nTo verify your email, click on this link: " + verification_link + "\n\n\nBest,\nThe Where2Be Team\nhttps://where2be.app"
         send_email(email, "Verify your Where2Be account", email_message)
     except Exception as e:
         # Handle any errors that occur during the email update

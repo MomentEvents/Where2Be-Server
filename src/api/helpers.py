@@ -52,3 +52,19 @@ def get_ip_address():
     hostname = socket.gethostname()
     ip_address = socket.gethostbyname(hostname)
     return ip_address
+
+def get_email_domain(email):
+    try:
+        # Split by '@' and get the domain part
+        domain = email.split('@')[1]
+        return domain
+    except IndexError:
+        return None
+
+def validate_username(username):
+    # This pattern allows for a-z, A-Z, 0-9, underscore, and hyphen, with no specific length limit.
+    pattern = r'^[a-zA-Z0-9_-]*$'
+    match = re.match(pattern, username)
+
+    # Return True if the username is valid, False otherwise.
+    return match is not None

@@ -1,16 +1,16 @@
 from inspect import Parameter
 from common.models import Problem
-from common.neo4j.commands.schoolcommands import get_school_entity_by_school_id
+from common.neo4j.commands.schoolcommands import get_school_entity_by_email_domain, get_school_entity_by_school_id
 from common.neo4j.commands.usercommands import create_user_entity, get_user_entity_by_username
 from common.utils import is_email
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.responses import Response
 from starlette.routing import Route
-
+from starlette.background import BackgroundTasks
 
 from api.version.ver_1_0_1.auth import is_requester_admin, is_user_formatted
-from api.helpers import contains_profanity, contains_url, parse_request_data
+from api.helpers import contains_profanity, contains_url, get_email_domain, parse_request_data, validate_username
 
 import datetime
 import bcrypt
@@ -66,7 +66,6 @@ async def signup_user(request: Request) -> JSONResponse:
         username: string,
         display_name: string,
         password: string,
-        school_id: string
 
     return:
         user_access_token: string,
@@ -78,23 +77,31 @@ async def signup_user(request: Request) -> JSONResponse:
     username = body.get("username")
     password = body.get("password")
     display_name = body.get("display_name")
-    school_id = body.get("school_id")
     email = body.get("email")
 
     try:
-        assert all((username, password, display_name, school_id, email))
+        assert all((username, password, display_name, email))
     except AssertionError:
         # Handle the error here
         print("Error")
         return Response(status_code=400, content="Invalid request in body")
 
-    user_id, user_access_token = signup(username, display_name, email, password, school_id)
+    user_id, user_access_token = signup(username, display_name, email, password)
 
     print("CREATED USER")
     print(user_access_token)
     print(user_id)
 
-    return JSONResponse({"user_id": user_id, "user_access_token": user_access_token})
+    request.state.background = BackgroundTasks()
+
+    try:
+        request.state.background.add_task(send_verification_email, email)
+    except Problem as e:
+        print("COULD NOT SEND VERIFICATION EMAIL! FATAL ERROR PLEASE DOUBLE CHECK" + str(e))
+    except:
+        print("COULD NOT SEND VERIFICATION EMAIL!!")
+
+    return JSONResponse({"user_id": user_id, "user_access_token": user_access_token}, background=request.state.background)
 
 async def check_username_availability(request: Request) -> JSONResponse:
 
@@ -115,8 +122,8 @@ async def check_username_availability(request: Request) -> JSONResponse:
     if len(username) < 6:
         return Response(status_code=400, content="Username cannot be under 6 characters")
 
-    if username.isalnum() is False:
-        return Response(status_code=400, content="Username must be alphanumeric")
+    if validate_username(username) is False:
+        return Response(status_code=400, content="Usernames must contain a-z, A-Z, 0-9, underscores, or hyphens")
 
     if (contains_profanity(username)):
         return Response(status_code=400, content="We detected profanity in your username. Please change it")
@@ -150,9 +157,20 @@ async def check_email_availability(request: Request) -> JSONResponse:
     firebase_user = get_firebase_user_by_email(email)
 
     if(firebase_user is not None):
-        return Response(status_code=400, content="A user with this email already exists")
+        return Response(status_code=400, content="A user with this email already exists. Recover your account by clicking \"Forgot Password\" on login")
     
-    return Response(status_code=200, content="This email is available")
+    email_domain = get_email_domain(email)
+    
+    if(email_domain is None):
+        return Response(status_code=400, content="An email domain was not provided")
+    
+    school_entity = get_school_entity_by_email_domain(email_domain)
+
+    if(school_entity is None):
+        return Response(status_code=400, content="Where2Be does not support your university yet!")
+
+    print(school_entity)
+    return JSONResponse(school_entity)
 
 async def verify_email(request: Request) -> JSONResponse:
     """
@@ -176,7 +194,7 @@ async def verify_email(request: Request) -> JSONResponse:
         return Response(status_code=400, content="Invalid request in body")
 
     email = email.strip()
-    send_verification_email(email)
+    await send_verification_email(email)
 
     return Response(status_code=200, content="Sent verification email")
 
@@ -203,7 +221,7 @@ async def reset_password(request: Request) -> JSONResponse:
         return Response(status_code=400, content="Invalid request in body")
 
     email = email.strip()
-    send_password_reset_email(email)
+    await send_password_reset_email(email)
 
     return Response(status_code=200, content="Sent password reset email")
 

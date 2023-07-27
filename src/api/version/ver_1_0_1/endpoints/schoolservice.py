@@ -1,6 +1,7 @@
 from inspect import Parameter
 
 from markupsafe import string
+from common.neo4j.commands.schoolcommands import get_all_school_entities
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.responses import Response
@@ -38,33 +39,9 @@ async def get_all_schools(request: Request) -> JSONResponse:
 
     """
 
-    with get_neo4j_session() as session:
-        # check if email exists
-        result = session.run(
-            """MATCH (s:School) 
-            RETURN s
-            ORDER BY toLower(s.Abbreviation + s.Name)""",
-        )
+    school_array = get_all_school_entities()
 
-
-        school_array = []
-        for record in result:
-
-            if record == None:
-                return Response(status_code=400, content="Schools do not exist")
-
-            data = record[0]
-            school_array.append(
-                {
-                    "school_id": data["SchoolID"],
-                    "name": data["Name"],
-                    "abbreviation": data["Abbreviation"],
-                    "latitude": data["Latitude"],
-                    "longitude": data["Longitude"],
-                }
-            )
-
-        return JSONResponse(school_array)
+    return JSONResponse(school_array)
 
 
  
