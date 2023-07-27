@@ -1,4 +1,4 @@
-def convert_user_entity_to_user(data, show_num_events_followers_following: bool):
+def convert_user_entity_to_user(data, show_num_events_followers_following=False, get_push_token=False):
     user_data = {
         "user_id": data["UserID"],
         "display_name": data["DisplayName"],
@@ -6,6 +6,10 @@ def convert_user_entity_to_user(data, show_num_events_followers_following: bool)
         "picture": data["Picture"],
         "verified_organization": data.get("VerifiedOrganization", False),
     }
+
+    if (get_push_token): 
+        user_data['user_access_token']= data["UserAccessToken"]
+
 
     if(show_num_events_followers_following):
         user_data['num_followers'] = data["NumFollowers"]

@@ -14,6 +14,8 @@ import re
 import asyncio
 
 from common.constants import IS_PROD
+from datetime import datetime
+import json
 
 #remove this
 import time
@@ -102,6 +104,24 @@ async def send_and_validate_expo_push_notifications(tokens_with_user_id: "set[di
     await asyncio.sleep(10)
     print(message)
 
+def store_runtime(run_type: str):
+
+    print("storing time")
+
+    # Store the runtime of the run_type from the worker
+    task_info_path = os.environ.get('TASK_INFO_PATH')
+    
+    current_time = datetime.now()
+
+    with open(task_info_path, 'r') as json_file:
+        data = json.load(json_file)
+
+    # Update the last run time for the given run_type
+    data[run_type] = current_time.isoformat()
+
+    # Write the updated data back to the JSON file
+    with open(task_info_path, 'w') as json_file:
+        json.dump(data, json_file)
 
 def is_email(string):
     pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"

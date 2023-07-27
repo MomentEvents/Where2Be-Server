@@ -1,5 +1,5 @@
 from common.neo4j.moment_neo4j import get_neo4j_session
-from common.neo4j.converters import convert_school_entity_to_school
+from common.neo4j.converters import convert_school_entity_to_school, convert_user_entity_to_user
 from common.s3.moment_s3 import get_bucket_url
 from common.models import Problem
 from dateutil import parser
@@ -63,3 +63,24 @@ def get_all_school_entities():
             )
         
         return school_array
+
+def get_all_users_by_school(school_id:str):
+    with get_neo4j_session() as session:
+        # check if email exists
+        result = session.run(
+            """MATCH (s:School {SchoolID: $school_id})<-[:user_school]-(u:User)
+            RETURN u""",
+            parameters={
+                "school_id": school_id
+            }
+        )
+
+        user_array = []
+        for record in result:
+
+            if record == None:
+                return []
+            data = record[0]
+            user_array.append(convert_user_entity_to_user(data, get_push_token=True))
+        
+        return user_array

@@ -7,8 +7,8 @@ from common.neo4j.commands.eventcommands import create_event_entity
 import os
 from common.constants import IS_PROD
 
-do_reset_db = True
-do_create_schema = True
+do_reset_db = False
+do_create_schema = False
 
 def init_schema():
     schemas = [
