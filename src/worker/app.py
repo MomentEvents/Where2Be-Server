@@ -4,7 +4,7 @@ import asyncio
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from datetime import datetime, timedelta
 
-from worker.notification.tasks import notify_all_events_starting_soon
+from worker.notification.tasks import notify_all_events_starting_soon, notify_recommended_events
 
 
 
@@ -31,17 +31,16 @@ async def worker():
     while True:
         print("Checking events...")
 
-        # Run notify_all_events_starting_soon task
-        notify_all_events_starting_soon()
+        with open('task_info.json', 'r') as json_file:
+            data = json.load(json_file)
+        last_run_time = data["last_run"]
 
-        # events = ["test1", "test2"]
-
-        # tasks = [send_and_validate_expo_push_notifications(
-        #     tokens_with_user_id, title, message, extra)]
-
-        # # use asyncio.gather to start all tasks in parallel
-        # await asyncio.gather(*tasks)
-        # await asyncio.sleep(1)
+        current_time = datetime.datetime.now()
+        difference = current_time - datetime.datetime.strptime(last_run_time, "%Y-%m-%d %H:%M:%S")
+        if difference.seconds // 60 > 5:
+            print("The task did not run properly!")
+        else:
+            print("The task ran properly.")
 
         dt_string = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         print(f"Event notify complete at {dt_string}")
@@ -53,6 +52,7 @@ def start_worker():
     loop = asyncio.get_event_loop()
     # loop.create_task(worker())
     loop.create_task(notify_all_events_starting_soon())
+    loop.create_task(notify_recommended_events())
     loop.run_forever()
 
 

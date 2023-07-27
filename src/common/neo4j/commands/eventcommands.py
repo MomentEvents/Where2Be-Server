@@ -1,4 +1,5 @@
 from common.neo4j.moment_neo4j import get_neo4j_session
+from common.neo4j.converters import convert_event_entity_to_event
 from common.s3.moment_s3 import get_bucket_url
 from common.models import Problem
 from dateutil import parser
@@ -113,41 +114,35 @@ def get_event_entity_by_event_id(event_id: str, user_access_token: str):
 
         return event_data
     
-def get_random_popular_event_within_x_days(days: int, school_id: str):
+async def get_random_popular_event_within_x_days(days: int, school_id: str):
 
     with get_neo4j_session() as session:
         result = session.run("""MATCH (e:Event)-[:event_school]->(school:School{SchoolID: $school_id}), (e)<-[:user_host]-(host:User)
-                WHERE e.StartDateTime <= datetime() + duration({days: $days})
-                WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_follow]->(host)) as user_follow_host,
-                    exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join,
-                    exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
-                WITH num_joins + num_shoutouts as popularity, num_joins, num_shoutouts, e, host, user_join, user_shoutout, user_follow_host
-                ORDER BY popularity DESC
-                LIMIT 30
-                WITH collect({
-                    user_id: host.UserID, 
-                    display_name: host.DisplayName,
-                    username: host.Username,
-                    host_picture: host.Picture,
-                    verified_organization: host.VerifiedOrganization,
-                    event_id: e.EventID,
-                    title: e.Title,
-                    event_picture: e.Picture,
-                    description: e.Description,
-                    location: e.Location,
-                    start_date_time: e.StartDateTime,
-                    end_date_time: e.EndDateTime,
-                    visibility: e.Visibility,
-                    num_joins: num_joins,
-                    num_shoutouts: num_shoutouts,
-                    user_join: user_join,
-                    user_shoutout: user_shoutout,
-                    host_user_id: host.UserID,
-                    user_follow_host: user_follow_host
-                    }) AS popular_events
-                UNWIND apoc.coll.shuffle(popular_events)[0] AS result
-                RETURN result
-                }""",
+            WHERE e.StartDateTime <= datetime() + duration({days: $days})
+            WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts,exists((:User)-[:user_shoutout]->(e)) as user_shoutout
+            WITH num_joins + num_shoutouts as popularity, num_joins, num_shoutouts, e, host
+            ORDER BY popularity DESC
+            LIMIT 15
+            WITH collect({
+                user_id: host.UserID, 
+                display_name: host.DisplayName,
+                username: host.Username,
+                host_picture: host.Picture,
+                verified_organization: host.VerifiedOrganization,
+                event_id: e.EventID,
+                title: e.Title,
+                picture: e.Picture,
+                description: e.Description,
+                location: e.Location,
+                start_date_time: e.StartDateTime,
+                end_date_time: e.EndDateTime,
+                visibility: e.Visibility,
+                num_joins: num_joins,
+                num_shoutouts: num_shoutouts,
+                host_user_id: host.UserID
+                }) AS popular_events
+            UNWIND apoc.coll.shuffle(popular_events)[0] AS result
+            RETURN result""",
             parameters={
                 "school_id": school_id,
                 "days": days
@@ -161,22 +156,5 @@ def get_random_popular_event_within_x_days(days: int, school_id: str):
         
         data = record[0]
 
-        print(data)
-
-        event_data = {
-            "event_id": data["event_id"],
-            "picture": data["picture"],
-            "title": data["title"],
-            "description": data["description"],
-            "location": data["location"],
-            "start_date_time": str(data["start_date_time"]),
-            "end_date_time": None if data["end_date_time"] == "NULL" else str(data["end_date_time"]),
-            "visibility": data["visibility"],
-            "num_joins": data["num_joins"],
-            "num_shoutouts": data["num_shoutouts"],
-            "user_join": data["user_join"],
-            "user_shoutout": data["user_shoutout"],
-            "host_user_id": data["host_user_id"],
-        }
-
-        return event_data
+        return convert_event_entity_to_event(data, False)
+        # will have to run notif from here
