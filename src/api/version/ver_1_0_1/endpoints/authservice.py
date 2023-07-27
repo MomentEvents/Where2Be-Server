@@ -10,7 +10,7 @@ from starlette.routing import Route
 from starlette.background import BackgroundTasks
 
 from api.version.ver_1_0_1.auth import is_requester_admin, is_user_formatted
-from api.helpers import contains_profanity, contains_url, get_email_domain, parse_request_data
+from api.helpers import contains_profanity, contains_url, get_email_domain, parse_request_data, validate_username
 
 import datetime
 import bcrypt
@@ -122,8 +122,8 @@ async def check_username_availability(request: Request) -> JSONResponse:
     if len(username) < 6:
         return Response(status_code=400, content="Username cannot be under 6 characters")
 
-    if username.isalnum() is False:
-        return Response(status_code=400, content="Username must be alphanumeric")
+    if validate_username(username) is False:
+        return Response(status_code=400, content="Usernames must contain a-z, A-Z, 0-9, underscores, or hyphens")
 
     if (contains_profanity(username)):
         return Response(status_code=400, content="We detected profanity in your username. Please change it")

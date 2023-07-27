@@ -4,7 +4,7 @@ from starlette.responses import JSONResponse, Response
 from functools import wraps
 from dateutil import parser
 from common.neo4j.moment_neo4j import get_neo4j_session
-from api.helpers import parse_request_data, contains_profanity, contains_url
+from api.helpers import parse_request_data, contains_profanity, contains_url, validate_username
 import base64
 from PIL import Image
 import json
@@ -291,8 +291,8 @@ def is_user_formatted(func):
         if len(username) < 6:
             return Response(status_code=400, content="Username cannot be under 6 characters")
 
-        if username.isalnum() is False:
-            return Response(status_code=400, content="Username must be alphanumeric")
+        if validate_username(username) is False:
+            return Response(status_code=400, content="Usernames must contain a-z, A-Z, 0-9, underscores, or hyphens")
 
         if (contains_profanity(username)):
             return Response(status_code=400, content="We detected profanity in your username. Please change it")
