@@ -2,6 +2,12 @@ import os
 from neo4j import GraphDatabase
 
 
+#temp
+from dotenv import load_dotenv
+# Load .env file
+load_dotenv("../.env")
+
+
 def test_neo4j_health():
     try:
         with get_neo4j_session() as session:
@@ -22,6 +28,8 @@ def get_neo4j_driver():
     NEO4J_BOLT_URL = os.environ.get('NEO4J_BOLT_URL')
     NEO4J_USERNAME = os.environ.get('NEO4J_USERNAME')
     NEO4J_PASSWORD = os.environ.get('NEO4J_PASSWORD')
+
+    print("NEO4J_BOLT_URL",NEO4J_BOLT_URL)
 
     # Create a driver for the Neo4j database
     driver = GraphDatabase.driver(

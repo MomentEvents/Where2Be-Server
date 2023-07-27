@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from typing import Any, Dict, List, Literal
+from typing import Any, Dict, List
+from typing_extensions import Literal
 
 @dataclass
 class Problem(Exception):

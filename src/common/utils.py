@@ -11,8 +11,12 @@ import os
 import requests
 from requests.exceptions import ConnectionError, HTTPError
 import re
+import asyncio
 
 from common.constants import IS_PROD
+
+#remove this
+import time
 
 SES_CLIENT = boto3.client('ses',
                           aws_access_key_id=os.environ.get('SES_ACCESS_KEY'),
@@ -87,16 +91,16 @@ def _send_push_token(expo_token: str, title: str, message: str, extra) -> bool:
     print("FATAL ERROR: DID NOT SEND PUSH NOTIFICATION")
     return True
 
-    
-
 async def send_and_validate_expo_push_notifications(tokens_with_user_id: "set[dict[str, str]]", title: str, message: str, extra):
     # input = {{
     #     "user_id": "blah",
     #     "token": "blah2",
     # }}
-    for token_with_user_id in tokens_with_user_id:
-        if(not _send_push_token(token_with_user_id["token"], title, message, extra)):
-            remove_push_token(token_with_user_id["user_id"], token_with_user_id["token"], "Expo")
+    # for token_with_user_id in tokens_with_user_id:
+    #     if(not _send_push_token(token_with_user_id["token"], title, message, extra)):
+    #         remove_push_token(token_with_user_id["user_id"], token_with_user_id["token"], "Expo")
+    await asyncio.sleep(10)
+    print(message)
 
 
 def is_email(string):
