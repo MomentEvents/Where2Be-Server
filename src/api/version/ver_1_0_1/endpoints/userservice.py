@@ -111,7 +111,7 @@ async def get_using_user_id_with_body(request: Request) -> JSONResponse:
     
     start_time = time.perf_counter()
     
-    user = get_user_entity_by_user_id(user_id=user_id, self_user_access_token=user_access_token, show_num_events_followers_following=True)
+    user = await get_user_entity_by_user_id(user_id=user_id, self_user_access_token=user_access_token, show_num_events_followers_following=True)
     
     end_time = time.perf_counter()
 

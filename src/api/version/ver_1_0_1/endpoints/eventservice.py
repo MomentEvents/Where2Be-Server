@@ -22,7 +22,7 @@ import bcrypt
 import secrets
 import random
 
-from common.neo4j.moment_neo4j import get_neo4j_session
+from common.neo4j.moment_neo4j import get_neo4j_session, run_neo4j_query
 from api.version.ver_1_0_1.auth import is_real_user, is_requester_privileged_for_event, is_requester_privileged_for_user, is_event_formatted, is_real_event, is_picture_formatted, is_valid_user_access_token
 from api.helpers import parse_request_data
 
@@ -763,7 +763,7 @@ async def host_past(request: Request) -> JSONResponse:
 
     start_time = time.perf_counter()
 
-    data = get_event_list_from_query(query, parameters)
+    data = await get_event_list_from_query(query, parameters)
 
     end_time = time.perf_counter()
 
@@ -840,7 +840,7 @@ async def host_future(request: Request) -> JSONResponse:
     start_time = time.perf_counter()
 
 
-    data = get_event_list_from_query(query, parameters)
+    data = await get_event_list_from_query(query, parameters)
 
     end_time = time.perf_counter()
     
@@ -1354,47 +1354,48 @@ routes = [
 
 # HELPER FUNCTIONS
 
-def get_event_list_from_query(query, parameters):
+async def get_event_list_from_query(query, parameters):
+        
+    result = await run_neo4j_query(
+        query,
+        parameters   
+    )
 
-    with get_neo4j_session() as session:
-        # check if email exists
-        result = session.run(
-            query,
-            parameters   
-        )
+    if result == None:
+        return JSONResponse([])
 
-        events = []
-        for record in result:
-            event_data = record['event']
-            event_id = event_data['event_id']
-            title = event_data['title']
-            picture = event_data['picture']
-            description = event_data['description']
-            location = event_data['location']
-            start_date_time = str(event_data['start_date_time'])
-            end_date_time = None if event_data["end_date_time"] == "NULL" else str(event_data["end_date_time"])
-            visibility = event_data['visibility']
-            num_joins = event_data['num_joins']
-            num_shoutouts = event_data['num_shoutouts']
-            user_join = event_data['user_join']
-            user_shoutout = event_data['user_shoutout']
-            host_user_id = event_data['host_user_id']
+    events = []
+    for record in result:
+        event_data = record['event']
+        event_id = event_data['event_id']
+        title = event_data['title']
+        picture = event_data['picture']
+        description = event_data['description']
+        location = event_data['location']
+        start_date_time = str(event_data['start_date_time'])
+        end_date_time = None if event_data["end_date_time"] == "NULL" else str(event_data["end_date_time"])
+        visibility = event_data['visibility']
+        num_joins = event_data['num_joins']
+        num_shoutouts = event_data['num_shoutouts']
+        user_join = event_data['user_join']
+        user_shoutout = event_data['user_shoutout']
+        host_user_id = event_data['host_user_id']
 
-            events.append({
-                'event_id': event_id,
-                'title': title,
-                'picture': picture,
-                'description': description,
-                'location': location,
-                'start_date_time': start_date_time,
-                'end_date_time': end_date_time,
-                'visibility': visibility,
-                'num_joins': num_joins,
-                'num_shoutouts': num_shoutouts,
-                'user_join': user_join,
-                'user_shoutout': user_shoutout,
-                'host_user_id': host_user_id
-            })
-            
-        return JSONResponse(events)
+        events.append({
+            'event_id': event_id,
+            'title': title,
+            'picture': picture,
+            'description': description,
+            'location': location,
+            'start_date_time': start_date_time,
+            'end_date_time': end_date_time,
+            'visibility': visibility,
+            'num_joins': num_joins,
+            'num_shoutouts': num_shoutouts,
+            'user_join': user_join,
+            'user_shoutout': user_shoutout,
+            'host_user_id': host_user_id
+        })
+        
+    return JSONResponse(events)
 

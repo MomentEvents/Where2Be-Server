@@ -1,4 +1,4 @@
-from common.neo4j.moment_neo4j import get_neo4j_session
+from common.neo4j.moment_neo4j import get_neo4j_session, run_neo4j_query
 from common.neo4j.converters import convert_user_entity_to_user, convert_school_entity_to_school
 from common.s3.moment_s3 import get_bucket_url
 from common.models import Problem
@@ -68,7 +68,7 @@ def get_user_entity_by_username(username: str):
 
         return user
 
-def get_user_entity_by_user_id(user_id: str, self_user_access_token: str, show_num_events_followers_following: bool):
+async def get_user_entity_by_user_id(user_id: str, self_user_access_token: str, show_num_events_followers_following: bool):
 
     #self_user_access token is used to get UserFollow with show_num_events_followers_following. In other words, both have to exist or neither exist
     parameters = {
@@ -114,23 +114,23 @@ def get_user_entity_by_user_id(user_id: str, self_user_access_token: str, show_n
     else:
         final_query = match_query + return_query
 
-    with get_neo4j_session() as session:
+    result = await run_neo4j_query(
+        final_query,
+        parameters=parameters,
+    )
+    print("THE USER_ID QUERY RESULT IS ", str(result))
 
-        result = session.run(
-            final_query,
-            parameters=parameters,
-        )
+    if result == None:
+        return None
+    
+    
+    record = result.value()
 
-        record = result.single()
+    data = record[0]
 
-        if record == None:
-            return None
+    user_data = convert_user_entity_to_user(data, show_num_events_followers_following)
 
-        data = record[0]
-
-        user_data = convert_user_entity_to_user(data, show_num_events_followers_following)
-
-        return user_data
+    return user_data
 
 def get_user_entity_by_user_access_token(user_access_token: str, show_num_events_followers_following: bool):
     parameters = {
