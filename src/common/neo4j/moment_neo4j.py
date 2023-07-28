@@ -34,44 +34,6 @@ class Neo4jDriverSingleton:
             Neo4jDriverSingleton._driver_instance = None
             
 
-async def get_neo4j_session():
-    attempts = 1
-    max_attempts = 5
-    while attempts < max_attempts:
-        try:
-            driver = Neo4jDriverSingleton.get_driver_instance()
-            await driver.verify_connectivity()
-            return driver.session()
-        except:
-            logging.error("Unable to connect to the Neo4j database. Retrying attempt #", str(attempts))
-            Neo4jDriverSingleton.close_driver_instance()
-        attempts = attempts + 1
-    raise Exception("Unable to create a Neo4j session after ", str(max_attempts), " attempts.")
-
-async def get_neo4j_async_driver():
-    attempts = 1
-    max_attempts = 5
-    while attempts < max_attempts:
-        try:
-            driver = Neo4jDriverSingleton.get_driver_instance()
-            await driver.verify_connectivity()
-            return driver
-        except:
-            print("Unable to connect to the Neo4j database. Retrying attempt #", str(attempts))
-            Neo4jDriverSingleton.close_driver_instance()
-        attempts = attempts + 1
-    raise Exception("Unable to create a Neo4j session after ", str(max_attempts), " attempts.")
-
-async def test_neo4j_health():
-    try:
-        driver = Neo4jDriverSingleton.get_driver_instance()
-        await driver.verify_connectivity()
-        await Neo4jDriverSingleton.close_driver_instance()
-        return 0
-
-    except Exception as e:
-        return str(e)
-    
 async def run_neo4j_query(query: str, parameters=None):
     # async with AsyncGraphDatabase.driver(NEO4J_BOLT_URL, auth=(NEO4J_USERNAME, NEO4J_PASSWORD)) as driver:
     #     session = driver.session()
@@ -93,6 +55,43 @@ async def run_neo4j_query(query: str, parameters=None):
         raise
     finally:
         await session.close()
+
+async def get_neo4j_async_driver():
+    attempts = 1
+    max_attempts = 5
+    while attempts < max_attempts:
+        try:
+            driver = Neo4jDriverSingleton.get_driver_instance()
+            await driver.verify_connectivity()
+            return driver
+        except:
+            print("Unable to connect to the Neo4j database. Retrying attempt #", str(attempts))
+            Neo4jDriverSingleton.close_driver_instance()
+        attempts = attempts + 1
+    raise Exception("Unable to create a Neo4j session after ", str(max_attempts), " attempts.")
+
+async def get_neo4j_session():
+    attempts = 1
+    max_attempts = 5
+    while attempts < max_attempts:
+        try:
+            driver = Neo4jDriverSingleton.get_driver_instance()
+            await driver.verify_connectivity()
+            return driver.session()
+        except:
+            logging.error("Unable to connect to the Neo4j database. Retrying attempt #", str(attempts))
+            Neo4jDriverSingleton.close_driver_instance()
+        attempts = attempts + 1
+    raise Exception("Unable to create a Neo4j session after ", str(max_attempts), " attempts.")
+
+async def test_neo4j_health():
+    try:
+        driver = Neo4jDriverSingleton.get_driver_instance()
+        await driver.verify_connectivity()
+        return 0
+
+    except Exception as e:
+        return str(e)
 
 
 def parse_neo4j_data(data, mode: "str"):
