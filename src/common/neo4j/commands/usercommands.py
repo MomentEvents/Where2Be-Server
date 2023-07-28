@@ -114,24 +114,24 @@ async def get_user_entity_by_user_id(user_id: str, self_user_access_token: str, 
     else:
         final_query = match_query + return_query
 
+
+    print(final_query)
+
     result = await run_neo4j_query(
         final_query,
         parameters=parameters,
     )
-    print("THE USER_ID QUERY RESULT IS ", str(result))
+
+    print(result)
 
     if result == None:
         return None
-    
-    
-    record = result.value()
 
-    data = record[0]
+    data = result[0]
 
     user_data = convert_user_entity_to_user(data, show_num_events_followers_following)
 
     return user_data
-
 def get_user_entity_by_user_access_token(user_access_token: str, show_num_events_followers_following: bool):
     parameters = {
             "user_access_token": user_access_token

@@ -73,6 +73,7 @@ async def run_neo4j_query(query: str, parameters=None):
         session = driver.session()
         try:
             result = await session.run(query, parameters)
+            return await result.value()
         except asyncio.CancelledError:
             session.cancel()
             raise
