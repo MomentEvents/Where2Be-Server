@@ -73,7 +73,7 @@ async def run_neo4j_query(query: str, parameters=None):
         session = driver.session()
         try:
             result = await session.run(query, parameters)
-            return await result.values()
+            return await result.value()
         except asyncio.CancelledError:
             session.cancel()
             raise
@@ -86,7 +86,7 @@ def parse_neo4j_data(data, mode: "str"):
         if(not data):
             return None
     
-        return data[0][0]
+        return data[0]
     
     elif (mode == 'multiple'):
         return None

@@ -3,7 +3,7 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from functools import wraps
 from dateutil import parser
-from common.neo4j.moment_neo4j import get_neo4j_session, run_neo4j_query
+from common.neo4j.moment_neo4j import get_neo4j_session, parse_neo4j_data, run_neo4j_query
 from api.helpers import parse_request_data, contains_profanity, contains_url, validate_username
 import base64
 from PIL import Image
@@ -325,14 +325,12 @@ def is_requester_privileged_for_user(func):
             "user_access_token": user_access_token,
         },
     )
+        data = parse_neo4j_data(result, 'single')
 
-        if result == None:
-            return Response(status_code=401, content="Unauthorized")
-        
-        data = result[0]
 
         if((data["UserID"] == user_id) or data.get("Administrator", False)):
             return await func(request)
+        
         
         return Response(status_code=403, content="Forbidden")
     return wrapper
@@ -391,12 +389,8 @@ async def is_requester_admin(user_access_token) -> bool:
             },
         )
     
-    record = result.single()
+    data = parse_neo4j_data(result, 'single')
 
-    if(record is None):
-        return False
-    
-    data = record[0]
     try:
         is_admin = data['Administrator']
         assert type(is_admin) == bool

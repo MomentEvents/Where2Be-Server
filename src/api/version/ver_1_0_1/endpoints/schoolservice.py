@@ -12,7 +12,7 @@ from datetime import datetime
 import bcrypt
 import secrets
 
-from common.neo4j.moment_neo4j import get_neo4j_session, run_neo4j_query
+from common.neo4j.moment_neo4j import get_neo4j_session, parse_neo4j_data, run_neo4j_query
 from api.version.ver_1_0_1.auth import is_real_user
 
 import platform
@@ -77,10 +77,7 @@ async def get_school(request: Request) -> JSONResponse:
         },
     )
 
-    if result == None:
-        return Response(status_code=400, content="School does not exist")
-
-    data = result[0]
+    data = parse_neo4j_data(result, 'single')
 
     school_data = {
         "school_id": data["SchoolID"],
@@ -140,10 +137,7 @@ async def get_user_access_token_school(request: Request) -> JSONResponse:
         },
     )
 
-    if result == None:
-        return Response(status_code=400, content="User does not exist")
-
-    data = result[0]
+    data = parse_neo4j_data(result, 'single')
 
     school_data = {
         "school_id": data["SchoolID"],

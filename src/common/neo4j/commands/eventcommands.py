@@ -1,4 +1,4 @@
-from common.neo4j.moment_neo4j import get_neo4j_session, run_neo4j_query
+from common.neo4j.moment_neo4j import get_neo4j_session, parse_neo4j_data, run_neo4j_query
 from common.s3.moment_s3 import get_bucket_url
 from common.models import Problem
 from dateutil import parser
@@ -83,11 +83,7 @@ async def get_event_entity_by_event_id(event_id: str, user_access_token: str):
             },
         )
 
-    if result == None:
-        return None
-
-    data = result[0]
-    print(data["end_date_time"])
+    data = parse_neo4j_data(result, 'single')
     
     event_data = {
         "event_id": data["event_id"],
@@ -146,13 +142,8 @@ async def get_random_popular_event_within_x_days(days: int, school_id: str):
             "days": days
         },
     )
-
-    if(result == None):
-        return None
     
-    data = result[0]
-
-    print(data)
+    data = parse_neo4j_data(result, 'single')
 
     event_data = {
         "event_id": data["event_id"],

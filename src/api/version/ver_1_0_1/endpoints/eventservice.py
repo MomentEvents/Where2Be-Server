@@ -22,7 +22,7 @@ import bcrypt
 import secrets
 import random
 
-from common.neo4j.moment_neo4j import get_neo4j_session, run_neo4j_query
+from common.neo4j.moment_neo4j import get_neo4j_session, parse_neo4j_data, run_neo4j_query
 from api.version.ver_1_0_1.auth import is_real_user, is_requester_privileged_for_event, is_requester_privileged_for_user, is_event_formatted, is_real_event, is_picture_formatted, is_valid_user_access_token
 from api.helpers import parse_request_data
 
@@ -166,7 +166,7 @@ async def get_event(request: Request) -> JSONResponse:
 
     print("about to go to connection")
 
-    event_data = get_event_entity_by_event_id(event_id, user_access_token)
+    event_data = await get_event_entity_by_event_id(event_id, user_access_token)
 
     if(event_data == None):
         return Response(status_code=400, content="Event does not exist")
@@ -289,10 +289,8 @@ async def update_event(request: Request) -> JSONResponse:
         },
     )
 
-    if result == None:
-        return None
+    data = parse_neo4j_data(result, 'single')
 
-    data = result[0]
     new_title = data["title"]
 
     if(ping_joined_users):
@@ -544,11 +542,12 @@ async def get_events_categorized(request: Request) -> JSONResponse:
             },
         )
 
+    print(result)
     categorized_dict = {}
     event_ids = []
     for record in result:
         print("record: ",record)
-        interest_data = record['event_dict']
+        interest_data = record
         for interest in interest_data:
             events = []
             events_data = interest_data[interest]
@@ -666,7 +665,7 @@ async def search_events(request: Request) -> JSONResponse:
 
     events = []
     for record in result:
-        event_data = record['event']
+        event_data = record
         event_id = event_data['event_id']
         title = event_data['title']
         picture = event_data['picture']
@@ -853,6 +852,8 @@ async def host_future(request: Request) -> JSONResponse:
 @is_requester_privileged_for_user
 async def join_past(request: Request) -> JSONResponse:
 
+    print(time.perf_counter(), " Join past start")
+
     user_id = request.path_params["user_id"]
 
     body = await request.json()
@@ -899,11 +900,17 @@ async def join_past(request: Request) -> JSONResponse:
         "cursor_start_date_time": cursor_start_date_time
         }
 
-    return get_event_list_from_query(query, parameters) 
+
+    data = await get_event_list_from_query(query, parameters) 
+
+    print(time.perf_counter(), "Join past, end")
+
+    return data
 
  
 @is_requester_privileged_for_user
 async def join_future(request: Request) -> JSONResponse:
+    print(time.perf_counter(), " join future, begin")
     user_id = request.path_params["user_id"]
 
     body = await request.json()
@@ -945,7 +952,11 @@ async def join_future(request: Request) -> JSONResponse:
         "cursor_start_date_time": cursor_start_date_time
         }
 
-    return get_event_list_from_query(query, parameters) 
+    data = await get_event_list_from_query(query, parameters) 
+
+    print(time.perf_counter(), " join future, end")
+
+    return data
 
 
 async def get_home_events(request: Request) -> JSONResponse:
@@ -1159,11 +1170,12 @@ async def get_home_events(request: Request) -> JSONResponse:
         }
     )
 
+    print(result)
     data = []
     event_id_list = {}
 
     for record in result:
-        row = record["results"]
+        row = record
 
         user_id = row["user_id"]
         display_name = row["display_name"]

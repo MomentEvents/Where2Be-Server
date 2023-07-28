@@ -47,7 +47,7 @@ async def get_all_school_users_push_tokens(school_id: str):
     # Assuming you have only one record returned
     record = result.single()
     if record is not None:
-        return record['allPushTokens']
+        return record
     else:
         return None
 
@@ -65,7 +65,7 @@ async def get_all_follower_push_tokens(user_id: str):
     # Assuming you have only one record returned
     record = result.single()
     if record is not None:
-        return record['allPushTokens']
+        return record
     else:
         return None
         
@@ -99,7 +99,7 @@ async def get_host_push_tokens(event_id: str):
     # Assuming you have only one record returned
     record = result.single()
     if record is not None:
-        return record['allPushTokens']
+        return record
     else:
         return None
         
@@ -121,7 +121,7 @@ async def get_notification_preferences(user_id: str):
     if record is None:
         return None
     else:
-        preferences["DoNotifyFollowing"] = record["DoNotifyFollowing"]
+        preferences["DoNotifyFollowing"] = record
         return preferences
         
 

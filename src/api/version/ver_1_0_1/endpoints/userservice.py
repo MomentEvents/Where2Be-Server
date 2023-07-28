@@ -15,7 +15,7 @@ import time
 from datetime import datetime
 import secrets
 
-from common.neo4j.moment_neo4j import get_neo4j_session, run_neo4j_query
+from common.neo4j.moment_neo4j import get_neo4j_session, parse_neo4j_data, run_neo4j_query
 from api.version.ver_1_0_1.auth import is_real_user, is_requester_privileged_for_user, is_user_formatted, is_valid_user_access_token
 
 from common.s3.moment_s3 import upload_base64_image
@@ -158,10 +158,10 @@ async def update_using_user_id(request: Request) -> JSONResponse:
     username = username.strip()
     display_name = display_name.strip()
 
-    user = get_user_entity_by_user_access_token(user_access_token, False)
+    user = await get_user_entity_by_user_access_token(user_access_token, False)
 
     if(user["username"] != username):
-        user_with_username = get_user_entity_by_username(username)
+        user_with_username = await get_user_entity_by_username(username)
         if(user_with_username is not None):
             return Response(status_code=400, content="A user with this username already exists")
 
@@ -188,12 +188,9 @@ async def update_using_user_id(request: Request) -> JSONResponse:
         },
     )
 
-    if result == None:
-        Response(status_code=400, content="User does not exist")
+    data = parse_neo4j_data(result, 'single')
 
-    data = result[0]
-
-    converted_user = convert_user_entity_to_user(data)
+    converted_user = convert_user_entity_to_user(data, show_num_events_followers_following=True)
     return JSONResponse(converted_user)
 
 @is_requester_privileged_for_user
@@ -262,10 +259,11 @@ async def get_event_host(request: Request) -> JSONResponse:
         },
     )
 
-    if result == None:
-        return Response(status_code=400, content="Event does not exist")
+    data = parse_neo4j_data(result, 'single')
 
-    data = result[0]
+
+    if data == None:
+        return Response(status_code=400, content="Event does not exist")
 
     user_data = convert_user_entity_to_user(data=data, show_num_events_followers_following=False)
 
@@ -301,9 +299,9 @@ async def user_join_update(request: Request) -> JSONResponse:
         return Response(status_code=400, content="Incomplete body or incorrect parameter")
 
     if(did_join):
-        create_join_connection(user_id, event_id)
+        await create_join_connection(user_id, event_id)
     else:
-        delete_join_connection(user_id, event_id)
+        await delete_join_connection(user_id, event_id)
     
     return Response(status_code=200)
 
@@ -337,9 +335,9 @@ async def user_shoutout_update(request: Request) -> JSONResponse:
         return Response(status_code=400, content="Incomplete body or incorrect parameter")
 
     if(did_shoutout):
-        create_shoutout_connection(user_id, event_id)
+        await create_shoutout_connection(user_id, event_id)
     else:
-        delete_shoutout_connection(user_id, event_id)
+        await delete_shoutout_connection(user_id, event_id)
     
     return Response(status_code=200)
 
@@ -365,9 +363,9 @@ async def user_not_interested_update(request: Request) -> JSONResponse:
         return Response(status_code=400, content="Incomplete body or incorrect parameter")
 
     if(did_not_interested):
-        create_not_interested_connection(user_id, event_id)
+        await create_not_interested_connection(user_id, event_id)
     else:
-        delete_not_interested_connection(user_id, event_id)
+        await delete_not_interested_connection(user_id, event_id)
     
     return Response(status_code=200)
 
@@ -444,7 +442,7 @@ async def search_users(request: Request) -> JSONResponse:
     users = []
 
     for record in result:
-        user_data = record["u"]
+        user_data = record
         users.append(convert_user_entity_to_user(data=user_data, show_num_events_followers_following=False))
 
     return JSONResponse(
@@ -474,9 +472,9 @@ async def user_follow_update(request: Request) -> JSONResponse:
         return Response(status_code=400, content="Incomplete body or incorrect parameter")
 
     if(did_follow):
-        create_follow_connection(user_id, to_user_id)
+        await create_follow_connection(user_id, to_user_id)
     else:
-        delete_follow_connection(user_id, to_user_id)
+        await delete_follow_connection(user_id, to_user_id)
     
     return Response(status_code=200)
 
@@ -540,7 +538,7 @@ async def get_following_list(request: Request) -> JSONResponse:
         )
 
         for record in cursor_result:
-            cursor_timestamp = record["timestamp"]
+            cursor_timestamp = record
 
     # Now use the cursor timestamp (if any) to filter the main query.
     if cursor_timestamp:
@@ -571,7 +569,7 @@ async def get_following_list(request: Request) -> JSONResponse:
     users = []
 
     for record in result:
-        user_data = record["follower"]
+        user_data = record
         users.append(convert_user_entity_to_user(data=user_data, show_num_events_followers_following=False))
 
     return JSONResponse(
@@ -619,7 +617,7 @@ async def get_follower_list(request: Request) -> JSONResponse:
         )
 
         for record in cursor_result:
-            cursor_timestamp = record["timestamp"]
+            cursor_timestamp = record
 
     # Now use the cursor timestamp (if any) to filter the main query.
     if cursor_timestamp:
@@ -650,7 +648,7 @@ async def get_follower_list(request: Request) -> JSONResponse:
     users = []
 
     for record in result:
-        user_data = record["follower"]
+        user_data = record
         users.append(convert_user_entity_to_user(data=user_data, show_num_events_followers_following=False))
 
     return JSONResponse(
