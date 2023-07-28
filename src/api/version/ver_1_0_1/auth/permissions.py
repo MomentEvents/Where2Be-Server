@@ -324,8 +324,11 @@ def is_requester_privileged_for_user(func):
         parameters={
             "user_access_token": user_access_token,
         },
-    )
+        )
         data = parse_neo4j_data(result, 'single')
+
+        if(data is None):
+            return Response(status_code=401, content="Unauthenticated")
 
 
         if((data["UserID"] == user_id) or data.get("Administrator", False)):

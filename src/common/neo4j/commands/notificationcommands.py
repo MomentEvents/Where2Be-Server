@@ -1,4 +1,4 @@
-from common.neo4j.moment_neo4j import get_neo4j_session, run_neo4j_query
+from common.neo4j.moment_neo4j import get_neo4j_session, parse_neo4j_data, run_neo4j_query
 from common.s3.moment_s3 import get_bucket_url
 from common.models import Problem
 from dateutil import parser
@@ -44,8 +44,8 @@ async def get_all_school_users_push_tokens(school_id: str):
     }
 
     result = await run_neo4j_query(query, parameters)
-    # Assuming you have only one record returned
-    record = result.single()
+
+    record = parse_neo4j_data(result, 'single')
     if record is not None:
         return record
     else:
@@ -62,8 +62,8 @@ async def get_all_follower_push_tokens(user_id: str):
         "user_id": user_id
     }
     result = await run_neo4j_query(query, parameters)
-    # Assuming you have only one record returned
-    record = result.single()
+
+    record = parse_neo4j_data(result, 'single')
     if record is not None:
         return record
     else:
@@ -96,8 +96,9 @@ async def get_host_push_tokens(event_id: str):
     }
 
     result = await run_neo4j_query(query, parameters)
-    # Assuming you have only one record returned
-    record = result.single()
+
+    record = parse_neo4j_data(result, 'single')
+
     if record is not None:
         return record
     else:
@@ -117,7 +118,9 @@ async def get_notification_preferences(user_id: str):
     }
 
     result = await run_neo4j_query(query, parameters)
-    record = result.single()
+
+    record = parse_neo4j_data(result, 'single')
+
     if record is None:
         return None
     else:

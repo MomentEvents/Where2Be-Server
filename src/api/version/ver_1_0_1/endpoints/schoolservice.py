@@ -79,6 +79,9 @@ async def get_school(request: Request) -> JSONResponse:
 
     data = parse_neo4j_data(result, 'single')
 
+    if(data is None):
+        return None
+
     school_data = {
         "school_id": data["SchoolID"],
         "name": data["Name"],
@@ -138,6 +141,9 @@ async def get_user_access_token_school(request: Request) -> JSONResponse:
     )
 
     data = parse_neo4j_data(result, 'single')
+
+    if(data is None):
+        return None
 
     school_data = {
         "school_id": data["SchoolID"],

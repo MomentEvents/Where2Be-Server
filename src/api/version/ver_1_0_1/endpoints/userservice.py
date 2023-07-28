@@ -2,7 +2,7 @@ from inspect import Parameter
 
 from markupsafe import string
 from common.firebase import delete_firebase_user_by_uid, get_firebase_user_by_uid
-from common.neo4j.commands.usercommands import create_follow_connection, create_join_connection, create_not_interested_connection, create_shoutout_connection, create_viewed_connections, delete_follow_connection, delete_join_connection, delete_not_interested_connection, delete_shoutout_connection, get_user_entity_by_user_access_token, get_user_entity_by_user_id, get_user_entity_by_username
+from common.neo4j.commands.usercommands import create_follow_connection, create_join_connection, create_not_interested_connection, create_shoutout_connection, create_viewed_connections, delete_follow_connection, delete_join_connection, delete_not_interested_connection, delete_shoutout_connection, get_user_entity_by_event_id, get_user_entity_by_user_access_token, get_user_entity_by_user_id, get_user_entity_by_username
 from common.neo4j.converters import convert_user_entity_to_user
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
@@ -190,6 +190,9 @@ async def update_using_user_id(request: Request) -> JSONResponse:
 
     data = parse_neo4j_data(result, 'single')
 
+    if(data is None):
+        raise Problem(status=400, content="User does not exist")
+
     converted_user = convert_user_entity_to_user(data, show_num_events_followers_following=True)
     return JSONResponse(converted_user)
 
@@ -251,21 +254,7 @@ async def get_event_host(request: Request) -> JSONResponse:
         return Response(status_code=400, content="Incomplete body")
     
 
-    result = await run_neo4j_query(
-        """MATCH (e:Event{EventID : $event_id})<-[:user_host]-(u:User)
-        RETURN u""",
-        parameters={
-            "event_id": event_id,
-        },
-    )
-
-    data = parse_neo4j_data(result, 'single')
-
-
-    if data == None:
-        return Response(status_code=400, content="Event does not exist")
-
-    user_data = convert_user_entity_to_user(data=data, show_num_events_followers_following=False)
+    user_data = await get_user_entity_by_event_id(event_id)
 
     return JSONResponse(user_data)
 

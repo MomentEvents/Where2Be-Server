@@ -84,6 +84,9 @@ async def get_event_entity_by_event_id(event_id: str, user_access_token: str):
         )
 
     data = parse_neo4j_data(result, 'single')
+
+    if(data is None):
+        return None
     
     event_data = {
         "event_id": data["event_id"],
@@ -142,8 +145,11 @@ async def get_random_popular_event_within_x_days(days: int, school_id: str):
             "days": days
         },
     )
-    
+
     data = parse_neo4j_data(result, 'single')
+
+    if(data is None):
+        return None
 
     event_data = {
         "event_id": data["event_id"],

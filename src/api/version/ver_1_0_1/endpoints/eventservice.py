@@ -291,6 +291,9 @@ async def update_event(request: Request) -> JSONResponse:
 
     data = parse_neo4j_data(result, 'single')
 
+    if(data is None):
+        raise Problem(status=400, content="This event does not exist")
+
     new_title = data["title"]
 
     if(ping_joined_users):

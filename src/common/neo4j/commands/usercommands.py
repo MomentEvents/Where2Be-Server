@@ -128,6 +128,26 @@ async def get_user_entity_by_user_id(user_id: str, self_user_access_token: str, 
 
     return user_data
 
+async def get_user_entity_by_event_id(event_id):
+
+    result = await run_neo4j_query(
+    """MATCH (e:Event{EventID : $event_id})<-[:user_host]-(u:User)
+    RETURN u""",
+    parameters={
+        "event_id": event_id,
+    },
+    )
+
+    data = parse_neo4j_data(result, 'single')
+
+    if(not data):
+        return None
+
+    user_data = convert_user_entity_to_user(data)
+
+    return user_data
+
+
 async def get_user_entity_by_user_access_token(user_access_token: str, show_num_events_followers_following: bool):
     parameters = {
             "user_access_token": user_access_token
