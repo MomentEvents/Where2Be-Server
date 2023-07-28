@@ -7,6 +7,8 @@ from starlette.responses import JSONResponse
 from starlette.responses import Response
 from starlette.routing import Route
 
+import time
+
 
 from datetime import datetime
 import bcrypt
@@ -39,7 +41,16 @@ async def get_all_schools(request: Request) -> JSONResponse:
 
     """
 
+    start_time = time.perf_counter()
+
     school_array = await get_all_school_entities()
+
+    end_time = time.perf_counter()
+
+    elapsed_time_ms = (end_time - start_time) * 1000  # convert to milliseconds
+
+    print("took ", str(elapsed_time_ms), " milliseconds to get all schools") 
+
 
     return JSONResponse(school_array)
 
