@@ -1,7 +1,7 @@
 from inspect import Parameter
 
 from markupsafe import string
-from common.neo4j.commands.schoolcommands import get_all_school_entities
+from common.neo4j.commands.schoolcommands import get_all_school_entities, get_school_entity_by_user_id
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.responses import Response
@@ -39,7 +39,7 @@ async def get_all_schools(request: Request) -> JSONResponse:
 
     """
 
-    school_array = get_all_school_entities()
+    school_array = await get_all_school_entities()
 
     return JSONResponse(school_array)
 
@@ -116,25 +116,7 @@ async def get_user_school(request: Request) -> JSONResponse:
         print("Error")
         return Response(status_code=400, content="Parameter Missing")
     
-    result = await run_neo4j_query(
-        """match (u:User{UserID : $user_id})-[:user_school]->(s:School) return s""",
-        parameters={
-            "user_id": user_id,
-        },
-    )
-
-    if result == None:
-        return Response(status_code=400, content="User does not exist")
-
-    data = result[0]
-
-    school_data = {
-        "school_id": data["SchoolID"],
-        "name": data["Name"],
-        "abbreviation": data["Abbreviation"],
-        "latitude": data["Latitude"],
-        "longitude": data["Longitude"],
-    }
+    school_data = await get_school_entity_by_user_id(user_id)
 
     return JSONResponse(school_data)
 
@@ -241,8 +223,8 @@ routes = [
         get_user_school,
         methods=["GET"],
     ),
-    Route("/school/user_id/{user_id}",
-        update_user_school,
-        methods=["UPDATE"],
-    ),
+    # Route("/school/user_id/{user_id}",
+    #     update_user_school,
+    #     methods=["UPDATE"],
+    # ),
 ]

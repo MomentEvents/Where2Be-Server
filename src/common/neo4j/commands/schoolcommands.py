@@ -1,4 +1,4 @@
-from common.neo4j.moment_neo4j import get_neo4j_session, run_neo4j_query
+from common.neo4j.moment_neo4j import get_neo4j_session, parse_neo4j_data, run_neo4j_query
 from common.neo4j.converters import convert_school_entity_to_school
 from common.s3.moment_s3 import get_bucket_url
 from common.models import Problem
@@ -33,15 +33,33 @@ async def get_school_entity_by_school_id(school_id: str):
                 "school_id": school_id,
             },
         )
-    record = result.single()
-    if record == None:
-        return None
+    
+    data = parse_neo4j_data(result, 'single')
 
-    data = record[0]
+    if(not data):
+        return None
 
     school_data = convert_school_entity_to_school(data)
 
     return school_data
+
+async def get_school_entity_by_user_id(user_id: str):
+    result = await run_neo4j_query(
+        """
+            MATCH (u:User{UserID : $user_id})-[:user_school]->(s:School) return s""",
+        parameters={
+            "user_id": user_id,
+        },
+    )
+    
+    data = parse_neo4j_data(result, 'single')
+
+    if(not data):
+        return None
+
+    school_data = convert_school_entity_to_school(data)
+
+    return school_data 
     
 async def get_school_entity_by_email_domain(email_domain: str):
         
@@ -54,10 +72,10 @@ async def get_school_entity_by_email_domain(email_domain: str):
                 },
             )
         
-        if result == None:
-            return None
+        data = parse_neo4j_data(result, 'single')
 
-        data = result[0]
+        if(not data):
+            return None
 
         school_data = convert_school_entity_to_school(data)
 
@@ -70,6 +88,8 @@ async def get_all_school_entities():
         RETURN s
         ORDER BY toLower(s.Abbreviation + s.Name)""",
     )
+
+    print(result)
 
 
     school_array = []

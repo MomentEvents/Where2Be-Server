@@ -43,7 +43,7 @@ async def get_using_user_access_token(request: Request) -> JSONResponse:
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
 
-    user = get_user_entity_by_user_access_token(user_access_token=user_access_token, show_num_events_followers_following=True)
+    user = await get_user_entity_by_user_access_token(user_access_token=user_access_token, show_num_events_followers_following=True)
 
     if(user is None):
         raise Problem(status=400, content="User does not exist")

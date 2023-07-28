@@ -59,7 +59,7 @@ async def get_user_entity_by_username(username: str):
     if(not data):
         return None
     
-    user = convert_user_entity_to_user(data, show_num_events_followers_following=True)
+    user = convert_user_entity_to_user(data, show_num_events_followers_following=False)
 
     print(user)
 
@@ -119,12 +119,10 @@ async def get_user_entity_by_user_id(user_id: str, self_user_access_token: str, 
         parameters=parameters,
     )
 
-    print(result)
+    data = parse_neo4j_data(result, 'single')
 
-    if result == None:
+    if(not data):
         return None
-
-    data = result[0]
 
     user_data = convert_user_entity_to_user(data, show_num_events_followers_following)
 
@@ -175,10 +173,10 @@ async def get_user_entity_by_user_access_token(user_access_token: str, show_num_
         parameters=parameters,
     )
 
-    if result == None:
-        return None
+    data = parse_neo4j_data(result, 'single')
 
-    data = result[0]
+    if(not data):
+        return None
 
     user_data = convert_user_entity_to_user(data, show_num_events_followers_following)
 
