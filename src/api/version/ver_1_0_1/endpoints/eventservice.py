@@ -766,13 +766,15 @@ async def host_past(request: Request) -> JSONResponse:
     data = get_event_list_from_query(query, parameters)
 
     end_time = time.perf_counter()
+
+    elapsed_time_ms = (start_time - begin_start_time) * 1000  # convert to milliseconds
+
+    print("took ", str(elapsed_time_ms), " milliseconds before calling query for host past") 
+
     elapsed_time_ms = (end_time - start_time) * 1000  # convert to milliseconds
 
     print("took ", str(elapsed_time_ms), " milliseconds for host past") 
 
-    elapsed_time_ms = (start_time - begin_start_time) * 1000  # convert to milliseconds
-
-    print("took ", str(elapsed_time_ms), " milliseconds before calling query to get host past") 
 
 
     return data
@@ -841,13 +843,15 @@ async def host_future(request: Request) -> JSONResponse:
     data = get_event_list_from_query(query, parameters)
 
     end_time = time.perf_counter()
-    elapsed_time_ms = (end_time - start_time) * 1000  # convert to milliseconds
-
-    print("took ", str(elapsed_time_ms), " milliseconds for host future")
     
     elapsed_time_ms = (start_time - begin_start_time) * 1000  # convert to milliseconds
 
     print("took ", str(elapsed_time_ms), " milliseconds before calling query to get host future") 
+
+    elapsed_time_ms = (end_time - start_time) * 1000  # convert to milliseconds
+
+    print("took ", str(elapsed_time_ms), " milliseconds for host future")
+
 
     return data
 

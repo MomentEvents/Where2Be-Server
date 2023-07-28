@@ -114,13 +114,14 @@ async def get_using_user_id_with_body(request: Request) -> JSONResponse:
     user = get_user_entity_by_user_id(user_id=user_id, self_user_access_token=user_access_token, show_num_events_followers_following=True)
     
     end_time = time.perf_counter()
-    elapsed_time_ms = (end_time - start_time) * 1000  # convert to milliseconds
-
-    print("took ", str(elapsed_time_ms), " milliseconds for getting profile by user_id") 
 
     elapsed_time_ms = (start_time - begin_start_time) * 1000  # convert to milliseconds
 
-    print("took ", str(elapsed_time_ms), " milliseconds before calling query to get by user_id") 
+    print("took ", str(elapsed_time_ms), " milliseconds before calling query for getting profile by user_id") 
+
+    elapsed_time_ms = (end_time - start_time) * 1000  # convert to milliseconds
+
+    print("took ", str(elapsed_time_ms), " milliseconds for getting profile by user_id") 
     
     if(user is None):
         raise Problem(status=400, content="User does not exist")
