@@ -78,7 +78,7 @@ async def create_event(request: Request) -> JSONResponse:
     
     request.state.background = BackgroundTasks()
 
-    user = get_user_entity_by_user_access_token(user_access_token, False)
+    user = await get_user_entity_by_user_access_token(user_access_token, False)
     if(IS_PROD and scraper_token != SCRAPER_TOKEN):
 
         firebase_user = get_firebase_user_by_uid(user['user_id'])
@@ -112,7 +112,7 @@ async def create_event(request: Request) -> JSONResponse:
     title = title.strip()
     location = location.strip()
 
-    event_id = create_event_entity(event_id, user_access_token, event_image, title, description, location, visibility, interest_ids, start_date_time, end_date_time)
+    event_id = await create_event_entity(event_id, user_access_token, event_image, title, description, location, visibility, interest_ids, start_date_time, end_date_time)
 
     event_data = {
         "event_id": str(event_id),
@@ -121,7 +121,7 @@ async def create_event(request: Request) -> JSONResponse:
     if(ping_followers):
         print("PINGING FOLLOWERS")
         try:
-            follower_push_tokens_with_user_id = get_all_follower_push_tokens(user['user_id'])
+            follower_push_tokens_with_user_id = await get_all_follower_push_tokens(user['user_id'])
             if(follower_push_tokens_with_user_id is not None):
                 request.state.background.add_task(send_and_validate_expo_push_notifications, follower_push_tokens_with_user_id, "New event posted", "" + str(user["username"] + " just posted \"" + str(title)) + "\"", {
                         'action': 'ViewEventDetails',
@@ -298,9 +298,9 @@ async def update_event(request: Request) -> JSONResponse:
 
     if(ping_joined_users):
         print("PINGING JOINED USERS")
-        user = get_user_entity_by_user_access_token(user_access_token=user_access_token, show_num_events_followers_following=False)
+        user = await get_user_entity_by_user_access_token(user_access_token=user_access_token, show_num_events_followers_following=False)
         try:
-            joined_users_push_tokens_with_user_id = get_all_joined_users_push_tokens(event_id)
+            joined_users_push_tokens_with_user_id = await get_all_joined_users_push_tokens(event_id)
             print(joined_users_push_tokens_with_user_id)
             if(joined_users_push_tokens_with_user_id is not None):
                 request.state.background.add_task(
@@ -1270,9 +1270,9 @@ async def post_event_message(request: Request) -> JSONResponse:
     document_id = create_firestore_event_message(event_id, user_id, message)
 
     if(ping_joined_users):
-        user = get_user_entity_by_user_id(user_id, None, False)
+        user = await get_user_entity_by_user_id(user_id, None, False)
         try:
-            joined_users_push_tokens_with_user_id = get_all_joined_users_push_tokens(event_id)
+            joined_users_push_tokens_with_user_id = await get_all_joined_users_push_tokens(event_id)
             if(joined_users_push_tokens_with_user_id is not None):
                 request.state.background.add_task(
                         send_and_validate_expo_push_notifications, 

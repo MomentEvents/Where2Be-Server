@@ -92,16 +92,18 @@ async def signup_user(request: Request) -> JSONResponse:
     print(user_access_token)
     print(user_id)
 
-    request.state.background = BackgroundTasks()
+    # request.state.background = BackgroundTasks()
 
-    try:
-        request.state.background.add_task(send_verification_email, email)
-    except Problem as e:
-        print("COULD NOT SEND VERIFICATION EMAIL! FATAL ERROR PLEASE DOUBLE CHECK" + str(e))
-    except:
-        print("COULD NOT SEND VERIFICATION EMAIL!!")
+    # try:
+    #     request.state.background.add_task(send_verification_email, email)
+    # except Problem as e:
+    #     print("COULD NOT SEND VERIFICATION EMAIL! FATAL ERROR PLEASE DOUBLE CHECK" + str(e))
+    # except:
+    #     print("COULD NOT SEND VERIFICATION EMAIL!!")
 
-    return JSONResponse({"user_id": user_id, "user_access_token": user_access_token}, background=request.state.background)
+    return JSONResponse({"user_id": user_id, "user_access_token": user_access_token} 
+                        # background=request.state.background
+                        )
 
 async def check_username_availability(request: Request) -> JSONResponse:
 
