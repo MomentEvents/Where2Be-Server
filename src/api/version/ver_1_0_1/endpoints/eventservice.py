@@ -11,6 +11,7 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from starlette.routing import Route
 from starlette.background import BackgroundTasks
+import time
 
 
 
@@ -709,6 +710,10 @@ async def search_events(request: Request) -> JSONResponse:
  
 async def host_past(request: Request) -> JSONResponse:
 
+    print("CALLED host_past")
+    begin_start_time = time.perf_counter()
+
+
     user_id = request.path_params["user_id"]
 
     body = await request.json()
@@ -756,11 +761,30 @@ async def host_past(request: Request) -> JSONResponse:
         "cursor_start_date_time": cursor_start_date_time
         }
 
-    return get_event_list_from_query(query, parameters)    
+    start_time = time.perf_counter()
+
+    data = get_event_list_from_query(query, parameters)
+
+    end_time = time.perf_counter()
+    elapsed_time_ms = (end_time - start_time) * 1000  # convert to milliseconds
+
+    print("took ", str(elapsed_time_ms), " milliseconds for host past") 
+
+    elapsed_time_ms = (start_time - begin_start_time) * 1000  # convert to milliseconds
+
+    print("took ", str(elapsed_time_ms), " milliseconds before calling query to get host past") 
+
+
+    return data
 
  
 async def host_future(request: Request) -> JSONResponse:
 
+
+    print("CALLING host_future")
+    begin_start_time = time.perf_counter()
+
+    
     user_id = request.path_params["user_id"]
 
     body = await request.json()
@@ -810,8 +834,22 @@ async def host_future(request: Request) -> JSONResponse:
         "cursor_event_id": cursor_event_id,
         "cursor_start_date_time": cursor_start_date_time
         }
+    
+    start_time = time.perf_counter()
 
-    return get_event_list_from_query(query, parameters)
+
+    data = get_event_list_from_query(query, parameters)
+
+    end_time = time.perf_counter()
+    elapsed_time_ms = (end_time - start_time) * 1000  # convert to milliseconds
+
+    print("took ", str(elapsed_time_ms), " milliseconds for host future")
+    
+    elapsed_time_ms = (start_time - begin_start_time) * 1000  # convert to milliseconds
+
+    print("took ", str(elapsed_time_ms), " milliseconds before calling query to get host future") 
+
+    return data
 
 
 @is_requester_privileged_for_user

@@ -9,6 +9,7 @@ from starlette.responses import JSONResponse, Response
 from starlette.routing import Route
 from common.models import Problem
 from typing import List
+import time
 
 
 from datetime import datetime
@@ -94,6 +95,9 @@ async def get_using_user_id_with_body(request: Request) -> JSONResponse:
 
     """
 
+    print("CALLING GET_USING_USER_ID_WITH_BODY")
+    begin_start_time = time.perf_counter()
+
     user_id = request.path_params["user_id"]
 
     body = await request.json()
@@ -105,7 +109,19 @@ async def get_using_user_id_with_body(request: Request) -> JSONResponse:
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
     
+    start_time = time.perf_counter()
+    
     user = get_user_entity_by_user_id(user_id=user_id, self_user_access_token=user_access_token, show_num_events_followers_following=True)
+    
+    end_time = time.perf_counter()
+    elapsed_time_ms = (end_time - start_time) * 1000  # convert to milliseconds
+
+    print("took ", str(elapsed_time_ms), " milliseconds for getting profile by user_id") 
+
+    elapsed_time_ms = (start_time - begin_start_time) * 1000  # convert to milliseconds
+
+    print("took ", str(elapsed_time_ms), " milliseconds before calling query to get by user_id") 
+    
     if(user is None):
         raise Problem(status=400, content="User does not exist")
     return JSONResponse(user)

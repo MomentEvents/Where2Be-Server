@@ -322,9 +322,6 @@ def is_requester_privileged_for_user(func):
         except AssertionError:
             return Response(status_code=400, content="Incomplete body")
 
-        if is_requester_admin(user_access_token):
-            return await func(request)
-
         with get_neo4j_session() as session:
             result = session.run(
             """MATCH (u:User{UserAccessToken: $user_access_token}) 

@@ -12,6 +12,7 @@ class ProblemHandlingMiddleware(BaseHTTPMiddleware):
         except Problem as problem:
             return Response(status_code=problem.status, content=problem.content)
         except Exception as e:  # Catch all other exceptions
+            print("API ERROR:\n\n", str(e))
             if DEBUG is False:
                 return Response(status_code=500, content="An unknown server error occurred. Please report this issue to support.")
             else:
