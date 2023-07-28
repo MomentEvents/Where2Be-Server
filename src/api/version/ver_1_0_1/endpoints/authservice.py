@@ -49,7 +49,7 @@ async def login_user(request: Request) -> JSONResponse:
 
     usercred = usercred.strip()
 
-    user_id, user_access_token = login(usercred, password)
+    user_id, user_access_token = await login(usercred, password)
     print("user_id returned to API: ", user_id)
     print("user_access_token returned to API: ", user_access_token)
 
@@ -86,7 +86,7 @@ async def signup_user(request: Request) -> JSONResponse:
         print("Error")
         return Response(status_code=400, content="Invalid request in body")
 
-    user_id, user_access_token = signup(username, display_name, email, password)
+    user_id, user_access_token = await signup(username, display_name, email, password)
 
     print("CREATED USER")
     print(user_access_token)
@@ -132,7 +132,7 @@ async def check_username_availability(request: Request) -> JSONResponse:
         return Response(status_code=400, content="Username cannot contain a url")
 
 
-    user = get_user_entity_by_username(username)
+    user = await get_user_entity_by_username(username)
 
     if(user is not None):
         return Response(status_code=400, content="A user with this username already exists")
@@ -164,7 +164,7 @@ async def check_email_availability(request: Request) -> JSONResponse:
     if(email_domain is None):
         return Response(status_code=400, content="An email domain was not provided")
     
-    school_entity = get_school_entity_by_email_domain(email_domain)
+    school_entity = await get_school_entity_by_email_domain(email_domain)
 
     if(school_entity is None):
         return Response(status_code=400, content="Where2Be does not support your university yet!")
@@ -236,7 +236,8 @@ async def check_if_user_is_admin(request: Request) -> JSONResponse:
     except:
         return Response(status_code=400, content="User access token is blank")
     
-    return JSONResponse({"is_admin": is_requester_admin(user_access_token)})
+    is_admin = await is_requester_admin(user_access_token)
+    return JSONResponse({"is_admin": is_admin})
 
 @is_user_formatted
 async def create_user_without_verify(request: Request) -> JSONResponse:
@@ -262,17 +263,17 @@ async def create_user_without_verify(request: Request) -> JSONResponse:
     username = username.strip()
     display_name = display_name.strip()
 
-    school = get_school_entity_by_school_id(school_id)
+    school = await get_school_entity_by_school_id(school_id)
 
     if(school is None):
         raise Problem(status=400, content="School does not exist")
     
-    user = get_user_entity_by_username(username)
+    user = await get_user_entity_by_username(username)
 
     if(user is not None):
         raise Problem(status=400, content="Username already exists")
     
-    user_access_token, user_id = create_user_entity(display_name, username, school_id, False, False, is_scraper_account=True)
+    user_access_token, user_id = await create_user_entity(display_name, username, school_id, False, False, is_scraper_account=True)
 
     return JSONResponse({"user_access_token": user_access_token, "user_id": user_id})
 

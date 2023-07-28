@@ -73,9 +73,22 @@ async def run_neo4j_query(query: str, parameters=None):
         session = driver.session()
         try:
             result = await session.run(query, parameters)
-            return await result.value()
+            return await result.values()
         except asyncio.CancelledError:
             session.cancel()
             raise
         finally:
             await session.close()
+
+
+def parse_neo4j_data(data, mode: "str"):
+    if(mode == 'single'):
+        if(not data):
+            return None
+    
+        return data[0][0]
+    
+    elif (mode == 'multiple'):
+        return None
+    
+    raise ValueError('parse_neo4j_data error: cannot accept mode: ', mode)
