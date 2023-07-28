@@ -152,4 +152,4 @@ async def set_notification_preferences(user_id: str, preferences: dict):
     if result is None:
         return None
     else:
-        return result["u"]
+        return result

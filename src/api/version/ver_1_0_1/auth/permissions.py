@@ -370,7 +370,7 @@ def is_requester_privileged_for_event(func):
         if result == None:
             return Response(status_code=401, content="Unauthorized")
         
-        if(result["did_host"] or (result["u"].get("Administrator", False))):
+        if(result["did_host"] or (result.get("Administrator", False))):
             return await func(request)
         
         return Response(status_code=403, content="Forbidden")
