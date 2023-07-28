@@ -114,8 +114,6 @@ def get_user_entity_by_user_id(user_id: str, self_user_access_token: str, show_n
     else:
         final_query = match_query + return_query
 
-
-    print(final_query)
     with get_neo4j_session() as session:
 
         result = session.run(
@@ -174,8 +172,6 @@ def get_user_entity_by_user_access_token(user_access_token: str, show_num_events
     else:
         final_query = match_query + return_query
 
-
-    print(final_query)
     with get_neo4j_session() as session:
 
         result = session.run(

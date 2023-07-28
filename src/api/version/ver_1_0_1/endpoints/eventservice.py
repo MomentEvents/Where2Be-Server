@@ -710,7 +710,7 @@ async def search_events(request: Request) -> JSONResponse:
  
 async def host_past(request: Request) -> JSONResponse:
 
-    print("CALLED host_past")
+    print("CALLING host_past")
     begin_start_time = time.perf_counter()
 
 
