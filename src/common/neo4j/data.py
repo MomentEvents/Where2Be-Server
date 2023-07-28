@@ -292,8 +292,8 @@ def fill_data():
     
     # Future events
 
-    event_start_dates = "2023-07-27"
-    event_end_dates = "2023-07-27"
+    event_start_dates = "2023-08-08"
+    event_end_dates = "2023-08-08"
 
     create_event_entity(None, user_access_token_1, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Frog_on_palm_frond.jpg/1024px-Frog_on_palm_frond.jpg",
     "Nature", "Look at my description :D", "La Jolla Shores", "Public", [interest1_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
