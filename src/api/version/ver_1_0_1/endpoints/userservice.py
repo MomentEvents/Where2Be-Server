@@ -431,7 +431,7 @@ async def search_users(request: Request) -> JSONResponse:
     users = []
 
     for record in result:
-        user_data = record
+        user_data = record['u']
         users.append(convert_user_entity_to_user(data=user_data, show_num_events_followers_following=False))
 
     return JSONResponse(
@@ -527,7 +527,7 @@ async def get_following_list(request: Request) -> JSONResponse:
         )
 
         for record in cursor_result:
-            cursor_timestamp = record
+            cursor_timestamp = record['timestamp']
 
     # Now use the cursor timestamp (if any) to filter the main query.
     if cursor_timestamp:
@@ -558,7 +558,7 @@ async def get_following_list(request: Request) -> JSONResponse:
     users = []
 
     for record in result:
-        user_data = record
+        user_data = record['follower']
         users.append(convert_user_entity_to_user(data=user_data, show_num_events_followers_following=False))
 
     return JSONResponse(
@@ -606,7 +606,7 @@ async def get_follower_list(request: Request) -> JSONResponse:
         )
 
         for record in cursor_result:
-            cursor_timestamp = record
+            cursor_timestamp = record['timestamp']
 
     # Now use the cursor timestamp (if any) to filter the main query.
     if cursor_timestamp:
@@ -637,7 +637,7 @@ async def get_follower_list(request: Request) -> JSONResponse:
     users = []
 
     for record in result:
-        user_data = record
+        user_data = record['follower']
         users.append(convert_user_entity_to_user(data=user_data, show_num_events_followers_following=False))
 
     return JSONResponse(

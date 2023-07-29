@@ -550,7 +550,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
     event_ids = []
     for record in result:
         print("record: ",record)
-        interest_data = record
+        interest_data = record['event_dict']
         for interest in interest_data:
             events = []
             events_data = interest_data[interest]
@@ -668,7 +668,7 @@ async def search_events(request: Request) -> JSONResponse:
 
     events = []
     for record in result:
-        event_data = record
+        event_data = record['event']
         event_id = event_data['event_id']
         title = event_data['title']
         picture = event_data['picture']
@@ -1178,7 +1178,7 @@ async def get_home_events(request: Request) -> JSONResponse:
     event_id_list = {}
 
     for record in result:
-        row = record
+        row = record['results']
 
         user_id = row["user_id"]
         display_name = row["display_name"]
@@ -1374,7 +1374,7 @@ async def get_event_list_from_query(query, parameters):
 
     events = []
     for record in result:
-        event_data = record
+        event_data = record['event']
         event_id = event_data['event_id']
         title = event_data['title']
         picture = event_data['picture']

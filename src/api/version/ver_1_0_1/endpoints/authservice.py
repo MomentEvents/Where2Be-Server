@@ -169,7 +169,7 @@ async def check_email_availability(request: Request) -> JSONResponse:
     school_entity = await get_school_entity_by_email_domain(email_domain)
 
     if(school_entity is None):
-        return Response(status_code=400, content="Where2Be does not support your university yet!")
+        return Response(status_code=400, content="Where2Be does not support this university domain yet!")
 
     print(school_entity)
     return JSONResponse(school_entity)

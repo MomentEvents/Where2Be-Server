@@ -45,7 +45,7 @@ async def get_all_interests(request: Request) -> JSONResponse:
         if record == None:
             return Response(status_code=400, content="Interests do not exist")
 
-        data = record
+        data = record['i']
         interest_array.append(
             {
                 "interest_id": data["InterestID"],
@@ -96,7 +96,7 @@ async def get_event_interest(request: Request) -> JSONResponse:
     interest_array = []
 
     for record in result:
-        data = record
+        data = record['i']
         interest_array.append(
             {
                 "interest_id": data["InterestID"],
