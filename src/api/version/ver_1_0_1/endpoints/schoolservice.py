@@ -1,18 +1,20 @@
 from inspect import Parameter
 
 from markupsafe import string
-from common.neo4j.commands.schoolcommands import get_all_school_entities
+from common.neo4j.commands.schoolcommands import get_all_school_entities, get_school_entity_by_user_id
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.responses import Response
 from starlette.routing import Route
+
+import time
 
 
 from datetime import datetime
 import bcrypt
 import secrets
 
-from common.neo4j.moment_neo4j import get_neo4j_session
+from common.neo4j.moment_neo4j import get_neo4j_session, parse_neo4j_data, run_neo4j_query
 from api.version.ver_1_0_1.auth import is_real_user
 
 import platform
@@ -39,7 +41,16 @@ async def get_all_schools(request: Request) -> JSONResponse:
 
     """
 
-    school_array = get_all_school_entities()
+    start_time = time.perf_counter()
+
+    school_array = await get_all_school_entities()
+
+    end_time = time.perf_counter()
+
+    elapsed_time_ms = (end_time - start_time) * 1000  # convert to milliseconds
+
+    print("took ", str(elapsed_time_ms), " milliseconds to get all schools") 
+
 
     return JSONResponse(school_array)
 
@@ -47,7 +58,7 @@ async def get_all_schools(request: Request) -> JSONResponse:
  
 async def get_school(request: Request) -> JSONResponse:
     """
-    Description: Gets a user {user_id}’s school.
+    Description: Gets a school's information.
 
     params:
 
@@ -69,33 +80,28 @@ async def get_school(request: Request) -> JSONResponse:
         print("Error")
         return Response(status_code=400, content="Parameter Missing")
 
-    with get_neo4j_session() as session:
-        # check if email exists
-        result = session.run(
-            """match (u:School{SchoolID : $school_id}) return u""",
-            parameters={
-                "school_id": school_id,
-            },
-        )
+    # check if email exists
+    result = await run_neo4j_query(
+        """match (u:School{SchoolID : $school_id}) return u""",
+        parameters={
+            "school_id": school_id,
+        },
+    )
 
+    data = parse_neo4j_data(result, 'single')
 
-        # get the first element of object
-        record = result.single()
+    if(data is None):
+        return None
 
-        if record == None:
-            return Response(status_code=400, content="School does not exist")
+    school_data = {
+        "school_id": data["SchoolID"],
+        "name": data["Name"],
+        "abbreviation": data["Abbreviation"],
+        "latitude": data["Latitude"],
+        "longitude": data["Longitude"],
+    }
 
-        data = record[0]
-
-        school_data = {
-            "school_id": data["SchoolID"],
-            "name": data["Name"],
-            "abbreviation": data["Abbreviation"],
-            "latitude": data["Latitude"],
-            "longitude": data["Longitude"],
-        }
-
-        return JSONResponse(school_data)
+    return JSONResponse(school_data)
 
 
  
@@ -120,34 +126,10 @@ async def get_user_school(request: Request) -> JSONResponse:
         # Handle the error here
         print("Error")
         return Response(status_code=400, content="Parameter Missing")
+    
+    school_data = await get_school_entity_by_user_id(user_id)
 
-    with get_neo4j_session() as session:
-        # check if email exists
-        result = session.run(
-            """match (u:User{UserID : $user_id})-[:user_school]->(s:School) return s""",
-            parameters={
-                "user_id": user_id,
-            },
-        )
-
-
-        # get the first element of object
-        record = result.single()
-
-        if record == None:
-            return Response(status_code=400, content="User does not exist")
-
-        data = record[0]
-
-        school_data = {
-            "school_id": data["SchoolID"],
-            "name": data["Name"],
-            "abbreviation": data["Abbreviation"],
-            "latitude": data["Latitude"],
-            "longitude": data["Longitude"],
-        }
-
-        return JSONResponse(school_data)
+    return JSONResponse(school_data)
 
 
  
@@ -162,32 +144,27 @@ async def get_user_access_token_school(request: Request) -> JSONResponse:
         print("Error")
         return Response(status_code=400, content="Parameter Missing")
 
-    with get_neo4j_session() as session:
-        result = session.run(
-            """match (u:User{UserAccessToken : $user_access_token})-[:user_school]->(s:School) return s""",
-            parameters={
-                "user_access_token": user_access_token,
-            },
-        )
+    result = await run_neo4j_query(
+        """match (u:User{UserAccessToken : $user_access_token})-[:user_school]->(s:School) return s""",
+        parameters={
+            "user_access_token": user_access_token,
+        },
+    )
 
+    data = parse_neo4j_data(result, 'single')
 
-        # get the first element of object
-        record = result.single()
+    if(data is None):
+        return None
 
-        if record == None:
-            return Response(status_code=400, content="User does not exist")
+    school_data = {
+        "school_id": data["SchoolID"],
+        "name": data["Name"],
+        "abbreviation": data["Abbreviation"],
+        "latitude": data["Latitude"],
+        "longitude": data["Longitude"],
+    }
 
-        data = record[0]
-
-        school_data = {
-            "school_id": data["SchoolID"],
-            "name": data["Name"],
-            "abbreviation": data["Abbreviation"],
-            "latitude": data["Latitude"],
-            "longitude": data["Longitude"],
-        }
-
-        return JSONResponse(school_data)
+    return JSONResponse(school_data)
 
 
  
@@ -221,29 +198,23 @@ async def update_user_school(request: Request) -> JSONResponse:
         print("Error")
         return Response(status_code=400, content="Parameter Missing")
 
-    with get_neo4j_session() as session:
-        # check if email exists
-        result = session.run(
-            """match (u:User{UserID : $user_id})-[:user_school]->(s:School {SchoolID: $school_id}) return s""",
+    # check if email exists
+    result = await run_neo4j_query(
+        """match (u:User{UserID : $user_id})-[:user_school]->(s:School {SchoolID: $school_id}) return s""",
+        parameters={"user_id": user_id, "school_id": school_id},
+    )
+
+    if result != None:
+        return Response(status_code=200, content="Connection already exists")
+    else:
+        result = await run_neo4j_query(
+            """match (u:User{UserID : $user_id})-[r:user_school]->(prev_s), (s:School {SchoolID: $school_id}) 
+            delete r
+            create (u)-[:user_school]->(s)""",
             parameters={"user_id": user_id, "school_id": school_id},
         )
 
-
-        # get the first element of object
-        record = result.single()
-
-        # if
-        if record != None:
-            return Response(status_code=200, content="Connection already exists")
-        else:
-            result = session.run(
-                """match (u:User{UserID : $user_id})-[r:user_school]->(prev_s), (s:School {SchoolID: $school_id}) 
-                delete r
-                create (u)-[:user_school]->(s)""",
-                parameters={"user_id": user_id, "school_id": school_id},
-            )
-
-            return Response(status_code=200, content="Connection created exists")
+        return Response(status_code=200, content="Connection created exists")
 
 
 routes = [
@@ -263,8 +234,8 @@ routes = [
         get_user_school,
         methods=["GET"],
     ),
-    Route("/school/user_id/{user_id}",
-        update_user_school,
-        methods=["UPDATE"],
-    ),
+    # Route("/school/user_id/{user_id}",
+    #     update_user_school,
+    #     methods=["UPDATE"],
+    # ),
 ]

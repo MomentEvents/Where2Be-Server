@@ -1,4 +1,4 @@
-from common.neo4j.moment_neo4j import get_neo4j_session
+from common.neo4j.moment_neo4j import get_neo4j_session, run_neo4j_query
 from common.neo4j.commands.usercommands import create_follow_connection, create_user_entity
 from common.neo4j.commands.schoolcommands import create_school_entity
 from common.neo4j.commands.interestcommands import create_interest_entity
@@ -10,16 +10,14 @@ from common.constants import IS_PROD
 do_reset_db = False
 do_create_schema = False
 
-def init_schema():
+async def init_schema():
     schemas = [
         # Users
         "CREATE CONSTRAINT IF NOT EXISTS FOR (u:User) REQUIRE u.UserID IS UNIQUE", # String
-        "CREATE CONSTRAINT IF NOT EXISTS FOR (u:User) REQUIRE u.Email IS UNIQUE;", # String
         "CREATE CONSTRAINT IF NOT EXISTS FOR (u:User) REQUIRE u.Username IS UNIQUE", # String
         "CREATE CONSTRAINT IF NOT EXISTS FOR (u:User) REQUIRE u.UserAccessToken IS UNIQUE;", # String
         "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.DisplayName);", # String
-        "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.PasswordHash);", # Object
-        "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.Picture);", # String
+        # "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.Picture);", # String
         "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.VerifiedOrganization);", # Boolean
         "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.Administrator);", # Boolean
         "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.PushTokens);", # List<String>
@@ -28,7 +26,7 @@ def init_schema():
         "CREATE CONSTRAINT IF NOT EXISTS FOR (e:Event) REQUIRE e.EventID IS UNIQUE", # String
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Title);", # String
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Description);", # String
-        "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Picture);", # String
+        # "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Picture);", # String
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Location);", # String
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.StartDateTime);", # String / null
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.EndDateTime);", # String
@@ -36,15 +34,15 @@ def init_schema():
 
         #Schools
         "CREATE CONSTRAINT IF NOT EXISTS FOR (s:School) REQUIRE s.SchoolID IS UNIQUE", # String
-        "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Name);", # String
-        "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Abbreviation);", # String
-        "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Latitude);", # Float
-        "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Longitude);", # Float
+        # "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Name);", # String
+        # "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Abbreviation);", # String
+        # "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Latitude);", # Float
+        # "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Longitude);", # Float
         "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.EmailDomain);", # string
 
         #Interests
         "CREATE CONSTRAINT IF NOT EXISTS FOR (i:Interest) REQUIRE i.InterestID IS UNIQUE", # String
-        "CREATE INDEX IF NOT EXISTS FOR (i:Interest) ON (i.Name);", # String
+        # "CREATE INDEX IF NOT EXISTS FOR (i:Interest) ON (i.Name);", # String
 
         #user_not_interested
         "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_not_interested]->() ON (r.DidNotify);", #Bool
@@ -65,42 +63,36 @@ def init_schema():
         "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_follow]->() ON (r.Timestamp);", #DateTime
         "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_follow]->() ON (r.EventNotify);", #Bool
 
-        #user_viewed
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_viewed]->() ON (r.Timestamp);", #DateTime
-
         #user_school
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_school]->() ON (r.NullAttribute)", #null
 
         #event_tag
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:event_tag]->() ON (r.NullAttribute)", #null
 
         #event_school
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:event_school]->() ON (r.NullAttribute)", #null
     ]
 
     #Run initializing the schema here
-    with get_neo4j_session() as session:
-        for schema in schemas:
-            try:
-                session.run(schema)
-            except Exception as e:
-                print("\n\n" + str(e))
+    for schema in schemas:
+        try:
+            await run_neo4j_query(schema)
+            print("Finished running ", schema)
+        except Exception as e:
+            print("\n\n" + str(e))
     return 1
 
 
-def fill_data():    
-    school1_id = create_school_entity("gmail_univ", "Gmail University", "GU", 32.8801, 117.2340, "gmail.com")
-    school2_id = create_school_entity("ucsd_univ", "UC San Diego", "UCSD", 30.4233, 100.4323, "ucsd.edu")
-    school3_id = create_school_entity("ucla_univ", "UC Los Angeles", "UCLA", 30.4233, 100.4323, "ucla.edu")
-    school4_id = create_school_entity("ucb_univ", "UC Berkeley", "Cal", 30.4233, 100.4323, "berkeley.edu")
-    school5_id = create_school_entity("uiuc_univ", "University of Illinois Urbana-Champaign", "UIUC", 30.4233, 100.4323, "illinois.edu")
-    school6_id = create_school_entity("usc_univ", "University of Southern California", "USC", 30.4233, 100.4323, "usc.edu")
-    school7_id = create_school_entity("ucsb_univ", "UC Santa Barbara", "UCSB", 30.4233, 100.4323, "ucsb.edu")
-    school8_id = create_school_entity("uci_univ", "UC Irvine", "UCI", 30.4233, 100.4323, "uci.edu")
-    school9_id = create_school_entity("ucd_univ", "UC Davis", "UCD", 30.4233, 100.4323, "ucd.edu")
-    school10_id = create_school_entity("cornell_univ", "Cornell University", "Cornell", 30.4233, 100.4323, "cornell.edu")
-    school11_id = create_school_entity("harvard_univ", "Harvard University", "Harvard", 30.4233, 100.4323, "harvard.edu")
-    school12_id = create_school_entity("princeton_univ", "Princeton University", "Princeton", 30.4233, 100.4323, "princeton.edu")
+async def fill_data():    
+    school1_id = await create_school_entity("gmail_univ", "Gmail University", "GU", 32.8801, 117.2340, "gmail.com")
+    school2_id = await create_school_entity("ucsd_univ", "UC San Diego", "UCSD", 30.4233, 100.4323, "ucsd.edu")
+    school3_id = await create_school_entity("ucla_univ", "UC Los Angeles", "UCLA", 30.4233, 100.4323, "ucla.edu")
+    school4_id = await create_school_entity("ucb_univ", "UC Berkeley", "Cal", 30.4233, 100.4323, "berkeley.edu")
+    school5_id = await create_school_entity("uiuc_univ", "University of Illinois Urbana-Champaign", "UIUC", 30.4233, 100.4323, "illinois.edu")
+    school6_id = await create_school_entity("usc_univ", "University of Southern California", "USC", 30.4233, 100.4323, "usc.edu")
+    school7_id = await create_school_entity("ucsb_univ", "UC Santa Barbara", "UCSB", 30.4233, 100.4323, "ucsb.edu")
+    school8_id = await create_school_entity("uci_univ", "UC Irvine", "UCI", 30.4233, 100.4323, "uci.edu")
+    school9_id = await create_school_entity("ucd_univ", "UC Davis", "UCD", 30.4233, 100.4323, "ucd.edu")
+    school10_id = await create_school_entity("cornell_univ", "Cornell University", "Cornell", 30.4233, 100.4323, "cornell.edu")
+    school11_id = await create_school_entity("harvard_univ", "Harvard University", "Harvard", 30.4233, 100.4323, "harvard.edu")
+    school12_id = await create_school_entity("princeton_univ", "Princeton University", "Princeton", 30.4233, 100.4323, "princeton.edu")
 
 
 
@@ -362,18 +354,18 @@ def fill_data():
 "Nerdy Event 25", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
     return 1
 
-def reset_db():
+async def reset_db():
     if IS_PROD is True:
         return
     
-    with get_neo4j_session() as session:
-        session.run("""MATCH (n)
-            DETACH DELETE n""")
+    
+    await run_neo4j_query("""MATCH (n)
+        DETACH DELETE n""")
     return 1
 
-def init_neo4j():
+async def init_neo4j():
     if do_create_schema is True:
-        init_schema()
+        await init_schema()
     if do_reset_db is True and IS_PROD is False:
-        reset_db()
-        fill_data()
+        await reset_db()
+        await fill_data()

@@ -1,4 +1,4 @@
-def convert_user_entity_to_user(data, show_num_events_followers_following: bool):
+def convert_user_entity_to_user(data, show_num_events_followers_following=False):
     user_data = {
         "user_id": data["UserID"],
         "display_name": data["DisplayName"],

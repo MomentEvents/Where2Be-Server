@@ -22,7 +22,7 @@ import bcrypt
 import secrets
 import random
 
-from common.neo4j.moment_neo4j import get_neo4j_session
+from common.neo4j.moment_neo4j import get_neo4j_session, parse_neo4j_data, run_neo4j_query
 from api.version.ver_1_0_1.auth import is_real_user, is_requester_privileged_for_event, is_requester_privileged_for_user, is_event_formatted, is_real_event, is_picture_formatted, is_valid_user_access_token
 from api.helpers import parse_request_data
 
@@ -78,7 +78,7 @@ async def create_event(request: Request) -> JSONResponse:
     
     request.state.background = BackgroundTasks()
 
-    user = get_user_entity_by_user_access_token(user_access_token, False)
+    user = await get_user_entity_by_user_access_token(user_access_token, False)
     if(IS_PROD and scraper_token != SCRAPER_TOKEN):
 
         firebase_user = get_firebase_user_by_uid(user['user_id'])
@@ -112,7 +112,7 @@ async def create_event(request: Request) -> JSONResponse:
     title = title.strip()
     location = location.strip()
 
-    event_id = create_event_entity(event_id, user_access_token, event_image, title, description, location, visibility, interest_ids, start_date_time, end_date_time)
+    event_id = await create_event_entity(event_id, user_access_token, event_image, title, description, location, visibility, interest_ids, start_date_time, end_date_time)
 
     event_data = {
         "event_id": str(event_id),
@@ -121,7 +121,7 @@ async def create_event(request: Request) -> JSONResponse:
     if(ping_followers):
         print("PINGING FOLLOWERS")
         try:
-            follower_push_tokens_with_user_id = get_all_follower_push_tokens(user['user_id'])
+            follower_push_tokens_with_user_id = await get_all_follower_push_tokens(user['user_id'])
             if(follower_push_tokens_with_user_id is not None):
                 request.state.background.add_task(send_and_validate_expo_push_notifications, follower_push_tokens_with_user_id, "New event posted", "" + str(user["username"] + " just posted \"" + str(title)) + "\"", {
                         'action': 'ViewEventDetails',
@@ -166,7 +166,7 @@ async def get_event(request: Request) -> JSONResponse:
 
     print("about to go to connection")
 
-    event_data = get_event_entity_by_event_id(event_id, user_access_token)
+    event_data = await get_event_entity_by_event_id(event_id, user_access_token)
 
     if(event_data == None):
         return Response(status_code=400, content="Event does not exist")
@@ -189,16 +189,15 @@ async def delete_event(request: Request) -> JSONResponse:
 
     user_access_token = body.get("user_access_token")
 
-    with get_neo4j_session() as session:
-        # check if email exists
-        result = session.run(
-            """MATCH (e:Event{EventID : $event_id})
-            DETACH DELETE e""",
-            parameters={
-                "user_access_token": user_access_token,
-                "event_id": event_id,
-            },
-        )
+    # check if email exists
+    result = await run_neo4j_query(
+        """MATCH (e:Event{EventID : $event_id})
+        DETACH DELETE e""",
+        parameters={
+            "user_access_token": user_access_token,
+            "event_id": event_id,
+        },
+    )
 
     return Response(status_code=200, content="event deleted " + event_id)
 
@@ -257,67 +256,66 @@ async def update_event(request: Request) -> JSONResponse:
     title = title.strip()
     location = location.strip()
 
-    with get_neo4j_session() as session:
-        result = session.run(
-            """MATCH (e:Event{EventID : $event_id})-[r:event_tag]->(i:Interest), (en:Event{EventID: $event_id})
-            DELETE r
-            WITH en
-            UNWIND $interest_ids as interest_id
-            MERGE (i:Interest{InterestID: interest_id})
-            CREATE (en)-[:event_tag]->(i)
-            SET 
-                en.Title = COALESCE($title, en.Title),
-                en.Description = COALESCE($description, en.Description),
-                en.Picture = COALESCE($image, en.Picture),
-                en.Location = COALESCE($location, en.Location),
-                en.StartDateTime = COALESCE($start_date_time, en.StartDateTime),
-                en.EndDateTime = COALESCE($end_date_time, en.EndDateTime),
-                en.Visibility = COALESCE($visibility, en.Visibility),
-                en.TimeCreated = datetime()
-            RETURN{
-                    title: en.Title
-                }
-            """,
-            parameters={
-                "event_id": event_id,
-                "title": title,
-                "description": description,
-                "image": event_image,
-                "location": location,
-                "start_date_time": start_date_time,
-                "end_date_time": end_date_time,
-                "visibility": visibility,
-                "interest_ids": interest_ids,
-            },
-        )
-        # get the first element of object
-        record = result.single()
+    result = await run_neo4j_query(
+        """MATCH (e:Event{EventID : $event_id})-[r:event_tag]->(i:Interest), (en:Event{EventID: $event_id})
+        DELETE r
+        WITH en
+        UNWIND $interest_ids as interest_id
+        MERGE (i:Interest{InterestID: interest_id})
+        CREATE (en)-[:event_tag]->(i)
+        SET 
+            en.Title = COALESCE($title, en.Title),
+            en.Description = COALESCE($description, en.Description),
+            en.Picture = COALESCE($image, en.Picture),
+            en.Location = COALESCE($location, en.Location),
+            en.StartDateTime = COALESCE($start_date_time, en.StartDateTime),
+            en.EndDateTime = COALESCE($end_date_time, en.EndDateTime),
+            en.Visibility = COALESCE($visibility, en.Visibility),
+            en.TimeCreated = datetime()
+        RETURN{
+                title: en.Title
+            }
+        """,
+        parameters={
+            "event_id": event_id,
+            "title": title,
+            "description": description,
+            "image": event_image,
+            "location": location,
+            "start_date_time": start_date_time,
+            "end_date_time": end_date_time,
+            "visibility": visibility,
+            "interest_ids": interest_ids,
+        },
+    )
 
-        if record == None:
-            return None
+    data = parse_neo4j_data(result, 'single')
 
-        data = record[0]
-        new_title = data["title"]
+    if(data is None):
+        raise Problem(status=400, content="This event does not exist")
 
-        if(ping_joined_users):
-            print("PINGING JOINED USERS")
-            user = get_user_entity_by_user_access_token(user_access_token=user_access_token, show_num_events_followers_following=False)
-            try:
-                joined_users_push_tokens_with_user_id = get_all_joined_users_push_tokens(event_id)
-                print(joined_users_push_tokens_with_user_id)
-                if(joined_users_push_tokens_with_user_id is not None):
-                    request.state.background.add_task(
-                        send_and_validate_expo_push_notifications, 
-                        joined_users_push_tokens_with_user_id, 
-                        "Event updated", 
-                        str(user['username']) + " changed details for \"" + str(new_title) + "\"", 
-                        {
-                            'action': 'ViewEventDetails',
-                            'event_id': event_id,
-                        }
-                    )
-            except Exception as e:
-                print("ERROR SENDING FOLLOWER PUSH NOTIFICATION: \n\n" + str(e))
+    new_title = data["title"]
+
+    if(ping_joined_users):
+        print("PINGING JOINED USERS")
+        user = await get_user_entity_by_user_access_token(user_access_token=user_access_token, show_num_events_followers_following=False)
+        try:
+            joined_users_push_tokens_with_user_id = await get_all_joined_users_push_tokens(event_id)
+            print(joined_users_push_tokens_with_user_id)
+            if(joined_users_push_tokens_with_user_id is not None):
+                request.state.background.add_task(
+                    send_and_validate_expo_push_notifications, 
+                    joined_users_push_tokens_with_user_id, 
+                    "Event updated", 
+                    str(user['username']) + " changed details for \"" + str(new_title) + "\"", 
+                    {
+                        'action': 'ViewEventDetails',
+                        'event_id': event_id,
+                    }
+                )
+        except Exception as e:
+            print("ERROR SENDING FOLLOWER PUSH NOTIFICATION: \n\n" + str(e))
+
     return Response(status_code=200, content="event updated", background=request.state.background)
 
 async def get_events_categorized(request: Request) -> JSONResponse:
@@ -354,75 +352,15 @@ async def get_events_categorized(request: Request) -> JSONResponse:
     except:
         Response(status_code=400, content="Incomplete body")
 
-    with get_neo4j_session() as session:
-
-        if user_access_token == None:
-            result = session.run(
-                """MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(e)<-[:user_host]-(host:User)
-                WITH DISTINCT e,
-                    COUNT{ (e)<-[:user_join]-() } as num_joins,
-                    COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
-                    host.UserID as host_user_id
-                WHERE e.Featured IS NOT NULL AND e.Featured = true AND (datetime() > e.StartDateTime)
-                WITH
-                    { 
-                        event_id: e.EventID,
-                        title: e.Title,
-                        picture: e.Picture,
-                        description: e.Description,
-                        location: e.Location,
-                        start_date_time: e.StartDateTime,
-                        end_date_time: e.EndDateTime,
-                        visibility: e.Visibility,
-                        num_joins: num_joins,
-                        num_shoutouts: num_shoutouts,
-                        user_join: False,
-                        user_shoutout: False,
-                        host_user_id: host_user_id
-                    } as event
-                ORDER BY num_joins+num_shoutouts DESC
-                LIMIT 10
-                WITH collect(event) as events
-                RETURN apoc.map.setKey({}, "Featured", events) as event_dict
-                
-                UNION
-
-                MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(e)<-[:user_host]-(host:User)
-                WITH DISTINCT e,
-                    COUNT{ (e)<-[:user_join]-() } as num_joins,
-                    COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
-                    host.UserID as host_user_id
-                WHERE (datetime() < e.EndDateTime) AND (datetime() > e.StartDateTime)
-                WITH
-                    { 
-                        event_id: e.EventID,
-                        title: e.Title,
-                        picture: e.Picture,
-                        description: e.Description,
-                        location: e.Location,
-                        start_date_time: e.StartDateTime,
-                        end_date_time: e.EndDateTime,
-                        visibility: e.Visibility,
-                        num_joins: num_joins,
-                        num_shoutouts: num_shoutouts,
-                        user_join: False,
-                        user_shoutout: False,
-                        host_user_id: host_user_id
-                    } as event
-                ORDER BY num_joins+num_shoutouts DESC
-                LIMIT 10
-                WITH collect(event) as events
-                RETURN apoc.map.setKey({}, "Ongoing", events) as event_dict
-
-                UNION
-                
-                MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}), (e)-[:event_tag]->(i:Interest), (e)<-[:user_host]-(host:User)
-                WITH DISTINCT e, i,
-                    COUNT{ (e)<-[:user_join]-() } as num_joins,
-                    COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
-                    host.UserID as host_user_id
-                WHERE e.StartDateTime >= datetime()
-                WITH i.Name as interest,
+    if user_access_token == None:
+        result = await run_neo4j_query(
+            """MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(e)<-[:user_host]-(host:User)
+            WITH DISTINCT e,
+                COUNT{ (e)<-[:user_join]-() } as num_joins,
+                COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
+                host.UserID as host_user_id
+            WHERE e.Featured IS NOT NULL AND e.Featured = true AND (datetime() > e.StartDateTime)
+            WITH
                 { 
                     event_id: e.EventID,
                     title: e.Title,
@@ -438,90 +376,117 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                     user_shoutout: False,
                     host_user_id: host_user_id
                 } as event
-                ORDER BY e.StartDateTime
-                WITH interest, collect(event) as events
-                ORDER BY interest
-                RETURN apoc.map.setKey({}, interest, events) as event_dict
-                """,
-                parameters={
-                    "school_id": school_id,
-                    "user_access_token": user_access_token
-                },
-            )
-        else:
-            result = session.run(
-                """
-                MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(u:User{UserAccessToken: $user_access_token}),(e)<-[:user_host]-(host:User)
-                WITH DISTINCT e,
-                    COUNT{ (e)<-[:user_join]-() } as num_joins,
-                    COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
-                    exists((u)-[:user_join]->(e)) as user_join,
-                    exists((u)-[:user_shoutout]->(e)) as user_shoutout,
-                    host.UserID as host_user_id
-                WHERE e.Featured IS NOT NULL AND e.Featured = true AND (datetime() > e.StartDateTime)
-                WITH
-                    { 
-                        event_id: e.EventID,
-                        title: e.Title,
-                        picture: e.Picture,
-                        description: e.Description,
-                        location: e.Location,
-                        start_date_time: e.StartDateTime,
-                        end_date_time: e.EndDateTime,
-                        visibility: e.Visibility,
-                        num_joins: num_joins,
-                        num_shoutouts: num_shoutouts,
-                        user_join: False,
-                        user_shoutout: False,
-                        host_user_id: host_user_id
-                    } as event
-                ORDER BY num_joins+num_shoutouts DESC
-                LIMIT 10
-                WITH collect(event) as events
-                RETURN apoc.map.setKey({}, "Featured", events) as event_dict
-                
-                UNION
-                
-                MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(u:User{UserAccessToken: $user_access_token}),(e)<-[:user_host]-(host:User)
-                WITH DISTINCT e,
-                    COUNT{ (e)<-[:user_join]-() } as num_joins,
-                    COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
-                    exists((u)-[:user_join]->(e)) as user_join,
-                    exists((u)-[:user_shoutout]->(e)) as user_shoutout,
-                    host.UserID as host_user_id
-                WHERE (datetime() < e.EndDateTime) AND (datetime() > e.StartDateTime)
-                WITH
-                    { 
-                        event_id: e.EventID,
-                        title: e.Title,
-                        picture: e.Picture,
-                        description: e.Description,
-                        location: e.Location,
-                        start_date_time: e.StartDateTime,
-                        end_date_time: e.EndDateTime,
-                        visibility: e.Visibility,
-                        num_joins: num_joins,
-                        num_shoutouts: num_shoutouts,
-                        user_join: user_join,
-                        user_shoutout: user_shoutout,
-                        host_user_id: host_user_id
-                    } as event
-                ORDER BY num_joins+num_shoutouts DESC
-                LIMIT 10
-                WITH collect(event) as events
-                RETURN apoc.map.setKey({}, "Ongoing", events) as event_dict
+            ORDER BY num_joins+num_shoutouts DESC
+            LIMIT 10
+            WITH collect(event) as events
+            RETURN apoc.map.setKey({}, "Featured", events) as event_dict
+            
+            UNION
 
-                UNION
-                
-                MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}), (e)-[:event_tag]->(i:Interest), (u:User{UserAccessToken: $user_access_token}), (e)<-[:user_host]-(host:User)
-                WITH DISTINCT e, i,
-                    COUNT{ (e)<-[:user_join]-() } as num_joins,
-                    COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
-                    exists((u)-[:user_join]->(e)) as user_join,
-                    exists((u)-[:user_shoutout]->(e)) as user_shoutout,
-                    host.UserID as host_user_id
-                WHERE e.StartDateTime >= datetime()
-                WITH i.Name as interest,
+            MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(e)<-[:user_host]-(host:User)
+            WITH DISTINCT e,
+                COUNT{ (e)<-[:user_join]-() } as num_joins,
+                COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
+                host.UserID as host_user_id
+            WHERE (datetime() < e.EndDateTime) AND (datetime() > e.StartDateTime)
+            WITH
+                { 
+                    event_id: e.EventID,
+                    title: e.Title,
+                    picture: e.Picture,
+                    description: e.Description,
+                    location: e.Location,
+                    start_date_time: e.StartDateTime,
+                    end_date_time: e.EndDateTime,
+                    visibility: e.Visibility,
+                    num_joins: num_joins,
+                    num_shoutouts: num_shoutouts,
+                    user_join: False,
+                    user_shoutout: False,
+                    host_user_id: host_user_id
+                } as event
+            ORDER BY num_joins+num_shoutouts DESC
+            LIMIT 10
+            WITH collect(event) as events
+            RETURN apoc.map.setKey({}, "Ongoing", events) as event_dict
+
+            UNION
+            
+            MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}), (e)-[:event_tag]->(i:Interest), (e)<-[:user_host]-(host:User)
+            WITH DISTINCT e, i,
+                COUNT{ (e)<-[:user_join]-() } as num_joins,
+                COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
+                host.UserID as host_user_id
+            WHERE e.StartDateTime >= datetime()
+            WITH i.Name as interest,
+            { 
+                event_id: e.EventID,
+                title: e.Title,
+                picture: e.Picture,
+                description: e.Description,
+                location: e.Location,
+                start_date_time: e.StartDateTime,
+                end_date_time: e.EndDateTime,
+                visibility: e.Visibility,
+                num_joins: num_joins,
+                num_shoutouts: num_shoutouts,
+                user_join: False,
+                user_shoutout: False,
+                host_user_id: host_user_id
+            } as event
+            ORDER BY e.StartDateTime
+            WITH interest, collect(event) as events
+            ORDER BY interest
+            RETURN apoc.map.setKey({}, interest, events) as event_dict
+            """,
+            parameters={
+                "school_id": school_id,
+                "user_access_token": user_access_token
+            },
+        )
+    else:
+        result = await run_neo4j_query(
+            """
+            MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(u:User{UserAccessToken: $user_access_token}),(e)<-[:user_host]-(host:User)
+            WITH DISTINCT e,
+                COUNT{ (e)<-[:user_join]-() } as num_joins,
+                COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
+                exists((u)-[:user_join]->(e)) as user_join,
+                exists((u)-[:user_shoutout]->(e)) as user_shoutout,
+                host.UserID as host_user_id
+            WHERE e.Featured IS NOT NULL AND e.Featured = true AND (datetime() > e.StartDateTime)
+            WITH
+                { 
+                    event_id: e.EventID,
+                    title: e.Title,
+                    picture: e.Picture,
+                    description: e.Description,
+                    location: e.Location,
+                    start_date_time: e.StartDateTime,
+                    end_date_time: e.EndDateTime,
+                    visibility: e.Visibility,
+                    num_joins: num_joins,
+                    num_shoutouts: num_shoutouts,
+                    user_join: False,
+                    user_shoutout: False,
+                    host_user_id: host_user_id
+                } as event
+            ORDER BY num_joins+num_shoutouts DESC
+            LIMIT 10
+            WITH collect(event) as events
+            RETURN apoc.map.setKey({}, "Featured", events) as event_dict
+            
+            UNION
+            
+            MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(u:User{UserAccessToken: $user_access_token}),(e)<-[:user_host]-(host:User)
+            WITH DISTINCT e,
+                COUNT{ (e)<-[:user_join]-() } as num_joins,
+                COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
+                exists((u)-[:user_join]->(e)) as user_join,
+                exists((u)-[:user_shoutout]->(e)) as user_shoutout,
+                host.UserID as host_user_id
+            WHERE (datetime() < e.EndDateTime) AND (datetime() > e.StartDateTime)
+            WITH
                 { 
                     event_id: e.EventID,
                     title: e.Title,
@@ -537,66 +502,98 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                     user_shoutout: user_shoutout,
                     host_user_id: host_user_id
                 } as event
-                ORDER BY e.StartDateTime
-                LIMIT 10
-                WITH interest, collect(event) as events
-                ORDER BY interest
-                RETURN apoc.map.setKey({}, interest, events) as event_dict
-                """,
-                parameters={
-                    "school_id": school_id,
-                    "user_access_token": user_access_token
-                },
-            )
+            ORDER BY num_joins+num_shoutouts DESC
+            LIMIT 10
+            WITH collect(event) as events
+            RETURN apoc.map.setKey({}, "Ongoing", events) as event_dict
 
-        categorized_dict = {}
-        event_ids = []
-        for record in result:
-            print("record: ",record)
-            interest_data = record['event_dict']
-            for interest in interest_data:
-                events = []
-                events_data = interest_data[interest]
-                for event_data in events_data:
-                    event_id = event_data['event_id']
-                    title = event_data['title']
-                    picture = event_data['picture']
-                    description = event_data['description']
-                    location = event_data['location']
-                    start_date_time = str(event_data['start_date_time'])
-                    end_date_time = None if event_data["end_date_time"] == "NULL" else str(event_data["end_date_time"])
-                    visibility = event_data['visibility']
-                    num_joins = event_data['num_joins']
-                    num_shoutouts = event_data['num_shoutouts']
-                    user_join = event_data['user_join']
-                    user_shoutout = event_data['user_shoutout']
-                    host_user_id = event_data['host_user_id']
+            UNION
+            
+            MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}), (e)-[:event_tag]->(i:Interest), (u:User{UserAccessToken: $user_access_token}), (e)<-[:user_host]-(host:User)
+            WITH DISTINCT e, i,
+                COUNT{ (e)<-[:user_join]-() } as num_joins,
+                COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
+                exists((u)-[:user_join]->(e)) as user_join,
+                exists((u)-[:user_shoutout]->(e)) as user_shoutout,
+                host.UserID as host_user_id
+            WHERE e.StartDateTime >= datetime()
+            WITH i.Name as interest,
+            { 
+                event_id: e.EventID,
+                title: e.Title,
+                picture: e.Picture,
+                description: e.Description,
+                location: e.Location,
+                start_date_time: e.StartDateTime,
+                end_date_time: e.EndDateTime,
+                visibility: e.Visibility,
+                num_joins: num_joins,
+                num_shoutouts: num_shoutouts,
+                user_join: user_join,
+                user_shoutout: user_shoutout,
+                host_user_id: host_user_id
+            } as event
+            ORDER BY e.StartDateTime
+            LIMIT 10
+            WITH interest, collect(event) as events
+            ORDER BY interest
+            RETURN apoc.map.setKey({}, interest, events) as event_dict
+            """,
+            parameters={
+                "school_id": school_id,
+                "user_access_token": user_access_token
+            },
+        )
 
-                    if (event_id not in event_ids): # or (interest == "Featured" ):
+    print(result)
+    categorized_dict = {}
+    event_ids = []
+    for record in result:
+        print("record: ",record)
+        interest_data = record['event_dict']
+        for interest in interest_data:
+            events = []
+            events_data = interest_data[interest]
+            for event_data in events_data:
+                event_id = event_data['event_id']
+                title = event_data['title']
+                picture = event_data['picture']
+                description = event_data['description']
+                location = event_data['location']
+                start_date_time = str(event_data['start_date_time'])
+                end_date_time = None if event_data["end_date_time"] == "NULL" else str(event_data["end_date_time"])
+                visibility = event_data['visibility']
+                num_joins = event_data['num_joins']
+                num_shoutouts = event_data['num_shoutouts']
+                user_join = event_data['user_join']
+                user_shoutout = event_data['user_shoutout']
+                host_user_id = event_data['host_user_id']
 
-                        # if interest != "Featured":
-                        event_ids.append(event_id) 
+                if (event_id not in event_ids): # or (interest == "Featured" ):
 
-                        events.append({
-                            'event_id': event_id,
-                            'title': title,
-                            'picture': picture,
-                            'description': description,
-                            'location': location,
-                            'start_date_time': start_date_time,
-                            'end_date_time': end_date_time,
-                            'visibility': visibility,
-                            'num_joins': num_joins,
-                            'num_shoutouts': num_shoutouts,
-                            'user_join': user_join,
-                            'user_shoutout': user_shoutout,
-                            'host_user_id': host_user_id,
-                        })
+                    # if interest != "Featured":
+                    event_ids.append(event_id) 
 
-                if events!= []:
-                    categorized_dict[interest] = events
+                    events.append({
+                        'event_id': event_id,
+                        'title': title,
+                        'picture': picture,
+                        'description': description,
+                        'location': location,
+                        'start_date_time': start_date_time,
+                        'end_date_time': end_date_time,
+                        'visibility': visibility,
+                        'num_joins': num_joins,
+                        'num_shoutouts': num_shoutouts,
+                        'user_join': user_join,
+                        'user_shoutout': user_shoutout,
+                        'host_user_id': host_user_id,
+                    })
 
-        return JSONResponse(categorized_dict)
+            if events!= []:
+                categorized_dict[interest] = events
+
+    return JSONResponse(categorized_dict)
 
 async def search_events(request: Request) -> JSONResponse:
     """
@@ -633,9 +630,8 @@ async def search_events(request: Request) -> JSONResponse:
 
     query = query.strip()
 
-    with get_neo4j_session() as session:
         # check if email exists
-        result = session.run(
+    result = await run_neo4j_query(
     """
     MATCH (e:Event)-[:event_school]->(school: School{SchoolID: $school_id})
     MATCH (e)<-[:user_host]-(host:User)
@@ -661,56 +657,56 @@ async def search_events(request: Request) -> JSONResponse:
             user_shoutout: user_shoutout,
             host_user_id: host_user_id } as event
     ORDER BY toLower(e.Title)
-    LIMIT 20
+    LIMIT 10
     """,
-            parameters={
-                "school_id": school_id,
-                "query": query,
-                "user_access_token": user_access_token,
-            },
-        )
+        parameters={
+            "school_id": school_id,
+            "query": query,
+            "user_access_token": user_access_token,
+        },
+    )
 
-        events = []
-        for record in result:
-            event_data = record['event']
-            event_id = event_data['event_id']
-            title = event_data['title']
-            picture = event_data['picture']
-            description = event_data['description']
-            location = event_data['location']
-            start_date_time = str(event_data['start_date_time'])
-            end_date_time = None if event_data["end_date_time"] == "NULL" else str(
-                event_data["end_date_time"]),
-            visibility = event_data['visibility']
-            num_joins = event_data['num_joins']
-            num_shoutouts = event_data['num_shoutouts']
-            user_join = event_data['user_join']
-            user_shoutout = event_data['user_shoutout']
-            host_user_id = event_data['host_user_id']
+    events = []
+    for record in result:
+        event_data = record['event']
+        event_id = event_data['event_id']
+        title = event_data['title']
+        picture = event_data['picture']
+        description = event_data['description']
+        location = event_data['location']
+        start_date_time = str(event_data['start_date_time'])
+        end_date_time = None if event_data["end_date_time"] == "NULL" else str(
+            event_data["end_date_time"]),
+        visibility = event_data['visibility']
+        num_joins = event_data['num_joins']
+        num_shoutouts = event_data['num_shoutouts']
+        user_join = event_data['user_join']
+        user_shoutout = event_data['user_shoutout']
+        host_user_id = event_data['host_user_id']
 
-            events.append({
-                'event_id': event_id,
-                'title': title,
-                'picture': picture,
-                'description': description,
-                'location': location,
-                'start_date_time': start_date_time,
-                'end_date_time': end_date_time,
-                'visibility': visibility,
-                'num_joins': num_joins,
-                'num_shoutouts': num_shoutouts,
-                'user_join': user_join,
-                'user_shoutout': user_shoutout,
-                'host_user_id': host_user_id
-            })
+        events.append({
+            'event_id': event_id,
+            'title': title,
+            'picture': picture,
+            'description': description,
+            'location': location,
+            'start_date_time': start_date_time,
+            'end_date_time': end_date_time,
+            'visibility': visibility,
+            'num_joins': num_joins,
+            'num_shoutouts': num_shoutouts,
+            'user_join': user_join,
+            'user_shoutout': user_shoutout,
+            'host_user_id': host_user_id
+        })
 
-        return JSONResponse(events)
+    return JSONResponse(events)
 
 
  
 async def host_past(request: Request) -> JSONResponse:
 
-    print("CALLED host_past")
+    print("CALLING host_past")
     begin_start_time = time.perf_counter()
 
 
@@ -751,7 +747,7 @@ async def host_past(request: Request) -> JSONResponse:
                         user_shoutout: user_shoutout,
                         host_user_id: $user_id }} as event
                 ORDER BY e.StartDateTime DESC, e.EventID DESC
-                LIMIT 20
+                LIMIT 10
                 """
 
     parameters={
@@ -763,16 +759,18 @@ async def host_past(request: Request) -> JSONResponse:
 
     start_time = time.perf_counter()
 
-    data = get_event_list_from_query(query, parameters)
+    data = await get_event_list_from_query(query, parameters)
 
     end_time = time.perf_counter()
+
+    elapsed_time_ms = (start_time - begin_start_time) * 1000  # convert to milliseconds
+
+    print("took ", str(elapsed_time_ms), " milliseconds before calling query for host past") 
+
     elapsed_time_ms = (end_time - start_time) * 1000  # convert to milliseconds
 
     print("took ", str(elapsed_time_ms), " milliseconds for host past") 
 
-    elapsed_time_ms = (start_time - begin_start_time) * 1000  # convert to milliseconds
-
-    print("took ", str(elapsed_time_ms), " milliseconds before calling query to get host past") 
 
 
     return data
@@ -825,7 +823,7 @@ async def host_future(request: Request) -> JSONResponse:
                         user_shoutout: user_shoutout,
                         host_user_id: $user_id }} as event
                 ORDER BY e.StartDateTime ASC, e.EventID ASC
-                LIMIT 20
+                LIMIT 10
                 """
 
     parameters={
@@ -838,22 +836,27 @@ async def host_future(request: Request) -> JSONResponse:
     start_time = time.perf_counter()
 
 
-    data = get_event_list_from_query(query, parameters)
+    data = await get_event_list_from_query(query, parameters)
 
     end_time = time.perf_counter()
-    elapsed_time_ms = (end_time - start_time) * 1000  # convert to milliseconds
-
-    print("took ", str(elapsed_time_ms), " milliseconds for host future")
     
     elapsed_time_ms = (start_time - begin_start_time) * 1000  # convert to milliseconds
 
     print("took ", str(elapsed_time_ms), " milliseconds before calling query to get host future") 
+
+    elapsed_time_ms = (end_time - start_time) * 1000  # convert to milliseconds
+
+    print("took ", str(elapsed_time_ms), " milliseconds for host future")
+
 
     return data
 
 
 @is_requester_privileged_for_user
 async def join_past(request: Request) -> JSONResponse:
+
+    print(time.perf_counter(), " Join past start")
+
     user_id = request.path_params["user_id"]
 
     body = await request.json()
@@ -891,7 +894,7 @@ async def join_past(request: Request) -> JSONResponse:
                         user_shoutout: user_shoutout,
                         host_user_id: host_user_id }} as event
                 ORDER BY e.StartDateTime DESC, e.EventID DESC
-                LIMIT 20
+                LIMIT 10
                 """
 
     parameters={
@@ -900,11 +903,17 @@ async def join_past(request: Request) -> JSONResponse:
         "cursor_start_date_time": cursor_start_date_time
         }
 
-    return get_event_list_from_query(query, parameters) 
+
+    data = await get_event_list_from_query(query, parameters) 
+
+    print(time.perf_counter(), "Join past, end")
+
+    return data
 
  
 @is_requester_privileged_for_user
 async def join_future(request: Request) -> JSONResponse:
+    print(time.perf_counter(), " join future, begin")
     user_id = request.path_params["user_id"]
 
     body = await request.json()
@@ -937,7 +946,7 @@ async def join_future(request: Request) -> JSONResponse:
                         user_shoutout: user_shoutout,
                         host_user_id: host_user_id }} as event
                 ORDER BY e.StartDateTime ASC, e.EventID ASC
-                LIMIT 20
+                LIMIT 10
                 """
 
     parameters={
@@ -946,7 +955,11 @@ async def join_future(request: Request) -> JSONResponse:
         "cursor_start_date_time": cursor_start_date_time
         }
 
-    return get_event_list_from_query(query, parameters) 
+    data = await get_event_list_from_query(query, parameters) 
+
+    print(time.perf_counter(), " join future, end")
+
+    return data
 
 
 async def get_home_events(request: Request) -> JSONResponse:
@@ -972,255 +985,255 @@ async def get_home_events(request: Request) -> JSONResponse:
     except AssertionError:
         return Response(status_code=400, content="Incomplete body or incorrect parameter")
 
-    with get_neo4j_session() as session:
-        result = session.run(
-            """
-            MATCH (e:Event)-[:user_host]-(host:User)
-            WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 30})
-            AND (host)<-[:user_follow]-(:User{UserAccessToken: $user_access_token}) 
-            AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
-            AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
-            AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
-            AND (e)-[:event_school]-(:School{SchoolID: $school_id})
-            WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, exists((:User{UserAccessToken: $user_access_token})-[:user_follow]->(host)) as user_follow_host,  COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
-            ORDER BY RAND()
-            LIMIT 25
-            WITH collect({
-                user_id: host.UserID, 
-                display_name: host.DisplayName,
-                username: host.Username,
-                host_picture: host.Picture,
-                verified_organization: host.VerifiedOrganization,
-                event_id: e.EventID,
-                title: e.Title,
-                event_picture: e.Picture,
-                description: e.Description,
-                location: e.Location,
-                start_date_time: e.StartDateTime,
-                end_date_time: e.EndDateTime,
-                visibility: e.Visibility,
-                num_joins: num_joins,
-                num_shoutouts: num_shoutouts,
-                user_join: user_join,
-                user_shoutout: user_shoutout,
-                host_user_id: host.UserID,
-                reason: "From an account you follow",
-                user_follow_host: user_follow_host
-                }) AS event_data
-            UNWIND event_data as results
-            RETURN results
-
-            UNION
-
-            MATCH (e:Event)-[:user_host]-(host:User)
-            WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 14})
-            AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
-            AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
-            AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
-            AND (e)-[:event_school]-(:School{SchoolID: $school_id})
-            WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, exists((:User{UserAccessToken: $user_access_token})-[:user_follow]->(host)) as user_follow_host, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
-            ORDER BY RAND()
-            LIMIT 10
-            WITH collect({
-                user_id: host.UserID, 
-                display_name: host.DisplayName,
-                username: host.Username,
-                host_picture: host.Picture,
-                verified_organization: host.VerifiedOrganization,
-                event_id: e.EventID,
-                title: e.Title,
-                event_picture: e.Picture,
-                description: e.Description,
-                location: e.Location,
-                start_date_time: e.StartDateTime,
-                end_date_time: e.EndDateTime,
-                visibility: e.Visibility,
-                num_joins: num_joins,
-                num_shoutouts: num_shoutouts,
-                user_join: user_join,
-                user_shoutout: user_shoutout,
-                host_user_id: host.UserID,
-                user_follow_host: user_follow_host
-                }) AS event_data
-            UNWIND event_data as results
-            RETURN results
-
-            UNION
-
-            MATCH (e:Event)-[:user_host]-(host:User)
-            WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 7})
-            AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
-            AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
-            AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
-            AND (e)-[:event_school]-(:School{SchoolID: $school_id})
-            AND host.ScraperAccount IS NOT NULL AND host.ScraperAccount = True
-            WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, exists((:User{UserAccessToken: $user_access_token})-[:user_follow]->(host)) as user_follow_host, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
-            ORDER BY RAND()
-            LIMIT 10
-            WITH collect({
-                user_id: host.UserID, 
-                display_name: host.DisplayName,
-                username: host.Username,
-                host_picture: host.Picture,
-                verified_organization: host.VerifiedOrganization,
-                event_id: e.EventID,
-                title: e.Title,
-                event_picture: e.Picture,
-                description: e.Description,
-                location: e.Location,
-                start_date_time: e.StartDateTime,
-                end_date_time: e.EndDateTime,
-                visibility: e.Visibility,
-                num_joins: num_joins,
-                num_shoutouts: num_shoutouts,
-                user_join: user_join,
-                user_shoutout: user_shoutout,
-                host_user_id: host.UserID,
-                user_follow_host: user_follow_host
-                }) AS event_data
-            UNWIND event_data as results
-            RETURN results
-
-            UNION
-
-            MATCH (e:Event)-[:user_host]-(host:User)
-            WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 14})
-            AND host.VerifiedOrganization = true 
-            AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
-            AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
-            AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
-            AND (e)-[:event_school]-(:School{SchoolID: $school_id})
-            WITH e, host, exists((:User{UserAccessToken: $user_access_token})-[:user_follow]->(host)) as user_follow_host, COUNT{(e)<-[:user_join]-()} as num_joins, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
-            ORDER BY RAND()
-            LIMIT 10
-            WITH collect({
-                user_id: host.UserID, 
-                display_name: host.DisplayName,
-                username: host.Username,
-                host_picture: host.Picture,
-                verified_organization: host.VerifiedOrganization,
-                event_id: e.EventID,
-                title: e.Title,
-                event_picture: e.Picture,
-                description: e.Description,
-                location: e.Location,
-                start_date_time: e.StartDateTime,
-                end_date_time: e.EndDateTime,
-                visibility: e.Visibility,
-                num_joins: num_joins,
-                num_shoutouts: num_shoutouts,
-                user_join: user_join,
-                user_shoutout: user_shoutout,
-                host_user_id: host.UserID,
-                reason: "From a reputable organization",
-                user_follow_host: user_follow_host
+    result = await run_neo4j_query(
+        """
+        MATCH (e:Event)-[:user_host]-(host:User)
+        WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 30})
+        AND (host)<-[:user_follow]-(:User{UserAccessToken: $user_access_token}) 
+        AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
+        AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
+        AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
+        AND (e)-[:event_school]-(:School{SchoolID: $school_id})
+        WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, exists((:User{UserAccessToken: $user_access_token})-[:user_follow]->(host)) as user_follow_host,  COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
+        ORDER BY RAND()
+        LIMIT 25
+        WITH collect({
+            user_id: host.UserID, 
+            display_name: host.DisplayName,
+            username: host.Username,
+            host_picture: host.Picture,
+            verified_organization: host.VerifiedOrganization,
+            event_id: e.EventID,
+            title: e.Title,
+            event_picture: e.Picture,
+            description: e.Description,
+            location: e.Location,
+            start_date_time: e.StartDateTime,
+            end_date_time: e.EndDateTime,
+            visibility: e.Visibility,
+            num_joins: num_joins,
+            num_shoutouts: num_shoutouts,
+            user_join: user_join,
+            user_shoutout: user_shoutout,
+            host_user_id: host.UserID,
+            reason: "From an account you follow",
+            user_follow_host: user_follow_host
             }) AS event_data
-            UNWIND event_data as results
-            RETURN results
+        UNWIND event_data as results
+        RETURN results
 
-            UNION
+        UNION
 
-            MATCH (e:Event)-[:user_host]-(host:User)
-            WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 21})
-            AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
-            AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token})
-            AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
-            AND (e)-[:event_school]-(:School{SchoolID: $school_id})
-            WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_follow]->(host)) as user_follow_host,
-                    exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join,
-                    exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
-            WITH num_joins + num_shoutouts as popularity, num_joins, num_shoutouts, e, host, user_join, user_shoutout, user_follow_host
-            ORDER BY popularity DESC
-            LIMIT 30
-            WITH collect({
-                user_id: host.UserID, 
-                display_name: host.DisplayName,
-                username: host.Username,
-                host_picture: host.Picture,
-                verified_organization: host.VerifiedOrganization,
-                event_id: e.EventID,
-                title: e.Title,
-                event_picture: e.Picture,
-                description: e.Description,
-                location: e.Location,
-                start_date_time: e.StartDateTime,
-                end_date_time: e.EndDateTime,
-                visibility: e.Visibility,
-                num_joins: num_joins,
-                num_shoutouts: num_shoutouts,
-                user_join: user_join,
-                user_shoutout: user_shoutout,
-                host_user_id: host.UserID,
-                user_follow_host: user_follow_host
-                }) AS popular_events
-            UNWIND apoc.coll.shuffle(popular_events)[0..15] AS results
-            RETURN results""",
-            parameters={
-                "user_access_token": user_access_token,
-                "school_id": school_id,
-            }
-        )
+        MATCH (e:Event)-[:user_host]-(host:User)
+        WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 14})
+        AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
+        AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
+        AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
+        AND (e)-[:event_school]-(:School{SchoolID: $school_id})
+        WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, exists((:User{UserAccessToken: $user_access_token})-[:user_follow]->(host)) as user_follow_host, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
+        ORDER BY RAND()
+        LIMIT 10
+        WITH collect({
+            user_id: host.UserID, 
+            display_name: host.DisplayName,
+            username: host.Username,
+            host_picture: host.Picture,
+            verified_organization: host.VerifiedOrganization,
+            event_id: e.EventID,
+            title: e.Title,
+            event_picture: e.Picture,
+            description: e.Description,
+            location: e.Location,
+            start_date_time: e.StartDateTime,
+            end_date_time: e.EndDateTime,
+            visibility: e.Visibility,
+            num_joins: num_joins,
+            num_shoutouts: num_shoutouts,
+            user_join: user_join,
+            user_shoutout: user_shoutout,
+            host_user_id: host.UserID,
+            user_follow_host: user_follow_host
+            }) AS event_data
+        UNWIND event_data as results
+        RETURN results
 
-        data = []
-        event_id_list = {}
+        UNION
 
-        for record in result:
-            row = record["results"]
+        MATCH (e:Event)-[:user_host]-(host:User)
+        WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 7})
+        AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
+        AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
+        AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
+        AND (e)-[:event_school]-(:School{SchoolID: $school_id})
+        AND host.ScraperAccount IS NOT NULL AND host.ScraperAccount = True
+        WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, exists((:User{UserAccessToken: $user_access_token})-[:user_follow]->(host)) as user_follow_host, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
+        ORDER BY RAND()
+        LIMIT 10
+        WITH collect({
+            user_id: host.UserID, 
+            display_name: host.DisplayName,
+            username: host.Username,
+            host_picture: host.Picture,
+            verified_organization: host.VerifiedOrganization,
+            event_id: e.EventID,
+            title: e.Title,
+            event_picture: e.Picture,
+            description: e.Description,
+            location: e.Location,
+            start_date_time: e.StartDateTime,
+            end_date_time: e.EndDateTime,
+            visibility: e.Visibility,
+            num_joins: num_joins,
+            num_shoutouts: num_shoutouts,
+            user_join: user_join,
+            user_shoutout: user_shoutout,
+            host_user_id: host.UserID,
+            user_follow_host: user_follow_host
+            }) AS event_data
+        UNWIND event_data as results
+        RETURN results
 
-            user_id = row["user_id"]
-            display_name = row["display_name"]
-            username = row["username"]
-            host_picture = row["host_picture"]
-            verified_organization = row.get("verified_organization", False)
+        UNION
 
-            event_id = row['event_id']
-            if(event_id_list.get(event_id)):
-                continue
-            event_id_list[event_id] = True
-            title = row['title']
-            event_picture = row['event_picture']
-            description = row['description']
-            location = row['location']
-            start_date_time = str(row['start_date_time'])
-            end_date_time = None if row["end_date_time"] == "NULL" else str(row["end_date_time"])
-            visibility = row['visibility']
-            num_joins = row["num_joins"]
-            num_shoutouts = row["num_shoutouts"]
-            user_join = row['user_join']
-            user_shoutout = row['user_shoutout']
-            host_user_id = row['host_user_id']
-            user_follow_host = row['user_follow_host']
-            reason = row.get("reason")
+        MATCH (e:Event)-[:user_host]-(host:User)
+        WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 14})
+        AND host.VerifiedOrganization = true 
+        AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token}) 
+        AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
+        AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
+        AND (e)-[:event_school]-(:School{SchoolID: $school_id})
+        WITH e, host, exists((:User{UserAccessToken: $user_access_token})-[:user_follow]->(host)) as user_follow_host, COUNT{(e)<-[:user_join]-()} as num_joins, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join, exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
+        ORDER BY RAND()
+        LIMIT 10
+        WITH collect({
+            user_id: host.UserID, 
+            display_name: host.DisplayName,
+            username: host.Username,
+            host_picture: host.Picture,
+            verified_organization: host.VerifiedOrganization,
+            event_id: e.EventID,
+            title: e.Title,
+            event_picture: e.Picture,
+            description: e.Description,
+            location: e.Location,
+            start_date_time: e.StartDateTime,
+            end_date_time: e.EndDateTime,
+            visibility: e.Visibility,
+            num_joins: num_joins,
+            num_shoutouts: num_shoutouts,
+            user_join: user_join,
+            user_shoutout: user_shoutout,
+            host_user_id: host.UserID,
+            reason: "From a reputable organization",
+            user_follow_host: user_follow_host
+        }) AS event_data
+        UNWIND event_data as results
+        RETURN results
 
-            data.append({
-                "host": {
-                    "user_id": user_id,
-                    "display_name": display_name,
-                    "username": username,
-                    "picture": host_picture,
-                    "verified_organization": verified_organization,
-                },
-                "event": {
-                    'event_id': event_id,
-                    'title': title,
-                    'picture': event_picture,
-                    'description': description,
-                    'location': location,
-                    'start_date_time': start_date_time,
-                    'end_date_time': end_date_time,
-                    'visibility': visibility,
-                    'num_joins': num_joins,
-                    'num_shoutouts': num_shoutouts,
-                    'user_join': user_join,
-                    'user_shoutout': user_shoutout,
-                    'host_user_id': host_user_id,
-                    'user_follow_host': user_follow_host
-                },
-                "reason": reason
-            })
-        
-        random.shuffle(data)
-        return JSONResponse(data)
+        UNION
+
+        MATCH (e:Event)-[:user_host]-(host:User)
+        WHERE e.StartDateTime > datetime() AND e.StartDateTime <= datetime() + duration({days: 21})
+        AND NOT (e)<-[:user_join]-(:User{UserAccessToken: $user_access_token})
+        AND NOT (e)<-[:user_host]-(:User{UserAccessToken: $user_access_token})
+        AND NOT (e)<-[:user_not_interested]-(:User{UserAccessToken: $user_access_token})
+        AND (e)-[:event_school]-(:School{SchoolID: $school_id})
+        WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts, exists((:User{UserAccessToken: $user_access_token})-[:user_follow]->(host)) as user_follow_host,
+                exists((:User{UserAccessToken: $user_access_token})-[:user_join]->(e)) as user_join,
+                exists((:User{UserAccessToken: $user_access_token})-[:user_shoutout]->(e)) as user_shoutout
+        WITH num_joins + num_shoutouts as popularity, num_joins, num_shoutouts, e, host, user_join, user_shoutout, user_follow_host
+        ORDER BY popularity DESC
+        LIMIT 30
+        WITH collect({
+            user_id: host.UserID, 
+            display_name: host.DisplayName,
+            username: host.Username,
+            host_picture: host.Picture,
+            verified_organization: host.VerifiedOrganization,
+            event_id: e.EventID,
+            title: e.Title,
+            event_picture: e.Picture,
+            description: e.Description,
+            location: e.Location,
+            start_date_time: e.StartDateTime,
+            end_date_time: e.EndDateTime,
+            visibility: e.Visibility,
+            num_joins: num_joins,
+            num_shoutouts: num_shoutouts,
+            user_join: user_join,
+            user_shoutout: user_shoutout,
+            host_user_id: host.UserID,
+            user_follow_host: user_follow_host
+            }) AS popular_events
+        UNWIND apoc.coll.shuffle(popular_events)[0..15] AS results
+        RETURN results""",
+        parameters={
+            "user_access_token": user_access_token,
+            "school_id": school_id,
+        }
+    )
+
+    print(result)
+    data = []
+    event_id_list = {}
+
+    for record in result:
+        row = record['results']
+
+        user_id = row["user_id"]
+        display_name = row["display_name"]
+        username = row["username"]
+        host_picture = row["host_picture"]
+        verified_organization = row.get("verified_organization", False)
+
+        event_id = row['event_id']
+        if(event_id_list.get(event_id)):
+            continue
+        event_id_list[event_id] = True
+        title = row['title']
+        event_picture = row['event_picture']
+        description = row['description']
+        location = row['location']
+        start_date_time = str(row['start_date_time'])
+        end_date_time = None if row["end_date_time"] == "NULL" else str(row["end_date_time"])
+        visibility = row['visibility']
+        num_joins = row["num_joins"]
+        num_shoutouts = row["num_shoutouts"]
+        user_join = row['user_join']
+        user_shoutout = row['user_shoutout']
+        host_user_id = row['host_user_id']
+        user_follow_host = row['user_follow_host']
+        reason = row.get("reason")
+
+        data.append({
+            "host": {
+                "user_id": user_id,
+                "display_name": display_name,
+                "username": username,
+                "picture": host_picture,
+                "verified_organization": verified_organization,
+            },
+            "event": {
+                'event_id': event_id,
+                'title': title,
+                'picture': event_picture,
+                'description': description,
+                'location': location,
+                'start_date_time': start_date_time,
+                'end_date_time': end_date_time,
+                'visibility': visibility,
+                'num_joins': num_joins,
+                'num_shoutouts': num_shoutouts,
+                'user_join': user_join,
+                'user_shoutout': user_shoutout,
+                'host_user_id': host_user_id,
+                'user_follow_host': user_follow_host
+            },
+            "reason": reason
+        })
+    
+    random.shuffle(data)
+    return JSONResponse(data)
     
 @is_requester_privileged_for_user
 @is_requester_privileged_for_event    
@@ -1257,9 +1270,9 @@ async def post_event_message(request: Request) -> JSONResponse:
     document_id = create_firestore_event_message(event_id, user_id, message)
 
     if(ping_joined_users):
-        user = get_user_entity_by_user_id(user_id, None, False)
+        user = await get_user_entity_by_user_id(user_id, None, False)
         try:
-            joined_users_push_tokens_with_user_id = get_all_joined_users_push_tokens(event_id)
+            joined_users_push_tokens_with_user_id = await get_all_joined_users_push_tokens(event_id)
             if(joined_users_push_tokens_with_user_id is not None):
                 request.state.background.add_task(
                         send_and_validate_expo_push_notifications, 
@@ -1350,47 +1363,47 @@ routes = [
 
 # HELPER FUNCTIONS
 
-def get_event_list_from_query(query, parameters):
+async def get_event_list_from_query(query, parameters):
+        
+    result = await run_neo4j_query(
+        query,
+        parameters   
+    )
+    
+    print("get_event_list_from_query is", str(result))
 
-    with get_neo4j_session() as session:
-        # check if email exists
-        result = session.run(
-            query,
-            parameters   
-        )
+    events = []
+    for record in result:
+        event_data = record['event']
+        event_id = event_data['event_id']
+        title = event_data['title']
+        picture = event_data['picture']
+        description = event_data['description']
+        location = event_data['location']
+        start_date_time = str(event_data['start_date_time'])
+        end_date_time = None if event_data["end_date_time"] == "NULL" else str(event_data["end_date_time"])
+        visibility = event_data['visibility']
+        num_joins = event_data['num_joins']
+        num_shoutouts = event_data['num_shoutouts']
+        user_join = event_data['user_join']
+        user_shoutout = event_data['user_shoutout']
+        host_user_id = event_data['host_user_id']
 
-        events = []
-        for record in result:
-            event_data = record['event']
-            event_id = event_data['event_id']
-            title = event_data['title']
-            picture = event_data['picture']
-            description = event_data['description']
-            location = event_data['location']
-            start_date_time = str(event_data['start_date_time'])
-            end_date_time = None if event_data["end_date_time"] == "NULL" else str(event_data["end_date_time"])
-            visibility = event_data['visibility']
-            num_joins = event_data['num_joins']
-            num_shoutouts = event_data['num_shoutouts']
-            user_join = event_data['user_join']
-            user_shoutout = event_data['user_shoutout']
-            host_user_id = event_data['host_user_id']
-
-            events.append({
-                'event_id': event_id,
-                'title': title,
-                'picture': picture,
-                'description': description,
-                'location': location,
-                'start_date_time': start_date_time,
-                'end_date_time': end_date_time,
-                'visibility': visibility,
-                'num_joins': num_joins,
-                'num_shoutouts': num_shoutouts,
-                'user_join': user_join,
-                'user_shoutout': user_shoutout,
-                'host_user_id': host_user_id
-            })
-            
-        return JSONResponse(events)
+        events.append({
+            'event_id': event_id,
+            'title': title,
+            'picture': picture,
+            'description': description,
+            'location': location,
+            'start_date_time': start_date_time,
+            'end_date_time': end_date_time,
+            'visibility': visibility,
+            'num_joins': num_joins,
+            'num_shoutouts': num_shoutouts,
+            'user_join': user_join,
+            'user_shoutout': user_shoutout,
+            'host_user_id': host_user_id
+        })
+        
+    return JSONResponse(events)
 
