@@ -193,7 +193,7 @@ async def update_using_user_id(request: Request) -> JSONResponse:
     if(data is None):
         raise Problem(status=400, content="User does not exist")
 
-    converted_user = convert_user_entity_to_user(data, show_num_events_followers_following=True)
+    converted_user = convert_user_entity_to_user(data, show_num_events_followers_following=False)
     return JSONResponse(converted_user)
 
 @is_requester_privileged_for_user

@@ -657,7 +657,7 @@ async def search_events(request: Request) -> JSONResponse:
             user_shoutout: user_shoutout,
             host_user_id: host_user_id } as event
     ORDER BY toLower(e.Title)
-    LIMIT 20
+    LIMIT 10
     """,
         parameters={
             "school_id": school_id,
@@ -747,7 +747,7 @@ async def host_past(request: Request) -> JSONResponse:
                         user_shoutout: user_shoutout,
                         host_user_id: $user_id }} as event
                 ORDER BY e.StartDateTime DESC, e.EventID DESC
-                LIMIT 20
+                LIMIT 10
                 """
 
     parameters={
@@ -823,7 +823,7 @@ async def host_future(request: Request) -> JSONResponse:
                         user_shoutout: user_shoutout,
                         host_user_id: $user_id }} as event
                 ORDER BY e.StartDateTime ASC, e.EventID ASC
-                LIMIT 20
+                LIMIT 10
                 """
 
     parameters={
@@ -894,7 +894,7 @@ async def join_past(request: Request) -> JSONResponse:
                         user_shoutout: user_shoutout,
                         host_user_id: host_user_id }} as event
                 ORDER BY e.StartDateTime DESC, e.EventID DESC
-                LIMIT 20
+                LIMIT 10
                 """
 
     parameters={
@@ -946,7 +946,7 @@ async def join_future(request: Request) -> JSONResponse:
                         user_shoutout: user_shoutout,
                         host_user_id: host_user_id }} as event
                 ORDER BY e.StartDateTime ASC, e.EventID ASC
-                LIMIT 20
+                LIMIT 10
                 """
 
     parameters={

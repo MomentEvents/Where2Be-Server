@@ -143,7 +143,7 @@ async def get_user_entity_by_event_id(event_id):
     if(not data):
         return None
 
-    user_data = convert_user_entity_to_user(data)
+    user_data = convert_user_entity_to_user(data, show_num_events_followers_following=False)
 
     return user_data
 

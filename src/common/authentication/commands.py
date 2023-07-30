@@ -78,7 +78,7 @@ async def login(usercred: str, password: str):
 
     data = parse_neo4j_data(result, 'single')
 
-    if(result is None):
+    if(data is None):
         raise Problem(status=400, content="There is no user associated with this returned UserID. Please contact support to resolve this issue")
 
     print("user_id ", user_id)
