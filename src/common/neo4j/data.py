@@ -14,12 +14,10 @@ async def init_schema():
     schemas = [
         # Users
         "CREATE CONSTRAINT IF NOT EXISTS FOR (u:User) REQUIRE u.UserID IS UNIQUE", # String
-        "CREATE CONSTRAINT IF NOT EXISTS FOR (u:User) REQUIRE u.Email IS UNIQUE;", # String
         "CREATE CONSTRAINT IF NOT EXISTS FOR (u:User) REQUIRE u.Username IS UNIQUE", # String
         "CREATE CONSTRAINT IF NOT EXISTS FOR (u:User) REQUIRE u.UserAccessToken IS UNIQUE;", # String
         "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.DisplayName);", # String
-        "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.PasswordHash);", # Object
-        "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.Picture);", # String
+        # "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.Picture);", # String
         "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.VerifiedOrganization);", # Boolean
         "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.Administrator);", # Boolean
         "CREATE INDEX IF NOT EXISTS FOR (u:User) ON (u.PushTokens);", # List<String>
@@ -28,7 +26,7 @@ async def init_schema():
         "CREATE CONSTRAINT IF NOT EXISTS FOR (e:Event) REQUIRE e.EventID IS UNIQUE", # String
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Title);", # String
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Description);", # String
-        "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Picture);", # String
+        # "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Picture);", # String
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Location);", # String
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.StartDateTime);", # String / null
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.EndDateTime);", # String
@@ -36,15 +34,15 @@ async def init_schema():
 
         #Schools
         "CREATE CONSTRAINT IF NOT EXISTS FOR (s:School) REQUIRE s.SchoolID IS UNIQUE", # String
-        "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Name);", # String
-        "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Abbreviation);", # String
-        "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Latitude);", # Float
-        "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Longitude);", # Float
+        # "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Name);", # String
+        # "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Abbreviation);", # String
+        # "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Latitude);", # Float
+        # "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.Longitude);", # Float
         "CREATE INDEX IF NOT EXISTS FOR (s:School) ON (s.EmailDomain);", # string
 
         #Interests
         "CREATE CONSTRAINT IF NOT EXISTS FOR (i:Interest) REQUIRE i.InterestID IS UNIQUE", # String
-        "CREATE INDEX IF NOT EXISTS FOR (i:Interest) ON (i.Name);", # String
+        # "CREATE INDEX IF NOT EXISTS FOR (i:Interest) ON (i.Name);", # String
 
         #user_not_interested
         "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_not_interested]->() ON (r.DidNotify);", #Bool
@@ -65,17 +63,11 @@ async def init_schema():
         "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_follow]->() ON (r.Timestamp);", #DateTime
         "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_follow]->() ON (r.EventNotify);", #Bool
 
-        #user_viewed
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_viewed]->() ON (r.Timestamp);", #DateTime
-
         #user_school
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_school]->() ON (r.NullAttribute)", #null
 
         #event_tag
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:event_tag]->() ON (r.NullAttribute)", #null
 
         #event_school
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:event_school]->() ON (r.NullAttribute)", #null
     ]
 
     #Run initializing the schema here
