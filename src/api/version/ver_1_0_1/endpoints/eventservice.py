@@ -302,7 +302,6 @@ async def update_event(request: Request) -> JSONResponse:
         user = await get_user_entity_by_user_access_token(user_access_token=user_access_token, show_num_events_followers_following=False)
         try:
             joined_users_push_tokens_with_user_id = await get_all_joined_users_push_tokens(event_id)
-            print("TEST")
             print(joined_users_push_tokens_with_user_id)
             print("user is", user, "\n\n")
             print("joined users push tokens is", joined_users_push_tokens_with_user_id, "\n\n")
