@@ -365,12 +365,13 @@ def is_requester_privileged_for_event(func):
         },
         )
 
-        print("The requester privileged event wrapper result is ", result)
-
-        if result == None:
+        data = parse_neo4j_data(result, "multiple")
+        if data == None:
             return Response(status_code=401, content="Unauthorized")
         
-        if(result["did_host"] or (result.get("Administrator", False))):
+
+        print("The requester privileged event wrapper result is ", data)
+        if(data["did_host"] or (data['u'].get("Administrator", False))):
             return await func(request)
         
         return Response(status_code=403, content="Forbidden")

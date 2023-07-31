@@ -79,6 +79,7 @@ async def create_event(request: Request) -> JSONResponse:
     request.state.background = BackgroundTasks()
 
     user = await get_user_entity_by_user_access_token(user_access_token, False)
+    print(user)
     if(IS_PROD and scraper_token != SCRAPER_TOKEN):
 
         firebase_user = get_firebase_user_by_uid(user['user_id'])
@@ -301,7 +302,10 @@ async def update_event(request: Request) -> JSONResponse:
         user = await get_user_entity_by_user_access_token(user_access_token=user_access_token, show_num_events_followers_following=False)
         try:
             joined_users_push_tokens_with_user_id = await get_all_joined_users_push_tokens(event_id)
+            print("TEST")
             print(joined_users_push_tokens_with_user_id)
+            print("user is", user, "\n\n")
+            print("joined users push tokens is", joined_users_push_tokens_with_user_id, "\n\n")
             if(joined_users_push_tokens_with_user_id is not None):
                 request.state.background.add_task(
                     send_and_validate_expo_push_notifications, 
@@ -314,7 +318,7 @@ async def update_event(request: Request) -> JSONResponse:
                     }
                 )
         except Exception as e:
-            print("ERROR SENDING FOLLOWER PUSH NOTIFICATION: \n\n" + str(e))
+            print("ERROR SENDING JOINED PUSH NOTIFICATION: \n\n" + str(e))
 
     return Response(status_code=200, content="event updated", background=request.state.background)
 

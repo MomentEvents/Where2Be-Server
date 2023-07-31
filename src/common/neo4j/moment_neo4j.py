@@ -61,7 +61,8 @@ async def run_neo4j_query(query: str, parameters=None):
     try:
         result = await session.run(query, parameters)
         data = await result.data()
-        print("QUERY RESULT IS ", data)
+        # print()
+        # print("QUERY RESULT IS ", data, "\n\n")
         return data
     except asyncio.CancelledError:
         session.cancel()
@@ -105,6 +106,9 @@ def parse_neo4j_data(data, mode: "str"):
         return parsed_data
     
     elif (mode == 'multiple'):
-        return None
+        if(not data):
+            return None
+        parsed_data = data[0]
+        return parsed_data
     
     raise ValueError('parse_neo4j_data error: cannot accept mode: ', mode)

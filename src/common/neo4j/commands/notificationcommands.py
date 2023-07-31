@@ -78,10 +78,12 @@ async def get_all_joined_users_push_tokens(event_id: str):
     parameters = {
         "event_id": event_id
     }
-
     result = await run_neo4j_query(query, parameters)
-    if result is not None:
-        return result['allPushTokens']
+
+    record = parse_neo4j_data(result, "single")
+
+    if record is not None:
+        return record
     else:
         return None
         
