@@ -174,7 +174,6 @@ async def get_event(request: Request) -> JSONResponse:
 
     return JSONResponse(event_data)
 
-@is_real_event
 @is_requester_privileged_for_event
 async def delete_event(request: Request) -> JSONResponse:
     """
@@ -203,7 +202,6 @@ async def delete_event(request: Request) -> JSONResponse:
     return Response(status_code=200, content="event deleted " + event_id)
 
 @is_event_formatted
-@is_real_event
 @is_requester_privileged_for_event
 async def update_event(request: Request) -> JSONResponse:
     """
