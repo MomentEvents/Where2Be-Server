@@ -5,13 +5,11 @@ from common.neo4j.moment_neo4j import get_neo4j_session, parse_neo4j_data, run_n
 from common.models import Problem
 from common.utils import is_email
 from common.firebase import login_user_firebase, create_user_firebase, get_firebase_user_by_uid, get_firebase_user_by_email, send_verification_email
-from common.constants import IS_PROD
-
-enable_firebase = True # If disabled, you can manually pass in a user access token and user id
+from common.constants import ENABLE_FIREBASE, IS_PROD
 
 async def login(usercred: str, password: str):
 
-    if(not enable_firebase):
+    if(not ENABLE_FIREBASE):
         user_access_token = "gHL9LK-4bgALRzdNJFW5KZWkMdBmxrfQCnjdhZRpYG4"
         user_id = "Ez7o28WpYX2bsrri0udD9xtNzv7SzC_D3FCjPnjv21g"
         return user_id, user_access_token
@@ -87,7 +85,7 @@ async def login(usercred: str, password: str):
     return user_id, data['UserAccessToken']
         
 async def signup(username, display_name, email, password):
-    if(not enable_firebase):
+    if(not ENABLE_FIREBASE):
         user_access_token = "gHL9LK-4bgALRzdNJFW5KZWkMdBmxrfQCnjdhZRpYG4"
         user_id = "Ez7o28WpYX2bsrri0udD9xtNzv7SzC_D3FCjPnjv21g"
         return user_id, user_access_token

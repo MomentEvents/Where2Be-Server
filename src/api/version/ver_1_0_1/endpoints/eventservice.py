@@ -41,7 +41,7 @@ from PIL import Image
 import json
 import cv2
 import numpy as np
-from common.constants import IS_PROD, SCRAPER_TOKEN
+from common.constants import IS_PROD, SCRAPER_TOKEN, ENABLE_FIREBASE
 
 
 @is_picture_formatted
@@ -80,7 +80,7 @@ async def create_event(request: Request) -> JSONResponse:
 
     user = await get_user_entity_by_user_access_token(user_access_token, False)
     print(user)
-    if(IS_PROD and scraper_token != SCRAPER_TOKEN):
+    if(ENABLE_FIREBASE and scraper_token != SCRAPER_TOKEN):
 
         firebase_user = get_firebase_user_by_uid(user['user_id'])
         if(firebase_user.email_verified is None or firebase_user.email_verified is False):
