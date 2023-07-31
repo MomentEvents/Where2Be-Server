@@ -421,7 +421,7 @@ async def search_users(request: Request) -> JSONResponse:
             WHERE (toLower(u.DisplayName) CONTAINS toLower($query) OR toLower(u.Username) CONTAINS toLower($query))
         RETURN u
         ORDER BY toLower(u.DisplayName)
-        LIMIT 20""",
+        LIMIT 10""",
         parameters={
             "school_id": school_id,
             "query": query,
@@ -536,14 +536,14 @@ async def get_following_list(request: Request) -> JSONResponse:
             WHERE follow.Timestamp < datetime($cursor_timestamp) AND follower.UserID <> $cursor
             RETURN follower
             ORDER BY follow.Timestamp DESC
-            LIMIT 20
+            LIMIT 10
         """
     else:
         main_query = """
             MATCH (follower:User)<-[follow:user_follow]-(user:User{UserID: $user_id})
             RETURN follower
             ORDER BY follow.Timestamp DESC
-            LIMIT 20
+            LIMIT 10
         """
 
     result = await run_neo4j_query(
@@ -615,14 +615,14 @@ async def get_follower_list(request: Request) -> JSONResponse:
             WHERE follow.Timestamp < datetime($cursor_timestamp) AND follower.UserID <> $cursor
             RETURN follower
             ORDER BY follow.Timestamp DESC
-            LIMIT 20
+            LIMIT 10
         """
     else:
         main_query = """
             MATCH (follower:User)-[follow:user_follow]->(user:User{UserID: $user_id})
             RETURN follower
             ORDER BY follow.Timestamp DESC
-            LIMIT 20
+            LIMIT 10
         """
 
     result = await run_neo4j_query(
