@@ -1,3 +1,4 @@
+from common.neo4j.converters import convert_event_entity_to_event
 from common.neo4j.moment_neo4j import get_neo4j_session, parse_neo4j_data, run_neo4j_query
 from common.s3.moment_s3 import get_bucket_url
 from common.models import Problem
@@ -76,7 +77,7 @@ async def get_event_entity_by_event_id(event_id: str, user_access_token: str):
                 user_join: user_join,
                 user_shoutout: user_shoutout,
                 host_user_id: host_user_id,
-                signup_link: e.SignupLink
+                signup_link: event.SignupLink
             }""",
         parameters={
             "event_id": event_id,
@@ -89,21 +90,7 @@ async def get_event_entity_by_event_id(event_id: str, user_access_token: str):
     if(data is None):
         return None
     
-    event_data = {
-        "event_id": data["event_id"],
-        "picture": data["picture"],
-        "title": data["title"],
-        "description": data["description"],
-        "location": data["location"],
-        "start_date_time": str(data["start_date_time"]),
-        "end_date_time": None if data["end_date_time"] == "NULL" else str(data["end_date_time"]),
-        "visibility": data["visibility"],
-        "num_joins": data["num_joins"],
-        "num_shoutouts": data["num_shoutouts"],
-        "user_join": data["user_join"],
-        "user_shoutout": data["user_shoutout"],
-        "host_user_id": data["host_user_id"],
-    }
+    event_data = convert_event_entity_to_event(data)    
 
     return event_data
     
@@ -153,20 +140,6 @@ async def get_random_popular_event_within_x_days(days: int, school_id: str):
     if(data is None):
         return None
 
-    event_data = {
-        "event_id": data["event_id"],
-        "picture": data["picture"],
-        "title": data["title"],
-        "description": data["description"],
-        "location": data["location"],
-        "start_date_time": str(data["start_date_time"]),
-        "end_date_time": None if data["end_date_time"] == "NULL" else str(data["end_date_time"]),
-        "visibility": data["visibility"],
-        "num_joins": data["num_joins"],
-        "num_shoutouts": data["num_shoutouts"],
-        "user_join": data["user_join"],
-        "user_shoutout": data["user_shoutout"],
-        "host_user_id": data["host_user_id"],
-    }
+    event_data = convert_event_entity_to_event(data)
 
     return event_data
