@@ -33,10 +33,10 @@ def convert_event_entity_to_event(data):
         "host_user_id": data['host_user_id'],
     }
 
-    if("user_follow_host" in data):
+    if(data.get("user_follow_host", False)):
         event_data["user_follow_host"] = data["user_follow_host"]
     
-    if("signup_link" in data):
+    if(data.get("signup_link", False)):
         event_data["signup_link"] = data["signup_link"]
 
     return event_data

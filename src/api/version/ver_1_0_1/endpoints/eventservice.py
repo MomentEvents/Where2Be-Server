@@ -376,7 +376,8 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                     num_shoutouts: num_shoutouts,
                     user_join: False,
                     user_shoutout: False,
-                    host_user_id: host_user_id
+                    host_user_id: host_user_id,
+                    signup_link: e.SignupLink
                 } as event
             ORDER BY num_joins+num_shoutouts DESC
             LIMIT 10
@@ -405,7 +406,8 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                     num_shoutouts: num_shoutouts,
                     user_join: False,
                     user_shoutout: False,
-                    host_user_id: host_user_id
+                    host_user_id: host_user_id,
+                    signup_link: e.SignupLink
                 } as event
             ORDER BY num_joins+num_shoutouts DESC
             LIMIT 10
@@ -434,7 +436,8 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                 num_shoutouts: num_shoutouts,
                 user_join: False,
                 user_shoutout: False,
-                host_user_id: host_user_id
+                host_user_id: host_user_id,
+                signup_link: e.SignupLink
             } as event
             ORDER BY e.StartDateTime
             LIMIT 10
@@ -472,7 +475,8 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                     num_shoutouts: num_shoutouts,
                     user_join: False,
                     user_shoutout: False,
-                    host_user_id: host_user_id
+                    host_user_id: host_user_id,
+                    signup_link: e.SignupLink
                 } as event
             ORDER BY num_joins+num_shoutouts DESC
             LIMIT 10
@@ -503,7 +507,8 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                     num_shoutouts: num_shoutouts,
                     user_join: user_join,
                     user_shoutout: user_shoutout,
-                    host_user_id: host_user_id
+                    host_user_id: host_user_id,
+                    signup_link: e.SignupLink
                 } as event
             ORDER BY num_joins+num_shoutouts DESC
             LIMIT 10
@@ -534,7 +539,8 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                 num_shoutouts: num_shoutouts,
                 user_join: user_join,
                 user_shoutout: user_shoutout,
-                host_user_id: host_user_id
+                host_user_id: host_user_id,
+                signup_link: e.SignupLink
             } as event
             ORDER BY e.StartDateTime
             LIMIT 10
@@ -658,7 +664,8 @@ async def search_events(request: Request) -> JSONResponse:
             num_shoutouts: num_shoutouts,
             user_join: user_join,
             user_shoutout: user_shoutout,
-            host_user_id: host_user_id } as event
+            host_user_id: host_user_id,
+            signup_link: e.SignupLink } as event
     ORDER BY toLower(e.Title)
     LIMIT 10
     """,
@@ -719,7 +726,8 @@ async def host_past(request: Request) -> JSONResponse:
                         num_shoutouts: num_shoutouts,
                         user_join: user_join,
                         user_shoutout: user_shoutout,
-                        host_user_id: $user_id }} as event
+                        host_user_id: $user_id,
+                        signup_link: e.SignupLink }} as event
                 ORDER BY e.StartDateTime DESC, e.EventID DESC
                 LIMIT 10
                 """
@@ -790,7 +798,8 @@ async def host_future(request: Request) -> JSONResponse:
                         num_shoutouts: num_shoutouts,
                         user_join: user_join,
                         user_shoutout: user_shoutout,
-                        host_user_id: $user_id }} as event
+                        host_user_id: $user_id,
+                        signup_link: e.SignupLink }} as event
                 ORDER BY e.StartDateTime ASC, e.EventID ASC
                 LIMIT 10
                 """
@@ -856,7 +865,8 @@ async def join_past(request: Request) -> JSONResponse:
                         num_shoutouts: num_shoutouts,
                         user_join: user_join,
                         user_shoutout: user_shoutout,
-                        host_user_id: host_user_id }} as event
+                        host_user_id: host_user_id,
+                        signup_link: e.SignupLink }} as event
                 ORDER BY e.StartDateTime DESC, e.EventID DESC
                 LIMIT 10
                 """
@@ -915,7 +925,8 @@ async def join_future(request: Request) -> JSONResponse:
                         num_shoutouts: num_shoutouts,
                         user_join: user_join,
                         user_shoutout: user_shoutout,
-                        host_user_id: host_user_id }} as event
+                        host_user_id: host_user_id,
+                        signup_link: e.SignupLink }} as event
                 ORDER BY e.StartDateTime ASC, e.EventID ASC
                 LIMIT 10
                 """
@@ -995,7 +1006,8 @@ async def get_home_events(request: Request) -> JSONResponse:
             user_shoutout: user_shoutout,
             host_user_id: host.UserID,
             reason: "From an account you follow",
-            user_follow_host: user_follow_host
+            user_follow_host: user_follow_host,
+            signup_link: e.SignupLink
             }) AS event_data
         UNWIND event_data as results
         RETURN results
@@ -1030,7 +1042,8 @@ async def get_home_events(request: Request) -> JSONResponse:
             user_join: user_join,
             user_shoutout: user_shoutout,
             host_user_id: host.UserID,
-            user_follow_host: user_follow_host
+            user_follow_host: user_follow_host,
+            signup_link: e.SignupLink
             }) AS event_data
         UNWIND event_data as results
         RETURN results
@@ -1066,7 +1079,8 @@ async def get_home_events(request: Request) -> JSONResponse:
             user_join: user_join,
             user_shoutout: user_shoutout,
             host_user_id: host.UserID,
-            user_follow_host: user_follow_host
+            user_follow_host: user_follow_host,
+            signup_link: e.SignupLink
             }) AS event_data
         UNWIND event_data as results
         RETURN results
@@ -1103,7 +1117,8 @@ async def get_home_events(request: Request) -> JSONResponse:
             user_shoutout: user_shoutout,
             host_user_id: host.UserID,
             reason: "From a reputable organization",
-            user_follow_host: user_follow_host
+            user_follow_host: user_follow_host,
+            signup_link: e.SignupLink
         }) AS event_data
         UNWIND event_data as results
         RETURN results
@@ -1141,7 +1156,8 @@ async def get_home_events(request: Request) -> JSONResponse:
             user_join: user_join,
             user_shoutout: user_shoutout,
             host_user_id: host.UserID,
-            user_follow_host: user_follow_host
+            user_follow_host: user_follow_host,
+            signup_link: e.SignupLink
             }) AS popular_events
         UNWIND apoc.coll.shuffle(popular_events)[0..15] AS results
         RETURN results""",

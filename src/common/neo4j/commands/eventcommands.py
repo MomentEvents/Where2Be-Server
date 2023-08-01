@@ -75,7 +75,8 @@ async def get_event_entity_by_event_id(event_id: str, user_access_token: str):
                 num_shoutouts: num_shoutouts,
                 user_join: user_join,
                 user_shoutout: user_shoutout,
-                host_user_id: host_user_id
+                host_user_id: host_user_id,
+                signup_link: e.SignupLink
             }""",
         parameters={
             "event_id": event_id,
@@ -135,7 +136,8 @@ async def get_random_popular_event_within_x_days(days: int, school_id: str):
                 user_join: user_join,
                 user_shoutout: user_shoutout,
                 host_user_id: host.UserID,
-                user_follow_host: user_follow_host
+                user_follow_host: user_follow_host,
+                signup_link: e.SignupLink
                 }) AS popular_events
             UNWIND apoc.coll.shuffle(popular_events)[0] AS result
             RETURN result
