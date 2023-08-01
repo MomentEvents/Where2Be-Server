@@ -6,6 +6,7 @@ from common.models import Problem
 from common.neo4j.commands.eventcommands import create_event_entity, get_event_entity_by_event_id
 from common.neo4j.commands.notificationcommands import get_all_follower_push_tokens, get_all_joined_users_push_tokens
 from common.neo4j.commands.usercommands import get_user_entity_by_user_access_token, get_user_entity_by_user_id
+from common.neo4j.converters import convert_event_entity_to_event
 from common.utils import send_and_validate_expo_push_notifications
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
@@ -671,36 +672,7 @@ async def search_events(request: Request) -> JSONResponse:
     events = []
     for record in result:
         event_data = record['event']
-        event_id = event_data['event_id']
-        title = event_data['title']
-        picture = event_data['picture']
-        description = event_data['description']
-        location = event_data['location']
-        start_date_time = str(event_data['start_date_time'])
-        end_date_time = None if event_data["end_date_time"] == "NULL" else str(
-            event_data["end_date_time"]),
-        visibility = event_data['visibility']
-        num_joins = event_data['num_joins']
-        num_shoutouts = event_data['num_shoutouts']
-        user_join = event_data['user_join']
-        user_shoutout = event_data['user_shoutout']
-        host_user_id = event_data['host_user_id']
-
-        events.append({
-            'event_id': event_id,
-            'title': title,
-            'picture': picture,
-            'description': description,
-            'location': location,
-            'start_date_time': start_date_time,
-            'end_date_time': end_date_time,
-            'visibility': visibility,
-            'num_joins': num_joins,
-            'num_shoutouts': num_shoutouts,
-            'user_join': user_join,
-            'user_shoutout': user_shoutout,
-            'host_user_id': host_user_id
-        })
+        events.append(convert_event_entity_to_event(event_data))
 
     return JSONResponse(events)
 
@@ -759,23 +731,18 @@ async def host_past(request: Request) -> JSONResponse:
         "cursor_start_date_time": cursor_start_date_time
         }
 
-    start_time = time.perf_counter()
+    result = await run_neo4j_query(
+        query,
+        parameters   
+    )
+    
+    print("get_event_list_from_query is", str(result))
 
-    data = await get_event_list_from_query(query, parameters)
-
-    end_time = time.perf_counter()
-
-    elapsed_time_ms = (start_time - begin_start_time) * 1000  # convert to milliseconds
-
-    print("took ", str(elapsed_time_ms), " milliseconds before calling query for host past") 
-
-    elapsed_time_ms = (end_time - start_time) * 1000  # convert to milliseconds
-
-    print("took ", str(elapsed_time_ms), " milliseconds for host past") 
-
-
-
-    return data
+    events = []
+    for record in result:
+        events.append(convert_event_entity_to_event(record['event']))
+        
+    return JSONResponse(events)
 
  
 async def host_future(request: Request) -> JSONResponse:
@@ -835,23 +802,18 @@ async def host_future(request: Request) -> JSONResponse:
         "cursor_start_date_time": cursor_start_date_time
         }
     
-    start_time = time.perf_counter()
-
-
-    data = await get_event_list_from_query(query, parameters)
-
-    end_time = time.perf_counter()
+    result = await run_neo4j_query(
+        query,
+        parameters   
+    )
     
-    elapsed_time_ms = (start_time - begin_start_time) * 1000  # convert to milliseconds
+    print("get_event_list_from_query is", str(result))
 
-    print("took ", str(elapsed_time_ms), " milliseconds before calling query to get host future") 
-
-    elapsed_time_ms = (end_time - start_time) * 1000  # convert to milliseconds
-
-    print("took ", str(elapsed_time_ms), " milliseconds for host future")
-
-
-    return data
+    events = []
+    for record in result:
+        events.append(convert_event_entity_to_event(record['event']))
+        
+    return JSONResponse(events)
 
 
 @is_requester_privileged_for_user
@@ -906,11 +868,18 @@ async def join_past(request: Request) -> JSONResponse:
         }
 
 
-    data = await get_event_list_from_query(query, parameters) 
+    result = await run_neo4j_query(
+        query,
+        parameters   
+    )
+    
+    print("get_event_list_from_query is", str(result))
 
-    print(time.perf_counter(), "Join past, end")
-
-    return data
+    events = []
+    for record in result:
+        events.append(convert_event_entity_to_event(record['event']))
+        
+    return JSONResponse(events)
 
  
 @is_requester_privileged_for_user
@@ -956,12 +925,19 @@ async def join_future(request: Request) -> JSONResponse:
         "cursor_event_id": cursor_event_id,
         "cursor_start_date_time": cursor_start_date_time
         }
+    
+    result = await run_neo4j_query(
+        query,
+        parameters   
+    )
+    
+    print("get_event_list_from_query is", str(result))
 
-    data = await get_event_list_from_query(query, parameters) 
-
-    print(time.perf_counter(), " join future, end")
-
-    return data
+    events = []
+    for record in result:
+        events.append(convert_event_entity_to_event(record['event']))
+        
+    return JSONResponse(events)
 
 
 async def get_home_events(request: Request) -> JSONResponse:
@@ -1361,51 +1337,3 @@ routes = [
     #     methods=["POST"],
     # )
 ]
-
-
-# HELPER FUNCTIONS
-
-async def get_event_list_from_query(query, parameters):
-        
-    result = await run_neo4j_query(
-        query,
-        parameters   
-    )
-    
-    print("get_event_list_from_query is", str(result))
-
-    events = []
-    for record in result:
-        event_data = record['event']
-        event_id = event_data['event_id']
-        title = event_data['title']
-        picture = event_data['picture']
-        description = event_data['description']
-        location = event_data['location']
-        start_date_time = str(event_data['start_date_time'])
-        end_date_time = None if event_data["end_date_time"] == "NULL" else str(event_data["end_date_time"])
-        visibility = event_data['visibility']
-        num_joins = event_data['num_joins']
-        num_shoutouts = event_data['num_shoutouts']
-        user_join = event_data['user_join']
-        user_shoutout = event_data['user_shoutout']
-        host_user_id = event_data['host_user_id']
-
-        events.append({
-            'event_id': event_id,
-            'title': title,
-            'picture': picture,
-            'description': description,
-            'location': location,
-            'start_date_time': start_date_time,
-            'end_date_time': end_date_time,
-            'visibility': visibility,
-            'num_joins': num_joins,
-            'num_shoutouts': num_shoutouts,
-            'user_join': user_join,
-            'user_shoutout': user_shoutout,
-            'host_user_id': host_user_id
-        })
-        
-    return JSONResponse(events)
-

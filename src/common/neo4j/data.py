@@ -27,6 +27,7 @@ async def init_schema():
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Title);", # String
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Description);", # String
         # "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Picture);", # String
+        # "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.SignupLink);", # String
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Location);", # String
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.StartDateTime);", # String / null
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.EndDateTime);", # String
