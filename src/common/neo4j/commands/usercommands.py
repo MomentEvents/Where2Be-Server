@@ -283,7 +283,7 @@ def create_viewed_connections(user_id, event_ids):
 
     return 0
 
-def create_join_connection(user_id, event_id):
+async def create_join_connection(user_id, event_id):
     timestamp = datetime.now(timezone.utc)
 
     query = """
@@ -317,7 +317,7 @@ def delete_join_connection(user_id, event_id):
 
     return 0
 
-def create_shoutout_connection(user_id, event_id):
+async def create_shoutout_connection(user_id, event_id):
     timestamp = datetime.now(timezone.utc)
 
     query = """
@@ -350,3 +350,20 @@ def delete_shoutout_connection(user_id, event_id):
         session.run(query, parameters)
 
     return 0
+
+###
+def get_all_bots():
+    with get_neo4j_session() as session:
+        result = session.run("""MATCH (u:User)
+                    where u.AccountType = "Bot"
+                    RETURN u"""
+        )
+
+        bot_array = []
+        for record in result:
+            if record == None:
+                return []
+            data = record[0]
+            bot_array.append(convert_user_entity_to_user(data, False))
+        
+        return bot_array
