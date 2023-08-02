@@ -113,35 +113,42 @@ async def get_and_notify_for_school(school):
             print(f"Error sending push notification for user_id {user['user_id']}: \n\n{str(e)}")
 
 
-async def bot_chance_join_repost_event(user_id, event_id):
-    chance = random.randint(0, 90) / 100
+async def bot_chance_join_repost_event(event_id):
 
-    if random.random() < chance:
-        print("join for ", event_id)
-        asyncio.create_task(create_join_connection(user_id, event_id))
+    # Get all bots
+    bots = await get_all_bots()
 
-    if random.random() < (chance + 0.10):
-        print("shoutout for ", event_id)
-        asyncio.create_task(create_shoutout_connection(user_id, event_id))
+    for bot in bots:
+        user_id = bot['user_id']
+        chance = random.randint(0, 90) / 100
+
+        if random.random() < chance:
+            print("join for ", event_id)
+            await create_join_connection(user_id, event_id)
+
+        if random.random() < (chance + 0.10):
+            print("shoutout for ", event_id)
+            await create_shoutout_connection(user_id, event_id)
+
+        await asyncio.sleep(10) 
 
 
-async def perform_bot_actions():
+async def perform_bot_actions(last_run_time):
+
+    print("last_run_time",last_run_time)
+
     # Get all events created after the last run
-    new_events = get_events_created_after_given_time("2023-07-28T06:49:27.089052")
+    new_events = await get_events_created_after_given_time(last_run_time)
 
     if not new_events:
         return
 
-    # Get all bots
-    bots = get_all_bots()
-
     tasks = []
 
     # Loop through each bot and each event
-    for bot in bots:
-        for event in new_events:
-            asyncio.create_task(bot_chance_join_repost_event(bot['user_id'], event['event_id']))
-            # tasks.append(task)
+    for event in new_events:
+        asyncio.create_task(bot_chance_join_repost_event(event['event_id']))
+        # tasks.append(task)
 
     # Now we use gather to run all tasks concurrently
     # await asyncio.gather(*tasks)
