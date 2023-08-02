@@ -15,7 +15,7 @@ import time
 from datetime import datetime
 import secrets
 
-from common.neo4j.moment_neo4j import get_neo4j_session, parse_neo4j_data, run_neo4j_query
+from common.neo4j.moment_neo4j import parse_neo4j_data, run_neo4j_query
 from api.version.ver_1_0_1.auth import is_real_user, is_requester_privileged_for_user, is_user_formatted, is_valid_user_access_token
 
 from common.s3.moment_s3 import upload_base64_image

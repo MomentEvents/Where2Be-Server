@@ -1,7 +1,7 @@
 from api.helpers import get_email_domain
 from common.neo4j.commands.usercommands import create_user_entity, get_user_entity_by_username
 from common.neo4j.commands.schoolcommands import get_school_entity_by_email_domain, get_school_entity_by_school_id
-from common.neo4j.moment_neo4j import get_neo4j_session, parse_neo4j_data, run_neo4j_query
+from common.neo4j.moment_neo4j import parse_neo4j_data, run_neo4j_query
 from common.models import Problem
 from common.utils import is_email
 from common.firebase import login_user_firebase, create_user_firebase, get_firebase_user_by_uid, get_firebase_user_by_email, send_verification_email

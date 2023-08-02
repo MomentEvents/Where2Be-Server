@@ -3,7 +3,7 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from functools import wraps
 from dateutil import parser
-from common.neo4j.moment_neo4j import get_neo4j_session, parse_neo4j_data, run_neo4j_query
+from common.neo4j.moment_neo4j import parse_neo4j_data, run_neo4j_query
 from api.helpers import parse_request_data, contains_profanity, contains_url, validate_username
 import base64
 from PIL import Image

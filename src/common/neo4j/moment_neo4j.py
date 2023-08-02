@@ -46,16 +46,6 @@ class Neo4jDriverSingleton:
             
 
 async def run_neo4j_query(query: str, parameters=None):
-    # async with AsyncGraphDatabase.driver(NEO4J_BOLT_URL, auth=(NEO4J_USERNAME, NEO4J_PASSWORD)) as driver:
-    #     session = driver.session()
-    #     try:
-    #         result = await session.run(query, parameters)
-    #         return await result.value()
-    #     except asyncio.CancelledError:
-    #         session.cancel()
-    #         raise
-    #     finally:
-    #         await session.close()
     driver = await Neo4jDriverSingleton.get_driver_instance()
     session = driver.session()
     try:
@@ -69,20 +59,6 @@ async def run_neo4j_query(query: str, parameters=None):
         raise
     finally:
         await session.close()
-
-async def get_neo4j_session():
-    attempts = 1
-    max_attempts = 5
-    while attempts < max_attempts:
-        try:
-            driver = await Neo4jDriverSingleton.get_driver_instance()
-            await driver.verify_connectivity()
-            return driver.session()
-        except:
-            logging.error("Unable to connect to the Neo4j database. Retrying attempt #", str(attempts))
-            await Neo4jDriverSingleton.close_driver_instance()
-        attempts = attempts + 1
-    raise Exception("Unable to create a Neo4j session after ", str(max_attempts), " attempts.")
 
 async def test_neo4j_health():
     try:

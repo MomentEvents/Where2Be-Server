@@ -18,7 +18,7 @@ from builtins import Exception
 
 from api import status
 from common.neo4j.data import init_neo4j
-from common.neo4j.moment_neo4j import get_neo4j_session, test_neo4j_health
+from common.neo4j.moment_neo4j import test_neo4j_health
 import sys
 from api.utils.middleware import ProblemHandlingMiddleware
 

@@ -11,7 +11,7 @@ import bcrypt
 import secrets
 from common.models import Problem
 
-from common.neo4j.moment_neo4j import get_neo4j_session, run_neo4j_query
+from common.neo4j.moment_neo4j import run_neo4j_query
 from api.version.ver_1_0_1.auth import is_real_user, is_requester_privileged_for_user
 
 import platform

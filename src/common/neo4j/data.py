@@ -1,4 +1,4 @@
-from common.neo4j.moment_neo4j import get_neo4j_session, run_neo4j_query
+from common.neo4j.moment_neo4j import run_neo4j_query
 from common.neo4j.commands.usercommands import create_follow_connection, create_user_entity
 from common.neo4j.commands.schoolcommands import create_school_entity
 from common.neo4j.commands.interestcommands import create_interest_entity

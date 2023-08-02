@@ -14,7 +14,7 @@ from datetime import datetime
 import bcrypt
 import secrets
 
-from common.neo4j.moment_neo4j import get_neo4j_session, parse_neo4j_data, run_neo4j_query
+from common.neo4j.moment_neo4j import parse_neo4j_data, run_neo4j_query
 from api.version.ver_1_0_1.auth import is_real_user
 
 import platform

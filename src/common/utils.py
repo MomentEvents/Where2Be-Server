@@ -11,8 +11,14 @@ import os
 import requests
 from requests.exceptions import ConnectionError, HTTPError
 import re
+import asyncio
 
 from common.constants import IS_PROD
+from datetime import datetime
+import json
+
+#remove this
+import time
 
 SES_CLIENT = boto3.client('ses',
                           aws_access_key_id=os.environ.get('SES_ACCESS_KEY'),
@@ -87,7 +93,6 @@ def _send_push_token(expo_token: str, title: str, message: str, extra) -> bool:
     print("FATAL ERROR: DID NOT SEND PUSH NOTIFICATION")
     return True
 
-    
 
 async def send_and_validate_expo_push_notifications(tokens_with_user_id: "set[dict[str, str]]", title: str, message: str, extra):
     # input = {{
@@ -97,7 +102,27 @@ async def send_and_validate_expo_push_notifications(tokens_with_user_id: "set[di
     for token_with_user_id in tokens_with_user_id:
         if(not _send_push_token(token_with_user_id["token"], title, message, extra)):
             remove_push_token(token_with_user_id["user_id"], token_with_user_id["token"], "Expo")
+    # await asyncio.sleep(10)
+    print(tokens_with_user_id, " WITH TITLE ", title, " WITH MESSAGE ", message)
 
+def store_runtime(run_type: str):
+
+    print("storing time")
+
+    # Store the runtime of the run_type from the worker
+    task_info_path = "./worker/task_info.json"
+    
+    current_time = datetime.now()
+
+    with open(task_info_path, 'r') as json_file:
+        data = json.load(json_file)
+
+    # Update the last run time for the given run_type
+    data[run_type] = current_time.isoformat()
+
+    # Write the updated data back to the JSON file
+    with open(task_info_path, 'w') as json_file:
+        json.dump(data, json_file)
 
 def is_email(string):
     pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
