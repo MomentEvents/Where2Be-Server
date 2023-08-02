@@ -1,4 +1,4 @@
-from common.neo4j.moment_neo4j import get_neo4j_session, parse_neo4j_data, run_neo4j_query
+from common.neo4j.moment_neo4j import get_neo4j_session
 from common.neo4j.converters import convert_user_entity_to_user, convert_school_entity_to_school
 from common.s3.moment_s3 import get_bucket_url
 from common.models import Problem
@@ -9,7 +9,7 @@ from datetime import datetime, timezone
 
 
 
-async def create_user_entity(display_name: str, username: str, school_id: str, is_verified_org: bool, is_admin: bool, is_scraper_account=False):
+def create_user_entity(display_name: str, username: str, school_id: str, is_verified_org: bool, is_admin: bool, is_scraper_account=False):
     username = username.lower()
     username = username.strip()
     display_name = display_name.strip()
@@ -19,53 +19,56 @@ async def create_user_entity(display_name: str, username: str, school_id: str, i
         get_bucket_url()+"app-uploads/images/users/static/default" + random_number + ".png"
     )
 
-    user_access_token = secrets.token_urlsafe()
-    user_id = secrets.token_urlsafe()
+    with get_neo4j_session() as session:
 
-    result = await run_neo4j_query(
-        """CREATE (u:User {UserID: $user_id, Username: $username, Picture:$picture, DisplayName:$display_name, UserAccessToken:$user_access_token, VerifiedOrganization:$is_verified_org, Administrator:$is_admin, ScraperAccount:$is_scraper_account})
-        WITH u
-        MATCH(n:School{SchoolID: $school_id})
-        CREATE (u)-[r:user_school]->(n)
-        RETURN u""",
-        parameters={
-            "username": username,
-            "display_name": display_name,
-            "picture": default_user_image,
-            "school_id": school_id,
-            "user_access_token": user_access_token,
-            "user_id": user_id,
-            "is_verified_org": is_verified_org,
-            "is_admin": is_admin,
-            "is_scraper_account": is_scraper_account,
-        },
-    )
+        user_access_token = secrets.token_urlsafe()
+        user_id = secrets.token_urlsafe()
 
-    return user_access_token, user_id
+        result = session.run(
+            """CREATE (u:User {UserID: $user_id, Username: $username, Picture:$picture, DisplayName:$display_name, UserAccessToken:$user_access_token, VerifiedOrganization:$is_verified_org, Administrator:$is_admin, ScraperAccount:$is_scraper_account})
+            WITH u
+            MATCH(n:School{SchoolID: $school_id})
+            CREATE (u)-[r:user_school]->(n)
+            RETURN u""",
+            parameters={
+                "username": username,
+                "display_name": display_name,
+                "picture": default_user_image,
+                "school_id": school_id,
+                "user_access_token": user_access_token,
+                "user_id": user_id,
+                "is_verified_org": is_verified_org,
+                "is_admin": is_admin,
+                "is_scraper_account": is_scraper_account,
+            },
+        )
+
+        return user_access_token, user_id
  
 
-async def get_user_entity_by_username(username: str):
+def get_user_entity_by_username(username: str):
+    with get_neo4j_session() as session:
 
-    result = await run_neo4j_query(
-        """MATCH (u:User {Username: $username})
-        RETURN u""",
-        parameters={
-            "username": username
-        },
-    )
+        result = session.run(
+            """MATCH (u:User {Username: $username})
+            RETURN u""",
+            parameters={
+                "username": username
+            },
+        )
 
-    data = parse_neo4j_data(result, 'single')
+        record = result.single()
 
-    if(not data):
-        return None
-    
-    user = convert_user_entity_to_user(data, show_num_events_followers_following=False)
+        if record == None:
+            return None
 
-    print(user)
+        data = record[0]
 
-    return user
+        user = convert_user_entity_to_user(data)
 
-async def get_user_entity_by_user_id(user_id: str, self_user_access_token: str, show_num_events_followers_following: bool):
+        return user
+
+def get_user_entity_by_user_id(user_id: str, self_user_access_token: str, show_num_events_followers_following: bool):
 
     #self_user_access token is used to get UserFollow with show_num_events_followers_following. In other words, both have to exist or neither exist
     parameters = {
@@ -113,42 +116,25 @@ async def get_user_entity_by_user_id(user_id: str, self_user_access_token: str, 
 
 
     print(final_query)
+    with get_neo4j_session() as session:
 
-    result = await run_neo4j_query(
-        final_query,
-        parameters=parameters,
-    )
+        result = session.run(
+            final_query,
+            parameters=parameters,
+        )
 
-    data = parse_neo4j_data(result, 'single')
+        record = result.single()
 
-    if(not data):
-        return None
+        if record == None:
+            return None
 
-    user_data = convert_user_entity_to_user(data, show_num_events_followers_following)
+        data = record[0]
 
-    return user_data
+        user_data = convert_user_entity_to_user(data, show_num_events_followers_following=show_num_events_followers_following)
 
-async def get_user_entity_by_event_id(event_id):
+        return user_data
 
-    result = await run_neo4j_query(
-    """MATCH (e:Event{EventID : $event_id})<-[:user_host]-(u:User)
-    RETURN u""",
-    parameters={
-        "event_id": event_id,
-    },
-    )
-
-    data = parse_neo4j_data(result, 'single')
-
-    if(not data):
-        return None
-
-    user_data = convert_user_entity_to_user(data, show_num_events_followers_following=False)
-
-    return user_data
-
-
-async def get_user_entity_by_user_access_token(user_access_token: str, show_num_events_followers_following: bool):
+def get_user_entity_by_user_access_token(user_access_token: str, show_num_events_followers_following: bool):
     parameters = {
             "user_access_token": user_access_token
         }
@@ -188,21 +174,27 @@ async def get_user_entity_by_user_access_token(user_access_token: str, show_num_
     else:
         final_query = match_query + return_query
 
-    result = await run_neo4j_query(
-        final_query,
-        parameters=parameters,
-    )
 
-    data = parse_neo4j_data(result, 'single')
+    print(final_query)
+    with get_neo4j_session() as session:
 
-    if(not data):
-        return None
+        result = session.run(
+            final_query,
+            parameters=parameters,
+        )
 
-    user_data = convert_user_entity_to_user(data, show_num_events_followers_following)
+        record = result.single()
 
-    return user_data
+        if record == None:
+            return None
 
-async def create_follow_connection(from_user_id, to_user_id):
+        data = record[0]
+
+        user_data = convert_user_entity_to_user(data, show_num_events_followers_following=show_num_events_followers_following)
+
+        return user_data
+
+def create_follow_connection(from_user_id, to_user_id):
     timestamp = datetime.now(timezone.utc)
 
     query = """
@@ -217,11 +209,12 @@ async def create_follow_connection(from_user_id, to_user_id):
         "timestamp": timestamp.isoformat()  # Convert DateTime object to ISO 8601 string format
     }
 
-    await run_neo4j_query(query, parameters)
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
 
     return 0
 
-async def delete_follow_connection(from_user_id, to_user_id):
+def delete_follow_connection(from_user_id, to_user_id):
     query = """MATCH (u1:User{UserID: $from_user_id})-[r:user_follow]->(u2:User{UserID: $to_user_id})
                         DELETE r"""
     parameters = {
@@ -229,11 +222,12 @@ async def delete_follow_connection(from_user_id, to_user_id):
             "to_user_id": to_user_id,
     }
 
-    await run_neo4j_query(query, parameters)
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
 
     return 0
 
-async def create_not_interested_connection(user_id, event_id):
+def create_not_interested_connection(user_id, event_id):
     timestamp = datetime.now(timezone.utc)
 
     query = """
@@ -248,11 +242,12 @@ async def create_not_interested_connection(user_id, event_id):
         "timestamp": timestamp.isoformat()  # Convert DateTime object to ISO 8601 string format
     }
 
-    await run_neo4j_query(query, parameters)
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
 
     return 0
 
-async def delete_not_interested_connection(user_id, event_id):
+def delete_not_interested_connection(user_id, event_id):
     query = """MATCH (u:User{UserID: $user_id})-[r:user_not_interested]->(e:Event{EventID: $event_id})
                 DELETE r"""
 
@@ -261,11 +256,12 @@ async def delete_not_interested_connection(user_id, event_id):
         "event_id": event_id,
     }
 
-    await run_neo4j_query(query, parameters)
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
 
     return 0
 
-async def create_viewed_connections(user_id, event_ids):
+def create_viewed_connections(user_id, event_ids):
     timestamp = datetime.now(timezone.utc)
     
     query = """
@@ -282,7 +278,8 @@ async def create_viewed_connections(user_id, event_ids):
         "timestamp": timestamp.isoformat()  # Convert DateTime object to ISO 8601 string format
     }
 
-    await run_neo4j_query(query, parameters)
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
 
     return 0
 
@@ -301,11 +298,12 @@ async def create_join_connection(user_id, event_id):
         "timestamp": timestamp.isoformat()  # Convert DateTime object to ISO 8601 string format
     }
 
-    await run_neo4j_query(query, parameters)
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
 
     return 0
 
-async def delete_join_connection(user_id, event_id):
+def delete_join_connection(user_id, event_id):
     query = """MATCH (u:User{UserID: $user_id})-[r:user_join]->(e:Event{EventID: $event_id})
                 DELETE r"""
 
@@ -314,7 +312,8 @@ async def delete_join_connection(user_id, event_id):
         "event_id": event_id,
     }
 
-    await run_neo4j_query(query, parameters)
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
 
     return 0
 
@@ -333,11 +332,12 @@ async def create_shoutout_connection(user_id, event_id):
         "timestamp": timestamp.isoformat()  # Convert DateTime object to ISO 8601 string format
     }
 
-    await run_neo4j_query(query, parameters)
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
 
     return 0
 
-async def delete_shoutout_connection(user_id, event_id):
+def delete_shoutout_connection(user_id, event_id):
     query = """MATCH (u:User{UserID: $user_id})-[r:user_shoutout]->(e:Event{EventID: $event_id})
                 DELETE r"""
 
@@ -346,22 +346,24 @@ async def delete_shoutout_connection(user_id, event_id):
         "event_id": event_id,
     }
 
-    await run_neo4j_query(query, parameters)
+    with get_neo4j_session() as session:
+        session.run(query, parameters)
 
     return 0
 
 ###
 async def get_all_bots():
-
-    run_neo4j_query("""MATCH (u:User)
+    with get_neo4j_session() as session:
+        result = session.run("""MATCH (u:User)
                     where u.AccountType = "Bot"
-                    RETURN u""")
-   
-    bot_array = []
-    for record in result:
-        if record == None:
-            return []
-        data = record['u']
-        bot_array.append(convert_user_entity_to_user(data))
-    
-    return bot_array
+                    RETURN u"""
+        )
+
+        bot_array = []
+        for record in result:
+            if record == None:
+                return []
+            data = record[0]
+            bot_array.append(convert_user_entity_to_user(data))
+        
+        return bot_array
