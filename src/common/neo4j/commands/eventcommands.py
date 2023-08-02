@@ -101,11 +101,11 @@ async def get_and_set_all_starting_soon_events(lookahead_period_min: int):
     
     result = await run_neo4j_query(
         """
-        MATCH (e:Event)-[rel:user_join|user_host]-(u:User)
+        MATCH (e:Event{Title:"Dog"})-[rel:user_join|user_host]-(u:User)
         WHERE datetime(e.StartDateTime) >= datetime() AND datetime(e.StartDateTime) <= datetime() + duration({months: $lookahead_period_min}) 
         AND (type(rel) = 'user_join' OR type(rel) = 'user_host')
         UNWIND u.PushTokens AS pushTokensList
-        RETURN e.Title AS title, e.EventID AS event_id, COLLECT({token: pushTokensList, user_id: u.UserID}) AS user_details""",
+        RETURN e.Title AS title, e.EventID AS event_id, COLLECT(DISTINCT {token: pushTokensList, user_id: u.UserID}) AS user_details""",
         parameters={
             "lookahead_period_min": lookahead_period_min,
         }
@@ -115,7 +115,8 @@ async def get_and_set_all_starting_soon_events(lookahead_period_min: int):
         event_id = record['event_id']
         if event_id not in event_data:
             event_data[event_id] = [record['title'], record['user_details']]
-    
+
+    print(event_data)
     return event_data
     
 async def get_random_popular_event_within_x_days(days: int, school_id: str):

@@ -65,7 +65,7 @@ async def notify_all_events_starting_soon():
             try:
                 asyncio.create_task(send_and_validate_expo_push_notifications(formatted_user_id_with_push_token, "Event starting soon", message, extra))
             except Exception as e:
-                print(f"Error sending push notification for event_id {event_id} for user {user_access_token}: \n\n{str(e)}")
+                print(f"Error sending push notification for event_id {event_id} for user {formatted_user_id_with_push_token}: \n\n{str(e)}")
 
     store_runtime("notify_all_events_starting_soon")
 

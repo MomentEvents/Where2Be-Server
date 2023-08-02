@@ -2,7 +2,7 @@ from inspect import Parameter
 from common.models import Problem
 from common.neo4j.commands.schoolcommands import get_school_entity_by_email_domain, get_school_entity_by_school_id
 from common.neo4j.commands.usercommands import create_user_entity, get_user_entity_by_username
-from common.utils import is_email
+from common.utils import contains_profanity, contains_url, get_email_domain, is_email, validate_username
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.responses import Response
@@ -10,7 +10,7 @@ from starlette.routing import Route
 from starlette.background import BackgroundTasks
 
 from api.version.ver_1_0_1.auth import is_requester_admin, is_user_formatted
-from api.helpers import contains_profanity, contains_url, get_email_domain, parse_request_data, validate_username
+from api.helpers import parse_request_data
 
 import datetime
 import bcrypt

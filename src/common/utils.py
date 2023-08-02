@@ -1,5 +1,7 @@
+import base64
 import boto3
 from common.neo4j.commands.notificationcommands import remove_push_token
+from common.neo4j.moment_neo4j import run_neo4j_query
 from exponent_server_sdk import (
     DeviceNotRegisteredError,
     PushClient,
@@ -14,8 +16,19 @@ import re
 import asyncio
 
 from common.constants import IS_PROD
-from datetime import datetime
+from datetime import datetime, timezone
 import json
+from dateutil import parser
+
+from better_profanity import profanity
+
+import base64
+from PIL import Image
+import json
+from io import BytesIO
+import io
+
+
 
 #remove this
 import time
@@ -127,3 +140,161 @@ def store_runtime(run_type: str):
 def is_email(string):
     pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
     return re.match(pattern, string) is not None
+
+def contains_url(string):
+ 
+    regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
+    url = re.findall(regex, string)
+    if(len(url) > 0):
+        return True
+    
+    string_list = string.split()
+
+    
+    regex = r"(?i)\b((?:.com$|.org$|.edu$))"
+
+    for test_string in string_list:
+        url = re.findall(regex, test_string)
+        if(len(url) > 0):
+            return True
+    
+    return False
+
+def contains_profanity(string):
+    return profanity.contains_profanity(string)
+
+def get_email_domain(email):
+    try:
+        # Split by '@' and get the domain part
+        domain = email.split('@')[1]
+        return domain
+    except IndexError:
+        return None
+
+def validate_username(username):
+    # This pattern allows for a-z, A-Z, 0-9, underscore, and hyphen, with no specific length limit.
+    pattern = r'^[a-zA-Z0-9_-]*$'
+    match = re.match(pattern, username)
+
+    # Return True if the username is valid, False otherwise.
+    return match is not None
+
+async def is_event_formatted_correctly(title: str, description: str, start_date_time: str, end_date_time: str, location: str, visibility: str, interest_ids: "list[str]"):
+    if (title.isprintable() is False) or (title.isspace() is True):
+        return False, "Title is not printable"
+
+    if (len(title) > 70):
+        return False, "Title cannot be over 70 characters"
+
+    if (len(title) < 1):
+        return False, "Title cannot be under 1 character"
+
+    if (contains_profanity(title)):
+        return False, "We detected profanity in your title. Please change it"
+
+    if (contains_url(title)):
+        return False, "Title cannot contain a url"
+
+    if (description.isspace()):
+        return False, "Description is not readable"
+
+    if (len(description) > 2000):
+        return False, "Description cannot be over 2000 characters"
+
+    if (len(description) < 1):
+        return False, "Description cannot be under 1 character"
+
+    if (contains_profanity(description)):
+        return False, "We detected profanity in your description. Please change it"
+
+    try:
+        start_date_time_test = parser.parse(start_date_time)
+    except:
+        return False, "Could not parse start date"
+
+    if end_date_time != None:
+        try:
+            end_date_time_test = parser.parse(end_date_time)
+            if start_date_time_test >= end_date_time_test:
+                return False, "Start date cannot be equal to or after end date"
+        except:
+            return False, "Could not parse end date"
+        
+    if start_date_time_test < datetime.now(timezone.utc):
+        return False, "This event cannot be in the past"
+
+    if (location.isprintable() is False) or (location.isspace() is True):
+        return False, "Location is not printable"
+
+    if (len(location) > 200):
+        return False, "Location cannot be over 200 characters"
+
+    if (len(location) < 1):
+        return False, "Location cannot be under 1 character"
+
+    if (contains_profanity(location)):
+        return False, "We detected profanity in your location. Please change it"
+
+    if len(interest_ids) != 1:
+        return False, "Must only put in one interest tag"
+
+    if (visibility != "Public" and visibility != "Private"):
+        return False, "Visibility must be either \"Public\" or \"Private\""
+
+    result = await run_neo4j_query(
+        """UNWIND $interest_ids as interest_id
+            MATCH (interests:Interest {InterestID: interest_id})
+            RETURN interests""",
+        parameters={
+            "interest_ids": interest_ids,
+        },
+    )
+
+    # this code sucks
+    num_interests = 0
+    for record in result:
+        num_interests = num_interests + 1
+
+    if num_interests != len(interest_ids):
+        return False, "One or more interests do not exist"
+    
+    return True, "Event is formatted correctly"
+
+def is_user_formatted_correctly(display_name: str, username: str):
+    if len(display_name) > 30:
+        return False, "Display name cannot exceed 30 characters"
+    
+    if len(display_name) < 3:
+        return False, "Display name cannot be below 3 characters"
+
+    if (display_name.isprintable() is False) or (display_name.isspace() is True):
+        return False, "Display name is not readable"
+
+    if (contains_url(display_name)):
+        return False, "Display name cannot contain a url"
+
+    if (contains_profanity(display_name)):
+        return False, "We detected profanity in your display name. Please change it"
+
+    if len(username) > 30:
+        return False, "Username cannot exceed 30 characters"
+
+    if len(username) < 6:
+        return False, "Username cannot be under 6 characters"
+
+    if validate_username(username) is False:
+        return False, "Usernames must contain a-z, A-Z, 0-9, underscores, or hyphens"
+
+    if (contains_profanity(username)):
+        return False, "We detected profanity in your username. Please change it"
+
+    if (contains_url(username)):
+        return False, "Username cannot contain a url"
+    
+async def is_picture_formatted_correctly(picture):
+    
+    try:
+        image_bytes = base64.b64decode(picture)
+        img = Image.open(io.BytesIO(image_bytes))
+    except:
+        return False, "Picture is not a valid base64 image"

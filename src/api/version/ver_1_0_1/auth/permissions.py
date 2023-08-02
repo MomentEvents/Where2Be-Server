@@ -1,10 +1,11 @@
 from datetime import datetime, timezone
+from common.utils import is_event_formatted_correctly, is_picture_formatted_correctly, is_user_formatted_correctly
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from functools import wraps
 from dateutil import parser
 from common.neo4j.moment_neo4j import parse_neo4j_data, run_neo4j_query
-from api.helpers import parse_request_data, contains_profanity, contains_url, validate_username
+from api.helpers import parse_request_data
 import base64
 from PIL import Image
 import json
@@ -114,12 +115,10 @@ def is_picture_formatted(func):
         if picture == "null" or picture == "undefined":
             return Response(status_code=400, content="Picture cannot be empty")
 
-        try:
-            image_bytes = base64.b64decode(picture)
-            img = Image.open(io.BytesIO(image_bytes))
-        except:
-            return Response(status_code=400, content="Picture is not a valid base64 image")
-
+        is_valid, message = await is_picture_formatted_correctly(picture)
+        if(not is_valid):
+            return Response(status=400, content=message)
+        
         return await func(request)
 
     return wrapper
@@ -162,83 +161,10 @@ def is_event_formatted(func):
         title = title.strip()
         location = location.strip()
 
-        if (title.isprintable() is False) or (title.isspace() is True):
-            return Response(status_code=400, content="Title is not printable")
-
-        if (len(title) > 70):
-            return Response(status_code=400, content="Title cannot be over 70 characters")
-
-        if (len(title) < 1):
-            return Response(status_code=400, content="Title cannot be under 1 character")
-
-        if (contains_profanity(title)):
-            return Response(status_code=400, content="We detected profanity in your title. Please change it")
-
-        if (contains_url(title)):
-            return Response(status_code=400, content="Title cannot contain a url")
-
-        if (description.isspace()):
-            return Response(status_code=400, content="Description is not readable")
-
-        if (len(description) > 2000):
-            return Response(status_code=400, content="Description cannot be over 2000 characters")
-
-        if (len(description) < 1):
-            return Response(status_code=400, content="Description cannot be under 1 character")
-
-        if (contains_profanity(description)):
-            return Response(status_code=400, content="We detected profanity in your description. Please change it")
-
-        try:
-            start_date_time_test = parser.parse(start_date_time)
-        except:
-            return Response(status_code=400, content="Could not parse start date")
-
-        if end_date_time != None:
-            try:
-                end_date_time_test = parser.parse(end_date_time)
-                if start_date_time_test >= end_date_time_test:
-                    return Response(status_code=400, content="Start date cannot be equal to or after end date")
-            except:
-                return Response(status_code=400, content="Could not parse end date")
-            
-        if start_date_time_test < datetime.now(timezone.utc):
-            return Response(status_code=400, content="This event cannot be in the past")
-
-        if (location.isprintable() is False) or (location.isspace() is True):
-            return Response(status_code=400, content="Location is not printable")
-
-        if (len(location) > 200):
-            return Response(status_code=400, content="Location cannot be over 200 characters")
-
-        if (len(location) < 1):
-            return Response(status_code=400, content="Location cannot be under 1 character")
-
-        if (contains_profanity(location)):
-            return Response(status_code=400, content="We detected profanity in your location. Please change it")
-
-        if len(interest_ids) != 1:
-            return Response(status_code=400, content="Must only put in one interest tag")
-
-        if (visibility != "Public" and visibility != "Private"):
-            return Response(status_code=400, content="Visibility must be either \"Public\" or \"Private\"")
-
-        result = await run_neo4j_query(
-            """UNWIND $interest_ids as interest_id
-                MATCH (interests:Interest {InterestID: interest_id})
-                RETURN interests""",
-            parameters={
-                "interest_ids": interest_ids,
-            },
-        )
-
-        # this code sucks
-        num_interests = 0
-        for record in result:
-            num_interests = num_interests + 1
-
-        if num_interests != len(interest_ids):
-            return Response(status_code=400, content="One or more interests do not exist")
+        is_valid, message = await is_event_formatted_correctly(title, description, start_date_time,
+                                                               end_date_time, location, visibility, interest_ids)
+        if(not is_valid):
+            return Response(status=400, content=message)
 
         return await func(request)
 
@@ -265,35 +191,10 @@ def is_user_formatted(func):
         except:
             return Response(status_code=400, content="Incomplete body")
 
-        if len(display_name) > 30:
-            return Response(status_code=400, content="Display name cannot exceed 30 characters")
-        
-        if len(display_name) < 3:
-            return Response(status_code=400, content="Display name cannot be below 3 characters")
+        is_valid, message = await is_user_formatted_correctly(display_name, username)
 
-        if (display_name.isprintable() is False) or (display_name.isspace() is True):
-            return Response(status_code=400, content="Display name is not readable")
-
-        if (contains_url(display_name)):
-            return Response(status_code=400, content="Display name cannot contain a url")
-
-        if (contains_profanity(display_name)):
-            return Response(status_code=400, content="We detected profanity in your display name. Please change it")
-
-        if len(username) > 30:
-            return Response(status_code=400, content="Username cannot exceed 30 characters")
-
-        if len(username) < 6:
-            return Response(status_code=400, content="Username cannot be under 6 characters")
-
-        if validate_username(username) is False:
-            return Response(status_code=400, content="Usernames must contain a-z, A-Z, 0-9, underscores, or hyphens")
-
-        if (contains_profanity(username)):
-            return Response(status_code=400, content="We detected profanity in your username. Please change it")
-
-        if (contains_url(username)):
-            return Response(status_code=400, content="Username cannot contain a url")
+        if(not is_valid):
+            return Response(status=400, content=message)
 
         return await func(request)
 
