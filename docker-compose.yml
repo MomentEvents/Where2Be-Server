@@ -18,33 +18,33 @@ services:
   #     - ./storage/neo4j/data:/data
   #     - ./storage/neo4j/logs:/logs
 
-  # api:
-  #   build:
-  #     context: ./src/
-  #     dockerfile: api.Dockerfile
-  #   container_name: api
-  #   restart: always
-  #   ports:
-  #     - "8080:8080"
-  #   environment:
-  #     PYTHONDONTWRITEBYTECODE: 1
-  #     PYTHONUNBUFFERED: 1
-  #   env_file:
-  #     - .env
-  #   volumes:
-  #     - ./src:/usr/src/app/
-  #     - ./src/api/run.sh:/usr/src/app/api/run.sh
-
-  worker:
+  api:
     build:
       context: ./src/
-      dockerfile: worker.Dockerfile
+      dockerfile: api.Dockerfile
+    container_name: api
     restart: always
+    ports:
+      - "8080:8080"
     environment:
       PYTHONDONTWRITEBYTECODE: 1
       PYTHONUNBUFFERED: 1
-    container_name: worker
     env_file:
       - .env
     volumes:
       - ./src:/usr/src/app/
+      - ./src/api/run.sh:/usr/src/app/api/run.sh
+
+  # worker:
+  #   build:
+  #     context: ./src/
+  #     dockerfile: worker.Dockerfile
+  #   restart: always
+  #   environment:
+  #     PYTHONDONTWRITEBYTECODE: 1
+  #     PYTHONUNBUFFERED: 1
+  #   container_name: worker
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - ./src:/usr/src/app/

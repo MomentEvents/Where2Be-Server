@@ -366,20 +366,20 @@ async def get_events_categorized(request: Request) -> JSONResponse:
             WHERE e.Featured IS NOT NULL AND e.Featured = true AND (datetime() > e.StartDateTime)
             WITH
                 { 
-                    event_id: e.EventID,
-                    title: e.Title,
-                    picture: e.Picture,
-                    description: e.Description,
-                    location: e.Location,
-                    start_date_time: e.StartDateTime,
-                    end_date_time: e.EndDateTime,
-                    visibility: e.Visibility,
+                    EventID: e.EventID,
+                    Title: e.Title,
+                    Picture: e.Picture,
+                    Description: e.Description,
+                    Location: e.Location,
+                    StartDateTime: e.StartDateTime,
+                    EndDateTime: e.EndDateTime,
+                    Visibility: e.Visibility,
                     num_joins: num_joins,
                     num_shoutouts: num_shoutouts,
                     user_join: False,
                     user_shoutout: False,
                     host_user_id: host_user_id,
-                    signup_link: e.SignupLink
+                    SignupLink: e.SignupLink
                 } as event
             ORDER BY num_joins+num_shoutouts DESC
             LIMIT 10
@@ -398,20 +398,20 @@ async def get_events_categorized(request: Request) -> JSONResponse:
             WHERE (datetime() < e.EndDateTime) AND (datetime() > e.StartDateTime)
             WITH
                 { 
-                    event_id: e.EventID,
-                    title: e.Title,
-                    picture: e.Picture,
-                    description: e.Description,
-                    location: e.Location,
-                    start_date_time: e.StartDateTime,
-                    end_date_time: e.EndDateTime,
-                    visibility: e.Visibility,
+                    EventID: e.EventID,
+                    Title: e.Title,
+                    Picture: e.Picture,
+                    Description: e.Description,
+                    Location: e.Location,
+                    StartDateTime: e.StartDateTime,
+                    EndDateTime: e.EndDateTime,
+                    Visibility: e.Visibility,
                     num_joins: num_joins,
                     num_shoutouts: num_shoutouts,
-                    user_join: user_join,
-                    user_shoutout: user_shoutout,
+                    user_join: False,
+                    user_shoutout: False,
                     host_user_id: host_user_id,
-                    signup_link: e.SignupLink
+                    SignupLink: e.SignupLink
                 } as event
             ORDER BY num_joins+num_shoutouts DESC
             LIMIT 10
@@ -430,20 +430,20 @@ async def get_events_categorized(request: Request) -> JSONResponse:
             WHERE e.StartDateTime >= datetime()
             WITH i.Name as interest,
             { 
-                event_id: e.EventID,
-                title: e.Title,
-                picture: e.Picture,
-                description: e.Description,
-                location: e.Location,
-                start_date_time: e.StartDateTime,
-                end_date_time: e.EndDateTime,
-                visibility: e.Visibility,
+                EventID: e.EventID,
+                Title: e.Title,
+                Picture: e.Picture,
+                Description: e.Description,
+                Location: e.Location,
+                StartDateTime: e.StartDateTime,
+                EndDateTime: e.EndDateTime,
+                Visibility: e.Visibility,
                 num_joins: num_joins,
                 num_shoutouts: num_shoutouts,
-                user_join: user_join,
-                user_shoutout: user_shoutout,
+                user_join: False,
+                user_shoutout: False,
                 host_user_id: host_user_id,
-                signup_link: e.SignupLink
+                SignupLink: e.SignupLink
             } as event
             ORDER BY e.StartDateTime
             WITH interest, apoc.coll.partition(collect(event), 10)[0] as events
@@ -464,20 +464,20 @@ async def get_events_categorized(request: Request) -> JSONResponse:
             WHERE e.Featured IS NOT NULL AND e.Featured = true AND (datetime() > e.StartDateTime)
             WITH
                 { 
-                    event_id: e.EventID,
-                    title: e.Title,
-                    picture: e.Picture,
-                    description: e.Description,
-                    location: e.Location,
-                    start_date_time: e.StartDateTime,
-                    end_date_time: e.EndDateTime,
-                    visibility: e.Visibility,
+                    EventID: e.EventID,
+                    Title: e.Title,
+                    Picture: e.Picture,
+                    Description: e.Description,
+                    Location: e.Location,
+                    StartDateTime: e.StartDateTime,
+                    EndDateTime: e.EndDateTime,
+                    Visibility: e.Visibility,
                     num_joins: num_joins,
                     num_shoutouts: num_shoutouts,
                     user_join: False,
                     user_shoutout: False,
                     host_user_id: host_user_id,
-                    signup_link: e.SignupLink
+                    SignupLink: e.SignupLink
                 } as event
             ORDER BY num_joins+num_shoutouts DESC
             LIMIT 10
@@ -494,20 +494,20 @@ async def get_events_categorized(request: Request) -> JSONResponse:
             WHERE (datetime() < e.EndDateTime) AND (datetime() > e.StartDateTime)
             WITH
                 { 
-                    event_id: e.EventID,
-                    title: e.Title,
-                    picture: e.Picture,
-                    description: e.Description,
-                    location: e.Location,
-                    start_date_time: e.StartDateTime,
-                    end_date_time: e.EndDateTime,
-                    visibility: e.Visibility,
+                    EventID: e.EventID,
+                    Title: e.Title,
+                    Picture: e.Picture,
+                    Description: e.Description,
+                    Location: e.Location,
+                    StartDateTime: e.StartDateTime,
+                    EndDateTime: e.EndDateTime,
+                    Visibility: e.Visibility,
                     num_joins: num_joins,
                     num_shoutouts: num_shoutouts,
                     user_join: False,
                     user_shoutout: False,
                     host_user_id: host_user_id,
-                    signup_link: e.SignupLink
+                    SignupLink: e.SignupLink
                 } as event
             ORDER BY num_joins+num_shoutouts DESC
             LIMIT 10
@@ -524,20 +524,20 @@ async def get_events_categorized(request: Request) -> JSONResponse:
             WHERE e.StartDateTime >= datetime()
             WITH i.Name as interest,
             { 
-                event_id: e.EventID,
-                title: e.Title,
-                picture: e.Picture,
-                description: e.Description,
-                location: e.Location,
-                start_date_time: e.StartDateTime,
-                end_date_time: e.EndDateTime,
-                visibility: e.Visibility,
+                EventID: e.EventID,
+                Title: e.Title,
+                Picture: e.Picture,
+                Description: e.Description,
+                Location: e.Location,
+                StartDateTime: e.StartDateTime,
+                EndDateTime: e.EndDateTime,
+                Visibility: e.Visibility,
                 num_joins: num_joins,
                 num_shoutouts: num_shoutouts,
                 user_join: False,
                 user_shoutout: False,
                 host_user_id: host_user_id,
-                signup_link: e.SignupLink
+                SignupLink: e.SignupLink
             } as event
             ORDER BY e.StartDateTime
             WITH interest, apoc.coll.partition(collect(event), 10)[0] as events
@@ -557,23 +557,9 @@ async def get_events_categorized(request: Request) -> JSONResponse:
         for interest, events_data in interest_data.items():
             events = []
             for event_data in events_data:
-                if event_data['event_id'] not in event_ids:
-                    event_ids.add(event_data['event_id'])
-                    events.append({
-                        'event_id': event_data['event_id'],
-                        'title': event_data['title'],
-                        'picture': event_data['picture'],
-                        'description': event_data['description'],
-                        'location': event_data['location'],
-                        'start_date_time': str(event_data['start_date_time']),
-                        'end_date_time': None if event_data["end_date_time"] == "NULL" else str(event_data["end_date_time"]),
-                        'visibility': event_data['visibility'],
-                        'num_joins': event_data['num_joins'],
-                        'num_shoutouts': event_data['num_shoutouts'],
-                        'user_join': event_data['user_join'],
-                        'user_shoutout': event_data['user_shoutout'],
-                        'host_user_id': event_data['host_user_id'],
-                    })
+                if event_data['EventID'] not in event_ids:
+                    event_ids.add(event_data['EventID'])
+                    events.append(convert_event_entity_to_event(event_data))
             if events:
                 categorized_dict[interest] = events
 
