@@ -623,20 +623,22 @@ async def search_events(request: Request) -> JSONResponse:
         exists((u)-[:user_shoutout]->(e)) as user_shoutout,
         host.UserID as host_user_id
     WHERE e.StartDateTime >= datetime() AND (toLower(e.Title) CONTAINS toLower($query) OR toLower(e.Location) CONTAINS toLower($query))
-    RETURN { event_id: e.EventID,
-            title: e.Title,
-            picture: e.Picture,
-            description: e.Description,
-            location: e.Location,
-            start_date_time: e.StartDateTime,
-            end_date_time: e.EndDateTime,
-            visibility: e.Visibility,
+    RETURN {
+            EventID: e.EventID,
+            Title: e.Title,
+            Picture: e.Picture,
+            Description: e.Description,
+            Location: e.Location,
+            StartDateTime: e.StartDateTime,
+            EndDateTime: e.EndDateTime,
+            Visibility: e.Visibility,
+            SignupLink: e.SignupLink,
             num_joins: num_joins,
             num_shoutouts: num_shoutouts,
             user_join: user_join,
             user_shoutout: user_shoutout,
-            host_user_id: host_user_id,
-            signup_link: e.SignupLink } as event
+            host_user_id: host_user_id
+            } as event
     ORDER BY toLower(e.Title)
     LIMIT 10
     """,
@@ -685,20 +687,22 @@ async def host_past(request: Request) -> JSONResponse:
                     exists((c)-[:user_join]->(e)) as user_join,
                     exists((c)-[:user_shoutout]->(e)) as user_shoutout
                 WHERE e.StartDateTime < datetime() {cursor_clause}
-                RETURN {{ event_id: e.EventID,
-                        title: e.Title,
-                        picture: e.Picture,
-                        description: e.Description,
-                        location: e.Location,
-                        start_date_time: e.StartDateTime,
-                        end_date_time: e.EndDateTime,
-                        visibility: e.Visibility,
+                RETURN {{
+                        EventID: e.EventID,
+                        Title: e.Title,
+                        Picture: e.Picture,
+                        Description: e.Description,
+                        Location: e.Location,
+                        StartDateTime: e.StartDateTime,
+                        EndDateTime: e.EndDateTime,
+                        Visibility: e.Visibility,
+                        SignupLink: e.SignupLink,
                         num_joins: num_joins,
                         num_shoutouts: num_shoutouts,
                         user_join: user_join,
                         user_shoutout: user_shoutout,
-                        host_user_id: $user_id,
-                        signup_link: e.SignupLink }} as event
+                        host_user_id: $user_id
+                        }} as event
                 ORDER BY e.StartDateTime DESC, e.EventID DESC
                 LIMIT 10
                 """
@@ -757,20 +761,21 @@ async def host_future(request: Request) -> JSONResponse:
                     exists((c)-[:user_join]->(e)) as user_join,
                     exists((c)-[:user_shoutout]->(e)) as user_shoutout
                 WHERE e.StartDateTime >= datetime() {cursor_clause}
-                RETURN {{ event_id: e.EventID,
-                        title: e.Title,
-                        picture: e.Picture,
-                        description: e.Description,
-                        location: e.Location,
-                        start_date_time: e.StartDateTime,
-                        end_date_time: e.EndDateTime,
-                        visibility: e.Visibility,
+                RETURN {{
+                        EventID: e.EventID,
+                        Title: e.Title,
+                        Picture: e.Picture,
+                        Description: e.Description,
+                        Location: e.Location,
+                        StartDateTime: e.StartDateTime,
+                        EndDateTime: e.EndDateTime,
+                        Visibility: e.Visibility,
+                        SignupLink: e.SignupLink,
                         num_joins: num_joins,
                         num_shoutouts: num_shoutouts,
                         user_join: user_join,
                         user_shoutout: user_shoutout,
-                        host_user_id: $user_id,
-                        signup_link: e.SignupLink }} as event
+                        host_user_id: $user_id }} as event
                 ORDER BY e.StartDateTime ASC, e.EventID ASC
                 LIMIT 10
                 """
@@ -824,20 +829,22 @@ async def join_past(request: Request) -> JSONResponse:
                     exists((u)-[:user_shoutout]->(e)) as user_shoutout,
                     host.UserID as host_user_id
                 WHERE e.StartDateTime < datetime() {cursor_clause}
-                RETURN {{ event_id: e.EventID,
-                        title: e.Title,
-                        picture: e.Picture,
-                        description: e.Description,
-                        location: e.Location,
-                        start_date_time: e.StartDateTime,
-                        end_date_time: e.EndDateTime,
-                        visibility: e.Visibility,
+                RETURN {{
+                        EventID: e.EventID,
+                        Title: e.Title,
+                        Picture: e.Picture,
+                        Description: e.Description,
+                        Location: e.Location,
+                        StartDateTime: e.StartDateTime,
+                        EndDateTime: e.EndDateTime,
+                        Visibility: e.Visibility,
+                        SignupLink: e.SignupLink,
                         num_joins: num_joins,
                         num_shoutouts: num_shoutouts,
                         user_join: user_join,
                         user_shoutout: user_shoutout,
-                        host_user_id: host_user_id,
-                        signup_link: e.SignupLink }} as event
+                        host_user_id: host_user_id
+                          }} as event
                 ORDER BY e.StartDateTime DESC, e.EventID DESC
                 LIMIT 10
                 """
@@ -884,20 +891,20 @@ async def join_future(request: Request) -> JSONResponse:
                     exists((u)-[:user_shoutout]->(e)) as user_shoutout,
                     host.UserID as host_user_id
                 WHERE e.StartDateTime >= datetime() {cursor_clause}
-                RETURN {{ event_id: e.EventID,
-                        title: e.Title,
-                        picture: e.Picture,
-                        description: e.Description,
-                        location: e.Location,
-                        start_date_time: e.StartDateTime,
-                        end_date_time: e.EndDateTime,
-                        visibility: e.Visibility,
+                RETURN {{ EventID: e.EventID,
+                        Title: e.Title,
+                        Picture: e.Picture,
+                        Description: e.Description,
+                        Location: e.Location,
+                        StartDateTime: e.StartDateTime,
+                        EndDateTime: e.EndDateTime,
+                        Visibility: e.Visibility,
+                        SignupLink: e.SignupLink,
                         num_joins: num_joins,
                         num_shoutouts: num_shoutouts,
                         user_join: user_join,
                         user_shoutout: user_shoutout,
-                        host_user_id: host_user_id,
-                        signup_link: e.SignupLink }} as event
+                        host_user_id: host_user_id }} as event
                 ORDER BY e.StartDateTime ASC, e.EventID ASC
                 LIMIT 10
                 """

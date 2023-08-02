@@ -349,3 +349,19 @@ async def delete_shoutout_connection(user_id, event_id):
     await run_neo4j_query(query, parameters)
 
     return 0
+
+###
+async def get_all_bots():
+
+    result = await run_neo4j_query("""MATCH (u:User)
+                    where u.AccountType = "Bot"
+                    RETURN u""")
+   
+    bot_array = []
+    for record in result:
+        if record == None:
+            return []
+        data = record['u']
+        bot_array.append(convert_user_entity_to_user(data))
+    
+    return bot_array
