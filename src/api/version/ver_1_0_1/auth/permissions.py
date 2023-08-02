@@ -1,5 +1,6 @@
 from datetime import datetime, timezone
 from common.utils import is_event_formatted_correctly, is_picture_formatted_correctly, is_user_formatted_correctly
+from src.common.models import Problem
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from functools import wraps
@@ -115,9 +116,9 @@ def is_picture_formatted(func):
         if picture == "null" or picture == "undefined":
             return Response(status_code=400, content="Picture cannot be empty")
 
-        is_valid, message = is_picture_formatted_correctly(picture)
+        is_valid, message = await is_picture_formatted_correctly(picture)
         if(not is_valid):
-            return Response(status=400, content=message)
+            raise Problem(status=400, content=message)
         
         return await func(request)
 
@@ -164,7 +165,7 @@ def is_event_formatted(func):
         is_valid, message = await is_event_formatted_correctly(title, description, start_date_time,
                                                                end_date_time, location, visibility, interest_ids)
         if(not is_valid):
-            return Response(status=400, content=message)
+            return Problem(status=400, content=message)
 
         return await func(request)
 
@@ -194,7 +195,7 @@ def is_user_formatted(func):
         is_valid, message = is_user_formatted_correctly(display_name, username)
 
         if(not is_valid):
-            return Response(status=400, content=message)
+            return Problem(status=400, content=message)
 
         return await func(request)
 
