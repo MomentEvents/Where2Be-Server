@@ -1,4 +1,4 @@
-def convert_user_entity_to_user(data, show_num_events_followers_following=False):
+def convert_user_entity_to_user(data, show_num_events_followers_following=False, get_push_token=False):
     user_data = {
         "user_id": data["UserID"],
         "display_name": data["DisplayName"],
@@ -6,6 +6,10 @@ def convert_user_entity_to_user(data, show_num_events_followers_following=False)
         "picture": data["Picture"],
         "verified_organization": data.get("VerifiedOrganization", False),
     }
+
+    if (get_push_token): 
+        user_data['token']= data["PushTokens"]
+
 
     if(show_num_events_followers_following):
         user_data['num_followers'] = data["NumFollowers"]
@@ -18,29 +22,40 @@ def convert_user_entity_to_user(data, show_num_events_followers_following=False)
 
 def convert_event_entity_to_event(data):
     event_data = {
-        "event_id": data['event_id'],
-        "title": data['title'],
-        "picture": data['picture'],
-        "description": data['description'],
-        "location": data['location'],
-        "start_date_time": str(data['start_date_time']),
-        "end_date_time": None if data["end_date_time"] == "NULL" else str(data["end_date_time"]),
-        "visibility": data['visibility'],
-        "num_joins": data['num_joins'],
-        "num_shoutouts": data['num_shoutouts'],
-        "user_join": data['user_join'],
-        "user_shoutout": data['user_shoutout'],
-        "host_user_id": data['host_user_id'],
+        "event_id": data["EventID"],
+        "picture": data["Picture"],
+        "title": data["Title"],
+        "description": data["Description"],
+        "location": data["Location"],
+        "start_date_time": str(data["StartDateTime"]),
+        "end_date_time": None if data["EndDateTime"] == "NULL" else str(data["EndDateTime"]),
+        "visibility": data["Visibility"]
     }
 
-    if(data.get("user_follow_host", False)):
+    # if num joins is asked, num shoutout is asked as well
+    if("num_joins" in data):
+        event_data["num_joins"] = data["num_joins"]
+
+    if("num_shoutouts" in data):        
+        event_data['num_shoutouts'] = data["num_shoutouts"]
+
+    if("user_join" in data):
+        event_data["user_join"] = data["user_join"]
+
+    if("user_shoutout" in data):
+        event_data["user_shoutout"] = data["user_shoutout"]
+
+    if("user_follow_host" in data):
         event_data["user_follow_host"] = data["user_follow_host"]
     
-    if(data.get("signup_link", False)):
-        event_data["signup_link"] = data["signup_link"]
+    if("host_user_id" in data):
+        event_data['host_user_id'] = data["host_user_id"]
+    
+    if("SignupLink" in data and data["SignupLink"] is not None):
+        event_data["signup_link"] = data["SignupLink"]
+
 
     return event_data
-
     
 def convert_school_entity_to_school(data):
     school_data = {
