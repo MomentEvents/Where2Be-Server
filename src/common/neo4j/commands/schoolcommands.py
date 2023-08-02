@@ -101,7 +101,7 @@ async def get_all_school_entities():
 
     return school_array
 
-async def get_all_users_by_school(school_id:str, get_push_token=False):
+async def get_all_users_by_school(school_id:str):
     
     result = await run_neo4j_query(
         """MATCH (s:School {SchoolID: $school_id})<-[:user_school]-(u:User)
@@ -117,6 +117,6 @@ async def get_all_users_by_school(school_id:str, get_push_token=False):
         if record == None:
             return []
         data = record['u']
-        user_array.append(convert_user_entity_to_user(data, get_push_token))
+        user_array.append(convert_user_entity_to_user(data, get_push_token=True))
     
     return user_array
