@@ -20,7 +20,7 @@ def convert_user_entity_to_user(data, show_num_events_followers_following=False,
     return user_data
 
 
-def convert_event_entity_to_event(data, user_exists = False, get_host_and_connections=False):
+def convert_event_entity_to_event(data):
     event_data = {
         "event_id": data["EventID"],
         "picture": data["Picture"],
@@ -32,15 +32,22 @@ def convert_event_entity_to_event(data, user_exists = False, get_host_and_connec
         "visibility": data["Visibility"]
     }
 
-    if get_host_and_connections:
-        event_data['num_joins'] = data["num_joins"]
+    # if num joins is asked, num shoutout is asked as well
+    if(data.get("num_joins", False)):
+        event_data["num_joins"] = data["num_joins"]
         event_data['num_shoutouts'] = data["num_shoutouts"]
-        event_data['host_user_id'] = data["host_user_id"]
-        event_data['user_shoutout'] = data["user_shoutout"]
 
-    if(user_exists):
-        event_data['user_join'] = data["user_join"]
-        event_data['user_shoutout'] = data["user_shoutout"]
+    if(data.get("user_shoutout", False)):
+        event_data["user_shoutout"] = data["user_shoutout"]
+        event_data["user_join"] = data["user_join"]
+
+    if(data.get("user_follow_host", False)):
+        event_data["user_follow_host"] = data["user_follow_host"]
+        event_data['host_user_id'] = data["host_user_id"]
+    
+    if(data.get("signup_link", False)):
+        event_data["signup_link"] = data["signup_link"]
+
 
     return event_data
     

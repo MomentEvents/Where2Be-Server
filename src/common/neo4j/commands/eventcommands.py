@@ -1,5 +1,5 @@
-from common.neo4j.moment_neo4j import get_neo4j_session
 from common.neo4j.converters import convert_event_entity_to_event
+from common.neo4j.moment_neo4j import get_neo4j_session, parse_neo4j_data, run_neo4j_query
 from common.s3.moment_s3 import get_bucket_url
 from common.models import Problem
 from dateutil import parser
@@ -7,7 +7,7 @@ import secrets
 import random
 from datetime import datetime 
 
-def create_event_entity(event_id: str, user_access_token: str, event_image: str, title: str, description: str, location: str, visibility: str, interest_ids, start_date_time_string, end_date_time_string):
+async def create_event_entity(event_id: str, user_access_token: str, event_image: str, title: str, description: str, location: str, visibility: str, interest_ids, start_date_time_string, end_date_time_string):
     start_date_time = parser.parse(start_date_time_string)
     end_date_time = None if end_date_time_string is None else parser.parse(end_date_time_string)
 
@@ -20,105 +20,106 @@ def create_event_entity(event_id: str, user_access_token: str, event_image: str,
 
 
 
-    with get_neo4j_session() as session:
-        result = session.run(
-            """MATCH (user:User {UserAccessToken: $user_access_token})-[:user_school]->(school:School)
-                CREATE (event:Event {
-                    EventID: $event_id,
-                    Title: $title,
-                    Description: $description,
-                    Picture: $image,
-                    Location: $location,
-                    StartDateTime: datetime($start_date_time),
-                    EndDateTime: datetime($end_date_time),
-                    Visibility: $visibility,
-                    TimeCreated: datetime()
-                })<-[:user_host]-(user),
-                (event)-[:event_school]->(school)
-                WITH user, event
-                UNWIND $interest_ids as interest_id
-                MATCH (tag:Interest {InterestID: interest_id})
-                CREATE (tag)<-[:event_tag]-(event)""",
-            parameters={
-                "event_id": event_id,
-                "user_access_token": user_access_token,
-                "image": event_image,
-                "title": title,
-                "description": description,
-                "location": location,
-                "start_date_time": start_date_time,
-                "end_date_time": end_date_time,
-                "visibility": visibility,
-                "interest_ids": interest_ids,
-            },
-        )
+    result = await run_neo4j_query(
+        """MATCH (user:User {UserAccessToken: $user_access_token})-[:user_school]->(school:School)
+            CREATE (event:Event {
+                EventID: $event_id,
+                Title: $title,
+                Description: $description,
+                Picture: $image,
+                Location: $location,
+                StartDateTime: datetime($start_date_time),
+                EndDateTime: datetime($end_date_time),
+                Visibility: $visibility,
+                TimeCreated: datetime()
+            })<-[:user_host]-(user),
+            (event)-[:event_school]->(school)
+            WITH user, event
+            UNWIND $interest_ids as interest_id
+            MATCH (tag:Interest {InterestID: interest_id})
+            CREATE (tag)<-[:event_tag]-(event)""",
+        parameters={
+            "event_id": event_id,
+            "user_access_token": user_access_token,
+            "image": event_image,
+            "title": title,
+            "description": description,
+            "location": location,
+            "start_date_time": start_date_time,
+            "end_date_time": end_date_time,
+            "visibility": visibility,
+            "interest_ids": interest_ids,
+        },
+    )
 
     return event_id
 
-def get_event_entity_by_event_id(event_id: str, user_access_token: str):
+async def get_event_entity_by_event_id(event_id: str, user_access_token: str):
 
-    with get_neo4j_session() as session:
-
-        result = session.run(
-                """MATCH (event:Event{EventID : $event_id}), (user:User{UserAccessToken:$user_access_token}), (event)<-[:user_host]-(host:User)
-                WITH (event),
-                    COUNT{(event)<-[:user_join]-()} as num_joins,
-                    COUNT{(event)<-[:user_shoutout]-()} as num_shoutouts,
-                    exists((event)<-[:user_join]-(user)) as user_join,
-                    exists((event)<-[:user_shoutout]-(user)) as user_shoutout,
-                    host.UserID as host_user_id
-                RETURN{
-                    event_id: event.EventID,
-                    title: event.Title,
-                    description: event.Description,
-                    start_date_time: event.StartDateTime,
-                    end_date_time: event.EndDateTime,
-                    picture: event.Picture,
-                    visibility: event.Visibility,
-                    location: event.Location,
-                    num_joins: num_joins,
-                    num_shoutouts: num_shoutouts,
-                    user_join: user_join,
-                    user_shoutout: user_shoutout,
-                    host_user_id: host_user_id
-                }""",
-            parameters={
-                "event_id": event_id,
-                "user_access_token": user_access_token,
+    result = await run_neo4j_query(
+            """MATCH (event:Event{EventID : $event_id}), (user:User{UserAccessToken:$user_access_token}), (event)<-[:user_host]-(host:User)
+            WITH (event),
+                COUNT{(event)<-[:user_join]-()} as num_joins,
+                COUNT{(event)<-[:user_shoutout]-()} as num_shoutouts,
+                exists((event)<-[:user_join]-(user)) as user_join,
+                exists((event)<-[:user_shoutout]-(user)) as user_shoutout,
+                host.UserID as host_user_id
+            RETURN{
+                event_id: event.EventID,
+                title: event.Title,
+                description: event.Description,
+                start_date_time: event.StartDateTime,
+                end_date_time: event.EndDateTime,
+                picture: event.Picture,
+                visibility: event.Visibility,
+                location: event.Location,
+                num_joins: num_joins,
+                num_shoutouts: num_shoutouts,
+                user_join: user_join,
+                user_shoutout: user_shoutout,
+                host_user_id: host_user_id,
+                signup_link: event.SignupLink
+            }""",
+        parameters={
+            "event_id": event_id,
+            "user_access_token": user_access_token,
             },
         )
 
-        # get the first element of object
-        record = result.single()
+    data = parse_neo4j_data(result, 'single')
 
-        if record == None:
-            return None
+    if(data is None):
+        return None
 
-        data = record[0]
-        print(data["end_date_time"])
-        
-        event_data = {
-            "event_id": data["event_id"],
-            "picture": data["picture"],
-            "title": data["title"],
-            "description": data["description"],
-            "location": data["location"],
-            "start_date_time": str(data["start_date_time"]),
-            "end_date_time": None if data["end_date_time"] == "NULL" else str(data["end_date_time"]),
-            "visibility": data["visibility"],
-            "num_joins": data["num_joins"],
-            "num_shoutouts": data["num_shoutouts"],
-            "user_join": data["user_join"],
-            "user_shoutout": data["user_shoutout"],
-            "host_user_id": data["host_user_id"],
-        }
+    event_data = convert_event_entity_to_event(data)    
 
-        return event_data
+    return event_data
+
+async def get_and_set_all_starting_soon_events(lookahead_period_min: int):
+
+    event_data = dict()
     
-async def get_random_popular_event_within_x_days(days: int, school_id: str): #optimize this
+    result = await run_neo4j_query(
+        """
+        MATCH (e:Event)-[rel:user_joined|user_host]-(u:User)
+        WHERE datetime(e.StartDateTime) >= datetime() AND datetime(e.StartDateTime) <= datetime() + duration({months: $lookahead_period_min}) 
+        AND (type(rel) = 'user_joined' OR type(rel) = 'user_host')
+        RETURN e.Title AS title, e.EventID AS event_id, collect({user_id: u.UserID, user_access_token: u.UserAccessToken}) AS user_details""",
+        parameters={
+            "lookahead_period_min": lookahead_period_min,
+        }
+    )
 
-    with get_neo4j_session() as session:
-        result = session.run("""MATCH (e:Event)-[:event_school]->(school:School{SchoolID: $school_id}), (e)<-[:user_host]-(host:User)
+    for record in result:
+        event_id = record['event_id']
+        if event_id not in event_data:
+            event_data[event_id] = [record['title'], record['user_details']]
+    
+    return event_data
+    
+async def get_random_popular_event_within_x_days(days: int, school_id: str):
+
+    result = await run_neo4j_query("""MATCH (e:Event)-[:event_school]->(school:School{SchoolID: $school_id}), (e)<-[:user_host]-(host:User)
             WHERE e.StartDateTime <= datetime() + duration({days: $days})
             WITH e, host, COUNT{(e)<-[:user_join]-()} as num_joins, COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts,exists((:User)-[:user_shoutout]->(e)) as user_shoutout
             WITH num_joins + num_shoutouts as popularity, num_joins, num_shoutouts, e, host
@@ -143,23 +144,22 @@ async def get_random_popular_event_within_x_days(days: int, school_id: str): #op
                 }) AS popular_events
             UNWIND apoc.coll.shuffle(popular_events)[0] AS result
             RETURN result""",
-            parameters={
-                "school_id": school_id,
-                "days": days
-            },
-        )
+        parameters={
+            "school_id": school_id,
+            "days": days
+        }
+    )
 
-        record = result.single()
+    data = parse_neo4j_data(result, 'single')
 
-        if(record == None):
-            return None
-        
-        data = record[0]
+    if(data is None):
+        return None
 
-        return convert_event_entity_to_event(data, get_host_and_connections=True)
-        # will have to run notif from here
+    event_data = convert_event_entity_to_event(data)
 
-def get_events_created_after_given_time(given_time):
+    return event_data
+
+async def get_events_created_after_given_time(given_time):
     # Format the datetime object to a string in the correct format
     if isinstance(given_time, str):
         datetime_object = datetime.strptime(given_time, "%Y-%m-%dT%H:%M:%S.%f") #try to generalize this
@@ -167,18 +167,18 @@ def get_events_created_after_given_time(given_time):
     else:
         formatted_time = given_time.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
 
-    with get_neo4j_session() as session:
-        result = session.run("""MATCH (e:Event) WHERE e.TimeCreated > datetime($formatted_time) RETURN e""",
-            parameters={
-                "formatted_time": formatted_time
-            },
-        )
+    result = await run_neo4j_query("""MATCH (e:Event) WHERE e.TimeCreated > datetime($formatted_time) RETURN e""",
+        parameters={
+            "formatted_time": formatted_time
+        }
+    )
 
-        event_array = []
-        for record in result:
-            if record == None:
-                return []
-            data = record[0]
-            event_array.append(convert_event_entity_to_event(data))
-        
-        return event_array
+    event_array = []
+    for record in result:
+        if record == None:
+            return []
+        data = record['e']
+        event_array.append(convert_event_entity_to_event(data))
+    
+    return event_array
+   

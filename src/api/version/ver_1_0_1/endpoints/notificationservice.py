@@ -35,7 +35,7 @@ async def add_user_notification_token(request: Request) -> JSONResponse:
     print("Info up above ^")
 
 
-    add_push_token(user_id, push_token, push_type)
+    await add_push_token(user_id, push_token, push_type)
 
     return Response(status_code=200, content="Added push token")
 
@@ -67,7 +67,7 @@ async def remove_user_notification_token(request: Request) -> JSONResponse:
     print(type(push_token))
     print("Info up above ^")
 
-    remove_push_token(user_id, push_token, push_type)
+    await remove_push_token(user_id, push_token, push_type)
 
     return Response(status_code=200, content="Removed push token")
 
@@ -91,7 +91,7 @@ async def get_user_notification_preferences(request: Request) -> JSONResponse:
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
     
-    preferences = get_notification_preferences(user_id)
+    preferences = await get_notification_preferences(user_id)
     
     if(not preferences):
         raise Problem(status=400, content="Preferences do not exist. Either the user does not exist or there is some other error.")
@@ -116,7 +116,7 @@ async def set_user_notification_preferences(request: Request) -> JSONResponse:
 
     # We assume the set_notification_preferences handles this input checking for us
 
-    result = set_notification_preferences(user_id, preferences)
+    result = await set_notification_preferences(user_id, preferences)
     if result is None or not result:
         raise Problem(status=400, content="Invalid notification preferences were given.")
 
