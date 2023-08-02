@@ -115,7 +115,7 @@ def is_picture_formatted(func):
         if picture == "null" or picture == "undefined":
             return Response(status_code=400, content="Picture cannot be empty")
 
-        is_valid, message = await is_picture_formatted_correctly(picture)
+        is_valid, message = is_picture_formatted_correctly(picture)
         if(not is_valid):
             return Response(status=400, content=message)
         
@@ -191,7 +191,7 @@ def is_user_formatted(func):
         except:
             return Response(status_code=400, content="Incomplete body")
 
-        is_valid, message = await is_user_formatted_correctly(display_name, username)
+        is_valid, message = is_user_formatted_correctly(display_name, username)
 
         if(not is_valid):
             return Response(status=400, content=message)

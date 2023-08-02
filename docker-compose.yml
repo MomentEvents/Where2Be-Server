@@ -34,17 +34,17 @@ services:
       - ./src:/usr/src/app/
       - ./src/api/run.sh:/usr/src/app/api/run.sh
 
-  worker:
-    build:
-      context: ./src/
-      dockerfile: worker.Dockerfile
-    restart: always
-    environment:
-      PYTHONDONTWRITEBYTECODE : 1
-      PYTHONUNBUFFERED : 1
-    container_name: worker
-    env_file:
-      - .env
-    volumes:
-      - ./src:/usr/src/app/
-      - ./src/worker/run.sh:/usr/src/app/worker/run.sh
+  # worker:
+  #   build:
+  #     context: ./src/
+  #     dockerfile: worker.Dockerfile
+  #   restart: always
+  #   environment:
+  #     PYTHONDONTWRITEBYTECODE : 1
+  #     PYTHONUNBUFFERED : 1
+  #   container_name: worker
+  #   env_file:
+  #     - .env
+  #   volumes:
+  #     - ./src:/usr/src/app/
+  #     - ./src/worker/run.sh:/usr/src/app/worker/run.sh

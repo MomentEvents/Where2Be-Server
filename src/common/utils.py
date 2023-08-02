@@ -291,6 +291,9 @@ def is_user_formatted_correctly(display_name: str, username: str):
     if (contains_url(username)):
         return False, "Username cannot contain a url"
     
+    return True, "User is formatted correctly"
+
+    
 async def is_picture_formatted_correctly(picture):
     
     try:
@@ -298,3 +301,5 @@ async def is_picture_formatted_correctly(picture):
         img = Image.open(io.BytesIO(image_bytes))
     except:
         return False, "Picture is not a valid base64 image"
+    
+    return True, "Picture is formatted correctly"
