@@ -14,4 +14,3 @@ IS_PROD = check_is_prod() # This is a check to replicate if the server were to b
                           # toggle debug mode
 
 SCRAPER_TOKEN = os.environ.get('SCRAPER_TOKEN')
-ENABLE_FIREBASE = True

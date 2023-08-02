@@ -15,4 +15,3 @@ psycopg2-binary
 exponent_server_sdk
 firebase_admin
 typing_extensions
-asyncio

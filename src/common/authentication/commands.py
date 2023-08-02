@@ -1,15 +1,17 @@
 from api.helpers import get_email_domain
 from common.neo4j.commands.usercommands import create_user_entity, get_user_entity_by_username
 from common.neo4j.commands.schoolcommands import get_school_entity_by_email_domain, get_school_entity_by_school_id
-from common.neo4j.moment_neo4j import get_neo4j_session, parse_neo4j_data, run_neo4j_query
+from common.neo4j.moment_neo4j import get_neo4j_session
 from common.models import Problem
 from common.utils import is_email
 from common.firebase import login_user_firebase, create_user_firebase, get_firebase_user_by_uid, get_firebase_user_by_email, send_verification_email
-from common.constants import ENABLE_FIREBASE, IS_PROD
+from common.constants import IS_PROD
 
-async def login(usercred: str, password: str):
+enable_firebase = True # If disabled, you can manually pass in a user access token and user id
 
-    if(not ENABLE_FIREBASE):
+def login(usercred: str, password: str):
+
+    if(not enable_firebase):
         user_access_token = "gHL9LK-4bgALRzdNJFW5KZWkMdBmxrfQCnjdhZRpYG4"
         user_id = "Ez7o28WpYX2bsrri0udD9xtNzv7SzC_D3FCjPnjv21g"
         return user_id, user_access_token
@@ -19,10 +21,10 @@ async def login(usercred: str, password: str):
     usercred = usercred.strip()
 
     email = usercred    
-    if(not is_email(usercred)):
+    if(is_email(usercred) is False):
 
         # Get user by username
-        user = await get_user_entity_by_username(usercred)
+        user = get_user_entity_by_username(usercred)
 
         # If there is no user with the username
         if(user is None):
@@ -66,26 +68,30 @@ async def login(usercred: str, password: str):
 
     # get user access token from user_id
 
-    result = await run_neo4j_query(
-        """MATCH (u:User {UserID: $user_id})
-        RETURN u""",
-        parameters={
-            "user_id": user_id
-        },
-    )
+    with get_neo4j_session() as session:
 
-    data = parse_neo4j_data(result, 'single')
+        result = session.run(
+            """MATCH (u:User {UserID: $user_id})
+            RETURN u""",
+            parameters={
+                "user_id": user_id
+            },
+        )
 
-    if(data is None):
-        raise Problem(status=400, content="There is no user associated with this returned UserID. Please contact support to resolve this issue")
+        record = result.single()
 
-    print("user_id ", user_id)
-    print("user_access_token ", data['UserAccessToken'])
-
-    return user_id, data['UserAccessToken']
+        if(record is None):
+            raise Problem(status=400, content="There is no user associated with this returned UserID. Please contact support to resolve this issue")
         
-async def signup(username, display_name, email, password):
-    if(not ENABLE_FIREBASE):
+        data = record[0]
+
+        print("user_id ", user_id)
+        print("user_access_token ", data['UserAccessToken'])
+
+        return user_id, data['UserAccessToken']
+        
+def signup(username, display_name, email, password):
+    if(not enable_firebase):
         user_access_token = "gHL9LK-4bgALRzdNJFW5KZWkMdBmxrfQCnjdhZRpYG4"
         user_id = "Ez7o28WpYX2bsrri0udD9xtNzv7SzC_D3FCjPnjv21g"
         return user_id, user_access_token
@@ -115,14 +121,14 @@ async def signup(username, display_name, email, password):
     if(email_domain is None):
         raise Problem(status=400, content="An email domain was not provided")
     
-    school_entity = await get_school_entity_by_email_domain(email_domain)
+    school_entity = get_school_entity_by_email_domain(email_domain)
 
     if(school_entity is None):
         raise Problem(status=400, content="Where2Be does not support your university yet!")
 
     school_id = school_entity['school_id']
 
-    result = await get_user_entity_by_username(username)
+    result = get_user_entity_by_username(username)
     if(result is not None):
         raise Problem(status=400, content="An account with this username already exists")
 
@@ -130,7 +136,7 @@ async def signup(username, display_name, email, password):
     is_admin = False
 
     # Create user in the database.
-    user_access_token, user_id = await create_user_entity(display_name, username, school_id, is_verified_org, is_admin)
+    user_access_token, user_id = create_user_entity(display_name, username, school_id, is_verified_org, is_admin)
 
     # Create user in firebase
     result = create_user_firebase(user_id, email, password)
