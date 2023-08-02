@@ -5,7 +5,6 @@ from common.models import Problem
 from dateutil import parser
 import secrets
 import random
-from datetime import datetime 
 
 def create_event_entity(event_id: str, user_access_token: str, event_image: str, title: str, description: str, location: str, visibility: str, interest_ids, start_date_time_string, end_date_time_string):
     start_date_time = parser.parse(start_date_time_string)
@@ -115,7 +114,7 @@ def get_event_entity_by_event_id(event_id: str, user_access_token: str):
 
         return event_data
     
-async def get_random_popular_event_within_x_days(days: int, school_id: str): #optimize this
+async def get_random_popular_event_within_x_days(days: int, school_id: str):
 
     with get_neo4j_session() as session:
         result = session.run("""MATCH (e:Event)-[:event_school]->(school:School{SchoolID: $school_id}), (e)<-[:user_host]-(host:User)
@@ -125,18 +124,19 @@ async def get_random_popular_event_within_x_days(days: int, school_id: str): #op
             ORDER BY popularity DESC
             LIMIT 15
             WITH collect({
-                host_displayName: host.DisplayName,
-                host_username: host.Username,
+                user_id: host.UserID, 
+                display_name: host.DisplayName,
+                username: host.Username,
                 host_picture: host.Picture,
-                VerifiedOrganization: host.VerifiedOrganization,
-                EventID: e.EventID,
-                Title: e.Title,
-                Picture: e.Picture,
-                Description: e.Description,
-                Location: e.Location,
-                StartDateTime: e.StartDateTime,
-                EndDateTime: e.EndDateTime,
-                Visibility: e.Visibility,
+                verified_organization: host.VerifiedOrganization,
+                event_id: e.EventID,
+                title: e.Title,
+                picture: e.Picture,
+                description: e.Description,
+                location: e.Location,
+                start_date_time: e.StartDateTime,
+                end_date_time: e.EndDateTime,
+                visibility: e.Visibility,
                 num_joins: num_joins,
                 num_shoutouts: num_shoutouts,
                 host_user_id: host.UserID
@@ -156,29 +156,5 @@ async def get_random_popular_event_within_x_days(days: int, school_id: str): #op
         
         data = record[0]
 
-        return convert_event_entity_to_event(data, get_host_and_connections=True)
+        return convert_event_entity_to_event(data, False)
         # will have to run notif from here
-
-def get_events_created_after_given_time(given_time):
-    # Format the datetime object to a string in the correct format
-    if isinstance(given_time, str):
-        datetime_object = datetime.strptime(given_time, "%Y-%m-%dT%H:%M:%S.%f") #try to generalize this
-        formatted_time = datetime_object.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
-    else:
-        formatted_time = given_time.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
-
-    with get_neo4j_session() as session:
-        result = session.run("""MATCH (e:Event) WHERE e.TimeCreated > datetime($formatted_time) RETURN e""",
-            parameters={
-                "formatted_time": formatted_time
-            },
-        )
-
-        event_array = []
-        for record in result:
-            if record == None:
-                return []
-            data = record[0]
-            event_array.append(convert_event_entity_to_event(data))
-        
-        return event_array

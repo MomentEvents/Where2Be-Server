@@ -1,7 +1,5 @@
 from common.neo4j.commands.schoolcommands import get_all_school_entities, get_all_users_by_school
-from common.neo4j.commands.eventcommands import get_random_popular_event_within_x_days, get_events_created_after_given_time
-from common.neo4j.commands.usercommands import get_all_bots, create_join_connection, create_shoutout_connection
-
+from common.neo4j.commands.eventcommands import get_random_popular_event_within_x_days
 
 from common.neo4j.moment_neo4j import get_neo4j_session
 from common.utils import send_and_validate_expo_push_notifications, store_runtime
@@ -97,10 +95,16 @@ async def notify_all_events_starting_soon():
 async def notify_recommended_events():
     school_entities = get_all_school_entities()
 
-    tasks = [get_and_notify_for_school(school) for school in school_entities]
+    tasks = []
 
-    # Await all tasks to complete
-    asyncio.gather(*tasks)
+    for school in school_entities:
+        print(school)
+
+        # Create the tasks and add them to our list
+        # check with multiple univs
+        asyncio.create_task(
+            get_and_notify_for_school(school)
+        )
 
     store_runtime("notify_recommended_events")
 
@@ -132,41 +136,8 @@ async def get_and_notify_for_school(school):
             asyncio.create_task(send_and_validate_expo_push_notifications(user_access_token, "Popular event notification", message, extra))
         except Exception as e:
             print(f"Error sending push notification for user_id {user['user_id']}: \n\n{str(e)}")
-
-
-async def bot_chance_join_repost_event(user_id, event_id):
-    chance = random.randint(0, 90) / 100
-
-    if random.random() < chance:
-        print("join for ", event_id)
-        asyncio.create_task(create_join_connection(user_id, event_id))
-
-    if random.random() < (chance + 0.10):
-        print("shoutout for ", event_id)
-        asyncio.create_task(create_shoutout_connection(user_id, event_id))
-
-
-async def perform_bot_actions():
-    # Get all events created after the last run
-    new_events = get_events_created_after_given_time("2023-07-28T06:49:27.089052")
-
-    if not new_events:
-        return
-
-    # Get all bots
-    bots = get_all_bots()
-
-    tasks = []
-
-    # Loop through each bot and each event
-    for bot in bots:
-        for event in new_events:
-            asyncio.create_task(bot_chance_join_repost_event(bot['user_id'], event['event_id']))
-            # tasks.append(task)
-
-    # Now we use gather to run all tasks concurrently
-    # await asyncio.gather(*tasks)
-
-    
-   
         
+# start_time = time.time()
+# notify_all_events_starting_soon()
+# print("--- %s seconds ---" % (time.time() - start_time))
+

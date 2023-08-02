@@ -1,80 +1,63 @@
+import time
+import schedule
+import asyncio
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from datetime import datetime, timedelta
+
+from worker.notification.tasks import notify_all_events_starting_soon, notify_recommended_events
 import os
 import json
-import asyncio
-from datetime import datetime
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-from worker.notification.tasks import notify_all_events_starting_soon, notify_recommended_events, perform_bot_actions
 
-async def retrieve_events(db_pool):
-    """
-    Function to retrieve events from the database
-    """
+async def check_events(db_pool):
     async with db_pool.acquire() as connection:
-        events = await connection.fetch("SELECT * FROM events WHERE event_time >= $1", datetime.now())
-    return events
+        rows = await connection.fetch("SELECT * FROM events WHERE event_time >= $1", datetime.now())
+    return rows
 
 async def run_scraper():
-    """
-    Function to run the scraper
-    """
-    start_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-    print(f"Scraper started at {start_time}")
+    dt_string = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    print(f"Scraper run start: at {dt_string}")
+    await asyncio.sleep(10)
+    dt_string = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    print(f"Scraper run ended: at {dt_string}")
 
-    await asyncio.sleep(10)  # simulation of scraping job
-
-    end_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-    print(f"Scraper ended at {end_time}")
-
-async def execute_task_if_due(last_run_time, min_interval, task):
-    """
-    Function to check if the task is due to be run
-    """
+async def check_and_run_task_if_due(last_run_time, minimum_interval_minutes, task_function):
     current_time = datetime.now()
-    time_difference = current_time - datetime.strptime(last_run_time, "%Y-%m-%dT%H:%M:%S.%f")
-    if time_difference.seconds / 60 > min_interval:
-        print("Executing task")
-        asyncio.create_task(task())
+    difference = current_time - datetime.strptime(last_run_time, "%Y-%m-%dT%H:%M:%S.%f")
+    if difference.seconds / 60 > minimum_interval_minutes:
+        print("Running task")
+        asyncio.create_task(task_function())
     else:
-        print(f"Task ran {time_difference.seconds / 60} minutes ago. Not executing it now.")
+        time_since_last_run = difference.seconds / 60
+        print(f"The task ran {time_since_last_run} minutes ago and will not be run now.")
 
-async def task_manager():
-    """
-    Function to manage tasks
-    """
-    task_info_path = "./worker/task_info.json"
+async def worker():
+    task_info_path = os.environ.get('TASK_INFO_PATH')
     while True:
         print("Checking events...")
         with open(task_info_path, 'r') as json_file:
-            task_info = json.load(json_file)
-        last_run_info = task_info["notify_all_events_starting_soon"]
-        await execute_task_if_due(last_run_info, 1, notify_all_events_starting_soon)
-        await asyncio.sleep(10)  # sleep before the next check
+            data = json.load(json_file)
+        last_run_info = data["notify_all_events_starting_soon"]
 
-def initialize_worker():
-    """
-    Function to initialize the worker
-    """
+        await check_and_run_task_if_due(last_run_info, 1, notify_all_events_starting_soon)
+
+        await asyncio.sleep(10)
+
+
+def start_worker():
     loop = asyncio.get_event_loop()
-    # loop.create_task(task_manager())
-    loop.create_task(perform_bot_actions())
+    loop.create_task(worker())
+    # loop.create_task(notify_recommended_events())
     loop.run_forever()
 
-async def daily_scraper():
-    """
-    Function to run the scraper daily
-    """
+
+async def daily_job():
     await run_scraper()
 
-def main():
-    # Instantiate the scheduler
-    scheduler = AsyncIOScheduler()
+scheduler = AsyncIOScheduler()
+# , start_date='2023-07-25 02:00:00')
+scheduler.add_job(daily_job, 'interval', seconds=30)
+scheduler.add_job(notify_recommended_events, 'interval', seconds=30)
+scheduler.start()
 
-    scheduler.add_job(daily_scraper, 'interval', seconds=120)
-    scheduler.add_job(notify_recommended_events, 'interval', seconds=120)
-    scheduler.start()
-    initialize_worker()
-
-
-if __name__ == '__main__':
-    main()
+start_worker()

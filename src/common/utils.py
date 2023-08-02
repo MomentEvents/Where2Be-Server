@@ -110,7 +110,7 @@ def store_runtime(run_type: str):
     print("storing time")
 
     # Store the runtime of the run_type from the worker
-    task_info_path = "./worker/task_info.json"
+    task_info_path = os.environ.get('TASK_INFO_PATH')
     
     current_time = datetime.now()
 

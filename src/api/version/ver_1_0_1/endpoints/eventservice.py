@@ -439,7 +439,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                     host_user_id: host_user_id
                 } as event
                 ORDER BY e.StartDateTime
-                WITH interest, apoc.coll.partition(collect(event), 10)[0] as events
+                WITH interest, collect(event) as events
                 ORDER BY interest
                 RETURN apoc.map.setKey({}, interest, events) as event_dict
                 """,
