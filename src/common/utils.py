@@ -186,8 +186,8 @@ async def is_event_formatted_correctly(title: str, description: str, start_date_
     if (len(title) > 70):
         return False, "Title cannot be over 70 characters"
 
-    if (len(title) < 1):
-        return False, "Title cannot be under 1 character"
+    if (len(title) < 5):
+        return False, "Title cannot be under 5 characters"
 
     if (contains_profanity(title)):
         return False, "We detected profanity in your title. Please change it"
@@ -201,8 +201,8 @@ async def is_event_formatted_correctly(title: str, description: str, start_date_
     if (len(description) > 2000):
         return False, "Description cannot be over 2000 characters"
 
-    if (len(description) < 1):
-        return False, "Description cannot be under 1 character"
+    if (len(description) < 10):
+        return False, "Description cannot be under 10 characters"
 
     if (contains_profanity(description)):
         return False, "We detected profanity in your description. Please change it"
@@ -229,8 +229,8 @@ async def is_event_formatted_correctly(title: str, description: str, start_date_
     if (len(location) > 200):
         return False, "Location cannot be over 200 characters"
 
-    if (len(location) < 1):
-        return False, "Location cannot be under 1 character"
+    if (len(location) < 5):
+        return False, "Location cannot be under 5 characters"
 
     if (contains_profanity(location)):
         return False, "We detected profanity in your location. Please change it"

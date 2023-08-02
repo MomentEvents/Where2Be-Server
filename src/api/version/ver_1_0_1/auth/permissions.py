@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 from common.utils import is_event_formatted_correctly, is_picture_formatted_correctly, is_user_formatted_correctly
-from src.common.models import Problem
+from common.models import Problem
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
 from functools import wraps
@@ -165,7 +165,7 @@ def is_event_formatted(func):
         is_valid, message = await is_event_formatted_correctly(title, description, start_date_time,
                                                                end_date_time, location, visibility, interest_ids)
         if(not is_valid):
-            return Problem(status=400, content=message)
+            raise Problem(status=400, content=message)
 
         return await func(request)
 
@@ -195,7 +195,7 @@ def is_user_formatted(func):
         is_valid, message = is_user_formatted_correctly(display_name, username)
 
         if(not is_valid):
-            return Problem(status=400, content=message)
+            raise Problem(status=400, content=message)
 
         return await func(request)
 
