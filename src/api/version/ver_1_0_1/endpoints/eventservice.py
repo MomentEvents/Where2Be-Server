@@ -577,13 +577,14 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                 user_join = event_data['user_join']
                 user_shoutout = event_data['user_shoutout']
                 host_user_id = event_data['host_user_id']
+                signup_link = event_data['signup_link']
 
                 if (event_id not in event_ids): # or (interest == "Featured" ):
 
                     # if interest != "Featured":
                     event_ids.append(event_id) 
 
-                    events.append({
+                    event_data = {
                         'event_id': event_id,
                         'title': title,
                         'picture': picture,
@@ -596,8 +597,13 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                         'num_shoutouts': num_shoutouts,
                         'user_join': user_join,
                         'user_shoutout': user_shoutout,
-                        'host_user_id': host_user_id,
-                    })
+                        'host_user_id': host_user_id
+                    }
+
+                    if(signup_link):
+                        event_data['signup_link'] = signup_link
+
+                    events.append(event_data)
 
             if events!= []:
                 categorized_dict[interest] = events
@@ -1181,6 +1187,7 @@ async def get_home_events(request: Request) -> JSONResponse:
         verified_organization = row.get("verified_organization", False)
 
         event_id = row['event_id']
+        signup_link = row['signup_link']
         if(event_id_list.get(event_id)):
             continue
         event_id_list[event_id] = True
@@ -1199,7 +1206,8 @@ async def get_home_events(request: Request) -> JSONResponse:
         user_follow_host = row['user_follow_host']
         reason = row.get("reason")
 
-        data.append({
+
+        home_event_data = {
             "host": {
                 "user_id": user_id,
                 "display_name": display_name,
@@ -1221,10 +1229,15 @@ async def get_home_events(request: Request) -> JSONResponse:
                 'user_join': user_join,
                 'user_shoutout': user_shoutout,
                 'host_user_id': host_user_id,
-                'user_follow_host': user_follow_host
+                'user_follow_host': user_follow_host,
             },
             "reason": reason
-        })
+        }
+
+        if(signup_link):
+            home_event_data['event']['signup_link'] = signup_link
+
+        data.append(home_event_data)
     
     random.shuffle(data)
     return JSONResponse(data)
