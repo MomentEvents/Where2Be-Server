@@ -31,8 +31,10 @@ async def execute_task_if_due(last_run_time, min_interval, task):
     Function to check if the task is due to be run
     """
     current_time = datetime.now()
-    time_difference = current_time - datetime.strptime(last_run_time, "%Y-%m-%dT%H:%M:%S.%f")
-    if time_difference.seconds / 60 > min_interval:
+    if isinstance(last_run_time, str):
+        last_run_time = datetime.strptime(last_run_time, "%Y-%m-%dT%H:%M:%S.%f")
+    time_difference = current_time - last_run_time
+    if time_difference.seconds / 60 >= min_interval:
         print("Executing task")
         asyncio.create_task(task())
     else:
@@ -47,8 +49,22 @@ async def task_manager():
         print("Checking events...")
         with open(task_info_path, 'r') as json_file:
             task_info = json.load(json_file)
-        last_run_info = task_info["notify_all_events_starting_soon"]
-        await execute_task_if_due(last_run_info, 1, notify_all_events_starting_soon)
+
+        last_run_time = task_info.get("notify_all_events_starting_soon")
+        if last_run_time is None:
+            # execute your task here
+            await execute_task_if_due(last_run_time = datetime.now(), min_interval = 0, task=notify_all_events_starting_soon)
+        else:   
+            await execute_task_if_due(last_run_time = last_run_time, min_interval = 1, task=notify_all_events_starting_soon)
+
+
+        last_run_time = task_info.get("perform_bot_actions")
+        if last_run_time is None:
+            # execute your task here
+            await execute_task_if_due(last_run_time = datetime.now(), min_interval = 0, task=perform_bot_actions)
+        else:
+            await execute_task_if_due(last_run_time = last_run_time, min_interval = 1, task=perform_bot_actions)
+
         await asyncio.sleep(10)  # sleep before the next check
 
 def initialize_worker():
@@ -56,8 +72,8 @@ def initialize_worker():
     Function to initialize the worker
     """
     loop = asyncio.get_event_loop()
-    # loop.create_task(task_manager())
-    loop.create_task(perform_bot_actions())
+    loop.create_task(task_manager())
+    # loop.create_task(perform_bot_actions())
     loop.run_forever()
 
 async def daily_scraper():
