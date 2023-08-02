@@ -1,8 +1,9 @@
 from common.neo4j.commands.schoolcommands import get_all_school_entities, get_all_users_by_school
-from common.neo4j.commands.eventcommands import get_random_popular_event_within_x_days, get_events_created_after_given_time, get_and_set_all_starting_soon_events
+from common.neo4j.commands.eventcommands import get_random_popular_event_within_x_days, get_events_created_after_given_time
 from common.neo4j.commands.usercommands import get_all_bots, create_join_connection, create_shoutout_connection
 
 
+from common.neo4j.moment_neo4j import get_neo4j_session
 from common.utils import send_and_validate_expo_push_notifications, store_runtime
 
 import concurrent.futures
@@ -42,6 +43,27 @@ def random_message():
     ]
     return random.choice(messages)
 
+async def get_and_set_all_starting_soon_events(lookahead_period_min: int):
+
+    with get_neo4j_session() as session:
+        event_data = dict()
+
+        result = session.run(
+            """
+            MATCH (e:Event)-[rel:user_joined|user_host]-(u:User)
+            WHERE datetime(e.StartDateTime) >= datetime() AND datetime(e.StartDateTime) <= datetime() + duration({months: $lookahead_period_min}) 
+            AND (type(rel) = 'user_joined' OR type(rel) = 'user_host')
+            RETURN e.Title AS title, e.EventID AS event_id, collect({user_id: u.UserID, user_access_token: u.UserAccessToken}) AS user_details""",
+            parameters={
+                "lookahead_period_min": lookahead_period_min,
+            }
+        )
+        for record in result:
+            event_id = record['event_id']
+            if event_id not in event_data:
+                event_data[event_id] = [record['title'], record['user_details']]
+        
+        return event_data
 
 async def notify_all_events_starting_soon():
 
@@ -73,13 +95,12 @@ async def notify_all_events_starting_soon():
     return 0
 
 async def notify_recommended_events():
-    school_entities = await get_all_school_entities()
+    school_entities = get_all_school_entities()
 
-    for school in school_entities:
-        asyncio.create_task(get_and_notify_for_school(school))
+    tasks = [get_and_notify_for_school(school) for school in school_entities]
 
     # Await all tasks to complete
-    # await asyncio.gather(*tasks)
+    asyncio.gather(*tasks)
 
     store_runtime("notify_recommended_events")
 
@@ -94,7 +115,7 @@ async def get_and_notify_for_school(school):
     print(f"Event from school {school['name']} is event: {event['title']}")
 
     # Get the users connected to the school
-    users = await get_all_users_by_school(school['school_id'])
+    users = get_all_users_by_school(school['school_id'])
 
     # Prepare the notification
     random_initial_message = random_message() 
@@ -145,7 +166,6 @@ async def perform_bot_actions():
 
     # Now we use gather to run all tasks concurrently
     # await asyncio.gather(*tasks)
-    store_runtime("perform_bot_actions")
 
     
    
