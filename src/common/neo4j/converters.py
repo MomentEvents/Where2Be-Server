@@ -8,7 +8,7 @@ def convert_user_entity_to_user(data, show_num_events_followers_following=False,
     }
 
     if (get_push_token): 
-        user_data['user_access_token']= data["UserAccessToken"]
+        user_data['token']= data["PushTokens"]
 
 
     if(show_num_events_followers_following):

@@ -101,10 +101,11 @@ async def get_and_set_all_starting_soon_events(lookahead_period_min: int):
     
     result = await run_neo4j_query(
         """
-        MATCH (e:Event)-[rel:user_joined|user_host]-(u:User)
+        MATCH (e:Event)-[rel:user_join|user_host]-(u:User)
         WHERE datetime(e.StartDateTime) >= datetime() AND datetime(e.StartDateTime) <= datetime() + duration({months: $lookahead_period_min}) 
-        AND (type(rel) = 'user_joined' OR type(rel) = 'user_host')
-        RETURN e.Title AS title, e.EventID AS event_id, collect({user_id: u.UserID, push_tokens: u.PushTokens}) AS user_details""",
+        AND (type(rel) = 'user_join' OR type(rel) = 'user_host')
+        UNWIND u.PushTokens AS pushTokensList
+        RETURN e.Title AS title, e.EventID AS event_id, COLLECT({token: pushTokensList, user_id: u.UserID}) AS user_details""",
         parameters={
             "lookahead_period_min": lookahead_period_min,
         }

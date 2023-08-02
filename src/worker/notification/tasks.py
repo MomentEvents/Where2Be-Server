@@ -48,13 +48,12 @@ async def notify_all_events_starting_soon():
     event_data = await get_and_set_all_starting_soon_events(lookahead_period_min=3)
 
     # Iterate over each event in event_data
-    for event_id, (event_title, users) in event_data.items():
+    for event_id, (event_title, user_ids_with_push_tokens) in event_data.items():
 
-        for user in users:
-            user_id = user['user_id']
-            user_access_token = user['user_access_token']
+        for user_id_with_push_token in user_ids_with_push_tokens:
 
             message = f"\"{event_title}\" is starting soon!"
+            formatted_user_id_with_push_token = [user_id_with_push_token]
             
             # Prepare the extra information to be sent with the notification
             extra = {
@@ -64,7 +63,7 @@ async def notify_all_events_starting_soon():
 
             # Send and validate notifications
             try:
-                asyncio.create_task(send_and_validate_expo_push_notifications(user_access_token, "Event starting soon", message, extra))
+                asyncio.create_task(send_and_validate_expo_push_notifications(formatted_user_id_with_push_token, "Event starting soon", message, extra))
             except Exception as e:
                 print(f"Error sending push notification for event_id {event_id} for user {user_access_token}: \n\n{str(e)}")
 
@@ -94,7 +93,7 @@ async def get_and_notify_for_school(school):
     print(f"Event from school {school['name']} is event: {event['title']}")
 
     # Get the users connected to the school
-    users = await get_all_users_by_school(school['school_id'])
+    users = await get_all_users_by_school(school['school_id'], get_push_token=True)
 
     # Prepare the notification
     random_initial_message = random_message() 
@@ -105,10 +104,11 @@ async def get_and_notify_for_school(school):
     }
 
     for user in users:
-        user_access_token = user['user_access_token']
+
+        user_id_with_push_token = [user]
         try:
             # Create task for sending notification
-            asyncio.create_task(send_and_validate_expo_push_notifications(user_access_token, "Popular event notification", message, extra))
+            asyncio.create_task(send_and_validate_expo_push_notifications(user_id_with_push_token, "Popular event notification", message, extra))
         except Exception as e:
             print(f"Error sending push notification for user_id {user['user_id']}: \n\n{str(e)}")
 
