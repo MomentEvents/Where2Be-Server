@@ -103,7 +103,7 @@ async def send_and_validate_expo_push_notifications(tokens_with_user_id: "set[di
     #     if(not _send_push_token(token_with_user_id["token"], title, message, extra)):
     #         remove_push_token(token_with_user_id["user_id"], token_with_user_id["token"], "Expo")
     await asyncio.sleep(10)
-    print(tokens_with_user_id, " WITH TITLE ", title, " WITH MESSAGE ", message)
+    print(message)
 
 def store_runtime(run_type: str):
 

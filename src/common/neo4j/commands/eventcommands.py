@@ -65,13 +65,13 @@ async def get_event_entity_by_event_id(event_id: str, user_access_token: str):
                 exists((event)<-[:user_shoutout]-(user)) as user_shoutout,
                 host.UserID as host_user_id
             RETURN{
-                EventID: event.EventID,
-                Title: event.Title,
-                Description: event.Description,
-                StartDateTime: event.StartDateTime,
-                EndDateTime: event.EndDateTime,
-                Picture: event.Picture,
-                Visibility: event.Visibility,
+                event_id: event.EventID,
+                title: event.Title,
+                description: event.Description,
+                start_date_time: event.StartDateTime,
+                end_date_time: event.EndDateTime,
+                picture: event.Picture,
+                visibility: event.Visibility,
                 location: event.Location,
                 num_joins: num_joins,
                 num_shoutouts: num_shoutouts,
@@ -104,7 +104,7 @@ async def get_and_set_all_starting_soon_events(lookahead_period_min: int):
         MATCH (e:Event)-[rel:user_joined|user_host]-(u:User)
         WHERE datetime(e.StartDateTime) >= datetime() AND datetime(e.StartDateTime) <= datetime() + duration({months: $lookahead_period_min}) 
         AND (type(rel) = 'user_joined' OR type(rel) = 'user_host')
-        RETURN e.Title AS title, e.EventID AS event_id, collect({user_id: u.UserID, push_tokens: u.PushTokens}) AS user_details""",
+        RETURN e.Title AS title, e.EventID AS event_id, collect({user_id: u.UserID, user_access_token: u.UserAccessToken}) AS user_details""",
         parameters={
             "lookahead_period_min": lookahead_period_min,
         }
