@@ -1,5 +1,10 @@
 import os
 
+from dotenv import load_dotenv
+
+# Load .env file
+load_dotenv()
+
 def check_is_prod():
     test = os.environ.get('IS_PROD')
     true_strings = ['true', 'yes', '1', 'on']

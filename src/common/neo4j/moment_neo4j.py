@@ -4,6 +4,11 @@ import time
 import logging
 from neo4j import GraphDatabase, AsyncGraphDatabase
 
+from dotenv import load_dotenv
+
+# Load .env file
+load_dotenv()
+
 # Set the connection details for the Neo4j database
 NEO4J_BOLT_URL = os.getenv('NEO4J_BOLT_URL')
 NEO4J_USERNAME = os.getenv('NEO4J_USERNAME')
@@ -16,6 +21,8 @@ class Neo4jDriverSingleton:
     async def get_driver_instance():
         attempts = 1
         max_attempts = 5
+
+        print(NEO4J_BOLT_URL)
         while attempts < max_attempts:
             try:
                 if Neo4jDriverSingleton._driver_instance is None:

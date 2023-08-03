@@ -28,6 +28,11 @@ import json
 from io import BytesIO
 import io
 
+from dotenv import load_dotenv
+
+# Load .env file
+load_dotenv()
+
 
 
 #remove this
