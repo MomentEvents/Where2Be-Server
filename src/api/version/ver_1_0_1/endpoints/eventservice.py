@@ -80,7 +80,7 @@ async def create_event(request: Request) -> JSONResponse:
     request.state.background = BackgroundTasks()
 
     user = await get_user_entity_by_user_access_token(user_access_token, False)
-    print(user)
+    # print(user)
     if(ENABLE_FIREBASE and scraper_token != SCRAPER_TOKEN):
 
         firebase_user = get_firebase_user_by_uid(user['user_id'])
@@ -121,7 +121,7 @@ async def create_event(request: Request) -> JSONResponse:
     }
 
     if(ping_followers):
-        print("PINGING FOLLOWERS")
+        # print("PINGING FOLLOWERS")
         try:
             follower_push_tokens_with_user_id = await get_all_follower_push_tokens(user['user_id'])
             if(follower_push_tokens_with_user_id is not None):
@@ -166,7 +166,7 @@ async def get_event(request: Request) -> JSONResponse:
         print("Error")
         return Response(status_code=400, content="Parameter Missing")
 
-    print("about to go to connection")
+    # print("about to go to connection")
 
     event_data = await get_event_entity_by_event_id(event_id, user_access_token)
 
@@ -244,7 +244,7 @@ async def update_event(request: Request) -> JSONResponse:
     except AssertionError:
         return Response(status_code=400, content="Incomplete body or incorrect parameter")
 
-    print(event_id)
+    # print(event_id)
 
     event_image = None
     if picture != "null" and picture != "undefined":
@@ -557,7 +557,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
     categorized_dict = {}
     event_ids = []
     for record in result:
-        print("record: ",record)
+        # print("record: ",record)
         interest_data = record['event_dict']
         for interest in interest_data:
             events = []
@@ -567,7 +567,7 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                 if (event_data['EventID'] not in event_ids): # or (interest == "Featured" ):
                     event_ids.append(event_data['EventID']) 
                     event_entity = convert_event_entity_to_event(event_data)
-                    print(event_entity, "\n\n\n")
+                    # print(event_entity, "\n\n\n")
                     events.append(event_entity)
 
             if events!= []:
@@ -660,7 +660,7 @@ async def search_events(request: Request) -> JSONResponse:
  
 async def host_past(request: Request) -> JSONResponse:
 
-    print("CALLING host_past")
+    # print("CALLING host_past")
     begin_start_time = time.perf_counter()
 
 
@@ -719,7 +719,7 @@ async def host_past(request: Request) -> JSONResponse:
         parameters   
     )
     
-    print("get_event_list_from_query is", str(result))
+    # print("get_event_list_from_query is", str(result))
 
     events = []
     for record in result:
@@ -731,7 +731,7 @@ async def host_past(request: Request) -> JSONResponse:
 async def host_future(request: Request) -> JSONResponse:
 
 
-    print("CALLING host_future")
+    # print("CALLING host_future")
     begin_start_time = time.perf_counter()
 
     
@@ -747,8 +747,8 @@ async def host_future(request: Request) -> JSONResponse:
     except:
         Response(status_code=400, content="Incomplete body")
 
-    print(cursor_event_id)
-    print(cursor_start_date_time)
+    # print(cursor_event_id)
+    # print(cursor_start_date_time)
     cursor_clause = ""
     if cursor_event_id and cursor_start_date_time:
         print("GOING INTO CURSOR CLAUSE")
@@ -792,7 +792,7 @@ async def host_future(request: Request) -> JSONResponse:
         parameters   
     )
     
-    print("get_event_list_from_query is", str(result))
+    # print("get_event_list_from_query is", str(result))
 
     events = []
     for record in result:
@@ -804,7 +804,7 @@ async def host_future(request: Request) -> JSONResponse:
 @is_requester_privileged_for_user
 async def join_past(request: Request) -> JSONResponse:
 
-    print(time.perf_counter(), " Join past start")
+    # print(time.perf_counter(), " Join past start")
 
     user_id = request.path_params["user_id"]
 
@@ -861,7 +861,7 @@ async def join_past(request: Request) -> JSONResponse:
         parameters   
     )
     
-    print("get_event_list_from_query is", str(result))
+    # print("get_event_list_from_query is", str(result))
 
     events = []
     for record in result:
@@ -872,7 +872,7 @@ async def join_past(request: Request) -> JSONResponse:
  
 @is_requester_privileged_for_user
 async def join_future(request: Request) -> JSONResponse:
-    print(time.perf_counter(), " join future, begin")
+    # print(time.perf_counter(), " join future, begin")
     user_id = request.path_params["user_id"]
 
     body = await request.json()
@@ -920,7 +920,7 @@ async def join_future(request: Request) -> JSONResponse:
         parameters   
     )
     
-    print("get_event_list_from_query is", str(result))
+    # print("get_event_list_from_query is", str(result))
 
     events = []
     for record in result:
@@ -1145,7 +1145,7 @@ async def get_home_events(request: Request) -> JSONResponse:
         }
     )
 
-    print(result)
+    # print(result)
     data = []
     event_id_list = {}
 

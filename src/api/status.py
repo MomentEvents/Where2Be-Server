@@ -11,7 +11,7 @@ async def get_health(request: Request) -> JSONResponse:
 async def get_compatability(request: Request) -> JSONResponse:
 
     request_data = await parse_request_data(request)
-    print(request_data.get("app_version"))
+    # print(request_data.get("app_version"))
     return Response(status_code=200, content="App version is compatible")
 
 async def maintenance_response(request: Request) -> JSONResponse:

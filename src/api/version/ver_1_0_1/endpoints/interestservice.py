@@ -54,7 +54,7 @@ async def get_all_interests(request: Request) -> JSONResponse:
             }
         )
 
-    print(interest_array)
+    # print(interest_array)
     return JSONResponse(interest_array)
     
 async def get_event_interest(request: Request) -> JSONResponse:
@@ -91,7 +91,7 @@ async def get_event_interest(request: Request) -> JSONResponse:
         parameters={"event_id": event_id},
     )
 
-    print(result)
+    # print(result)
 
     interest_array = []
 

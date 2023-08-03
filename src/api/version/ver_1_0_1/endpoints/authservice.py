@@ -49,8 +49,8 @@ async def login_user(request: Request) -> JSONResponse:
     usercred = usercred.strip()
 
     user_id, user_access_token = await login(usercred, password)
-    print("user_id returned to API: ", user_id)
-    print("user_access_token returned to API: ", user_access_token)
+    # print("user_id returned to API: ", user_id)
+    # print("user_access_token returned to API: ", user_access_token)
 
     return JSONResponse({"user_id": user_id, "user_access_token": user_access_token})
 
@@ -87,9 +87,9 @@ async def signup_user(request: Request) -> JSONResponse:
 
     user_id, user_access_token = await signup(username, display_name, email, password)
 
-    print("CREATED USER")
-    print(user_access_token)
-    print(user_id)
+    # print("CREATED USER")
+    # print(user_access_token)
+    # print(user_id)
 
     # request.state.background = BackgroundTasks()
 
