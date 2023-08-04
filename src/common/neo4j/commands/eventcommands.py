@@ -31,8 +31,9 @@ async def create_event_entity(event_id: str, user_access_token: str, event_image
                 EndDateTime: datetime($end_date_time),
                 Visibility: $visibility,
                 TimeCreated: datetime()
-            })<-[:user_host]-(user),
+            })<-[rel:user_host]-(user),
             (event)-[:event_school]->(school)
+            SET rel.Notified = false
             WITH user, event
             UNWIND $interest_ids as interest_id
             MATCH (tag:Interest {InterestID: interest_id})
@@ -96,7 +97,7 @@ async def get_event_entity_by_event_id(event_id: str, user_access_token: str):
     return event_data
 
 
-async def get_and_set_all_starting_soon_events(lookahead_period_min: int):
+async def get_and_notify_all_starting_soon_events(lookahead_period_min: int):
 
     event_data = dict()
 
@@ -104,7 +105,7 @@ async def get_and_set_all_starting_soon_events(lookahead_period_min: int):
         """
         MATCH (e:Event)-[rel:user_join|user_host]-(u:User)
         WHERE datetime(e.StartDateTime) >= datetime() AND datetime(e.StartDateTime) <= datetime() + duration({months: $lookahead_period_min}) 
-        AND (type(rel) = 'user_join' OR type(rel) = 'user_host')
+        AND (type(rel) = 'user_join' OR type(rel) = 'user_host') AND rel.notified = false
         UNWIND u.PushTokens AS pushTokensList
         RETURN e.Title AS title, e.EventID AS event_id, COLLECT(DISTINCT {token: pushTokensList, user_id: u.UserID}) AS user_details""",
         parameters={
@@ -117,7 +118,7 @@ async def get_and_set_all_starting_soon_events(lookahead_period_min: int):
         if event_id not in event_data:
             event_data[event_id] = [record['title'], record['user_details']]
 
-    print(event_data)
+    # print(event_data)
     return event_data
 
 
