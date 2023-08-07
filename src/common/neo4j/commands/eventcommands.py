@@ -104,8 +104,8 @@ async def get_and_notify_all_starting_soon_events(lookahead_period_min: int):
     result = await run_neo4j_query(
         """
         MATCH (e:Event)-[rel:user_join|user_host]-(u:User)
-        WHERE datetime(e.StartDateTime) >= datetime() AND datetime(e.StartDateTime) <= datetime() + duration({months: $lookahead_period_min}) 
-        AND (type(rel) = 'user_join' OR type(rel) = 'user_host') AND rel.notified = false
+        WHERE datetime(e.StartDateTime) >= datetime() AND datetime(e.StartDateTime) <= datetime() + duration({minutes: $lookahead_period_min}) 
+        AND (type(rel) = 'user_join' OR type(rel) = 'user_host') AND rel.IsNotified = false
         UNWIND u.PushTokens AS pushTokensList
         RETURN e.Title AS title, e.EventID AS event_id, COLLECT(DISTINCT {token: pushTokensList, user_id: u.UserID}) AS user_details""",
         parameters={
@@ -188,3 +188,21 @@ async def get_events_created_after_given_time(given_time):
         event_array.append(convert_event_entity_to_event(data))
 
     return event_array
+
+
+async def user_isnotified(user_id, event_id):
+    print("Notified for", user_id, "for event", event_id)
+
+    query = """
+    MATCH (u:User {UserID: $user_id})-[rel:user_join|user_host]-(e:Event {EventID: $event_id})
+    SET rel.IsNotified = True
+    """
+
+    parameters = {
+        "user_id": user_id,
+        "event_id": event_id
+    }
+
+    await run_neo4j_query(query, parameters)
+
+    return 0

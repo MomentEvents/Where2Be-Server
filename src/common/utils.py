@@ -1,6 +1,7 @@
 import base64
 import boto3
 from common.neo4j.commands.notificationcommands import remove_push_token
+from common.neo4j.commands.eventcommands import user_isnotified
 from common.neo4j.moment_neo4j import run_neo4j_query
 from exponent_server_sdk import (
     DeviceNotRegisteredError,
@@ -29,16 +30,17 @@ from io import BytesIO
 import io
 
 
-
-#remove this
+# remove this
 import time
 
 SES_CLIENT = boto3.client('ses',
                           aws_access_key_id=os.environ.get('SES_ACCESS_KEY'),
-                          aws_secret_access_key=os.environ.get('SES_SECRET_ACCESS_KEY'),
+                          aws_secret_access_key=os.environ.get(
+                              'SES_SECRET_ACCESS_KEY'),
                           region_name=os.environ.get('SES_REGION'))
 
 SENDER_EMAIL = 'where2be-team@where2be.app'
+
 
 def send_email(recipient_email, subject, body):
     response = SES_CLIENT.send_email(
@@ -51,6 +53,7 @@ def send_email(recipient_email, subject, body):
     )
 
     return response
+
 
 def _send_push_token(expo_token: str, title: str, message: str, extra) -> bool:
 
@@ -65,18 +68,19 @@ def _send_push_token(expo_token: str, title: str, message: str, extra) -> bool:
             "content-type": "application/json"
         }
     )
-    while attempts < max_attempts: 
+    while attempts < max_attempts:
         try:
             print("Attempt " + str(attempts) + "/" + str(max_attempts))
-            
+
             # Create parameters dictionary
             params = {"to": expo_token, "body": message, "data": extra}
             # Conditionally add title if it is not None
             if title is not None:
                 params["title"] = title
 
-            response = PushClient(session=session).publish(PushMessage(**params))
-            
+            response = PushClient(session=session).publish(
+                PushMessage(**params))
+
         except PushServerError as exc:
             # Encountered some likely formatting/validation error.
             raise
@@ -107,16 +111,21 @@ def _send_push_token(expo_token: str, title: str, message: str, extra) -> bool:
     return True
 
 
-async def send_and_validate_expo_push_notifications(tokens_with_user_id: "set[dict[str, str]]", title: str, message: str, extra):
+async def send_and_validate_expo_push_notifications(tokens_with_user_id: "set[dict[str, str]]", title: str, message: str, extra, isnotified=False):
     # input = {{
     #     "user_id": "blah",
     #     "token": "blah2",
     # }}
     for token_with_user_id in tokens_with_user_id:
-        if(not _send_push_token(token_with_user_id["token"], title, message, extra)):
-            remove_push_token(token_with_user_id["user_id"], token_with_user_id["token"], "Expo")
-    # await asyncio.sleep(10)
-    print(tokens_with_user_id, " WITH TITLE ", title, " WITH MESSAGE ", message)
+        if (not _send_push_token(token_with_user_id["token"], title, message, extra)):
+            remove_push_token(
+                token_with_user_id["user_id"], token_with_user_id["token"], "Expo")
+        elif isnotified:
+            await user_isnotified(
+                token_with_user_id["user_id"], extra["event_id"])
+    print(tokens_with_user_id, " WITH TITLE ",
+          title, " WITH MESSAGE ", message)
+
 
 def store_runtime(run_type: str):
 
@@ -124,7 +133,7 @@ def store_runtime(run_type: str):
 
     # Store the runtime of the run_type from the worker
     task_info_path = "./worker/task_info.json"
-    
+
     current_time = datetime.now()
 
     with open(task_info_path, 'r') as json_file:
@@ -137,31 +146,34 @@ def store_runtime(run_type: str):
     with open(task_info_path, 'w') as json_file:
         json.dump(data, json_file)
 
+
 def is_email(string):
     pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
     return re.match(pattern, string) is not None
 
+
 def contains_url(string):
- 
+
     regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
     url = re.findall(regex, string)
-    if(len(url) > 0):
+    if (len(url) > 0):
         return True
-    
+
     string_list = string.split()
 
-    
     regex = r"(?i)\b((?:.com$|.org$|.edu$))"
 
     for test_string in string_list:
         url = re.findall(regex, test_string)
-        if(len(url) > 0):
+        if (len(url) > 0):
             return True
-    
+
     return False
+
 
 def contains_profanity(string):
     return profanity.contains_profanity(string)
+
 
 def get_email_domain(email):
     try:
@@ -171,6 +183,7 @@ def get_email_domain(email):
     except IndexError:
         return None
 
+
 def validate_username(username):
     # This pattern allows for a-z, A-Z, 0-9, underscore, and hyphen, with no specific length limit.
     pattern = r'^[a-zA-Z0-9_-]*$'
@@ -178,6 +191,7 @@ def validate_username(username):
 
     # Return True if the username is valid, False otherwise.
     return match is not None
+
 
 async def is_event_formatted_correctly(title: str, description: str, start_date_time: str, end_date_time: str, location: str, visibility: str, interest_ids: "list[str]"):
     if (title.isprintable() is False) or (title.isspace() is True):
@@ -219,7 +233,7 @@ async def is_event_formatted_correctly(title: str, description: str, start_date_
                 return False, "Start date cannot be equal to or after end date"
         except:
             return False, "Could not parse end date"
-        
+
     if start_date_time_test < datetime.now(timezone.utc):
         return False, "This event cannot be in the past"
 
@@ -257,13 +271,14 @@ async def is_event_formatted_correctly(title: str, description: str, start_date_
 
     if num_interests != len(interest_ids):
         return False, "One or more interests do not exist"
-    
+
     return True, "Event is formatted correctly"
+
 
 def is_user_formatted_correctly(display_name: str, username: str):
     if len(display_name) > 30:
         return False, "Display name cannot exceed 30 characters"
-    
+
     if len(display_name) < 3:
         return False, "Display name cannot be below 3 characters"
 
@@ -290,16 +305,16 @@ def is_user_formatted_correctly(display_name: str, username: str):
 
     if (contains_url(username)):
         return False, "Username cannot contain a url"
-    
+
     return True, "User is formatted correctly"
 
-    
+
 async def is_picture_formatted_correctly(picture):
-    
+
     try:
         image_bytes = base64.b64decode(picture)
         img = Image.open(io.BytesIO(image_bytes))
     except:
         return False, "Picture is not a valid base64 image"
-    
+
     return True, "Picture is formatted correctly"

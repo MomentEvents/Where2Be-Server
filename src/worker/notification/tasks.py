@@ -1,5 +1,5 @@
 from common.neo4j.commands.schoolcommands import get_all_school_entities, get_all_users_by_school
-from common.neo4j.commands.eventcommands import get_random_popular_event_within_x_days, get_events_created_after_given_time, get_and_notify_all_starting_soon_events
+from common.neo4j.commands.eventcommands import get_random_popular_event_within_x_days, get_events_created_after_given_time, get_and_notify_all_starting_soon_events, user_isnotified
 from common.neo4j.commands.usercommands import get_all_bots, create_join_connection, create_shoutout_connection
 
 
@@ -12,48 +12,17 @@ import asyncio
 import random
 
 
-def random_message():
-    messages = [
-        "Get ready to join the crowd!",
-        "Stay in the loop!",
-        "Be a part of something big!",
-        "Don't miss out!",
-        "Join the fun!",
-        "Are you ready for this?",
-        "Something big is happening!",
-        "This is what you've been waiting for!",
-        "Get in on the action!",
-        "The buzz is all about this!",
-        "Catch the excitement!",
-        "The crowd is gathering!",
-        "Can you feel the anticipation?",
-        "This is going to be epic!",
-        "It's time to make some memories!",
-        "You won't want to miss this!",
-        "Time to get your game face on!",
-        "Ready for the highlight of your year?",
-        "Be where everyone else will be!",
-        "Jump into the fun!",
-        "Be part of the next big thing!",
-        "Are you ready to have a blast?",
-        "You won't believe what's coming up!",
-        "This is going to be unforgettable!",
-        "Ready to make some noise?",
-        "Get excited, it's nearly here!",
-    ]
-    return random.choice(messages)
-
-
 async def notify_all_events_starting_soon():
 
-    event_data = await get_and_notify_all_starting_soon_events(lookahead_period_min=3)
+    event_data = await get_and_notify_all_starting_soon_events(lookahead_period_min=30)
 
     # Iterate over each event in event_data
     for event_id, (event_title, user_ids_with_push_tokens) in event_data.items():
 
         for user_id_with_push_token in user_ids_with_push_tokens:
+            random_initial_message = random_message()
 
-            message = f"\"{event_title}\" is starting soon!"
+            message = f"{random_initial_message} \"{event_title}\" is starting soon!"
             formatted_user_id_with_push_token = [user_id_with_push_token]
 
             # Prepare the extra information to be sent with the notification
@@ -65,7 +34,8 @@ async def notify_all_events_starting_soon():
             # Send and validate notifications
             try:
                 asyncio.create_task(send_and_validate_expo_push_notifications(
-                    formatted_user_id_with_push_token, "Event starting soon", message, extra))
+                    formatted_user_id_with_push_token, "Event starting soon", message, extra, isnotified=True))
+
             except Exception as e:
                 print(
                     f"Error sending push notification for event_id {event_id} for user {formatted_user_id_with_push_token}: \n\n{str(e)}")
@@ -102,22 +72,22 @@ async def get_and_notify_for_school(school):
 
     # Prepare the notification
     random_initial_message = random_message()
-    message = f"{random_initial_message} {event['title']} is getting popular at your school."
+    message = f"{random_initial_message} \"{event['title']}\" is getting popular at your school."
     extra = {
         'action': 'ViewEventDetails',
         'event_id': event['event_id'],
     }
 
-    for user in users:
-
-        user_id_with_push_token = [user]
+    # print(users)
+    for user_id_with_push_token in users:
+        print(user_id_with_push_token)
         try:
             # Create task for sending notification
             asyncio.create_task(send_and_validate_expo_push_notifications(
                 user_id_with_push_token, "Popular event notification", message, extra))
         except Exception as e:
             print(
-                f"Error sending push notification for user_id {user['user_id']}: \n\n{str(e)}")
+                f"Error sending push notification for user_id {user_id_with_push_token['user_id']}: \n\n{str(e)}")
 
 
 async def bot_chance_join_repost_event(event_id):
@@ -160,3 +130,56 @@ async def perform_bot_actions(last_run_time):
     # Now we use gather to run all tasks concurrently
     # await asyncio.gather(*tasks)
     store_runtime("perform_bot_actions")
+
+
+def random_message():
+    messages = [
+        "Get ready to join the crowd!",
+        "Stay in the loop!",
+        "Be a part of something big!",
+        "Don't miss out!",
+        "Join the fun!",
+        "Are you ready for this?",
+        "Something big is happening!",
+        "This is what you've been waiting for!",
+        "Get in on the action!",
+        "The buzz is all about this!",
+        "Catch the excitement!",
+        "The crowd is gathering!",
+        "Can you feel the anticipation?",
+        "This is going to be epic!",
+        "It's time to make some memories!",
+        "You won't want to miss this!",
+        "Time to get your game face on!",
+        "Ready for the highlight of your year?",
+        "Be where everyone else will be!",
+        "Jump into the fun!",
+        "Be part of the next big thing!",
+        "Are you ready to have a blast?",
+        "This is going to be unforgettable!",
+        "Ready to make some noise?",
+        "Get excited, it's nearly here!",
+        "The countdown is on!",
+        "Something extraordinary is about to happen!",
+        "Ready to be amazed?",
+        "You're invited to something special!",
+        "A day you won't forget!",
+        "Ready, set, fun!",
+        "Brace yourself for the unexpected!",
+        "Get set for a thrill ride!",
+        "The time is now!",
+        "Join us for a journey!",
+        "The best is yet to come!",
+        "Time to turn the excitement up a notch!",
+        "The wait is almost over!",
+        "Gear up for an incredible experience!",
+        "This is your moment!",
+        "Ready for some magic?",
+        "The adventure begins here!",
+        "Embrace the excitement!",
+        "Ready for an explosion of fun?",
+        "Don't keep the fun waiting!",
+        "You're in for a treat!",
+        "Get ready for a spectacle like no other!"
+    ]
+    return random.choice(messages)

@@ -3,6 +3,9 @@ import json
 import asyncio
 from datetime import datetime
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler.triggers.cron import CronTrigger
+from pytz import timezone
+
 
 from worker.notification.tasks import notify_all_events_starting_soon, notify_recommended_events, perform_bot_actions
 
@@ -95,11 +98,20 @@ async def daily_scraper():
 
 
 def main():
+
+    tz = timezone('US/Pacific')  # Pacific Standard Time
+    # Create a CronTrigger
+    trigger = CronTrigger(day_of_week='1', hour='17',
+                          minute=0, timezone=tz)  # Tuesday at 5:00pm
+    trigger1 = CronTrigger(day_of_week='3', hour='17',
+                           minute=0, timezone=tz)  # Thursday at 5:00
+
     # Instantiate the scheduler
     scheduler = AsyncIOScheduler()
 
     scheduler.add_job(daily_scraper, 'interval', seconds=120)
-    scheduler.add_job(notify_recommended_events, 'interval', seconds=5*60)
+    scheduler.add_job(notify_recommended_events, trigger)
+    scheduler.add_job(notify_recommended_events, trigger1)
     scheduler.start()
     initialize_worker()
 
