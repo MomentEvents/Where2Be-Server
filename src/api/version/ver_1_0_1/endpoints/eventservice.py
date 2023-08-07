@@ -158,20 +158,13 @@ async def get_event(request: Request) -> JSONResponse:
     body = await request.json()
 
     user_access_token = body.get("user_access_token")
-
-    try:
-        assert all((user_access_token))
-    except AssertionError:
-        # Handle the error here
-        print("Error")
-        return Response(status_code=400, content="Parameter Missing")
-
-    print("about to go to connection")
-
+    
     event_data = await get_event_entity_by_event_id(event_id, user_access_token)
 
     if(event_data == None):
         return Response(status_code=400, content="Event does not exist")
+    
+    print(event_data)
 
     return JSONResponse(event_data)
 

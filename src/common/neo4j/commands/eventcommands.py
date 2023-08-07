@@ -55,46 +55,85 @@ async def create_event_entity(event_id: str, user_access_token: str, event_image
     return event_id
 
 
-async def get_event_entity_by_event_id(event_id: str, user_access_token: str):
+async def get_event_entity_by_event_id(event_id: str, user_access_token=None):
 
-    result = await run_neo4j_query(
-        """MATCH (event:Event{EventID : $event_id}), (user:User{UserAccessToken:$user_access_token}), (event)<-[:user_host]-(host:User)
-            WITH (event),
-                COUNT{(event)<-[:user_join]-()} as num_joins,
-                COUNT{(event)<-[:user_shoutout]-()} as num_shoutouts,
-                exists((event)<-[:user_join]-(user)) as user_join,
-                exists((event)<-[:user_shoutout]-(user)) as user_shoutout,
-                host.UserID as host_user_id
-            RETURN{
-                EventID: event.EventID,
-                Title: event.Title,
-                Description: event.Description,
-                StartDateTime: event.StartDateTime,
-                EndDateTime: event.EndDateTime,
-                Picture: event.Picture,
-                Visibility: event.Visibility,
-                SignupLink: event.SignupLink,
-                Location: event.Location,
-                num_joins: num_joins,
-                num_shoutouts: num_shoutouts,
-                user_join: user_join,
-                user_shoutout: user_shoutout,
-                host_user_id: host_user_id
-            }""",
-        parameters={
-            "event_id": event_id,
-            "user_access_token": user_access_token,
-        },
-    )
+    if(user_access_token):
 
-    data = parse_neo4j_data(result, 'single')
+        result = await run_neo4j_query(
+            """MATCH (event:Event{EventID : $event_id}), (user:User{UserAccessToken:$user_access_token}), (event)<-[:user_host]-(host:User)
+                WITH (event),
+                    COUNT{(event)<-[:user_join]-()} as num_joins,
+                    COUNT{(event)<-[:user_shoutout]-()} as num_shoutouts,
+                    exists((event)<-[:user_join]-(user)) as user_join,
+                    exists((event)<-[:user_shoutout]-(user)) as user_shoutout,
+                    host.UserID as host_user_id
+                RETURN{
+                    EventID: event.EventID,
+                    Title: event.Title,
+                    Description: event.Description,
+                    StartDateTime: event.StartDateTime,
+                    EndDateTime: event.EndDateTime,
+                    Picture: event.Picture,
+                    Visibility: event.Visibility,
+                    SignupLink: event.SignupLink,
+                    Location: event.Location,
+                    num_joins: num_joins,
+                    num_shoutouts: num_shoutouts,
+                    user_join: user_join,
+                    user_shoutout: user_shoutout,
+                    host_user_id: host_user_id
+                }""",
+            parameters={
+                "event_id": event_id,
+                "user_access_token": user_access_token,
+            },
+        )
 
-    if (data is None):
-        return None
+        data = parse_neo4j_data(result, 'single')
 
-    event_data = convert_event_entity_to_event(data)
+        if (data is None):
+            return None
 
-    return event_data
+        event_data = convert_event_entity_to_event(data)
+
+        return event_data
+    
+    else:
+        result = await run_neo4j_query(
+            """MATCH (event:Event{EventID : $event_id}), (event)<-[:user_host]-(host:User)
+                WITH (event),
+                    COUNT{(event)<-[:user_join]-()} as num_joins,
+                    COUNT{(event)<-[:user_shoutout]-()} as num_shoutouts,
+                    host.UserID as host_user_id
+                RETURN{
+                    EventID: event.EventID,
+                    Title: event.Title,
+                    Description: event.Description,
+                    StartDateTime: event.StartDateTime,
+                    EndDateTime: event.EndDateTime,
+                    Picture: event.Picture,
+                    Visibility: event.Visibility,
+                    SignupLink: event.SignupLink,
+                    Location: event.Location,
+                    num_joins: num_joins,
+                    num_shoutouts: num_shoutouts,
+                    user_join: False,
+                    user_shoutout: False,
+                    host_user_id: host_user_id
+                }""",
+            parameters={
+                "event_id": event_id
+            },
+        )
+
+        data = parse_neo4j_data(result, 'single')
+
+        if (data is None):
+            return None
+
+        event_data = convert_event_entity_to_event(data)
+
+        return event_data
 
 
 async def get_and_notify_all_starting_soon_events(lookahead_period_min: int):
