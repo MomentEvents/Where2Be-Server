@@ -33,7 +33,7 @@ async def create_event_entity(event_id: str, user_access_token: str, event_image
                 TimeCreated: datetime()
             })<-[rel:user_host]-(user),
             (event)-[:event_school]->(school)
-            SET rel.Notified = false
+            SET rel.IsNotified = false
             WITH user, event
             UNWIND $interest_ids as interest_id
             MATCH (tag:Interest {InterestID: interest_id})
