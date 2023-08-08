@@ -247,9 +247,9 @@ async def get_event_host(request: Request) -> JSONResponse:
 
     body = await request.json()
 
-    user_access_token = body["user_access_token"]
+    user_access_token = body.get("user_access_token")
     try:
-        assert all((event_id, user_access_token))
+        assert all((event_id))
     except AssertionError:
         return Response(status_code=400, content="Incomplete body")
     

@@ -3,8 +3,12 @@ import json
 import asyncio
 from datetime import datetime
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler.triggers.cron import CronTrigger
+from pytz import timezone
+
 
 from worker.notification.tasks import notify_all_events_starting_soon, notify_recommended_events, perform_bot_actions
+
 
 async def retrieve_events(db_pool):
     """
@@ -13,6 +17,7 @@ async def retrieve_events(db_pool):
     async with db_pool.acquire() as connection:
         events = await connection.fetch("SELECT * FROM events WHERE event_time >= $1", datetime.now())
     return events
+
 
 async def run_scraper():
     """
@@ -26,20 +31,23 @@ async def run_scraper():
     end_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     print(f"Scraper ended at {end_time}")
 
+
 async def execute_task_if_due(last_run_time, min_interval, task_info):
     """
     Function to check if the task is due to be run
     """
     current_time = datetime.now()
     if isinstance(last_run_time, str):
-        last_run_time = datetime.strptime(last_run_time, "%Y-%m-%dT%H:%M:%S.%f")
+        last_run_time = datetime.strptime(
+            last_run_time, "%Y-%m-%dT%H:%M:%S.%f")
     time_difference = current_time - last_run_time
     task, args = task_info  # Unpack the task function and its arguments
     if time_difference.seconds / 60 >= min_interval:
         print("Executing task")
         asyncio.create_task(task(*args))
     else:
-        print(f"Task ran {time_difference.seconds / 60} minutes ago. Not executing it now.")
+        print(
+            f"Task ran {time_difference.seconds / 60} minutes ago. Not executing it now.")
 
 
 async def task_manager():
@@ -55,18 +63,23 @@ async def task_manager():
         last_run_time = task_info.get("notify_all_events_starting_soon")
         if last_run_time is None:
             # execute your task here
-            asyncio.create_task(execute_task_if_due(last_run_time = datetime.now(), min_interval = 0, task_info=(notify_all_events_starting_soon, [])))
-        else:   
-            asyncio.create_task(execute_task_if_due(last_run_time = last_run_time, min_interval = 1, task_info=(notify_all_events_starting_soon, [])))
+            asyncio.create_task(execute_task_if_due(last_run_time=datetime.now(
+            ), min_interval=0, task_info=(notify_all_events_starting_soon, [])))
+        else:
+            asyncio.create_task(execute_task_if_due(
+                last_run_time=last_run_time, min_interval=1, task_info=(notify_all_events_starting_soon, [])))
 
         last_run_time = task_info.get("perform_bot_actions")
         if last_run_time is None:
             # execute your task here
-            asyncio.create_task(execute_task_if_due(last_run_time = datetime.now(), min_interval = 0, task_info=(perform_bot_actions, [str(datetime.now())]))) # the arg needs to be better
+            asyncio.create_task(execute_task_if_due(last_run_time=datetime.now(), min_interval=0, task_info=(
+                perform_bot_actions, [str(datetime.now())])))  # the arg needs to be better
         else:
-            asyncio.create_task(execute_task_if_due(last_run_time = last_run_time, min_interval = 1, task_info=(perform_bot_actions, [last_run_time])))
+            asyncio.create_task(execute_task_if_due(last_run_time=last_run_time,
+                                min_interval=1, task_info=(perform_bot_actions, [last_run_time])))
 
-        await asyncio.sleep(10)  # sleep before the next check
+        await asyncio.sleep(5*60)  # sleep before the next check
+
 
 def initialize_worker():
     """
@@ -74,8 +87,8 @@ def initialize_worker():
     """
     loop = asyncio.get_event_loop()
     loop.create_task(task_manager())
-    # loop.create_task(perform_bot_actions())
     loop.run_forever()
+
 
 async def daily_scraper():
     """
@@ -83,12 +96,22 @@ async def daily_scraper():
     """
     await run_scraper()
 
+
 def main():
+
+    tz = timezone('US/Pacific')  # Pacific Standard Time
+    # Create a CronTrigger
+    trigger = CronTrigger(day_of_week='1', hour='17',
+                          minute=0, timezone=tz)  # Tuesday at 5:00pm
+    trigger1 = CronTrigger(day_of_week='3', hour='17',
+                           minute=0, timezone=tz)  # Thursday at 5:00
+
     # Instantiate the scheduler
     scheduler = AsyncIOScheduler()
 
     scheduler.add_job(daily_scraper, 'interval', seconds=120)
-    scheduler.add_job(notify_recommended_events, 'interval', seconds=120)
+    scheduler.add_job(notify_recommended_events, trigger)
+    scheduler.add_job(notify_recommended_events, trigger1)
     scheduler.start()
     initialize_worker()
 

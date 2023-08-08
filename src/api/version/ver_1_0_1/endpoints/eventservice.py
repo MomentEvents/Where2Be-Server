@@ -15,8 +15,6 @@ from starlette.background import BackgroundTasks
 import time
 
 
-
-
 # from datetime import datetime
 from dateutil import parser
 import bcrypt
@@ -74,19 +72,21 @@ async def create_event(request: Request) -> JSONResponse:
     user_access_token = request_data.get("user_access_token")
     scraper_token = request_data.get("scraper_token")
 
-    if(user_access_token is None):
-        raise Problem(status=400, content="No user_access_token has been passed in.")
-    
+    if (user_access_token is None):
+        raise Problem(
+            status=400, content="No user_access_token has been passed in.")
+
     request.state.background = BackgroundTasks()
 
     user = await get_user_entity_by_user_access_token(user_access_token, False)
     # print(user)
-    if(ENABLE_FIREBASE and scraper_token != SCRAPER_TOKEN):
+    if (ENABLE_FIREBASE and scraper_token != SCRAPER_TOKEN):
 
         firebase_user = get_firebase_user_by_uid(user['user_id'])
-        if(firebase_user.email_verified is None or firebase_user.email_verified is False):
+        if (firebase_user.email_verified is None or firebase_user.email_verified is False):
             try:
-                request.state.background.add_task(send_verification_email, firebase_user.email)
+                request.state.background.add_task(
+                    send_verification_email, firebase_user.email)
             except:
                 print("UNABLE TO SEND VERIFICATION EMAIL")
             return Response(status_code=400, content="You must verify your email before you can post events. Check " + firebase_user.email, background=request.state.background)
@@ -100,15 +100,16 @@ async def create_event(request: Request) -> JSONResponse:
     interest_ids = [*set(json.loads(request_data.get("interest_ids")))]
     picture = request_data.get("picture")
 
-    ping_followers = True if request_data.get("ping_followers") == "true" else False
+    ping_followers = True if request_data.get(
+        "ping_followers") == "true" else False
 
     try:
-        assert({ping_followers})
+        assert ({ping_followers})
         assert type(ping_followers) == bool
     except AssertionError:
         return Response(status_code=400, content="Incomplete body or incorrect parameter")
 
-    event_id = secrets.token_urlsafe()   
+    event_id = secrets.token_urlsafe()
     image_id = secrets.token_urlsafe()
     event_image = await upload_base64_image(picture, "app-uploads/images/events/event-id/"+event_id+"/", image_id)
     title = title.strip()
@@ -120,19 +121,20 @@ async def create_event(request: Request) -> JSONResponse:
         "event_id": str(event_id),
     }
 
-    if(ping_followers):
+    if (ping_followers):
         # print("PINGING FOLLOWERS")
         try:
             follower_push_tokens_with_user_id = await get_all_follower_push_tokens(user['user_id'])
-            if(follower_push_tokens_with_user_id is not None):
+            if (follower_push_tokens_with_user_id is not None):
                 request.state.background.add_task(send_and_validate_expo_push_notifications, follower_push_tokens_with_user_id, "New event posted", "" + str(user["username"] + " just posted \"" + str(title)) + "\"", {
-                        'action': 'ViewEventDetails',
-                        'event_id': event_id,
-                    })
+                    'action': 'ViewEventDetails',
+                    'event_id': event_id,
+                })
         except Exception as e:
             print("ERROR SENDING FOLLOWER PUSH NOTIFICATION: \n\n" + str(e))
-    
+
     return JSONResponse(event_data, background=request.state.background)
+
 
 async def get_event(request: Request) -> JSONResponse:
     """
@@ -159,21 +161,15 @@ async def get_event(request: Request) -> JSONResponse:
 
     user_access_token = body.get("user_access_token")
 
-    try:
-        assert all((user_access_token))
-    except AssertionError:
-        # Handle the error here
-        print("Error")
-        return Response(status_code=400, content="Parameter Missing")
-
-    # print("about to go to connection")
-
     event_data = await get_event_entity_by_event_id(event_id, user_access_token)
 
-    if(event_data == None):
+    if (event_data == None):
         return Response(status_code=400, content="Event does not exist")
 
+    print(event_data)
+
     return JSONResponse(event_data)
+
 
 @is_requester_privileged_for_event
 async def delete_event(request: Request) -> JSONResponse:
@@ -202,6 +198,7 @@ async def delete_event(request: Request) -> JSONResponse:
 
     return Response(status_code=200, content="event deleted " + event_id)
 
+
 @is_event_formatted
 @is_requester_privileged_for_event
 async def update_event(request: Request) -> JSONResponse:
@@ -223,7 +220,6 @@ async def update_event(request: Request) -> JSONResponse:
     """
     request.state.background = BackgroundTasks()
 
-
     event_id = request.path_params["event_id"]
 
     request_data = await parse_request_data(request)
@@ -233,12 +229,14 @@ async def update_event(request: Request) -> JSONResponse:
     description = request_data["description"]
     location = request_data["location"]
     start_date_time = parser.parse(request_data["start_date_time"])
-    end_date_time = None if request_data["end_date_time"] is None else parser.parse(request_data["end_date_time"])
+    end_date_time = None if request_data["end_date_time"] is None else parser.parse(
+        request_data["end_date_time"])
     visibility = request_data["visibility"]
     interest_ids = [*set(json.loads(request_data["interest_ids"]))]
     picture = request_data["picture"]
-    
-    ping_joined_users = True if request_data.get("ping_joined_users") == "true" else False
+
+    ping_joined_users = True if request_data.get(
+        "ping_joined_users") == "true" else False
     try:
         assert type(ping_joined_users) == bool
     except AssertionError:
@@ -291,25 +289,27 @@ async def update_event(request: Request) -> JSONResponse:
 
     data = parse_neo4j_data(result, 'single')
 
-    if(data is None):
+    if (data is None):
         raise Problem(status=400, content="This event does not exist")
 
     new_title = data["title"]
 
-    if(ping_joined_users):
+    if (ping_joined_users):
         print("PINGING JOINED USERS")
         user = await get_user_entity_by_user_access_token(user_access_token=user_access_token, show_num_events_followers_following=False)
         try:
             joined_users_push_tokens_with_user_id = await get_all_joined_users_push_tokens(event_id)
             print(joined_users_push_tokens_with_user_id)
             print("user is", user, "\n\n")
-            print("joined users push tokens is", joined_users_push_tokens_with_user_id, "\n\n")
-            if(joined_users_push_tokens_with_user_id is not None):
+            print("joined users push tokens is",
+                  joined_users_push_tokens_with_user_id, "\n\n")
+            if (joined_users_push_tokens_with_user_id is not None):
                 request.state.background.add_task(
-                    send_and_validate_expo_push_notifications, 
-                    joined_users_push_tokens_with_user_id, 
-                    "Event updated", 
-                    str(user['username']) + " changed details for \"" + str(new_title) + "\"", 
+                    send_and_validate_expo_push_notifications,
+                    joined_users_push_tokens_with_user_id,
+                    "Event updated",
+                    str(user['username']) +
+                    " changed details for \"" + str(new_title) + "\"",
                     {
                         'action': 'ViewEventDetails',
                         'event_id': event_id,
@@ -320,6 +320,7 @@ async def update_event(request: Request) -> JSONResponse:
 
     return Response(status_code=200, content="event updated", background=request.state.background)
 
+
 async def get_events_categorized(request: Request) -> JSONResponse:
     """
     Description: Gets all events attached to a school of {school_id} for introduce events. user_join and user_shoutout are defaulted to be false
@@ -329,18 +330,18 @@ async def get_events_categorized(request: Request) -> JSONResponse:
     return:
         "Featured": 
         [{
-			event_id: string,
-			title: string,
-			picture: string,
-			description: string,
-			location: string,
-			start_date_time: string (convert to Date),
-			end_date_time: string (convert to Date),
-			visibility: boolean,
-			num_joins: int  
-			num_shoutouts: int
-			user_join: boolean
-			user_shoutout: boolean
+                        event_id: string,
+                        title: string,
+                        picture: string,
+                        description: string,
+                        location: string,
+                        start_date_time: string (convert to Date),
+                        end_date_time: string (convert to Date),
+                        visibility: boolean,
+                        num_joins: int  
+                        num_shoutouts: int
+                        user_join: boolean
+                        user_shoutout: boolean
         }]
     """
     school_id = request.path_params.get("school_id")
@@ -564,16 +565,18 @@ async def get_events_categorized(request: Request) -> JSONResponse:
             events_data = interest_data[interest]
             for event_data in events_data:
 
-                if (event_data['EventID'] not in event_ids): # or (interest == "Featured" ):
-                    event_ids.append(event_data['EventID']) 
+                # or (interest == "Featured" ):
+                if (event_data['EventID'] not in event_ids):
+                    event_ids.append(event_data['EventID'])
                     event_entity = convert_event_entity_to_event(event_data)
                     # print(event_entity, "\n\n\n")
                     events.append(event_entity)
 
-            if events!= []:
+            if events != []:
                 categorized_dict[interest] = events
 
     return JSONResponse(categorized_dict)
+
 
 async def search_events(request: Request) -> JSONResponse:
     """
@@ -610,9 +613,9 @@ async def search_events(request: Request) -> JSONResponse:
 
     query = query.strip()
 
-        # check if email exists
+    # check if email exists
     result = await run_neo4j_query(
-    """
+        """
     MATCH (e:Event)-[:event_school]->(school: School{SchoolID: $school_id})
     MATCH (e)<-[:user_host]-(host:User)
     MATCH (u:User{UserAccessToken: $user_access_token})
@@ -657,12 +660,10 @@ async def search_events(request: Request) -> JSONResponse:
     return JSONResponse(events)
 
 
- 
 async def host_past(request: Request) -> JSONResponse:
 
     # print("CALLING host_past")
     begin_start_time = time.perf_counter()
-
 
     user_id = request.path_params["user_id"]
 
@@ -707,34 +708,32 @@ async def host_past(request: Request) -> JSONResponse:
                 LIMIT 10
                 """
 
-    parameters={
+    parameters = {
         "user_id": user_id,
         "user_access_token": user_access_token,
         "cursor_event_id": cursor_event_id,
         "cursor_start_date_time": cursor_start_date_time
-        }
+    }
 
     result = await run_neo4j_query(
         query,
-        parameters   
+        parameters
     )
-    
+
     # print("get_event_list_from_query is", str(result))
 
     events = []
     for record in result:
         events.append(convert_event_entity_to_event(record['event']))
-        
+
     return JSONResponse(events)
 
- 
-async def host_future(request: Request) -> JSONResponse:
 
+async def host_future(request: Request) -> JSONResponse:
 
     # print("CALLING host_future")
     begin_start_time = time.perf_counter()
 
-    
     user_id = request.path_params["user_id"]
 
     body = await request.json()
@@ -780,24 +779,24 @@ async def host_future(request: Request) -> JSONResponse:
                 LIMIT 10
                 """
 
-    parameters={
+    parameters = {
         "user_id": user_id,
         "user_access_token": user_access_token,
         "cursor_event_id": cursor_event_id,
         "cursor_start_date_time": cursor_start_date_time
-        }
-    
+    }
+
     result = await run_neo4j_query(
         query,
-        parameters   
+        parameters
     )
-    
+
     # print("get_event_list_from_query is", str(result))
 
     events = []
     for record in result:
         events.append(convert_event_entity_to_event(record['event']))
-        
+
     return JSONResponse(events)
 
 
@@ -849,27 +848,26 @@ async def join_past(request: Request) -> JSONResponse:
                 LIMIT 10
                 """
 
-    parameters={
+    parameters = {
         "user_id": user_id,
         "cursor_event_id": cursor_event_id,
         "cursor_start_date_time": cursor_start_date_time
-        }
-
+    }
 
     result = await run_neo4j_query(
         query,
-        parameters   
+        parameters
     )
-    
+
     # print("get_event_list_from_query is", str(result))
 
     events = []
     for record in result:
         events.append(convert_event_entity_to_event(record['event']))
-        
+
     return JSONResponse(events)
 
- 
+
 @is_requester_privileged_for_user
 async def join_future(request: Request) -> JSONResponse:
     # print(time.perf_counter(), " join future, begin")
@@ -909,23 +907,23 @@ async def join_future(request: Request) -> JSONResponse:
                 LIMIT 10
                 """
 
-    parameters={
+    parameters = {
         "user_id": user_id,
         "cursor_event_id": cursor_event_id,
         "cursor_start_date_time": cursor_start_date_time
-        }
-    
+    }
+
     result = await run_neo4j_query(
         query,
-        parameters   
+        parameters
     )
-    
+
     # print("get_event_list_from_query is", str(result))
 
     events = []
     for record in result:
         events.append(convert_event_entity_to_event(record['event']))
-        
+
     return JSONResponse(events)
 
 
@@ -940,7 +938,6 @@ async def get_home_events(request: Request) -> JSONResponse:
         school_id
     """
 
-    
     school_id = request.path_params["school_id"]
 
     body = await request.json()
@@ -1160,7 +1157,7 @@ async def get_home_events(request: Request) -> JSONResponse:
 
         event_id = row['event_id']
         signup_link = row['signup_link']
-        if(event_id_list.get(event_id)):
+        if (event_id_list.get(event_id)):
             continue
         event_id_list[event_id] = True
         title = row['title']
@@ -1168,7 +1165,8 @@ async def get_home_events(request: Request) -> JSONResponse:
         description = row['description']
         location = row['location']
         start_date_time = str(row['start_date_time'])
-        end_date_time = None if row["end_date_time"] == "NULL" else str(row["end_date_time"])
+        end_date_time = None if row["end_date_time"] == "NULL" else str(
+            row["end_date_time"])
         visibility = row['visibility']
         num_joins = row["num_joins"]
         num_shoutouts = row["num_shoutouts"]
@@ -1177,7 +1175,6 @@ async def get_home_events(request: Request) -> JSONResponse:
         host_user_id = row['host_user_id']
         user_follow_host = row['user_follow_host']
         reason = row.get("reason")
-
 
         home_event_data = {
             "host": {
@@ -1206,16 +1203,17 @@ async def get_home_events(request: Request) -> JSONResponse:
             "reason": reason
         }
 
-        if(signup_link):
+        if (signup_link):
             home_event_data['event']['signup_link'] = signup_link
 
         data.append(home_event_data)
-    
+
     random.shuffle(data)
     return JSONResponse(data)
-    
+
+
 @is_requester_privileged_for_user
-@is_requester_privileged_for_event    
+@is_requester_privileged_for_event
 async def post_event_message(request: Request) -> JSONResponse:
 
     """
@@ -1228,7 +1226,7 @@ async def post_event_message(request: Request) -> JSONResponse:
 
     user_id = request.path_params.get("user_id")
     event_id = request.path_params.get("event_id")
-    
+
     request.state.background = BackgroundTasks()
 
     request_data = await parse_request_data(request)
@@ -1242,20 +1240,20 @@ async def post_event_message(request: Request) -> JSONResponse:
         assert type(ping_joined_users) == bool
     except AssertionError:
         return Response(status_code=400, content="Incomplete body or incorrect parameter")
-    
-    if(len(message) > 3000):
+
+    if (len(message) > 3000):
         return Response(status_code=400, content="Message is beyond 3000 characters. Please shorten it")
-    
+
     document_id = create_firestore_event_message(event_id, user_id, message)
 
-    if(ping_joined_users):
+    if (ping_joined_users):
         user = await get_user_entity_by_user_id(user_id, None, False)
         try:
             joined_users_push_tokens_with_user_id = await get_all_joined_users_push_tokens(event_id)
-            if(joined_users_push_tokens_with_user_id is not None):
+            if (joined_users_push_tokens_with_user_id is not None):
                 request.state.background.add_task(
-                        send_and_validate_expo_push_notifications, 
-                        joined_users_push_tokens_with_user_id, "New event message", str(user['username']) + ": " + str(message), {
+                    send_and_validate_expo_push_notifications,
+                    joined_users_push_tokens_with_user_id, "New event message", str(user['username']) + ": " + str(message), {
                         'action': 'ViewEventDetailsMessages',
                         'event_id': event_id,
                     })
@@ -1266,8 +1264,9 @@ async def post_event_message(request: Request) -> JSONResponse:
         'message_id': document_id
     })
 
-@is_requester_privileged_for_user 
-@is_requester_privileged_for_event    
+
+@is_requester_privileged_for_user
+@is_requester_privileged_for_event
 async def delete_event_message(request: Request) -> JSONResponse:
 
     """
@@ -1289,46 +1288,46 @@ async def delete_event_message(request: Request) -> JSONResponse:
         assert all((user_id, event_id, user_access_token, message_id))
     except AssertionError:
         return Response(status_code=400, content="Incomplete body or incorrect parameter")
-    
+
     delete_firestore_event_message(event_id, message_id)
     return Response(content="Message deleted")
 
 routes = [
     Route("/event/create_event",
-        create_event,
-        methods=["POST"],
-    ),
+          create_event,
+          methods=["POST"],
+          ),
     Route("/event/event_id/{event_id}", get_event, methods=["POST"]),
     Route("/event/event_id/{event_id}", update_event, methods=["UPDATE"]),
     Route("/event/event_id/{event_id}", delete_event, methods=["DELETE"]),
     Route("/event/school_id/{school_id}/categorized",
-        get_events_categorized,
-        methods=["POST"],
-    ),
+          get_events_categorized,
+          methods=["POST"],
+          ),
     Route("/event/user_id/{user_id}/host_past",
-        host_past,
-        methods=["POST"],
-    ),
+          host_past,
+          methods=["POST"],
+          ),
     Route("/event/user_id/{user_id}/host_future",
-        host_future,
-        methods=["POST"],
-    ),
+          host_future,
+          methods=["POST"],
+          ),
     Route("/event/user_id/{user_id}/join_past",
-        join_past,
-        methods=["POST"],
-    ),
+          join_past,
+          methods=["POST"],
+          ),
     Route("/event/user_id/{user_id}/join_future",
-        join_future,
-        methods=["POST"],
-    ),
+          join_future,
+          methods=["POST"],
+          ),
     Route("/event/school_id/{school_id}/search",
-        search_events,
-        methods=["POST"],
-    ),
+          search_events,
+          methods=["POST"],
+          ),
     Route("/event/school_id/{school_id}/home",
-        get_home_events,
-        methods=["POST"],
-    ),
+          get_home_events,
+          methods=["POST"],
+          ),
     # Route("/event/event_id/{event_id}/user_id/{user_id}/post_message",
     #     post_event_message,
     #     methods=["POST"],

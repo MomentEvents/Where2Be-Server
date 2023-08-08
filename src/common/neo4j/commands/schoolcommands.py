@@ -6,6 +6,7 @@ from dateutil import parser
 import secrets
 import random
 
+
 async def create_school_entity(school_id: str, name: str, abbreviation: str, latitude: float, longitude: float, email_domain: str):
 
     result = await run_neo4j_query(
@@ -23,25 +24,27 @@ async def create_school_entity(school_id: str, name: str, abbreviation: str, lat
 
     return school_id
 
+
 async def get_school_entity_by_school_id(school_id: str):
 
     result = await run_neo4j_query(
-            """
+        """
             MATCH(s:School{SchoolID: $school_id})
             RETURN s""",
-            parameters={
-                "school_id": school_id,
-            },
-        )
-    
+        parameters={
+            "school_id": school_id,
+        },
+    )
+
     data = parse_neo4j_data(result, 'single')
 
-    if(not data):
+    if (not data):
         return None
 
     school_data = convert_school_entity_to_school(data)
 
     return school_data
+
 
 async def get_school_entity_by_user_id(user_id: str):
     result = await run_neo4j_query(
@@ -51,36 +54,38 @@ async def get_school_entity_by_user_id(user_id: str):
             "user_id": user_id,
         },
     )
-    
+
     data = parse_neo4j_data(result, 'single')
 
-    if(not data):
+    if (not data):
         return None
 
     school_data = convert_school_entity_to_school(data)
 
-    return school_data 
-    
+    return school_data
+
+
 async def get_school_entity_by_email_domain(email_domain: str):
-        
-        result = await run_neo4j_query(
-                """
+
+    result = await run_neo4j_query(
+        """
                 MATCH(s:School{EmailDomain: $email_domain})
                 RETURN s""",
-                parameters={
-                    "email_domain": email_domain,
-                },
-            )
-        
-        data = parse_neo4j_data(result, 'single')
+        parameters={
+            "email_domain": email_domain,
+        },
+    )
 
-        if(not data):
-            return None
+    data = parse_neo4j_data(result, 'single')
 
-        school_data = convert_school_entity_to_school(data)
+    if (not data):
+        return None
 
-        return school_data
-    
+    school_data = convert_school_entity_to_school(data)
+
+    return school_data
+
+
 async def get_all_school_entities():
     # check if email exists
     result = await run_neo4j_query(
@@ -89,7 +94,6 @@ async def get_all_school_entities():
         ORDER BY toLower(s.Abbreviation + s.Name)""",
     )
 
-
     school_array = []
     for record in result:
 
@@ -97,26 +101,30 @@ async def get_all_school_entities():
             return []
         data = record['s']
         school_array.append(convert_school_entity_to_school(data)
-        )
+                            )
 
     return school_array
 
-async def get_all_users_by_school(school_id:str, get_push_token=False):
-    
+
+async def get_all_users_by_school(school_id: str, get_push_token=False):
+
     result = await run_neo4j_query(
         """MATCH (s:School {SchoolID: $school_id})<-[:user_school]-(u:User)
-        RETURN u""",
+            UNWIND u.PushTokens AS pushTokensList
+            RETURN COLLECT(DISTINCT {token: pushTokensList, user_id: u.UserID}) AS user_details""",
         parameters={
             "school_id": school_id
         }
     )
-    
+
     user_array = []
     for record in result:
 
         if record == None:
             return []
-        data = record['u']
-        user_array.append(convert_user_entity_to_user(data, get_push_token))
-    
+
+        for data in record['user_details']:
+            user_array.append(
+                [{'user_id': data["user_id"], 'token': data["token"]}])
+
     return user_array
