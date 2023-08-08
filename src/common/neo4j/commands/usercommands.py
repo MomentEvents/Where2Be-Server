@@ -305,7 +305,7 @@ async def create_join_connection(user_id, event_id):
     query = """
     MATCH (u:User{UserID: $user_id}),(e:Event{EventID: $event_id}) 
     MERGE (u)-[r:user_join]->(e)
-    SET r.Timestamp = datetime($timestamp),r.notified = False
+    SET r.Timestamp = datetime($timestamp),r.IsNotified = False
     """
 
     parameters = {
