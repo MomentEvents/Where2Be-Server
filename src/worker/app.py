@@ -67,7 +67,7 @@ async def task_manager():
             ), min_interval=0, task_info=(notify_all_events_starting_soon, [])))
         else:
             asyncio.create_task(execute_task_if_due(
-                last_run_time=last_run_time, min_interval=1, task_info=(notify_all_events_starting_soon, [])))
+                last_run_time=last_run_time, min_interval=5, task_info=(notify_all_events_starting_soon, [])))
 
         last_run_time = task_info.get("perform_bot_actions")
         if last_run_time is None:
@@ -76,9 +76,9 @@ async def task_manager():
                 perform_bot_actions, [str(datetime.now())])))  # the arg needs to be better
         else:
             asyncio.create_task(execute_task_if_due(last_run_time=last_run_time,
-                                min_interval=1, task_info=(perform_bot_actions, [last_run_time])))
+                                min_interval=30, task_info=(perform_bot_actions, [last_run_time])))
 
-        await asyncio.sleep(5*60)  # sleep before the next check
+        await asyncio.sleep(60)  # sleep before the next check
 
 
 def initialize_worker():

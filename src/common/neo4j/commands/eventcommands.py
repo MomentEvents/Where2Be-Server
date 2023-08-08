@@ -57,7 +57,7 @@ async def create_event_entity(event_id: str, user_access_token: str, event_image
 
 async def get_event_entity_by_event_id(event_id: str, user_access_token=None):
 
-    if(user_access_token):
+    if (user_access_token):
 
         result = await run_neo4j_query(
             """MATCH (event:Event{EventID : $event_id}), (user:User{UserAccessToken:$user_access_token}), (event)<-[:user_host]-(host:User)
@@ -97,7 +97,7 @@ async def get_event_entity_by_event_id(event_id: str, user_access_token=None):
         event_data = convert_event_entity_to_event(data)
 
         return event_data
-    
+
     else:
         result = await run_neo4j_query(
             """MATCH (event:Event{EventID : $event_id}), (event)<-[:user_host]-(host:User)
@@ -213,7 +213,7 @@ async def get_events_created_after_given_time(given_time):
     else:
         formatted_time = given_time.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
 
-    result = await run_neo4j_query("""MATCH (e:Event) WHERE e.TimeCreated > datetime($formatted_time) RETURN e""",
+    result = await run_neo4j_query("""MATCH (e:Event) WHERE e.TimeCreated >= datetime($formatted_time) RETURN e""",
                                    parameters={
                                        "formatted_time": formatted_time
                                    }

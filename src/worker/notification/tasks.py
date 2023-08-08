@@ -14,7 +14,7 @@ import random
 
 async def notify_all_events_starting_soon():
 
-    event_data = await get_and_notify_all_starting_soon_events(lookahead_period_min=30)
+    event_data = await get_and_notify_all_starting_soon_events(lookahead_period_min=60)
 
     # Iterate over each event in event_data
     for event_id, (event_title, user_ids_with_push_tokens) in event_data.items():
@@ -121,6 +121,7 @@ async def perform_bot_actions(last_run_time):
         return
 
     tasks = []
+    store_runtime("perform_bot_actions")
 
     # Loop through each bot and each event
     for event in new_events:
@@ -129,7 +130,6 @@ async def perform_bot_actions(last_run_time):
 
     # Now we use gather to run all tasks concurrently
     # await asyncio.gather(*tasks)
-    store_runtime("perform_bot_actions")
 
 
 def random_message():
@@ -143,43 +143,30 @@ def random_message():
         "Something big is happening!",
         "This is what you've been waiting for!",
         "Get in on the action!",
-        "The buzz is all about this!",
         "Catch the excitement!",
         "The crowd is gathering!",
         "Can you feel the anticipation?",
-        "This is going to be epic!",
         "It's time to make some memories!",
         "You won't want to miss this!",
         "Time to get your game face on!",
-        "Ready for the highlight of your year?",
         "Be where everyone else will be!",
         "Jump into the fun!",
-        "Be part of the next big thing!",
         "Are you ready to have a blast?",
-        "This is going to be unforgettable!",
         "Ready to make some noise?",
         "Get excited, it's nearly here!",
         "The countdown is on!",
-        "Something extraordinary is about to happen!",
         "Ready to be amazed?",
         "You're invited to something special!",
         "A day you won't forget!",
-        "Ready, set, fun!",
         "Brace yourself for the unexpected!",
-        "Get set for a thrill ride!",
         "The time is now!",
-        "Join us for a journey!",
         "The best is yet to come!",
         "Time to turn the excitement up a notch!",
         "The wait is almost over!",
         "Gear up for an incredible experience!",
         "This is your moment!",
-        "Ready for some magic?",
-        "The adventure begins here!",
         "Embrace the excitement!",
-        "Ready for an explosion of fun?",
         "Don't keep the fun waiting!",
-        "You're in for a treat!",
-        "Get ready for a spectacle like no other!"
+        "You're in for a treat!"
     ]
     return random.choice(messages)
