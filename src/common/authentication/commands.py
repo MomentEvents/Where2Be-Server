@@ -43,7 +43,7 @@ async def login(usercred: str, password: str):
         if (firebase_user is None):
             raise Problem(status=400, content="An account with this email does not exist")
 
-    if(get_email_domain(email) in mandatory_verified_emails or not firebase_user.email_verified):
+    if(get_email_domain(email) in mandatory_verified_emails and not firebase_user.email_verified):
         try:
             await send_verification_email(email)
         except Problem as e:
@@ -116,10 +116,14 @@ async def signup(username, display_name, email, password):
     if(is_email(email) is False or email.isspace()):
         raise Problem(status=400, content="Please enter a valid email")
 
+    domain = get_email_domain(email)
     result = get_firebase_user_by_email(email)
 
+    if(result is not None and not result.email_verified and domain in mandatory_verified_emails):
+        raise Problem(status=400, content="You must verify your email to access your account.")
+
     if(result is not None):
-        raise Problem(status=400, content="An account with this email already exists")
+        raise Problem(status=400, content="An account with this email already exists. Head over to the login screen to access your account.")
     
     email_domain = get_email_domain(email)
     
