@@ -218,8 +218,8 @@ async def is_event_formatted_correctly(title: str, description: str, start_date_
     if (len(description) < 10):
         return False, "Description cannot be under 10 characters"
 
-    if (contains_profanity(description)):
-        return False, "We detected profanity in your description. Please change it"
+    # if (contains_profanity(description)):
+    #     return False, "We detected profanity in your description. Please change it"
 
     try:
         start_date_time_test = parser.parse(start_date_time)
@@ -246,8 +246,8 @@ async def is_event_formatted_correctly(title: str, description: str, start_date_
     if (len(location) < 5):
         return False, "Location cannot be under 5 characters"
 
-    if (contains_profanity(location)):
-        return False, "We detected profanity in your location. Please change it"
+    # if (contains_profanity(location)):
+    #     return False, "We detected profanity in your location. Please change it"
 
     if len(interest_ids) != 1:
         return False, "Must only put in one interest tag"
@@ -298,7 +298,7 @@ def is_user_formatted_correctly(display_name: str, username: str):
         return False, "Username cannot be under 6 characters"
 
     if validate_username(username) is False:
-        return False, "Usernames must contain a-z, A-Z, 0-9, underscores, or hyphens"
+        return False, "Usernames must only contain a-z, A-Z, 0-9, underscores, or hyphens"
 
     if (contains_profanity(username)):
         return False, "We detected profanity in your username. Please change it"
