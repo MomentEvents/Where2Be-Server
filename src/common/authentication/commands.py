@@ -3,6 +3,7 @@ from common.neo4j.commands.schoolcommands import get_school_entity_by_email_doma
 from common.neo4j.moment_neo4j import parse_neo4j_data, run_neo4j_query
 from common.models import Problem
 from common.utils import get_email_domain, is_email
+from api.constants import mandatory_verified_emails
 from common.firebase import login_user_firebase, create_user_firebase, get_firebase_user_by_uid, get_firebase_user_by_email, send_verification_email
 from common.constants import ENABLE_FIREBASE, IS_PROD
 
@@ -41,6 +42,17 @@ async def login(usercred: str, password: str):
 
         if (firebase_user is None):
             raise Problem(status=400, content="An account with this email does not exist")
+
+    if(get_email_domain(email) in mandatory_verified_emails or not firebase_user.email_verified):
+        try:
+            await send_verification_email(email)
+        except Problem as e:
+            print("COULD NOT SEND VERIFICATION EMAIL! FATAL ERROR PLEASE DOUBLE CHECK" + str(e))
+        except:
+            print("COULD NOT SEND VERIFICATION EMAIL!!")
+        
+        raise Problem(status=400, content="You must verify your email to continue. Check your email inbox.")
+
 
     result = login_user_firebase(email, password)
 

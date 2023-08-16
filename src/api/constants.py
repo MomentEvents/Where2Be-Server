@@ -1,0 +1,1 @@
+mandatory_verified_emails = ['gmail.com']

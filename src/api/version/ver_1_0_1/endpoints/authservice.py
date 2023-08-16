@@ -8,6 +8,7 @@ from starlette.responses import JSONResponse
 from starlette.responses import Response
 from starlette.routing import Route
 from starlette.background import BackgroundTasks
+from api.constants import mandatory_verified_emails
 
 from api.version.ver_1_0_1.auth import is_requester_admin, is_user_formatted
 from api.helpers import parse_request_data
@@ -91,17 +92,22 @@ async def signup_user(request: Request) -> JSONResponse:
     print(user_access_token)
     print(user_id)
 
-    # request.state.background = BackgroundTasks()
+    request.state.background = BackgroundTasks()
 
-    # try:
-    #     request.state.background.add_task(send_verification_email, email)
-    # except Problem as e:
-    #     print("COULD NOT SEND VERIFICATION EMAIL! FATAL ERROR PLEASE DOUBLE CHECK" + str(e))
-    # except:
-    #     print("COULD NOT SEND VERIFICATION EMAIL!!")
+    try:
+        request.state.background.add_task(send_verification_email, email)
+    except Problem as e:
+        print("COULD NOT SEND VERIFICATION EMAIL! FATAL ERROR PLEASE DOUBLE CHECK" + str(e))
+    except:
+        print("COULD NOT SEND VERIFICATION EMAIL!!")
 
-    return JSONResponse({"user_id": user_id, "user_access_token": user_access_token} 
-                        # background=request.state.background
+    email_domain = get_email_domain(email)
+
+    if(email_domain in mandatory_verified_emails):
+        return JSONResponse({"need_verify": True}, background=request.state.background)
+
+    return JSONResponse({"user_id": user_id, "user_access_token": user_access_token}, 
+                        background=request.state.background
                         )
 
 async def check_username_availability(request: Request) -> JSONResponse:
