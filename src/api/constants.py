@@ -1,1 +1,1 @@
-mandatory_verified_emails = ['gmail.com']
+mandatory_verified_emails = ['']
