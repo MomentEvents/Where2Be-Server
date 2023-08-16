@@ -86,11 +86,14 @@ async def signup_user(request: Request) -> JSONResponse:
         print("Error")
         return Response(status_code=400, content="Invalid request in body")
 
+    email = email.lower()
+    email = email.strip()
+
     try:
         user_id, user_access_token = await login(email, password)
         return JSONResponse({"user_id": user_id, "user_access_token": user_access_token})
     except:
-        print("Doing signup now")
+        print("Doing signup instead of login now")
 
 
     user_id, user_access_token = await signup(username, display_name, email, password)
