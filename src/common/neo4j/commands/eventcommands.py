@@ -8,10 +8,9 @@ import random
 from datetime import datetime
 
 
-async def create_event_entity(event_id: str, user_access_token: str, event_image: str, title: str, description: str, location: str, visibility: str, interest_ids, start_date_time_string, end_date_time_string):
+async def create_event_entity(event_id: str, user_access_token: str, event_image: str, title: str, description: str, location: str, visibility: str, interest_ids, start_date_time_string, end_date_time_string, ticket_link=None):
     start_date_time = parser.parse(start_date_time_string)
-    end_date_time = None if end_date_time_string is None else parser.parse(
-        end_date_time_string)
+    end_date_time = None if end_date_time_string is None else parser.parse(end_date_time_string)
 
     title = title.strip()
     description = description.strip()
@@ -19,25 +18,38 @@ async def create_event_entity(event_id: str, user_access_token: str, event_image
     if (event_id is None):
         event_id = secrets.token_urlsafe()
 
+    cypher_query = """
+        MATCH (user:User {UserAccessToken: $user_access_token})-[:user_school]->(school:School)
+        CREATE (event:Event {
+            EventID: $event_id,
+            Title: $title,
+            Description: $description,
+            Picture: $image,
+            Location: $location,
+            StartDateTime: datetime($start_date_time),
+            EndDateTime: datetime($end_date_time),
+            Visibility: $visibility,
+            TimeCreated: datetime()
+        })<-[rel:user_host]-(user),
+        (event)-[:event_school]->(school)
+        SET rel.IsNotified = false
+        """
+
+    # Conditionally add the SignupLink to the cypher query
+    if ticket_link:
+        cypher_query += """
+        SET event.SignupLink = $ticket_link
+        """
+
+    cypher_query += """
+        WITH user, event
+        UNWIND $interest_ids as interest_id
+        MATCH (tag:Interest {InterestID: interest_id})
+        CREATE (tag)<-[:event_tag]-(event)
+    """
+
     result = await run_neo4j_query(
-        """MATCH (user:User {UserAccessToken: $user_access_token})-[:user_school]->(school:School)
-            CREATE (event:Event {
-                EventID: $event_id,
-                Title: $title,
-                Description: $description,
-                Picture: $image,
-                Location: $location,
-                StartDateTime: datetime($start_date_time),
-                EndDateTime: datetime($end_date_time),
-                Visibility: $visibility,
-                TimeCreated: datetime()
-            })<-[rel:user_host]-(user),
-            (event)-[:event_school]->(school)
-            SET rel.IsNotified = false
-            WITH user, event
-            UNWIND $interest_ids as interest_id
-            MATCH (tag:Interest {InterestID: interest_id})
-            CREATE (tag)<-[:event_tag]-(event)""",
+        cypher_query,
         parameters={
             "event_id": event_id,
             "user_access_token": user_access_token,
@@ -49,6 +61,7 @@ async def create_event_entity(event_id: str, user_access_token: str, event_image
             "end_date_time": end_date_time,
             "visibility": visibility,
             "interest_ids": interest_ids,
+            "ticket_link": ticket_link  # You will always pass this parameter, but it will only be used if not None.
         },
     )
 

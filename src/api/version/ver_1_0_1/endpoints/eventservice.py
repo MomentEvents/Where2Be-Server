@@ -82,6 +82,13 @@ async def create_event(request: Request) -> JSONResponse:
     user = await get_user_entity_by_user_access_token(user_access_token, False)
     if(not user):
         raise Problem(status=400, content="Unauthorized")
+    
+    signup_link = None
+    if(scraper_token == SCRAPER_TOKEN):
+        ticket_link = request_data.get("signup_link")
+        if(ticket_link is not None):
+            signup_link = ticket_link
+
     if(ENABLE_FIREBASE and scraper_token != SCRAPER_TOKEN):
 
         firebase_user = get_firebase_user_by_uid(user['user_id'])
@@ -115,7 +122,7 @@ async def create_event(request: Request) -> JSONResponse:
     title = title.strip()
     location = location.strip()
 
-    event_id = await create_event_entity(event_id, user_access_token, event_image, title, description, location, visibility, interest_ids, start_date_time, end_date_time)
+    event_id = await create_event_entity(event_id, user_access_token, event_image, title, description, location, visibility, interest_ids, start_date_time, end_date_time, ticket_link=signup_link)
 
     event_data = {
         "event_id": str(event_id),
