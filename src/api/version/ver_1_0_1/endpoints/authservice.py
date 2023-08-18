@@ -258,7 +258,6 @@ async def check_if_user_is_admin(request: Request) -> JSONResponse:
     return JSONResponse({"is_admin": is_admin})
 
 @is_user_formatted
-@is_picture_formatted
 async def create_user_without_verify(request: Request) -> JSONResponse:
     body = await request.json()
 
