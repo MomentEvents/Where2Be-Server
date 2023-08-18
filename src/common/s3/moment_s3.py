@@ -9,6 +9,10 @@ import numpy as np
 from io import BytesIO
 import io
 import secrets
+from dotenv import load_dotenv
+
+# Load .env file
+load_dotenv()
 
 # Creating Session With Boto3.
 session = boto3.Session(

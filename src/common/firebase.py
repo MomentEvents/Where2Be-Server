@@ -8,6 +8,10 @@ import os
 
 from common.models import Problem
 from common.utils import send_email
+from dotenv import load_dotenv
+
+# Load .env file
+load_dotenv()
 
 API_KEY = os.environ.get('FIREBASE_API_KEY')
 cred = firebase_admin.credentials.Certificate(json.loads(os.environ.get('FIREBASE_CREDENTIALS')))

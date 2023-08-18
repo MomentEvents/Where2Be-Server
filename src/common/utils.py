@@ -33,6 +33,11 @@ import io
 # remove this
 import time
 
+from dotenv import load_dotenv
+
+# Load .env file
+load_dotenv()
+
 SES_CLIENT = boto3.client('ses',
                           aws_access_key_id=os.environ.get('SES_ACCESS_KEY'),
                           aws_secret_access_key=os.environ.get(

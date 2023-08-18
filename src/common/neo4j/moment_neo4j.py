@@ -3,6 +3,10 @@ import os
 import time
 import logging
 from neo4j import GraphDatabase, AsyncGraphDatabase
+from dotenv import load_dotenv
+
+# Load .env file
+load_dotenv()
 
 # Set the connection details for the Neo4j database
 NEO4J_BOLT_URL = os.getenv('NEO4J_BOLT_URL')
