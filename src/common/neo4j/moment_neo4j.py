@@ -23,7 +23,8 @@ class Neo4jDriverSingleton:
                 driver = Neo4jDriverSingleton._driver_instance
                 await driver.verify_connectivity()
                 return driver
-            except:
+            except Exception as e:
+                print(e)
                 print("Unable to connect to the Neo4j database. Retrying attempt #", str(attempts))
                 await Neo4jDriverSingleton.close_driver_instance()
             attempts = attempts + 1
