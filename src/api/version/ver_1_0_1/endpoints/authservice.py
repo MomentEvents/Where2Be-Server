@@ -297,7 +297,7 @@ async def create_user_without_verify(request: Request) -> JSONResponse:
         image_id = secrets.token_urlsafe()
         picture = await upload_base64_image(picture, "app-uploads/images/users/user-id/"+user_id+"/", image_id)
     except Exception as e:
-        raise JSONResponse({"user_access_token": user_access_token, "user_id": user_id, "did_change_image": False})
+        return JSONResponse({"user_access_token": user_access_token, "user_id": user_id, "did_change_image": False})
 
     await run_neo4j_query(
         """MATCH (u:User{UserID: $user_id}) SET u.Picture = $picture""",
