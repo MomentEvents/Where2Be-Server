@@ -2,6 +2,7 @@ from inspect import Parameter
 from common.models import Problem
 from common.neo4j.commands.schoolcommands import get_school_entity_by_email_domain, get_school_entity_by_school_id
 from common.neo4j.commands.usercommands import create_user_entity, get_user_entity_by_username
+from common.neo4j.moment_neo4j import run_neo4j_query
 from common.utils import contains_profanity, contains_url, get_email_domain, is_email, validate_username
 from starlette.requests import Request
 from starlette.responses import JSONResponse
@@ -10,14 +11,14 @@ from starlette.routing import Route
 from starlette.background import BackgroundTasks
 from api.constants import mandatory_verified_emails
 
-from api.version.ver_1_0_1.auth import is_requester_admin, is_user_formatted
+from api.version.ver_1_0_1.auth import is_requester_admin, is_user_formatted, is_picture_formatted
 from api.helpers import parse_request_data
 
 import datetime
 import bcrypt
 import secrets
 
-from common.s3.moment_s3 import get_bucket_url
+from common.s3.moment_s3 import get_bucket_url, upload_base64_image
 from common.authentication.commands import login, signup
 from common.firebase import get_firebase_user_by_email, send_password_reset_email, send_verification_email
 
@@ -257,24 +258,25 @@ async def check_if_user_is_admin(request: Request) -> JSONResponse:
     return JSONResponse({"is_admin": is_admin})
 
 @is_user_formatted
+@is_picture_formatted
 async def create_user_without_verify(request: Request) -> JSONResponse:
     body = await request.json()
 
     username = body.get("username")
-    password = body.get("password")
     display_name = body.get("display_name")
     school_id = body.get("school_id")
     scraper_token = body.get("scraper_token")
+    picture = body.get("picture")
 
     try:
-        assert all((username, password, display_name, school_id, scraper_token))
+        assert all((username, display_name, school_id, scraper_token))
     except AssertionError:
         # Handle the error here
         print("Error")
         return Response(status_code=400, content="Invalid request in body")
 
     if(scraper_token != SCRAPER_TOKEN):
-        raise Problem(status=401, content="Invalid scraper token")
+        raise Problem(status=401, content="Unauthorized")
 
     username = username.lower()
     username = username.strip()
@@ -291,10 +293,22 @@ async def create_user_without_verify(request: Request) -> JSONResponse:
         raise Problem(status=400, content="Username already exists")
     
     user_access_token, user_id = await create_user_entity(display_name, username, school_id, False, False, is_scraper_account=True)
+    
+    try:
+        image_id = secrets.token_urlsafe()
+        picture = await upload_base64_image(picture, "app-uploads/images/users/user-id/"+user_id+"/", image_id)
+    except Exception as e:
+        raise JSONResponse({"user_access_token": user_access_token, "user_id": user_id, "did_change_image": False})
 
-    return JSONResponse({"user_access_token": user_access_token, "user_id": user_id})
+    await run_neo4j_query(
+        """MATCH (u:User{UserID: $user_id}) SET u.Picture = $picture""",
+        parameters={
+            "user_id": user_id,
+            "picture": picture
+        },
+    )
 
-
+    return JSONResponse({"user_access_token": user_access_token, "user_id": user_id,"did_change_image": True})
 
 
 routes = [

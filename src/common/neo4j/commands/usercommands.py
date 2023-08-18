@@ -22,7 +22,7 @@ async def create_user_entity(display_name: str, username: str, school_id: str, i
     user_id = secrets.token_urlsafe()
 
     result = await run_neo4j_query(
-        """CREATE (u:User {UserID: $user_id, Username: $username, Picture:$picture, DisplayName:$display_name, UserAccessToken:$user_access_token, VerifiedOrganization:$is_verified_org, Administrator:$is_admin, ScraperAccount:$is_scraper_account})
+        """CREATE (u:User {UserID: $user_id, Username: $username, Picture:$picture, DisplayName:$display_name, UserAccessToken:$user_access_token, VerifiedOrganization:$is_verified_org, Administrator:$is_admin, AccountType:$is_scraper_account})
         WITH u
         MATCH(n:School{SchoolID: $school_id})
         CREATE (u)-[r:user_school]->(n)

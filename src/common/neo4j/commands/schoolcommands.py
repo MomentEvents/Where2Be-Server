@@ -100,6 +100,10 @@ async def get_all_school_entities():
         if record == None:
             return []
         data = record['s']
+
+        if(data["school_id"] == "yggdrasil_univ"):
+            continue
+        
         school_array.append(convert_school_entity_to_school(data)
                             )
 

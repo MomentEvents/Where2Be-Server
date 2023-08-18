@@ -80,7 +80,8 @@ async def create_event(request: Request) -> JSONResponse:
     request.state.background = BackgroundTasks()
 
     user = await get_user_entity_by_user_access_token(user_access_token, False)
-    print(user)
+    if(not user):
+        raise Problem(status=400, content="Unauthorized")
     if(ENABLE_FIREBASE and scraper_token != SCRAPER_TOKEN):
 
         firebase_user = get_firebase_user_by_uid(user['user_id'])

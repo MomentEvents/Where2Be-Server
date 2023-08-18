@@ -1,6 +1,7 @@
 from inspect import Parameter
 
 from markupsafe import string
+from common.models import Problem
 from common.neo4j.commands.schoolcommands import get_all_school_entities, get_school_entity_by_user_id
 from starlette.requests import Request
 from starlette.responses import JSONResponse
@@ -153,8 +154,10 @@ async def get_user_access_token_school(request: Request) -> JSONResponse:
 
     data = parse_neo4j_data(result, 'single')
 
+    print(data)
+
     if(data is None):
-        return None
+        raise Problem(status=404, content="User does not exist")
 
     school_data = {
         "school_id": data["SchoolID"],
