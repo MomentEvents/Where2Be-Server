@@ -101,7 +101,7 @@ async def get_all_school_entities():
             return []
         data = record['s']
 
-        if(data["school_id"] == "yggdrasil_univ"):
+        if(data["SchoolID"] == "yggdrasil_univ"):
             continue
         
         school_array.append(convert_school_entity_to_school(data)

@@ -32,6 +32,7 @@ async def init_schema():
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.StartDateTime);", # String / null
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.EndDateTime);", # String
         "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.TimeCreated);", # Date
+        "CREATE INDEX IF NOT EXISTS FOR (e:Event) ON (e.Featured);", # Boolean
 
         #Schools
         "CREATE CONSTRAINT IF NOT EXISTS FOR (s:School) REQUIRE s.SchoolID IS UNIQUE", # String
