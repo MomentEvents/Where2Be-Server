@@ -355,39 +355,40 @@ async def get_events_categorized(request: Request) -> JSONResponse:
     except:
         Response(status_code=400, content="Incomplete body")
 
+
+    # MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(e)<-[:user_host]-(host:User)
+    #         WITH DISTINCT e,
+    #             COUNT{ (e)<-[:user_join]-() } as num_joins,
+    #             COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
+    #             host.UserID as host_user_id
+    #         WHERE e.Featured IS NOT NULL AND e.Featured = true AND (datetime() > e.StartDateTime)
+    #         WITH
+    #             { 
+    #                 EventID: e.EventID,
+    #                 Title: e.Title,
+    #                 Picture: e.Picture,
+    #                 Description: e.Description,
+    #                 Location: e.Location,
+    #                 StartDateTime: e.StartDateTime,
+    #                 EndDateTime: e.EndDateTime,
+    #                 Visibility: e.Visibility,
+    #                 SignupLink: e.SignupLink,
+    #                 num_joins: num_joins,
+    #                 num_shoutouts: num_shoutouts,
+    #                 user_join: False,
+    #                 user_shoutout: False,
+    #                 host_user_id: host_user_id
+    #             } as event
+    #         ORDER BY num_joins+num_shoutouts DESC
+    #         LIMIT 10
+    #         WITH collect(event) as events
+    #         RETURN apoc.map.setKey({}, "Featured", events) as event_dict
+            
+    #         UNION
+
     if user_access_token == None:
         result = await run_neo4j_query(
-            """MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(e)<-[:user_host]-(host:User)
-            WITH DISTINCT e,
-                COUNT{ (e)<-[:user_join]-() } as num_joins,
-                COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
-                host.UserID as host_user_id
-            WHERE e.Featured IS NOT NULL AND e.Featured = true AND (datetime() > e.StartDateTime)
-            WITH
-                { 
-                    EventID: e.EventID,
-                    Title: e.Title,
-                    Picture: e.Picture,
-                    Description: e.Description,
-                    Location: e.Location,
-                    StartDateTime: e.StartDateTime,
-                    EndDateTime: e.EndDateTime,
-                    Visibility: e.Visibility,
-                    SignupLink: e.SignupLink,
-                    num_joins: num_joins,
-                    num_shoutouts: num_shoutouts,
-                    user_join: False,
-                    user_shoutout: False,
-                    host_user_id: host_user_id
-                } as event
-            ORDER BY num_joins+num_shoutouts DESC
-            LIMIT 10
-            WITH collect(event) as events
-            RETURN apoc.map.setKey({}, "Featured", events) as event_dict
-            
-            UNION
-
-            MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(e)<-[:user_host]-(host:User)
+            """ MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(e)<-[:user_host]-(host:User)
             WITH DISTINCT e,
                 COUNT{ (e)<-[:user_join]-() } as num_joins,
                 COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
@@ -411,7 +412,6 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                     host_user_id: host_user_id
                 } as event
             ORDER BY num_joins+num_shoutouts DESC
-            LIMIT 10
             WITH collect(event) as events
             RETURN apoc.map.setKey({}, "Ongoing", events) as event_dict
 
@@ -441,7 +441,6 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                 host_user_id: host_user_id
             } as event
             ORDER BY e.StartDateTime
-            LIMIT 10
             WITH interest, collect(event) as events
             ORDER BY interest
             RETURN apoc.map.setKey({}, interest, events) as event_dict
@@ -452,40 +451,42 @@ async def get_events_categorized(request: Request) -> JSONResponse:
             },
         )
     else:
+
+            #         MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(u:User{UserAccessToken: $user_access_token}),(e)<-[:user_host]-(host:User)
+            # WITH DISTINCT e,
+            #     COUNT{ (e)<-[:user_join]-() } as num_joins,
+            #     COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
+            #     exists((u)-[:user_join]->(e)) as user_join,
+            #     exists((u)-[:user_shoutout]->(e)) as user_shoutout,
+            #     host.UserID as host_user_id
+            # WHERE e.Featured IS NOT NULL AND e.Featured = true AND (datetime() > e.StartDateTime)
+            # WITH
+            #     { 
+            #         EventID: e.EventID,
+            #         Title: e.Title,
+            #         Picture: e.Picture,
+            #         Description: e.Description,
+            #         Location: e.Location,
+            #         StartDateTime: e.StartDateTime,
+            #         EndDateTime: e.EndDateTime,
+            #         Visibility: e.Visibility,
+            #         SignupLink: e.SignupLink,
+            #         num_joins: num_joins,
+            #         num_shoutouts: num_shoutouts,
+            #         user_join: False,
+            #         user_shoutout: False,
+            #         host_user_id: host_user_id
+            #     } as event
+            # ORDER BY num_joins+num_shoutouts DESC
+            # LIMIT 10
+            # WITH collect(event) as events
+            # RETURN apoc.map.setKey({}, "Featured", events) as event_dict
+            
+            # UNION
+
         result = await run_neo4j_query(
+            
             """
-            MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(u:User{UserAccessToken: $user_access_token}),(e)<-[:user_host]-(host:User)
-            WITH DISTINCT e,
-                COUNT{ (e)<-[:user_join]-() } as num_joins,
-                COUNT{ (e)<-[:user_shoutout]-() } as num_shoutouts,
-                exists((u)-[:user_join]->(e)) as user_join,
-                exists((u)-[:user_shoutout]->(e)) as user_shoutout,
-                host.UserID as host_user_id
-            WHERE e.Featured IS NOT NULL AND e.Featured = true AND (datetime() > e.StartDateTime)
-            WITH
-                { 
-                    EventID: e.EventID,
-                    Title: e.Title,
-                    Picture: e.Picture,
-                    Description: e.Description,
-                    Location: e.Location,
-                    StartDateTime: e.StartDateTime,
-                    EndDateTime: e.EndDateTime,
-                    Visibility: e.Visibility,
-                    SignupLink: e.SignupLink,
-                    num_joins: num_joins,
-                    num_shoutouts: num_shoutouts,
-                    user_join: False,
-                    user_shoutout: False,
-                    host_user_id: host_user_id
-                } as event
-            ORDER BY num_joins+num_shoutouts DESC
-            LIMIT 10
-            WITH collect(event) as events
-            RETURN apoc.map.setKey({}, "Featured", events) as event_dict
-            
-            UNION
-            
             MATCH (e:Event)-[:event_school]->(school:School {SchoolID: $school_id}),(u:User{UserAccessToken: $user_access_token}),(e)<-[:user_host]-(host:User)
             WITH DISTINCT e,
                 COUNT{ (e)<-[:user_join]-() } as num_joins,
@@ -512,7 +513,6 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                     host_user_id: host_user_id
                 } as event
             ORDER BY num_joins+num_shoutouts DESC
-            LIMIT 10
             WITH collect(event) as events
             RETURN apoc.map.setKey({}, "Ongoing", events) as event_dict
 
@@ -544,7 +544,6 @@ async def get_events_categorized(request: Request) -> JSONResponse:
                 host_user_id: host_user_id
             } as event
             ORDER BY e.StartDateTime
-            LIMIT 10
             WITH interest, collect(event) as events
             ORDER BY interest
             RETURN apoc.map.setKey({}, interest, events) as event_dict
@@ -1095,7 +1094,7 @@ async def get_home_events(request: Request) -> JSONResponse:
             user_join: user_join,
             user_shoutout: user_shoutout,
             host_user_id: host.UserID,
-            reason: "From a reputable organization",
+            reason: "From a verified account",
             user_follow_host: user_follow_host,
             signup_link: e.SignupLink
         }) AS event_data
