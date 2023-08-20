@@ -7,12 +7,22 @@ import random
 
 async def add_push_token(user_id: str, push_token: str, push_type: str):
 
+    # await run_neo4j_query("""MATCH (u:User {UserID: $user_id})
+    #     SET u.PushTokens = CASE
+    #     WHEN u.PushTokens IS NULL THEN [ $push_token ]
+    #     WHEN NOT $push_token IN u.PushTokens THEN u.PushTokens + $push_token
+    #     ELSE u.PushTokens
+    #     END""", 
+    #     parameters={
+    #         "user_id": user_id,
+    #         "push_token": push_token
+    #     })
+
+    #TODO: Fix android's multiple push token issue. We won't support multiple devices for now and 
+    # will simply only notify the device that has the recent login
     await run_neo4j_query("""MATCH (u:User {UserID: $user_id})
-        SET u.PushTokens = CASE
-        WHEN u.PushTokens IS NULL THEN [ $push_token ]
-        WHEN NOT $push_token IN u.PushTokens THEN u.PushTokens + $push_token
-        ELSE u.PushTokens
-        END""", 
+        SET u.PushTokens = [ $push_token ]
+        """, 
         parameters={
             "user_id": user_id,
             "push_token": push_token
