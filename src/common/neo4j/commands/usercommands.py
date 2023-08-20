@@ -8,7 +8,7 @@ import random
 from datetime import datetime, timezone
 
 
-async def create_user_entity(display_name: str, username: str, school_id: str, is_verified_org: bool, is_admin: bool, is_scraper_account=False):
+async def create_user_entity(display_name: str, username: str, school_id: str, is_verified_org: bool, is_admin: bool, account_type="Person"):
     username = username.lower()
     username = username.strip()
     display_name = display_name.strip()

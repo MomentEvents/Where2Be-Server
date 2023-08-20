@@ -1,7 +1,7 @@
 from inspect import Parameter
 from common.models import Problem
 from common.neo4j.commands.schoolcommands import get_school_entity_by_email_domain, get_school_entity_by_school_id
-from common.neo4j.commands.usercommands import create_user_entity, get_user_entity_by_username
+from common.neo4j.commands.usercommands import create_user_entity, get_user_entity_by_username, get_user_entity_by_user_id
 from common.neo4j.moment_neo4j import run_neo4j_query
 from common.utils import contains_profanity, contains_url, get_email_domain, is_email, validate_username
 from starlette.requests import Request
@@ -10,6 +10,7 @@ from starlette.responses import Response
 from starlette.routing import Route
 from starlette.background import BackgroundTasks
 from api.constants import mandatory_verified_emails
+from common.firebase import login_user_firebase, create_user_firebase, get_firebase_user_by_uid
 
 from api.version.ver_1_0_1.auth import is_requester_admin, is_user_formatted, is_picture_formatted
 from api.helpers import parse_request_data
@@ -291,7 +292,7 @@ async def create_user_without_verify(request: Request) -> JSONResponse:
     if(user is not None):
         raise Problem(status=400, content="Username already exists")
     
-    user_access_token, user_id = await create_user_entity(display_name, username, school_id, False, False, is_scraper_account=True)
+    user_access_token, user_id = await create_user_entity(display_name, username, school_id, False, False, account_type="Scraper")
     
     try:
         image_id = secrets.token_urlsafe()
@@ -310,6 +311,48 @@ async def create_user_without_verify(request: Request) -> JSONResponse:
     return JSONResponse({"user_access_token": user_access_token, "user_id": user_id,"did_change_image": True})
 
 
+async def activate_scraper_account(request: Request) -> JSONResponse:
+    body = await request.json()
+
+    email = body.get("email")
+    user_id = body.get("user_id")
+    password = body.get("password")
+    scraper_token = body.get("scraper_token")
+
+    try:
+        assert all((email, user_id, password, scraper_token))
+    except AssertionError:
+        # Handle the error here
+        print("Error")
+        return Response(status_code=400, content="Invalid request in body")
+
+    if(scraper_token != SCRAPER_TOKEN):
+        raise Problem(status=401, content="Unauthorized")
+
+    user = await get_user_entity_by_user_id(user_id, None, False)
+
+    if(user is None):
+        raise Problem(status=404, content="User does not exist")
+
+    firebase_user = get_firebase_user_by_uid(user_id)
+
+    if(firebase_user is not None):
+        raise Problem(status=404, content="User is already linked to email" + str(firebase_user.email))
+    
+    # Create user in firebase
+    result = create_user_firebase(user_id, email, password)
+
+    await run_neo4j_query(
+        """MATCH (u:User{UserID: $user_id}) SET u.AccountType = $account_type""",
+        parameters={
+            "user_id": user_id,
+            "account_type": "Person"
+        },
+    )
+
+    
+    return JSONResponse({"message": "Successfully linked scraper account to real user"})
+
 routes = [
     Route("/auth/login",
         login_user,
@@ -325,4 +368,5 @@ routes = [
           check_if_user_is_admin, methods=["POST"]),
     Route("/auth/create_scraper_account",
           create_user_without_verify, methods=["POST"]),
+    Route("/auth/activate_scraper_account", activate_scraper_account, methods=["POST"])
 ]
