@@ -1,0 +1,15 @@
+requests
+numpy
+matplotlib
+importlib_metadata
+boto3
+pandas
+bcrypt
+python-dateutil
+transformers
+torch
+flair
+neo4j
+requests_toolbelt
+timezonefinder
+opencv-python
