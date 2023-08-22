@@ -1,0 +1,695 @@
+{
+    "831354445978796112": {
+        "display_name": "Sunset Book Club at UCSD",
+        "username": "sunsetbookclubatucsd",
+        "password": "FrSpahUH",
+        "user_id": "FW2wuk1hz-7n7xoJ3ucGpwwv1umboln-iHHCO-HhgsU",
+        "user_access_token": "lW7jOj6snNdQDcy2JZgPbCwQaQEAwTVf2fzrov-CTxk"
+    },
+    "764674313113567232": {
+        "display_name": "UCSD Tea Club",
+        "username": "ucsdteaclub",
+        "password": "Q5PJKJTb",
+        "user_id": "UK4WpWj25N5l1eMH_nGZQkcUCOCWBXoRadZgOTkGktQ",
+        "user_access_token": "yUZWjd3rAMXwiPjCBjf08TphJXFgif3x0n94faVYnPo"
+    },
+    "688141962372448381": {
+        "display_name": "Board Game Club at UCSD",
+        "username": "boardgameclubatucsd",
+        "password": "2r5wfTF7",
+        "user_id": "15kW1jeK74p10Ke-9Y8yzfrB7r_-WFHJ1EnWsxvnrtg",
+        "user_access_token": "8q2husnAkMqDHNdQhwCaiA3BYlxIf0RKWai00TwcYrY"
+    },
+    "247566229383020546": {
+        "display_name": "Anime & Manga Enthusiasts (AME",
+        "username": "animemangaenthusiast",
+        "password": "ox1mhZMn",
+        "user_id": "NmiXSLyFd6_aVY0z-aqBF3MHr198sVOMkXtq1V56f8I",
+        "user_access_token": "tc0j2oswjwos2PC-RXu7_1fzdHkOWAapJ4AV3FNbNgI"
+    },
+    "901754657624428634": {
+        "display_name": "UCSD Hiking Group!",
+        "username": "ucsdhikinggroup",
+        "password": "DpKjzgJW",
+        "user_id": "HBB_bQDkP1Fssc4dVXXwecfUokpo4fGLTg0aamwQsoM",
+        "user_access_token": "6MYsI3ZiEaF_emW7ovH8OrnCkBT4KhgKoCAwveNrUVw"
+    },
+    "695481239188275260": {
+        "display_name": "IEEE at UC San Diego",
+        "username": "ieeeatucsandiego",
+        "password": "VVIYf8FI",
+        "user_id": "-hOPbj1QpMGbkei9wwq4bmarodG4RZN-G-Y18B3OZCM",
+        "user_access_token": "CqVEVuvxVd0QSjRZGS5gr9nFgC_gVB7SIQ9DWW4xApE"
+    },
+    "628061942367649842": {
+        "display_name": "Sun God Archery @ UCSD",
+        "username": "sungodarcheryucsd",
+        "password": "nFD8zSd8",
+        "user_id": "8ecC38NQ1Jrjq-jPRC46TaS64F0gwijb0jj8ASv-0b4",
+        "user_access_token": "bI57G8oFlulDLpdon4eQ6aW4Q1bcu2UMEQZtRhWLQZ0"
+    },
+    "171127249012129792": {
+        "display_name": "Triton Smash",
+        "username": "tritonsmash",
+        "password": "ab92Pb8o",
+        "user_id": "yRpzQ1PZ37DsSLltxbAdiLBeeCkIkKFpJmAkl_nWTXc",
+        "user_access_token": "eoclM1layvshwbTdykatSfFKqzqPXZCwogsCB3OYygg"
+    },
+    "633714063251341312": {
+        "display_name": "UCSD RPG Club",
+        "username": "ucsdrpgclub",
+        "password": "6fIybG4y",
+        "user_id": "d1V_zzgjWh4p4OMgHRbKQYS2UuSV5UpFGR1uVMzLs1k",
+        "user_access_token": "HIT_K6fpPbFj6ZzxLcQMUiwtbajV3ixAPwvSFMF-Afc"
+    },
+    "715678182380011591": {
+        "display_name": "Darkstar",
+        "username": "darkstar",
+        "password": "6iyUmARu",
+        "user_id": "bA1zzbTHztPCYM6fbDBTY9GDXEj-iuh-OT23PsiX5Ds",
+        "user_access_token": "wrLnGdzSYm-fHHnAm4nyQX_nNHuPs0HCrkJO10Kq7_g"
+    },
+    "494669571899523124": {
+        "display_name": "Video Game Development Club",
+        "username": "videogamedevelopment",
+        "password": "rW64WTTB",
+        "user_id": "zC_wOYDm1RT6mH4_T5ynMWevFv_lh_wKno10w017Fqc",
+        "user_access_token": "MgY746KVFkBRPqfiCNkmmdVMATK55-DDw3HoNsQ2L94"
+    },
+    "696146389167636541": {
+        "display_name": "Women in Computing @ UCSD",
+        "username": "womenincomputingucsd",
+        "password": "tsrw6kaz",
+        "user_id": "UJXV6oaNosbArPpmRZUwWkopBn2IC4v1_rt03qEf8VA",
+        "user_access_token": "xBJoLx_iPMjfl9SRlGQcD_Ua4WrX4BvzitXGFrJGMo8"
+    },
+    "760984806149718027": {
+        "display_name": "Musicians' Club @ UC San Diego",
+        "username": "musiciansclubucsandi",
+        "password": "QhxPzoCf",
+        "user_id": "oIrQ0-BcF1ICiJdK_vf9zKg6bLXuFwrfc-OKkFODqBU",
+        "user_access_token": "KhI_awulRROR16B_F14zC_usCnYU3d_8zGZU4FuhCaU"
+    },
+    "693319228849389609": {
+        "display_name": "HKN Kappa Psi",
+        "username": "hknkappapsi",
+        "password": "JlqWx2e8",
+        "user_id": "063SJucuuBZg3MycOWxildtrZjgy9OrMZUJe2Epc2cs",
+        "user_access_token": "wR8khU0fQ7a4kCkkIvoE_4UofBJZkh3jNaWtwkD1lI8"
+    },
+    "622914467956523009": {
+        "display_name": "ACM Cyber",
+        "username": "acmcyber",
+        "password": "ejYDEksI",
+        "user_id": "bF8P_1_0ysym0x869toHqMPjN-ZYSmrC-SLvOr5w6Z4",
+        "user_access_token": "UQDMENYOA_9YY-EojcmFTYbdJhlL8r_vW-dz974uNNQ"
+    },
+    "178940957985603584": {
+        "display_name": "Triton Gaming",
+        "username": "tritongaming",
+        "password": "giPoJeZj",
+        "user_id": "0UUgvOxXjg5kqMmEs38Xmippn0kQ_wB-JKXOAYTJUgo",
+        "user_access_token": "mYlCVLH5FfKcZJv32XYxfIgXqEOgE7UiUcX_KG7e3IE"
+    },
+    "752060509242523678": {
+        "display_name": "UCSD Dance Community",
+        "username": "ucsddancecommunity",
+        "password": "VRpF9Rvp",
+        "user_id": "ogAb74HYb8oWAEk2dW4Rdptb0xiUW1y5GOEYkK-7H8c",
+        "user_access_token": "12bPexxdi9xaT4OBl3mIdZ4dlXUVW99fBify3WX6Fcc"
+    },
+    "762834438597640192": {
+        "display_name": "Triton Robotics",
+        "username": "tritonrobotics",
+        "password": "t1UDhrqC",
+        "user_id": "xo3ruY3noYcbLcfQ7Cu67pKUeFkzZhsSfJlbbGjZM_4",
+        "user_access_token": "VYTunBVBV-kubHBrmEL-ezdtzcf9sMScWy4S_DtxZ6w"
+    },
+    "755228243346587690": {
+        "display_name": "Tritons Film Society",
+        "username": "tritonsfilmsociety",
+        "password": "1WFUpNpp",
+        "user_id": "Jq0jQmObHqd4QEYHiiXdqTS_-5SSdJj25geqJERIiJ0",
+        "user_access_token": "onLNKYzxUpyrp1NmhMWzt_wytyygn7UqlFA4z4W3LNE"
+    },
+    "743545225653518497": {
+        "display_name": "UCSD Cycling!",
+        "username": "ucsdcycling",
+        "password": "NDKdK7rl",
+        "user_id": "c5Wo8om5MVgTOylje2fVzEY8ZCaHPdcplqTaK8OBoKM",
+        "user_access_token": "enOMPilVEnXaseyIDovPe_EFFOkGcQcTMKwvRixEtnE"
+    },
+    "699926827593891872": {
+        "display_name": "M.E.M.O at UCSD!",
+        "username": "memoatucsd",
+        "password": "mkNVNtua",
+        "user_id": "8qjtT4grfeT8cbgJSrHqMnSjKTWhedtAbtdjsDUlfuU",
+        "user_access_token": "I_95HEFL3cY-d3LTuPS_W-yWSrtUPUxP8sqKP-nWvtc"
+    },
+    "828825454269825074": {
+        "display_name": "Anthropology Club",
+        "username": "anthropologyclub",
+        "password": "lEaJQGNi",
+        "user_id": "8LO9jswjdVZCz_AdwdsWao_yWnHzb3EMv1xQYzKNPxk",
+        "user_access_token": "dufPOecjrNmSKEjd_PBYQM5rTRlXqa4XQLLQ32JdwfE"
+    },
+    "877386453280243733": {
+        "display_name": "POKER AT UCSD",
+        "username": "pokeratucsd",
+        "password": "W0pnhkA6",
+        "user_id": "NUlN5hc5gEXaodkmGqspzjkU8gtkl3o_-O0R76Fe3ng",
+        "user_access_token": "c_hZcA50-DW-KxZ9iSBo4Jlu8dyoagC1CmqxMOoXuwU"
+    },
+    "950595294154870794": {
+        "display_name": "Social Network @ UC San Diego",
+        "username": "socialnetworkucsandi",
+        "password": "BckZXCwx",
+        "user_id": "QzAzXBPHI4eN-bX1tGTs2rLGs1j9DQli7yyHIFu_U6A",
+        "user_access_token": "8zmsx59sH_MWdZ_wCFN6ZhCCsoAU2X7jUvci1Of4SjA"
+    },
+    "761653099852333066": {
+        "display_name": "UCSD Rubik's Cube Club",
+        "username": "ucsdrubikscubeclub",
+        "password": "Lvs6ZGVV",
+        "user_id": "We2Z_MOigevM9X75y8QM0qYUs4sU6aprYIGX5Z6aXgo",
+        "user_access_token": "WymfRtXdIeiB9WflbBBPgni2u0xrVqgauQ_kd7YrBBo"
+    },
+    "897287294564839454": {
+        "display_name": "Architecture at UC San Diego",
+        "username": "architectureatucsand",
+        "password": "AcHzzwvx",
+        "user_id": "Ra3HWYxPtc5Y3Y-EEMovxog3MN_Swu_V4yQmSkIb47s",
+        "user_access_token": "OYZwH4qbPOFMEjx0TrHDvkSntp606_qJDHnw-KCrpkg"
+    },
+    "723098723344842883": {
+        "display_name": "UCSD Mathematics",
+        "username": "ucsdmathematics",
+        "password": "i40FHLXx",
+        "user_id": "pKSyhclHWdNLXotM9d5yHO5wiJF_bPaXQCJEo9OAnes",
+        "user_access_token": "qa-SZ6Ogon1xVuBMi35mcY4vUTB4MASvc1XHDIlnu8U"
+    },
+    "749151694146895913": {
+        "display_name": "UCSD Arts",
+        "username": "ucsdarts",
+        "password": "kl0lMCgp",
+        "user_id": "KRAX4hGktSiTT0y6kFJj3a16LDjUnDsT1sKOAfHwtKA",
+        "user_access_token": "ryiF4nKBjhj5_Uh8kr7xV2l8nLGN3TnQgKFkt6McrAo"
+    },
+    "760727895143874590": {
+        "display_name": "CSSA at UCSD",
+        "username": "cssaatucsd",
+        "password": "B2X6tO7I",
+        "user_id": "sUbqnFZ9LeLAxoKJDzY888FvmUj9dFFJ7qD9mFZ5uWQ",
+        "user_access_token": "HNkdXapKE-x5Etkt_DngVtPgg1Admv5_6hPrVoO2Bzk"
+    },
+    "760335990286974987": {
+        "display_name": "NanoEngineering & Technology S",
+        "username": "nanoengineeringtechn",
+        "password": "21GKYpK6",
+        "user_id": "I_fcUYVIet20mtgPEwEoiZ-RU4-b4MWn4_mdiH5OUpM",
+        "user_access_token": "3iWZ5WadhjjtZKkLRqJMkUIv_VPtVO8empo0FdawJKQ"
+    },
+    "730969529110364251": {
+        "display_name": "Envision UCSD",
+        "username": "envisionucsd",
+        "password": "XppDiOdM",
+        "user_id": "oG3rnc6HKI60hSIArneIzY4sSeoHXVsv5mxcMfzMBnY",
+        "user_access_token": "3M63iXLwTETwnszYcr-8NlZXS-2QI_vLx4ff-Ddu8z4"
+    },
+    "795115992170627093": {
+        "display_name": "Quantum Computing at UCSD",
+        "username": "quantumcomputingatuc",
+        "password": "gceGrjis",
+        "user_id": "DJCiJ1h85Iwo-owVcDMsCkuJKb0mEmQZMFgT2Zw5czM",
+        "user_access_token": "59zo0t7PyFuI_nUJb3mG-LkLlq9xfr9HeLqxIz-niKo"
+    },
+    "754159526529466439": {
+        "display_name": "DS3 @ UCSD",
+        "username": "ds3ucsd",
+        "password": "LUmlJ2sB",
+        "user_id": "q4CIYD7QdcJD-2z-PE_aprA994lkhBbnxNOHmCWa_5E",
+        "user_access_token": "fldQfaIqkCHaNRxlWEiFiwaADwoUSB85gLs48HjkRw4"
+    },
+    "647548740927881243": {
+        "display_name": "UCSD Cog Sci Study Group",
+        "username": "ucsdcogscistudygroup",
+        "password": "8xy2kaLC",
+        "user_id": "O2WrnCCTH3_SSCCBBzdeXWTuWJ9NWdaRnML4zDB3UUk",
+        "user_access_token": "pLTuq4bA26cYmiHS_XRf9WzGT6KNuyCjvTZwqEggJbc"
+    },
+    "406322415270887427": {
+        "display_name": "UCSD Raccoon Dungeon",
+        "username": "ucsdraccoondungeon",
+        "password": "bpvLswsN",
+        "user_id": "jJcnd9nFDBlwARXCTvZTyoJ5Qt-vhaTl0uzfPE6p7ts",
+        "user_access_token": "rVh6qca7ob90A83hisx-JQkz9wcNZUy3Gqcuq5JmDuE"
+    },
+    "746424193368719482": {
+        "display_name": "ACM AI at UCSD",
+        "username": "acmaiatucsd",
+        "password": "Omy9Dvpe",
+        "user_id": "wrMrsw4iEWaURa58Y67E6e5QzT6uJSUUgtbKhmIcYvg",
+        "user_access_token": "Q81uRx11Mm3jLNbUp0NH_g7jNS5B6sNR_7itFg1Y1AU"
+    },
+    "667553818602504193": {
+        "display_name": "Triton NeuroTech at UCSD",
+        "username": "tritonneurotechatucs",
+        "password": "lj1v03kQ",
+        "user_id": "x8XakD2xO4wIJ22PACYvg_I6knwhsk1j6w3fLxEN6Bg",
+        "user_access_token": "PB_uUSAEGxh1pJD8q94urVPZ-Kfvj021fgkhQunicAU"
+    },
+    "746903460091527229": {
+        "display_name": "SigCHI@Illinois",
+        "username": "sigchiillinois",
+        "password": "W3IjUOOt",
+        "user_id": "WTSTlRan4F30FlzgEdBFR_k1C0wmU9lq5qZSrIl2MNM",
+        "user_access_token": "W18enQtX8MpT30UWHGXMWHm5FFDUq18iFjouTHEhfWo"
+    },
+    "881202352445595689": {
+        "display_name": "SIGecom",
+        "username": "sigecom",
+        "password": "l1KE7PYO",
+        "user_id": "O6MB4aw1-7sbr1gj6LKj_4GzAKvutJO7kKjLKUFYQYY",
+        "user_access_token": "o8nSseddUXCM-4Y7wV5cCz76qpmucYq3XXo9FcnJrVE"
+    },
+    "950159622617055363": {
+        "display_name": "SIGma",
+        "username": "sigmadiscord",
+        "password": "n2bcATRb",
+        "user_id": "FvsAnMWs_rC30G50ZR98US3HUg4ki2rPu77bftsbusQ",
+        "user_access_token": "PRBQw9CRz6mUvwsS-dagqOzgQbAn-4Jnz7iDDne_zOM"
+    },
+    "838507849181036555": {
+        "display_name": "Illini Esports Overwatch Compe",
+        "username": "illiniesportsoverwat",
+        "password": "zMSf9y7H",
+        "user_id": "L2b0u0k-TaLSADrVc_nylNhCInwNO4Y8lmssJRJkjpY",
+        "user_access_token": "ghDuWYPDy6pab9lFMbtkWGQ32sUs5qPagDCxzjxuRo8"
+    },
+    "930352398877196388": {
+        "display_name": "Quant Education (AQTE)",
+        "username": "quanteducationaqte",
+        "password": "i5Z1BCyS",
+        "user_id": "k9TyYuRaVH3FuBFYXAhJvWX4NOXVUVFxpHRJjg0yiHU",
+        "user_access_token": "mrYAbwtX_otx1SxWlOWeh9GHft_bnXqPiDgf-TUSX98"
+    },
+    "886342550661787669": {
+        "display_name": "Archery Club!",
+        "username": "archeryclub",
+        "password": "BMAxdTXL",
+        "user_id": "9Vd9bokC3JmZ2tlnVM3EK2Zo775h5u8naq9M-UZ2jv0",
+        "user_access_token": "TbrwfvT9wLPotdwwXlFb99bB6e1QM47tP1jnXG9mbgE"
+    },
+    "886463926886355004": {
+        "display_name": "LGBTJew",
+        "username": "lgbtjew",
+        "password": "PTzb3UFa",
+        "user_id": "NiLKxS-3on8H4OBPwOEPTxeVlwTeTVC5yOy74H5tx9Y",
+        "user_access_token": "VmoTfGkZ_Kph-u0P-QoBtmu3N42frIVtHHE-dqslQJ8"
+    },
+    "760648264327495740": {
+        "display_name": "Society for Engineering Mechan",
+        "username": "societyforengineerin",
+        "password": "wUTlMDT6",
+        "user_id": "tJ3YwDPRWfXobj3SZv64rOl1XdzON3kG1QPRM2SEXNk",
+        "user_access_token": "gMl7OrB5fCGu4kQfQL8hM0TuBrpsBImUBItV5lNJd-4"
+    },
+    "951222404540162078": {
+        "display_name": "Illini Dancesport",
+        "username": "illinidancesport",
+        "password": "xf3qNI8I",
+        "user_id": "Og5oJ1-k_YSsBbzdPX8ND-5QT4RjwsXkevM1g5vMewk",
+        "user_access_token": "SUqs6eyYM1jCx0mMJ81_w0cbpb-0XONEZyK0OxtPwRM"
+    },
+    "658937372800712724": {
+        "display_name": "STEM Mental Health Intiative",
+        "username": "stemmentalhealthinti",
+        "password": "astpcaEo",
+        "user_id": "WGb1kgPySpbWQXcPVH2dHpp76vOqy8q0n61xrr-vkzQ",
+        "user_access_token": "jj7-C7B3vE40BKMRkWeAD3O3MGXEAb9yMBE3xW-m5zs"
+    },
+    "945782420857311272": {
+        "display_name": "D&D and TTRPGS for Marginalize",
+        "username": "ddandttrpgsformargin",
+        "password": "iGBL2olQ",
+        "user_id": "K-Ou1aiKWOGOskl8ETKCByaRPvKm4T4Kj2QX_0mVSDg",
+        "user_access_token": "Oqb7RlBhCGFyU46Mlf2TGIMxbWzZt_ul7QFYcbJUvKM"
+    },
+    "607968921680609300": {
+        "display_name": "\ud83d\ude80THRUST\ud83d\ude80",
+        "username": "thrust",
+        "password": "Xun0YvOZ",
+        "user_id": "p-6f9JGF874-EoXNle_wfPuBdoUfgnOiZ7ynsMTbKg0",
+        "user_access_token": "j6tavaaCq5f2BRIfQdzy0oghxXAbeJUmIVSTGIYF1aM"
+    },
+    "1010301352372609024": {
+        "display_name": "SIGPLAN@UIUC",
+        "username": "sigplanuiuc",
+        "password": "6xpDOv5s",
+        "user_id": "F1NSwZExJyAs6eFKqiE9mwJ5vH2-4viQFauVrkgcSWA",
+        "user_access_token": "b_oa3znC5td3sJ9p_brkUvr0KwLQmZqQkpetMg1HNLw"
+    },
+    "1009535370398027887": {
+        "display_name": "Squirrel and Bird Watching Clu",
+        "username": "squirrelandbirdwatch",
+        "password": "QZhWGliN",
+        "user_id": "36HLZcrg2RwOw7y7WNtesbXVdh18Qf0CqGJ8oiN216M",
+        "user_access_token": "GMCBfpgxhST1wxlvgqfv2HO-u5oCfsyocYi3UUAlnBA"
+    },
+    "1009524467732578314": {
+        "display_name": "UIUC Table Tennis Club",
+        "username": "uiuctabletennisclub",
+        "password": "3EqrWm3B",
+        "user_id": "e665WivEcN3AlMCDkU3oCKwl3hvZN8a7u9h1kX_28F4",
+        "user_access_token": "oK_Whv6vSUbq5JetgI2JA16FbuKmYo1dmf34qrn4YYU"
+    },
+    "940845655113465896": {
+        "display_name": "UIUC '26",
+        "username": "uiuc26",
+        "password": "AQpGKEW2",
+        "user_id": "kOuXqX3jJx0Z_7AKD3dXLFXOjysGUEEQ-u36M3extJ4",
+        "user_access_token": "Ix7R_6EVTck4Qhcp6ubJdI2TF8Y9eN5h5ARsgseUecc"
+    },
+    "978028289178349598": {
+        "display_name": "PURE - Promoting Undergraduate",
+        "username": "purepromotingundergr",
+        "password": "eu8lh80I",
+        "user_id": "E0KmbaErKrV-hEaYqUWP_xkmeblmJlc1qDQopaHOQBw",
+        "user_access_token": "5Xg9t0MnsK7sIIGEdvfrBVffw9VaKegsRkJ0VOLtOwA"
+    },
+    "751085724199288882": {
+        "display_name": "SIGMobile",
+        "username": "sigmobile",
+        "password": "R8jRzeiP",
+        "user_id": "D5wu400jlIt9IdgB349pzWhooJWLOC8i78Fv4O52rKA",
+        "user_access_token": "fffEU9md7l2KsozuI_c7kyuAaqHQddJE4b1TsllKt1Q"
+    },
+    "931653272740188211": {
+        "display_name": "UIUC Cooking Club",
+        "username": "uiuccookingclub",
+        "password": "HX5ZecmI",
+        "user_id": "iR7XL0gVCyT5M74_HDMd1JwyOU9ufqaRBPiXvLQW4wU",
+        "user_access_token": "NvyZKsoRfnavDjuRfLQ-biF3mUekp_Qyt6JtsD2Y43k"
+    },
+    "575896628544929802": {
+        "display_name": "Game Night",
+        "username": "gamenight",
+        "password": "MoO0OZwp",
+        "user_id": "wATj7y5IZA4sU4o0USddvRwU5E8jE12kHlnm0vETRzQ",
+        "user_access_token": "7-YqyHHym4LdmKJyQtOkVs6zQmlr42gFCJOtyQWucwg"
+    },
+    "485104508175646751": {
+        "display_name": "SIGPwny",
+        "username": "sigpwny",
+        "password": "xdZZ77oy",
+        "user_id": "VYSnNcQkSVnH3lP9_dUb1k_5oDqKYNgThBGCpOBm740",
+        "user_access_token": "HQQaUpIh9EpdPNOvNslCO_CtdwLyfDGJe_msQ9F__0Y"
+    },
+    "212435931766980609": {
+        "display_name": "Illini Esports",
+        "username": "illiniesports",
+        "password": "tD8PXCTn",
+        "user_id": "8uTd-5UCSNW0U-YG0iOzf-b8UZyHq8u8YLdK5TCZEL0",
+        "user_access_token": "CxAwplJxYZfj8OklA8ugb5pRQJ6Wow-Omw2ntz4SEgQ"
+    },
+    "622246265693929482": {
+        "display_name": "Open-Source @ Illinois",
+        "username": "opensourceillinois",
+        "password": "DrrsdYN5",
+        "user_id": "dP2-A_L95wcT163SkYqbqhFtGjjagFxubfgcxOsnl5c",
+        "user_access_token": "DfNXFRkYuGP8iBa_fWrQ5YnE6fO-gh2_9OZ9VWP9CDU"
+    },
+    "632262219664719897": {
+        "display_name": "Illini Classics Club",
+        "username": "illiniclassicsclub",
+        "password": "86S7HivJ",
+        "user_id": "qFEkkITKEWlr9GYaBhq9UNfAKKp7DX7GQD698uBxWdk",
+        "user_access_token": "s9aHTgnaQu1lKfxdxETPrIlwR9BgZ-sQlJ7wzu_kr0k"
+    },
+    "574493662835376159": {
+        "display_name": "League of Linguists",
+        "username": "leagueoflinguists",
+        "password": "oroy1u0s",
+        "user_id": "4Oero-23Sf3AQ8Eauy8_LZR_X59_3M8pEO6vvXTujN8",
+        "user_access_token": "1IwHliR4mMRhZQCZB0KVqjR3QxRSnVbUbVsBDp765Ig"
+    },
+    "715234068266090539": {
+        "display_name": "MtG @ UIUC",
+        "username": "mtguiuc",
+        "password": "PP0Qha12",
+        "user_id": "nuX5HRGdH5md_-z_UbnX2Djbz5So4JCEr-W3vRBVHNM",
+        "user_access_token": "EvMDUeaZbU41I0xxhSg35wA6MzPZSqGQ3klecXWg9ws"
+    },
+    "901926748952870982": {
+        "display_name": "IEEE UIUC",
+        "username": "ieeeuiuc",
+        "password": "T6FoadNd",
+        "user_id": "iSdtUTO_eUJFdjE-90KLQStKqBBmpU2UXNS1N6SgmAc",
+        "user_access_token": "XPWK9GDukQda2ajN4UsXnQ1pqc08iwCQoSAe19fP76E"
+    },
+    "573587039979569152": {
+        "display_name": "IlliniFurs",
+        "username": "illinifurs",
+        "password": "7wgBmjS8",
+        "user_id": "nqZ2_km4BpqoKip4r9mUCoRwYipmBvlb6p6TKLsDK9s",
+        "user_access_token": "y6e6vpyD4JZTBoq6WmavZNqbk2mot_dyMq1WFxDeoXg"
+    },
+    "803375546280443904": {
+        "display_name": "August Productions",
+        "username": "augustproductions",
+        "password": "Y75OKzbJ",
+        "user_id": "bfYBoYFcVeMaKXZZ4EAvxzKWQy-Z1sJJkOI8yb6_5u8",
+        "user_access_token": "ViJDoSiuQd2dDMe8DHYAIBv3PzRqM4MDiya-gxOLbA8"
+    },
+    "897214412321083462": {
+        "display_name": "SIGGRAPH@UIUC",
+        "username": "siggraphuiuc",
+        "password": "IjTJBRBs",
+        "user_id": "p6h7WoYqM2cswflTgEVPre11WKB4VcF8ktWU8QiuUBQ",
+        "user_access_token": "2aD3f9efprN8q5sjoSYLD_mG1kWnEO6H0U252Za-XwA"
+    },
+    "493956893010690048": {
+        "display_name": "Illini Scape",
+        "username": "illiniscape",
+        "password": "FLq8Jtai",
+        "user_id": "0BwzHs0Huop7N0SxwU3nsslVepEw8_B3PBryXobLrqs",
+        "user_access_token": "5HLQKOjHDyP-t6KmG0Xqgq8Yb06F7RPKzob6dezfpLY"
+    },
+    "608398392267112468": {
+        "display_name": "UIUC SMITE",
+        "username": "uiucsmite",
+        "password": "ucUNrYcW",
+        "user_id": "O7lOUdM3w_xxHw-QP95VJcfQOVB-UhBb4VAauwlzzpA",
+        "user_access_token": "7-cKfn9Dr1m9InofP4f3YnFaMlUENaI7ImHLUgEEa7M"
+    },
+    "806625981631954975": {
+        "display_name": "UIUC GeoClub",
+        "username": "uiucgeoclub",
+        "password": "d37Na11g",
+        "user_id": "LZi9ggqtxyvVWsbH4UetSpFwLoxi3jjyS8jl_n98KSQ",
+        "user_access_token": "13oSuu8aENjARiEj92dcUKH1fdhtuUbQjgLv3Gnbd94"
+    },
+    "885430774910828575": {
+        "display_name": "Character Creation Hub",
+        "username": "charactercreationhub",
+        "password": "bS2PqFcK",
+        "user_id": "fuojG6igUtj-tFZjjNZA0_tAOprItgqIx9ItmT_Y3xk",
+        "user_access_token": "rEg8tb5MabzL5Ifkyt4ZybuotRwreL_ReHWziCEJ4vc"
+    },
+    "920089970964848690": {
+        "display_name": "The Futurist Society at UIUC",
+        "username": "thefuturistsocietyat",
+        "password": "hn9eC5qK",
+        "user_id": "ieCD9qhvhl3ogi-trXlBrCN_sd09Ty1cTGttHf7Nokw",
+        "user_access_token": "5h_nnU_KKtJ44PjtuzSbAmHboffJhGiD9vpT-9VsP2Y"
+    },
+    "795394473722511401": {
+        "display_name": "WiCyS Illinois",
+        "username": "wicysillinois",
+        "password": "zZPhpIf3",
+        "user_id": "Lz_CPPEv29-JLAykIXOewSiSjP1RHNZALk0ocWRHU_o",
+        "user_access_token": "H3ajLhQadgLa6f6scDkTYz3LiUC8QG223wLbdgPXkzM"
+    },
+    "653002686651695104": {
+        "display_name": "VR Club at UIUC",
+        "username": "vrclubatuiuc",
+        "password": "D2Gc1Ak2",
+        "user_id": "8cv2TZzDTm2gs1IjnyO6vnCHQlmtTIRZzDWcZhz44Tg",
+        "user_access_token": "J--1xw6mA6LarQ_vK_qO_zCcwG2QyRnCRHqjvYLKG1k"
+    },
+    "879034889880612874": {
+        "display_name": "Falling Illini",
+        "username": "fallingillini",
+        "password": "n3sX4KRe",
+        "user_id": "5BEjWe-0A93MPmOT9oU9voUAoN1iXBz_RKQFD6GRZzA",
+        "user_access_token": "QRvY8g_ZH2DKZkdA4wPy4qjQlIBJrvYRra9x9fBoZ5A"
+    },
+    "751194369880621147": {
+        "display_name": "Illini Wildlife & Conservation",
+        "username": "illiniwildlifeconser",
+        "password": "MvwUCMBd",
+        "user_id": "5I3Dt1VmepIsHxVEmY9lXmjEridGmI1N7eauHYGN4A0",
+        "user_access_token": "YP76H6MTiTVRS5YdQFfynlg0cyDYFXwLovvXxerUApI"
+    },
+    "894795437893111830": {
+        "display_name": "University of Illinois Astrono",
+        "username": "universityofillinois",
+        "password": "CJR1loTC",
+        "user_id": "Ez7vXgdNLUYJsn88ro_ST3ObATHIFH3VSYVt6XI4V0w",
+        "user_access_token": "ISqLsJbExHC2KDo3KR0GSufndiGz6PhfOs9GfIjkryM"
+    },
+    "880279432668020767": {
+        "display_name": "Actually Neurodivergent",
+        "username": "actuallyneurodiverge",
+        "password": "o3LIXiWb",
+        "user_id": "U3t0_W-u3SGcXOyYufLMtAxJ_a4pqGsPSdAbZ19wJ4k",
+        "user_access_token": "pKeMgjdA1hYrEUTg5ze7vYUyedManA5kdeKTm_1a8HM"
+    },
+    "761309565223436323": {
+        "display_name": "SIGAIDA",
+        "username": "sigaida",
+        "password": "JSxIifEv",
+        "user_id": "I5SOdhE1INeTJlJjcB67UvOTVSCBcYRIC0WGXX_EaPg",
+        "user_access_token": "vHzacMQtcnhGAyCAFPZO8nXJoGCbhvCkIbQYr4NdbJs"
+    },
+    "428001431547674624": {
+        "display_name": "GameBuilders",
+        "username": "gamebuilders",
+        "password": "TSiFrsUh",
+        "user_id": "2kEysQjsg4HTeK4GJyYnABAYl85lj89JuFV6-WrHj0A",
+        "user_access_token": "Qvaw8AMOk5vdcv9ewMAedWrWqiOfkSqySTmGQexsBnM"
+    },
+    "688492971707990204": {
+        "display_name": "CLAID",
+        "username": "claiddiscord",
+        "password": "4sGNd2BP",
+        "user_id": "BJsvBh4hdX30gGJqncSJOAh9MFWrtjjrtF_oUKnEM_I",
+        "user_access_token": "VdRhGa2nRmOzlrIfehEauiAuStzUMD2pmjeYN_3dh0M"
+    },
+    "833547851288150066": {
+        "display_name": "Engineers Without Borders UIUC",
+        "username": "engineerswithoutbord",
+        "password": "gxwbKM7w",
+        "user_id": "bRUHsNLVVnZEF1DhIp3JCNQTw8RufdUeiIcf2Ad9Fg8",
+        "user_access_token": "ifgKkwoO3MSZNrD54rV6c6SxyP3cGrii_yL9zVDA6r4"
+    },
+    "213714749416931329": {
+        "display_name": "DDRIllini",
+        "username": "ddrillini",
+        "password": "zitx6S7M",
+        "user_id": "5N4sy_qBoj7CPJjv1Bwee-_s_eAnHeZQINQD3Thq_9Q",
+        "user_access_token": "ohXHXWWFLHZLuNXYyDJcF14Sg582WbN58o2muQ5dlfI"
+    },
+    "759098268034269234": {
+        "display_name": "SIGQuantum",
+        "username": "sigquantum",
+        "password": "bDO7RJyY",
+        "user_id": "NUQ6TsOR_TcWcAuZ0-fmt-_cONCdHBcJbTDgJ65myOA",
+        "user_access_token": "1v26UacKMbSZmbEWXjj_XQTTj-BTGWTm2dOmBMt0ubE"
+    },
+    "742840546749317260": {
+        "display_name": "Project Code UIUC",
+        "username": "projectcodeuiuc",
+        "password": "3nhvoKPp",
+        "user_id": "imkYBDifvBDOZDjBjUj0VfKSttDnw8yxIGKAsEAl2-Q",
+        "user_access_token": "JLaALH9ETeoNAj9kvX3aZ3uz2nmA6_Y_e2IyG5m8Kkk"
+    },
+    "799331012282023977": {
+        "display_name": "Student Sustainability Committ",
+        "username": "studentsustainabilit",
+        "password": "x7yJsPmK",
+        "user_id": "fgQ0NLGueI0g-7cOXRsBYDkU-ZZ6N2VVyXHkGMER9pE",
+        "user_access_token": "ZRBfhm0NNaLo78T8GY-VayNGMMzgauGUs5XzeoxqRn8"
+    },
+    "689763232780648469": {
+        "display_name": "Kendo Club",
+        "username": "kendoclub",
+        "password": "xwZGIRZf",
+        "user_id": "aVx8j9-ujgDcMn8VWNXjOOzhnzblQjrHSSfgAZ7ZLh0",
+        "user_access_token": "qgaOlaYVWGQZ_crLVXQMJTBxNmfqhBmBOJhBIgIAJBw"
+    },
+    "591463110767017996": {
+        "display_name": "UCSD JSA",
+        "username": "ucsdjsa",
+        "password": "ElSlJRJT",
+        "user_id": "rWMfvfvfgHX2sp7r22YKpPx-SKPflKGuRzI5Th50Hws",
+        "user_access_token": "JN0OkbyM_6Rmpk3o4hJNY8hcRbTd-mCvGMYFUMY0zik"
+    },
+    "790682321475993622": {
+        "display_name": "The Investors Club",
+        "username": "theinvestorsclub",
+        "password": "cuuYg9U3",
+        "user_id": "caTls-7Fnd-Pi6AOyx83n9BXQvZh8_ub5seWGRuaV-Y",
+        "user_access_token": "QKYYKnR87-sJHKUkpgbQ25isYzg-bOngBUaZw5Uho9I"
+    },
+    "768979857643405324": {
+        "display_name": "UCSD Badminton Team",
+        "username": "ucsdbadmintonteam",
+        "password": "jsqFRVKe",
+        "user_id": "qBs2BpYhHqgIKgo72fqny3DYVCZZCcdjn3vAH8SeagA",
+        "user_access_token": "0oMiWEYJT0q5-9t5_ZY05RK2LSCmtKNv7iQAJGCSRF4"
+    },
+    "999901673432555611": {
+        "display_name": "UCSD Esports",
+        "username": "ucsdesports",
+        "password": "9JVCKfKI",
+        "user_id": "u3L_MsjFT5XtLA9-cYYvio9bUmXUWAChZSXV4JFQe7k",
+        "user_access_token": "vfzVhfwUZi5guzSEKP_vtTr14ki6KaQg8JNJov-kEV4"
+    },
+    "762837026411773952": {
+        "display_name": "UBIC at UCSD",
+        "username": "ubicatucsd",
+        "password": "gCKwva5D",
+        "user_id": "MSNeFWHg1GaLdZvFNH_TLqB-bHUchHKMxiOM3h9TZp0",
+        "user_access_token": "D0iSOcmVAXtJDZTUmXo6bG3kcMEOynQgWK-HNcXbxJk"
+    },
+    "761628964866752590": {
+        "display_name": "U[CS]D",
+        "username": "ucsddiscord",
+        "password": "GQVGkV2X",
+        "user_id": "oQxsOapUiqCiE1isBPG50ZEoXQAvEgeRRCQJ1QyczSA",
+        "user_access_token": "Ov1bUVgTG4NVUXpayX_1ZVlN0UkPU2KEv7BmgxoVqvI"
+    },
+    "758586555933130773": {
+        "display_name": "ASCE",
+        "username": "ascediscord",
+        "password": "Bok57PHr",
+        "user_id": "X3Q7quIQ0c2_jhd8mIHABYrEVR91muRQpiyzaSJ-MFk",
+        "user_access_token": "1J3xcBz_AX08ItztB_J4n5Xa_GdIeiD_vhko12-6fGU"
+    },
+    "613591653097144331": {
+        "display_name": "SASE at UC San Diego",
+        "username": "saseatucsandiego",
+        "password": "4ODpcYZG",
+        "user_id": "9GjBlfaopxKrO0A7pbnSUGZWYFIHc8NYgPt7_dDcI7g",
+        "user_access_token": "CinewcNQpnWIAwAnyhDX21YMpR6N_e9mL5Y5CGJldP8"
+    },
+    "736728240344793159": {
+        "display_name": "Computer Science & Engineering",
+        "username": "computerscienceengin",
+        "password": "YtRTLV2s",
+        "user_id": "ZYSvyUOXPmoG8ujgBQ6UedbPvoeV6_HUuE9fAY1gYkc",
+        "user_access_token": "CndfpoteE_kh7givnscQtT8TmwLDwWrEcZTJOFbBI54"
+    },
+    "745049978745126923": {
+        "display_name": "UCSD Bioengineering Students",
+        "username": "ucsdbioengineeringst",
+        "password": "CgJIFJks",
+        "user_id": "Eidc0OPwi8whyTWCRj7pju0ycYvWl8Pp5XOA4APnSO4",
+        "user_access_token": "RksfD-4Fq1UmSk2fcDC8cVDT4qu3RRPQe6ZJeDaq3Po"
+    },
+    "705936879807234080": {
+        "display_name": "Triton Valorant",
+        "username": "tritonvalorant",
+        "password": "GtZyGdKW",
+        "user_id": "K-PqooU6JKyRs0034ULucYmFPiYpXx9ZrLrQ0Tgj6wE",
+        "user_access_token": "z-4UKJsWNv6TLlyuDDkP9gDdKJDFaihlA__prlX87Kk"
+    },
+    "781338970184744971": {
+        "display_name": "UCSD CHEM",
+        "username": "ucsdchem",
+        "password": "yBe0eigw",
+        "user_id": "0G_nEDOqEiNGO456IAeapnmuFPySNRzFwovzTHFMlGo",
+        "user_access_token": "RqJF4a2Rr9FxecUAQb7g1EWIvX_JJzPZwYjcnyj68WY"
+    }
+}
