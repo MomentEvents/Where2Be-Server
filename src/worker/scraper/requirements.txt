@@ -13,4 +13,3 @@ neo4j
 requests_toolbelt
 timezonefinder
 opencv-python
-aiofiles

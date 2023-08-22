@@ -1,11 +1,11 @@
-import aioboto3
-import os
-import sys
-import asyncio
-from filelock import FileLock
+# import aioboto3
+# import os
+# import sys
+# import asyncio
+# from filelock import FileLock
 import json
-import aiofiles
-import gc
+# import aiofiles
+# import gc
 import boto3
 
 bucket_name = 'discord-data'

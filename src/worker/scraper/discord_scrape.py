@@ -1,0 +1,290 @@
+import subprocess
+import sys
+import glob
+import os
+import json
+import time
+from datetime import datetime
+# import datefinder
+from os import listdir
+from os.path import isfile, join
+import shutil
+
+channel_names = ["event", "announcement", "bullet", "meet", "opportuni",
+                 "intern", "week", "social", "advert", "seminar", "mentor", "schedul"]
+
+folder_names = [
+    # "data_UIUC_1",
+    #             "data_UIUC_2",
+    "data_UCSD"]
+
+api_tokens = [
+    # "NDMwODQzMTQ1NTU1NjczMDk4.G0lJZK.X1AR_mbUPOtih_Kfj5t-j9Jm4KgfIbI-39Py-I",
+    #         "MTAyMjYxMTk3NTcyMjc3ODYyNA.GeUQzv.J3mUSCtQHHGCxk6mMDJShDWPa0Hhef5KK8ujbE",
+    "MTAyMjYxMTk3NTcyMjc3ODYyNA.GeUQzv.J3mUSCtQHHGCxk6mMDJShDWPa0Hhef5KK8ujbE"]
+
+
+def get_id_list(curr_dir: str, channel_names: list) -> list:
+    id_list = []
+    all_files = [f for f in os.walk(curr_dir)]
+    for file_list in all_files[1:]:
+        for filename in file_list[2]:
+            filename_without_extension, extension = os.path.splitext(filename)
+            if extension == ".json" and any(name in filename_without_extension for name in channel_names):
+                print(filename)
+                id_list.append(filename_without_extension.split("[")[1][:-1])
+    return id_list
+
+
+def create_shell_file(folder_names: list, api_tokens: list, channel_names: list) -> None:
+    id_lists = []
+    for curr_dir in folder_names:
+        id_list = get_id_list("./"+curr_dir, channel_names)
+        id_lists.append(id_list)
+
+    with open('./DiscordChatExporter.Cli/scrape_commands.sh', 'w') as outfile:
+
+        # create commands for channel scrape
+        for i, id_list in enumerate(id_lists):
+            for chan_id in id_list:
+                outfile.write(
+                    f"dotnet DiscordChatExporter.Cli.dll export -t \"{api_tokens[i]}\" -c {chan_id} -f Json -o \"/Users/chiragrastogi/Dev/Moment_app/Where2Be-Server/src/worker/scraper/{folder_names[i]}\"\n")
+
+        # # create commands for discord guild scrape
+        # for i, folder_name in enumerate(folder_names):
+        #     with open("./"+folder_name+"/ids.txt", 'rt') as file:
+        #         lines = file.read().splitlines()
+        #         for line in lines:
+        #             outfile.write(
+        #                 f"dotnet DiscordChatExporter.Cli.dll exportguild -t \"{api_tokens[i]}\" -g {line} -f Json -o \"/Users/chiragrastogi/Dev/Moment_app/Where2Be-Server/src/worker/scraper/{folder_names[i]}\"\n")
+
+
+def rearrange_folders(folder_names: list) -> None:
+    for curr_dir in folder_names:
+        curr_dir = "./"+curr_dir
+        print(curr_dir)
+
+        onlyfiles = [f for f in listdir(curr_dir) if isfile(join(curr_dir, f))]
+
+        for filename in onlyfiles:
+            filename_without_extension, extension = os.path.splitext(filename)
+
+            if extension == ".json":
+                Folder_name = f"{curr_dir}/{filename_without_extension.split('-')[0].strip()}"
+
+                if not os.path.exists(Folder_name):
+                    print(f"{Folder_name} Created")
+                    os.makedirs(Folder_name)
+
+                file_path = f"{curr_dir}/{filename}"
+
+                if os.path.exists(f"{Folder_name}/{filename}"):
+                    print(f"Here: {Folder_name}/{filename}")
+                    os.remove(f"{Folder_name}/{filename}")
+
+                shutil.move(file_path, f"{Folder_name}/")
+
+
+create_shell_file(folder_names, api_tokens, channel_names)
+p = subprocess.Popen(['/bin/sh', "./scrape_commands.sh"],
+                     cwd="./DiscordChatExporter.Cli", stdout=sys.stdout)  # subprocess.PIPE)
+p.communicate()
+rearrange_folders(folder_names)
+
+
+# 751085724199288882
+# 931653272740188211
+# 575896628544929802
+# 653002686651695104
+# 751194369880621147
+# 879034889880612874
+# 894795437893111830
+# 880279432668020767
+# 761309565223436323
+# 428001431547674624
+# 872206431573655563
+# 688492971707990204
+# 833547851288150066
+# 213714749416931329
+# 759098268034269234
+# 742840546749317260
+# 799331012282023977
+# 909911257065341021
+# 881030256176295946
+# 803114111667535882
+# 312457134799585282
+# 761441431323148288
+# 761441431323148288
+# 719952667555659856
+# 734977098384539728
+# 734977098384539728
+# 718945436332720229
+# 485104508175646751
+# 212435931766980609
+# 706005928947875880
+# 622246265693929482
+# 632262219664719897
+# 746903460091527229
+# 795054480323772446
+# 881202352445595689
+# 574493662835376159
+# 950159622617055363
+# 715234068266090539
+# 838507849181036555
+# 901926748952870982
+# 930352398877196388
+# 573587039979569152
+# 803375546280443904
+# 886342550661787669
+# 897214412321083462
+# 493956893010690048
+# 760648264327495740
+# 608398392267112468
+# 806625981631954975
+# 897617985643085824
+# 951222404540162078
+# 782440886688153611
+# 658937372800712724
+# 885430774910828575
+# 882718756059619411
+# 886463926886355004
+# 920089970964848690
+# 945782420857311272
+# 880649500950163496
+# 973377577165148241
+
+
+# data2
+
+# 882766103271600198
+# 585336073698279446
+# 884939369276923974
+# 728370101031534593
+# 891092921619738695
+# 748234079513870499
+# 654783232969277450
+# 804122860657704961
+# 882720064065900575
+# 843362711269539860
+# 894653955387322388
+# 884831705586876446
+# 692419185908776970
+# 706361230633205801
+# 883713600571731968
+# 978362810448904244
+# 971414126943424572
+# 706005928947875880
+# 867081186843820072
+# 935239940126687252
+# 813854141037412353
+# 885021344025149481
+# 794425455850553375
+# 569274194173624320
+# 792806018702770247
+# 990753979912826941
+# 965267571223986188
+# 881065648933978122
+# 882735047017377832
+# 880649500950163496
+# 878769334783184947
+# 930858336981753887
+# 883208038473928744
+# 940845655113465896
+# 882719616781131807
+# 875128871702392912
+# 883930775513337886
+# 835260181302214737
+# 882832577453522954
+# 898299669057261598
+# 837011171097051149
+# 996848710522765392
+# 973377577165148241
+# 894370715925643334
+# 795394473722511401
+# 885566477690871828
+# 958864423420846170
+# 880976005890703421
+
+# data2 other acc
+# 1017083674640007178
+# 1010301352372609024
+# 1009535370398027887
+# 1009524467732578314
+# 978028289178349598
+# 940845655113465896
+# 935239940126687252
+# 837011171097051149
+# 795394473722511401
+# 746145972123336744
+# 742508546394161274
+# 721892797191290963
+# 628065557421228052
+# 602577682441699397
+# 1017083674640007178
+# 1010301352372609024
+# 1009535370398027887
+# 1009524467732578314
+# 978028289178349598
+# 940845655113465896
+# 935239940126687252
+# 837011171097051149
+# 795394473722511401
+# 746145972123336744
+# 742508546394161274
+# 721892797191290963
+# 628065557421228052
+# 602577682441699397
+
+# ids_UCSD
+# 831354445978796112
+# 764674313113567232
+# 746424193368719482
+# 688141962372448381
+# 573028991527550986
+# 247566229383020546
+# 901754657624428634
+# 695481239188275260
+# 628061942367649842
+# 171127249012129792
+# 633714063251341312
+# 494669571899523124
+# 696146389167636541
+# 760984806149718027
+# 715678182380011591
+# 693319228849389609
+# 622914467956523009
+# 667553818602504193
+# 881377836399751228
+# 696169689994362910
+# 763236157357424691
+# 752060509242523678
+# 689763232780648469
+# 887830633643143208
+# 762834438597640192
+# 755228243346587690
+# 743545225653518497
+# 699926827593891872
+# 828825454269825074
+# 877386453280243733
+# 950595294154870794
+# 761653099852333066
+# 897287294564839454
+# 959329886684721193
+# 890388328262799390
+# 723098723344842883
+# 749151694146895913
+# 796446573445513236
+# 178940957985603584
+# 406322415270887427
+# 809224685761331230
+# 771997447919894550
+# 760727895143874590
+# 750180101613682759
+# 940377804225269822
+# 503782242649243659
+# 760335990286974987
+# 986565853422182450
+# 730969529110364251
+# 795115992170627093
+# 754159526529466439
+# 647548740927881243
