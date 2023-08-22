@@ -161,3 +161,1347 @@ data_UCB/Dance Games @ Berkeley/Dance Games @ Berkeley - General - 🎵-music [9
 data_UCB/Dance Games @ Berkeley/Dance Games @ Berkeley - General - ❔-lost-and-found [1025260569814650920].json
 data_UCB/Board Games at Berkeley Dungeons n Dragons/Board Games at Berkeley Dungeons n Dragons - Ongoing Games - improvised-chaos [750045202076663948].json
 data_UCB/Dance Games @ Berkeley/Dance Games @ Berkeley - General - 👋-introductions [916132633681985586].json
+data_UCB/Combat Robotics at Berkeley/Combat Robotics at Berkeley - Welcome - welcome [1011495807159128165].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - welcome-and-rules [962075454028804137].json
+data_UCB/CALorant/CALorant - Text - arrivals [833055287069900802].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - welcome-and-rules [1011403358277476383].json
+data_UCB/CREATE/CREATE - disciplines - dance [916114126269480960].json
+data_UCB/CALICO Team/CALICO Team - Welcome - lobby [1067710652770164737].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - meeting-plans [1000501529607929923].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🍲good-eatin [1077430192429080587].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🧩off-topic [1012586374085480468].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - off-topic [1000501529607929924].json
+data_UCB/Cal Mycology/Cal Mycology - info - 📜rules [1012586589618196520].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🍲good-eatin [1077430192429080587].json
+data_UCB/CALICO Team/CALICO Team - Welcome - lobby [1067710652770164737].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - speaker-suggestions [962076135674490960].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Content ═╗ - plug [1037533197745016832].json
+data_UCB/CALICO Team/CALICO Team - Welcome - rules [1054997378240892978].json
+data_UCB/CREATE/CREATE - disciplines - creative-writing [916113983369519115].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - welcome-and-rules [962075454028804137].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🌎cross-promotion [1087819088799219752].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-announcements [1071011142694084639].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - welcome-and-rules [1011403358277476383].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - introductions [1035025942332047441].json
+data_UCB/CREATE/CREATE - Text Channels - introductions [935274191115141141].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - welcome-and-rules [1000501529607929918].json
+data_UCB/Combat Robotics at Berkeley/Combat Robotics at Berkeley - Welcome - welcome [1011495807159128165].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - welcome-and-rules [1011403358277476383].json
+data_UCB/CALorant/CALorant - Text - arrivals [833055287069900802].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🧩off-topic [1012586374085480468].json
+data_UCB/CREATE/CREATE - Text Channels - introductions [935274191115141141].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - off-topic [1000501529607929924].json
+data_UCB/CALorant/CALorant - valorant - location [833581218326380585].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - announcements [962075454028804138].json
+data_UCB/CALorant/CALorant - valorant - clips-and-highlights [833055287069900803].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🤖bot-spam [1091064992436060242].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - announcements [1000501529607929919].json
+data_UCB/CREATE/CREATE - disciplines - creative-writing [916113983369519115].json
+data_UCB/CREATE/CREATE - Information - announcements [916098886194593835].json
+data_UCB/CREATE/CREATE - Information - landing-pad [1136037635253604373].json
+data_UCB/CALorant/CALorant - Text - announcements [833057370837090304].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - welcome-and-rules [1011403358277476383].json
+data_UCB/CREATE/CREATE - Information - welcome-and-rules [916098886194593834].json
+data_UCB/CREATE/CREATE - Information - welcome-and-rules [916098886194593834].json
+data_UCB/Berkeley Legends/Berkeley Legends - Text - welcome-and-rules [745066659454386236].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🧩off-topic [1012586374085480468].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - welcome-and-rules [962075454028804137].json
+data_UCB/Cal Mycology/Cal Mycology - info - 📜rules [1012586589618196520].json
+data_UCB/CREATE/CREATE - disciplines - creative-writing [916113983369519115].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - welcome-and-rules [1011403358277476383].json
+data_UCB/CALICO Team/CALICO Team - Welcome - rules [1054997378240892978].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - off-topic [1000501529607929924].json
+data_UCB/CREATE/CREATE - disciplines - creative-writing [916113983369519115].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - welcome-and-rules [1000501529607929918].json
+data_UCB/CALorant/CALorant - Text - announcements [833057370837090304].json
+data_UCB/CALorant/CALorant - Text - arrivals [833055287069900802].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - welcome-and-rules [962075454028804137].json
+data_UCB/CALICO Team/CALICO Team - Welcome - rules [1054997378240892978].json
+data_UCB/CREATE/CREATE - Information - landing-pad [1136037635253604373].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - roles [1038912921830432778].json
+data_UCB/Berkeley Legends/Berkeley Legends - Text - welcome-and-rules [745066659454386236].json
+data_UCB/CREATE/CREATE - Information - landing-pad [1136037635253604373].json
+data_UCB/CREATE/CREATE - Text Channels - introductions [935274191115141141].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - welcome-and-rules [1000501529607929918].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - roles [1038912921830432778].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - welcome-and-rules [1000501529607929918].json
+data_UCB/Combat Robotics at Berkeley/Combat Robotics at Berkeley - Welcome - welcome [1011495807159128165].json
+data_UCB/Cal Mycology/Cal Mycology - info - 📜rules [1012586589618196520].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-announcements [1071011142694084639].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-match-reporting [1071011453924020284].json
+data_UCB/CREATE/CREATE - Information - landing-pad [1136037635253604373].json
+data_UCB/CREATE/CREATE - disciplines - dance [916114126269480960].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 📰articles [1073318754479521862].json
+data_UCB/Combat Robotics at Berkeley/Combat Robotics at Berkeley - Welcome - welcome [1011495807159128165].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - welcome-and-rules [1011403358277476383].json
+data_UCB/CREATE/CREATE - Text Channels - introductions [935274191115141141].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - recruitment-info [1011433418434810037].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - off-topic [1000501529607929924].json
+data_UCB/CALorant/CALorant - Text - arrivals [833055287069900802].json
+data_UCB/CALICO Team/CALICO Team - Welcome - rules [1054997378240892978].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - welcome-and-rules [962075454028804137].json
+data_UCB/CALorant/CALorant - Text - announcements [833057370837090304].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - meeting-plans [1000501529607929923].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - off-topic [1000501529607929924].json
+data_UCB/CREATE/CREATE - Information - welcome-and-rules [916098886194593834].json
+data_UCB/CALorant/CALorant - Text - announcements [833057370837090304].json
+data_UCB/CREATE/CREATE - disciplines - dance [916114126269480960].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - recruitment-info [1011433418434810037].json
+data_UCB/CREATE/CREATE - Text Channels - opportunities [935273956146020402].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - welcome-and-rules [962075454028804137].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - welcome-and-rules [1000501529607929918].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - introductions [1035025942332047441].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - welcome-and-rules [1000501529607929918].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🌎cross-promotion [1087819088799219752].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-announcements [1071011142694084639].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🚐hangin-trip-plannin [1054833657396875384].json
+data_UCB/Cal Mycology/Cal Mycology - info - 📜rules [1012586589618196520].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🧩off-topic [1012586374085480468].json
+data_UCB/CALorant/CALorant - Text - arrivals [833055287069900802].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - announcements [1000501529607929919].json
+data_UCB/CALICO Team/CALICO Team - Welcome - rules [1054997378240892978].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - off-topic [1000501529607929924].json
+data_UCB/CALorant/CALorant - Text - arrivals [833055287069900802].json
+data_UCB/Combat Robotics at Berkeley/Combat Robotics at Berkeley - Welcome - welcome [1011495807159128165].json
+data_UCB/CREATE/CREATE - Information - resources [916098886194593836].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 📰articles [1073318754479521862].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - misc [1011423596792533103].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - welcome-and-rules [962075454028804137].json
+data_UCB/CALICO Team/CALICO Team - Welcome - lobby [1067710652770164737].json
+data_UCB/CALICO Team/CALICO Team - Welcome - rules [1054997378240892978].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - welcome-and-rules [962075454028804137].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🧩off-topic [1012586374085480468].json
+data_UCB/CREATE/CREATE - Information - landing-pad [1136037635253604373].json
+data_UCB/Berkeley Legends/Berkeley Legends - Text - welcome-and-rules [745066659454386236].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🔬job-opportunities [1072964717670313994].json
+data_UCB/CALorant/CALorant - Text - announcements [833057370837090304].json
+data_UCB/CALorant/CALorant - valorant - location [833581218326380585].json
+data_UCB/Cal Mycology/Cal Mycology - info - ❗announcements [1012586981546541076].json
+data_UCB/Cal Mycology/Cal Mycology - info - 📜rules [1012586589618196520].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🔬job-opportunities [1072964717670313994].json
+data_UCB/CALICO Team/CALICO Team - Welcome - verify [1016231779176288318].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - meeting-plans [1000501529607929923].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🌎cross-promotion [1087819088799219752].json
+data_UCB/Cal Mycology/Cal Mycology - info - ❗announcements [1012586981546541076].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - off-topic [1000501529607929924].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🌎cross-promotion [1087819088799219752].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Content ═╗ - plug [1037533197745016832].json
+data_UCB/CREATE/CREATE - Text Channels - opportunities [935273956146020402].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - welcome-and-rules [1000501529607929918].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - roles [1038912921830432778].json
+data_UCB/CREATE/CREATE - Information - landing-pad [1136037635253604373].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - off-topic [1000501529607929924].json
+data_UCB/CREATE/CREATE - disciplines - dance [916114126269480960].json
+data_UCB/CREATE/CREATE - Text Channels - introductions [935274191115141141].json
+data_UCB/Berkeley Legends/Berkeley Legends - Text - welcome-and-rules [745066659454386236].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - announcements [1000501529607929919].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - welcome-and-rules [962075454028804137].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🍲good-eatin [1077430192429080587].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🧩off-topic [1012586374085480468].json
+data_UCB/Combat Robotics at Berkeley/Combat Robotics at Berkeley - Welcome - welcome [1011495807159128165].json
+data_UCB/CALICO Team/CALICO Team - Welcome - rules [1054997378240892978].json
+data_UCB/Cal Mycology/Cal Mycology - info - 🧠resources [1054454125254942820].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - general [1000501529607929922].json
+data_UCB/CREATE/CREATE - Information - landing-pad [1136037635253604373].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - announcements [962075454028804138].json
+data_UCB/CREATE/CREATE - Text Channels - off-topic [916098886194593840].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - application-questions [1011432844624666734].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🧩off-topic [1012586374085480468].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🎵shroom-tunes [1072348255050027018].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 📰articles [1073318754479521862].json
+data_UCB/CALorant/CALorant - valorant - valorant-riot-id [833080103579811850].json
+data_UCB/Cal Mycology/Cal Mycology - info - 📜rules [1012586589618196520].json
+data_UCB/CALorant/CALorant - valorant - rank [833085957241700483].json
+data_UCB/CALorant/CALorant - Text - announcements [833057370837090304].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🚐hangin-trip-plannin [1054833657396875384].json
+data_UCB/CREATE/CREATE - Information - announcements [916098886194593835].json
+data_UCB/CALorant/CALorant - Text - arrivals [833055287069900802].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🚐hangin-trip-plannin [1054833657396875384].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - roles [1038912921830432778].json
+data_UCB/CREATE/CREATE - Information - welcome-and-rules [916098886194593834].json
+data_UCB/CALorant/CALorant - valorant - valorant-riot-id [833080103579811850].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - welcome-and-rules [962075454028804137].json
+data_UCB/CALICO Team/CALICO Team - Welcome - recruiting-sp23 [1067663231457448008].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🤖bot-spam [1091064992436060242].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-announcements [1071011142694084639].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - off-topic [1000501529607929924].json
+data_UCB/CREATE/CREATE - Information - welcome-and-rules [916098886194593834].json
+data_UCB/CREATE/CREATE - Information - announcements [916098886194593835].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - announcements [962075454028804138].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-general [1071011503131594813].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-match-reporting [1071011453924020284].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🚐hangin-trip-plannin [1054833657396875384].json
+data_UCB/CREATE/CREATE - disciplines - dance [916114126269480960].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - announcements [962075454028804138].json
+data_UCB/CALICO Team/CALICO Team - Welcome - rules [1054997378240892978].json
+data_UCB/CREATE/CREATE - disciplines - dance [916114126269480960].json
+data_UCB/Cal Mycology/Cal Mycology - info - 📜rules [1012586589618196520].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Content ═╗ - plug [1037533197745016832].json
+data_UCB/CREATE/CREATE - Text Channels - introductions [935274191115141141].json
+data_UCB/CREATE/CREATE - disciplines - creative-writing [916113983369519115].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 📰articles [1073318754479521862].json
+data_UCB/CALorant/CALorant - valorant - valorant-riot-id [833080103579811850].json
+data_UCB/CALorant/CALorant - valorant - rank [833085957241700483].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - welcome-and-rules [1011403358277476383].json
+data_UCB/CALorant/CALorant - valorant - location [833581218326380585].json
+data_UCB/CALorant/CALorant - valorant - location [833581218326380585].json
+data_UCB/CREATE/CREATE - disciplines - visual-arts [916113930009608202].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🌎cross-promotion [1087819088799219752].json
+data_UCB/CREATE/CREATE - disciplines - visual-arts [916113930009608202].json
+data_UCB/CREATE/CREATE - Text Channels - introductions [935274191115141141].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🍲good-eatin [1077430192429080587].json
+data_UCB/Combat Robotics at Berkeley/Combat Robotics at Berkeley - Welcome - welcome [1011495807159128165].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - speaker-suggestions [962076135674490960].json
+data_UCB/CALICO Team/CALICO Team - Welcome - verify [1016231779176288318].json
+data_UCB/CALorant/CALorant - Text - announcements [833057370837090304].json
+data_UCB/CALICO Team/CALICO Team - Welcome - recruiting-sp23 [1067663231457448008].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - application-questions [1011432844624666734].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - announcements [1012630400335609908].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-announcements [1071011142694084639].json
+data_UCB/CREATE/CREATE - Information - announcements [916098886194593835].json
+data_UCB/CALICO Team/CALICO Team - Welcome - recruiting-sp23 [1067663231457448008].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - introductions [1035025942332047441].json
+data_UCB/CALorant/CALorant - Text - arrivals [833055287069900802].json
+data_UCB/CALorant/CALorant - valorant - rank [833085957241700483].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🍲good-eatin [1077430192429080587].json
+data_UCB/Cal Mycology/Cal Mycology - info - 📜rules [1012586589618196520].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - application-questions [1011432844624666734].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - welcome-and-rules [1000501529607929918].json
+data_UCB/Cal Mycology/Cal Mycology - info - 📜rules [1012586589618196520].json
+data_UCB/CREATE/CREATE - disciplines - creative-writing [916113983369519115].json
+data_UCB/CREATE/CREATE - Information - landing-pad [1136037635253604373].json
+data_UCB/CALorant/CALorant - valorant - clips-and-highlights [833055287069900803].json
+data_UCB/CREATE/CREATE - Information - welcome-and-rules [916098886194593834].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🌎cross-promotion [1087819088799219752].json
+data_UCB/CREATE/CREATE - Information - resources [916098886194593836].json
+data_UCB/Combat Robotics at Berkeley/Combat Robotics at Berkeley - Welcome - welcome [1011495807159128165].json
+data_UCB/CALorant/CALorant - valorant - clips-and-highlights [833055287069900803].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🌎cross-promotion [1087819088799219752].json
+data_UCB/CALorant/CALorant - valorant - valorant-riot-id [833080103579811850].json
+data_UCB/CREATE/CREATE - Text Channels - general [916098886194593838].json
+data_UCB/CALICO Team/CALICO Team - Welcome - rules [1054997378240892978].json
+data_UCB/Berkeley Legends/Berkeley Legends - Text - welcome-and-rules [745066659454386236].json
+data_UCB/CALICO Team/CALICO Team - Welcome - lobby [1067710652770164737].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - announcements [1000501529607929919].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🔬job-opportunities [1072964717670313994].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-general [1071011503131594813].json
+data_UCB/CREATE/CREATE - disciplines - dance [916114126269480960].json
+data_UCB/CREATE/CREATE - Text Channels - opportunities [935273956146020402].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - announcements [1000501529607929919].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - recruitment-info [1011433418434810037].json
+data_UCB/CREATE/CREATE - disciplines - visual-arts [916113930009608202].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 💬general [1061023211816489001].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - welcome-and-rules [1011403358277476383].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🎵shroom-tunes [1072348255050027018].json
+data_UCB/CALorant/CALorant - Text - arrivals [833055287069900802].json
+data_UCB/CREATE/CREATE - disciplines - dance [916114126269480960].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - misc [1011423596792533103].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - roles [1038912921830432778].json
+data_UCB/CREATE/CREATE - Text Channels - introductions [935274191115141141].json
+data_UCB/CREATE/CREATE - disciplines - creative-writing [916113983369519115].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🌎cross-promotion [1087819088799219752].json
+data_UCB/Combat Robotics at Berkeley/Combat Robotics at Berkeley - Welcome - welcome [1011495807159128165].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🤖bot-spam [1091064992436060242].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 📰articles [1073318754479521862].json
+data_UCB/CREATE/CREATE - Information - announcements [916098886194593835].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - roles [1038912921830432778].json
+data_UCB/CREATE/CREATE - Text Channels - opportunities [935273956146020402].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - introductions [1035025942332047441].json
+data_UCB/CREATE/CREATE - Information - landing-pad [1136037635253604373].json
+data_UCB/Cal Mycology/Cal Mycology - info - ❗announcements [1012586981546541076].json
+data_UCB/CREATE/CREATE - Information - announcements [916098886194593835].json
+data_UCB/CREATE/CREATE - Information - announcements [916098886194593835].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - welcome-and-rules [1000501529607929918].json
+data_UCB/CREATE/CREATE - Text Channels - off-topic [916098886194593840].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - introductions [1035025942332047441].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - announcements [1012630400335609908].json
+data_UCB/Cal Mycology/Cal Mycology - info - ❗announcements [1012586981546541076].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🔬job-opportunities [1072964717670313994].json
+data_UCB/CREATE/CREATE - disciplines - visual-arts [916113930009608202].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🔬job-opportunities [1072964717670313994].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - announcements [962075454028804138].json
+data_UCB/CREATE/CREATE - Text Channels - opportunities [935273956146020402].json
+data_UCB/Berkeley Legends/Berkeley Legends - Announcements - sponsors-announcements [885393003781447691].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - speaker-suggestions [962076135674490960].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 📰articles [1073318754479521862].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - speaker-suggestions [962076135674490960].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - meeting-plans [1000501529607929923].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - introductions [1035025942332047441].json
+data_UCB/CREATE/CREATE - Information - landing-pad [1136037635253604373].json
+data_UCB/Cal Mycology/Cal Mycology - info - 👋landing-pad [1012587777159872552].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🎵shroom-tunes [1072348255050027018].json
+data_UCB/CALorant/CALorant - Text - general [833058501718179851].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - general [1000501529607929922].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - Text - landing-pad [1022368245732343858].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - misc [1011423596792533103].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - recruitment-info [1011433418434810037].json
+data_UCB/CREATE/CREATE - disciplines - creative-writing [916113983369519115].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-match-reporting [1071011453924020284].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-announcements [1071011142694084639].json
+data_UCB/CREATE/CREATE - Information - welcome-and-rules [916098886194593834].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - meeting-plans [1000501529607929923].json
+data_UCB/CALorant/CALorant - valorant - location [833581218326380585].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🚐hangin-trip-plannin [1054833657396875384].json
+data_UCB/CALorant/CALorant - Text - general [833058501718179851].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - announcements [962075454028804138].json
+data_UCB/CALICO Team/CALICO Team - Welcome - verify [1016231779176288318].json
+data_UCB/Cal Mycology/Cal Mycology - info - ❗announcements [1012586981546541076].json
+data_UCB/CALICO Team/CALICO Team - Welcome - recruiting-sp23 [1067663231457448008].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 📰articles [1073318754479521862].json
+data_UCB/Berkeley Legends/Berkeley Legends - Text - welcome-and-rules [745066659454386236].json
+data_UCB/Cal Mycology/Cal Mycology - info - 🧠resources [1054454125254942820].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 📰articles [1073318754479521862].json
+data_UCB/CREATE/CREATE - disciplines - creative-writing [916113983369519115].json
+data_UCB/CREATE/CREATE - Information - resources [916098886194593836].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - roles [1038912921830432778].json
+data_UCB/CALorant/CALorant - valorant - clips-and-highlights [833055287069900803].json
+data_UCB/CALorant/CALorant - Text - announcements [833057370837090304].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - announcements [1000501529607929919].json
+data_UCB/CALICO Team/CALICO Team - Welcome - lobby [1067710652770164737].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🌎cross-promotion [1087819088799219752].json
+data_UCB/Cal Mycology/Cal Mycology - info - 📜rules [1012586589618196520].json
+data_UCB/CREATE/CREATE - Information - welcome-and-rules [916098886194593834].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🍲good-eatin [1077430192429080587].json
+data_UCB/CREATE/CREATE - disciplines - creative-writing [916113983369519115].json
+data_UCB/CREATE/CREATE - Text Channels - off-topic [916098886194593840].json
+data_UCB/CALICO Team/CALICO Team - Welcome - lobby [1067710652770164737].json
+data_UCB/CREATE/CREATE - Text Channels - opportunities [935273956146020402].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🔬job-opportunities [1072964717670313994].json
+data_UCB/CALorant/CALorant - valorant - valorant-riot-id [833080103579811850].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - meeting-plans [1000501529607929923].json
+data_UCB/CALorant/CALorant - valorant - rank [833085957241700483].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - introductions [1035025942332047441].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stock-discussions [1000617753251692544].json
+data_UCB/CREATE/CREATE - Information - resources [916098886194593836].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Content ═╗ - plug [1037533197745016832].json
+data_UCB/CREATE/CREATE - Information - forms [916099381927772181].json
+data_UCB/CREATE/CREATE - Text Channels - opportunities [935273956146020402].json
+data_UCB/CALICO Team/CALICO Team - System - system [1016237307612893224].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - off-topic [1000501529607929924].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - meeting-plans [1000501529607929923].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - speaker-suggestions [962076135674490960].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-match-reporting [1071011453924020284].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Content ═╗ - plug [1037533197745016832].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - speaker-suggestions [962076135674490960].json
+data_UCB/CALorant/CALorant - Text - arrivals [833055287069900802].json
+data_UCB/CREATE/CREATE - Text Channels - off-topic [916098886194593840].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 📰articles [1073318754479521862].json
+data_UCB/CALICO Team/CALICO Team - Welcome - recruiting-sp23 [1067663231457448008].json
+data_UCB/CREATE/CREATE - Text Channels - introductions [935274191115141141].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - roles [1038912921830432778].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - speaker-suggestions [962076135674490960].json
+data_UCB/CALICO Team/CALICO Team - Welcome - lobby [1067710652770164737].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - recruitment-info [1011433418434810037].json
+data_UCB/CALorant/CALorant - valorant - location [833581218326380585].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - announcements [962075454028804138].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - introductions [1035025942332047441].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🚐hangin-trip-plannin [1054833657396875384].json
+data_UCB/CREATE/CREATE - Text Channels - introductions [935274191115141141].json
+data_UCB/Berkeley Legends/Berkeley Legends - Text - welcome-and-rules [745066659454386236].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - speaker-suggestions [962076135674490960].json
+data_UCB/Cal Mycology/Cal Mycology - info - ❗announcements [1012586981546541076].json
+data_UCB/CALorant/CALorant - valorant - valorant-riot-id [833080103579811850].json
+data_UCB/CREATE/CREATE - Text Channels - off-topic [916098886194593840].json
+data_UCB/CREATE/CREATE - Information - forms [916099381927772181].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - recruitment-info [1011433418434810037].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - meeting-plans [1000501529607929923].json
+data_UCB/CREATE/CREATE - Text Channels - opportunities [935273956146020402].json
+data_UCB/Cal Mycology/Cal Mycology - info - ❗announcements [1012586981546541076].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-match-reporting [1071011453924020284].json
+data_UCB/CREATE/CREATE - Information - resources [916098886194593836].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🤖bot-spam [1091064992436060242].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - meeting-plans [1000501529607929923].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🔬job-opportunities [1072964717670313994].json
+data_UCB/Berkeley Legends/Berkeley Legends - Text - welcome-and-rules [745066659454386236].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🌎cross-promotion [1087819088799219752].json
+data_UCB/CALorant/CALorant - valorant - looking-for-games [833057189760729139].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Content ═╗ - plug [1037533197745016832].json
+data_UCB/CREATE/CREATE - disciplines - dance [916114126269480960].json
+data_UCB/CREATE/CREATE - Information - forms [916099381927772181].json
+data_UCB/CREATE/CREATE - Text Channels - off-topic [916098886194593840].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-match-reporting [1071011453924020284].json
+data_UCB/CREATE/CREATE - Information - announcements [916098886194593835].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - misc [1011423596792533103].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - misc [1011423596792533103].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - roles [1038912921830432778].json
+data_UCB/Combat Robotics at Berkeley/Combat Robotics at Berkeley - Welcome - welcome [1011495807159128165].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - application-questions [1011432844624666734].json
+data_UCB/CALICO Team/CALICO Team - Welcome - lobby [1067710652770164737].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🍲good-eatin [1077430192429080587].json
+data_UCB/Cal Mycology/Cal Mycology - info - 🧠resources [1054454125254942820].json
+data_UCB/CALorant/CALorant - valorant - clips-and-highlights [833055287069900803].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🔬job-opportunities [1072964717670313994].json
+data_UCB/CALorant/CALorant - Text - announcements [833057370837090304].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stonk-memes [1000617594404995182].json
+data_UCB/CREATE/CREATE - Information - resources [916098886194593836].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - general [962075454028804141].json
+data_UCB/CALorant/CALorant - valorant - location [833581218326380585].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - welcome-and-rules [1000501529607929918].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-general [1071011503131594813].json
+data_UCB/CALorant/CALorant - valorant - rank [833085957241700483].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-announcements [1071011142694084639].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - recruitment-info [1011433418434810037].json
+data_UCB/Cal Mycology/Cal Mycology - info - ❗announcements [1012586981546541076].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - misc [1011423596792533103].json
+data_UCB/CALICO Team/CALICO Team - Welcome - recruiting-sp23 [1067663231457448008].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🚐hangin-trip-plannin [1054833657396875384].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🍲good-eatin [1077430192429080587].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - misc [1011423596792533103].json
+data_UCB/CREATE/CREATE - Information - welcome-and-rules [916098886194593834].json
+data_UCB/CALICO Team/CALICO Team - Welcome - recruiting-sp23 [1067663231457448008].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🤖bot-spam [1091064992436060242].json
+data_UCB/CALorant/CALorant - valorant - rank [833085957241700483].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🎵shroom-tunes [1072348255050027018].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - recruitment-info [1011433418434810037].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - speaker-suggestions [962076135674490960].json
+data_UCB/CREATE/CREATE - Information - forms [916099381927772181].json
+data_UCB/CALICO Team/CALICO Team - Welcome - recruiting-sp23 [1067663231457448008].json
+data_UCB/CALICO Team/CALICO Team - Welcome - verify [1016231779176288318].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - roles [1038912921830432778].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - general [1000501529607929922].json
+data_UCB/CALorant/CALorant - valorant - location [833581218326380585].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - introductions [1035025942332047441].json
+data_UCB/CALICO Team/CALICO Team - Welcome - verify [1016231779176288318].json
+data_UCB/CREATE/CREATE - Text Channels - off-topic [916098886194593840].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🧩off-topic [1012586374085480468].json
+data_UCB/CALICO Team/CALICO Team - Welcome - rules [1054997378240892978].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-match-reporting [1071011453924020284].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - youtube-updates [1064750047494930542].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - announcements [1012630400335609908].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - announcements [962075454028804138].json
+data_UCB/CALorant/CALorant - valorant - valorant-riot-id [833080103579811850].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🚐hangin-trip-plannin [1054833657396875384].json
+data_UCB/CREATE/CREATE - Text Channels - off-topic [916098886194593840].json
+data_UCB/CALorant/CALorant - valorant - rank [833085957241700483].json
+data_UCB/Cal Mycology/Cal Mycology - info - ❗announcements [1012586981546541076].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - application-questions [1011432844624666734].json
+data_UCB/CREATE/CREATE - Text Channels - general [916098886194593838].json
+data_UCB/CALorant/CALorant - valorant - valorant-riot-id [833080103579811850].json
+data_UCB/CREATE/CREATE - disciplines - dance [916114126269480960].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🤖bot-spam [1091064992436060242].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - misc [1011423596792533103].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Content ═╗ - plug [1037533197745016832].json
+data_UCB/Berkeley Legends/Berkeley Legends - Text - welcome-and-rules [745066659454386236].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - announcements [1012630400335609908].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🔬job-opportunities [1072964717670313994].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 💬general [1061023211816489001].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - application-questions [1011432844624666734].json
+data_UCB/Cal Mycology/Cal Mycology - info - 👋landing-pad [1012587777159872552].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🤖bot-spam [1091064992436060242].json
+data_UCB/CALorant/CALorant - valorant - valorant-riot-id [833080103579811850].json
+data_UCB/CREATE/CREATE - Information - welcome-and-rules [916098886194593834].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🍲good-eatin [1077430192429080587].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-announcements [1071011142694084639].json
+data_UCB/CALorant/CALorant - valorant - location [833581218326380585].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🚐hangin-trip-plannin [1054833657396875384].json
+data_UCB/Cal Mycology/Cal Mycology - info - 👋landing-pad [1012587777159872552].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🔬job-opportunities [1072964717670313994].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🤖bot-spam [1091064992436060242].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - daily-chart-updates [1064769404992233514].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-general [1071011503131594813].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 💬general [1061023211816489001].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - announcements [962075454028804138].json
+data_UCB/Cal Mycology/Cal Mycology - info - 🧠resources [1054454125254942820].json
+data_UCB/CREATE/CREATE - Information - forms [916099381927772181].json
+data_UCB/CALICO Team/CALICO Team - Welcome - verify [1016231779176288318].json
+data_UCB/CREATE/CREATE - Information - resources [916098886194593836].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🍲good-eatin [1077430192429080587].json
+data_UCB/CREATE/CREATE - Text Channels - opportunities [935273956146020402].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 📰articles [1073318754479521862].json
+data_UCB/CALorant/CALorant - valorant - rank [833085957241700483].json
+data_UCB/CALICO Team/CALICO Team - Welcome - lobby [1067710652770164737].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - Text - landing-pad [1022368245732343858].json
+data_UCB/Berkeley Legends/Berkeley Legends - Announcements - sponsors-announcements [885393003781447691].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - general [1000501529607929922].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🎵shroom-tunes [1072348255050027018].json
+data_UCB/Berkeley Legends/Berkeley Legends - Announcements - sponsors-announcements [885393003781447691].json
+data_UCB/CALorant/CALorant - valorant - valorant-riot-id [833080103579811850].json
+data_UCB/CREATE/CREATE - Information - forms [916099381927772181].json
+data_UCB/CALorant/CALorant - valorant - clips-and-highlights [833055287069900803].json
+data_UCB/CREATE/CREATE - Information - announcements [916098886194593835].json
+data_UCB/CALorant/CALorant - Text - announcements [833057370837090304].json
+data_UCB/CALICO Team/CALICO Team - Welcome - recruiting-sp23 [1067663231457448008].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - introductions [1035025942332047441].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stock-discussions [1000617753251692544].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - announcements [1000501529607929919].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - announcements [1000501529607929919].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - application-questions [1011432844624666734].json
+data_UCB/CREATE/CREATE - disciplines - visual-arts [916113930009608202].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - Text - landing-pad [1022368245732343858].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - recruitment-info [1011433418434810037].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - announcements [1012630400335609908].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - application-questions [1011432844624666734].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🧩off-topic [1012586374085480468].json
+data_UCB/Cal Mycology/Cal Mycology - info - 👋landing-pad [1012587777159872552].json
+data_UCB/Cal Mycology/Cal Mycology - info - 👋landing-pad [1012587777159872552].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - application-questions [1011432844624666734].json
+data_UCB/CREATE/CREATE - Text Channels - opportunities [935273956146020402].json
+data_UCB/CREATE/CREATE - Information - forms [916099381927772181].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stock-discussions [1000617753251692544].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 💬general [1061023211816489001].json
+data_UCB/CREATE/CREATE - Information - forms [916099381927772181].json
+data_UCB/CALICO Team/CALICO Team - Welcome - recruiting-sp23 [1067663231457448008].json
+data_UCB/CALICO Team/CALICO Team - Welcome - verify [1016231779176288318].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - welcome-and-rules [1011403358277476383].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stonk-memes [1000617594404995182].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Content ═╗ - plug [1037533197745016832].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-match-reporting [1071011453924020284].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🎵shroom-tunes [1072348255050027018].json
+data_UCB/CREATE/CREATE - disciplines - visual-arts [916113930009608202].json
+data_UCB/CREATE/CREATE - Information - announcements [916098886194593835].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stonk-memes [1000617594404995182].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - intros [1011403358277476387].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - intros [1011403358277476387].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-announcements [1071011142694084639].json
+data_UCB/CALICO Team/CALICO Team - System - system [1016237307612893224].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - general [1000501529607929922].json
+data_UCB/CALorant/CALorant - valorant - location [833581218326380585].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - daily-chart-updates [1064769404992233514].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-general [1071011503131594813].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - off-topic [967701746367471646].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - welcome-and-rules [1011403358277476383].json
+data_UCB/CREATE/CREATE - disciplines - visual-arts [916113930009608202].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - recruitment-info [1011433418434810037].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - misc [1011423596792533103].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - speaker-suggestions [962076135674490960].json
+data_UCB/CREATE/CREATE - Information - resources [916098886194593836].json
+data_UCB/Cal Mycology/Cal Mycology - info - ❗announcements [1012586981546541076].json
+data_UCB/Berkeley Legends/Berkeley Legends - Text - welcome-and-rules [745066659454386236].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - general [962075454028804141].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 💬general [1061023211816489001].json
+data_UCB/CALorant/CALorant - valorant - rank [833085957241700483].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - misc [1011423596792533103].json
+data_UCB/CREATE/CREATE - disciplines - visual-arts [916113930009608202].json
+data_UCB/CREATE/CREATE - Text Channels - off-topic [916098886194593840].json
+data_UCB/Cal Mycology/Cal Mycology - info - 🧠resources [1054454125254942820].json
+data_UCB/CALorant/CALorant - valorant - rank [833085957241700483].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🎵shroom-tunes [1072348255050027018].json
+data_UCB/CALICO Team/CALICO Team - System - system [1016237307612893224].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Content ═╗ - plug [1037533197745016832].json
+data_UCB/CREATE/CREATE - Information - resources [916098886194593836].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - announcements [962075454028804138].json
+data_UCB/CALorant/CALorant - valorant - clips-and-highlights [833055287069900803].json
+data_UCB/CALorant/CALorant - Text - general [833058501718179851].json
+data_UCB/CREATE/CREATE - Information - resources [916098886194593836].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - general [1000501529607929922].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - announcements [1000501529607929919].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🧩off-topic [1012586374085480468].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🎵shroom-tunes [1072348255050027018].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-announcements [1071011142694084639].json
+data_UCB/Cal Mycology/Cal Mycology - info - 👋landing-pad [1012587777159872552].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stock-discussions [1000617753251692544].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - announcements [1000501529607929919].json
+data_UCB/CALorant/CALorant - valorant - clips-and-highlights [833055287069900803].json
+data_UCB/CALorant/CALorant - valorant - looking-for-games [833057189760729139].json
+data_UCB/CALICO Team/CALICO Team - Welcome - verify [1016231779176288318].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🤖bot-spam [1091064992436060242].json
+data_UCB/CREATE/CREATE - Text Channels - general [916098886194593838].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - intros [1011403358277476387].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - off-topic [967701746367471646].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - general [1000501529607929922].json
+data_UCB/Cal Mycology/Cal Mycology - info - 🧠resources [1054454125254942820].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - Text - landing-pad [1022368245732343858].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - announcements [1012630400335609908].json
+data_UCB/Cal Mycology/Cal Mycology - info - 🧠resources [1054454125254942820].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - meeting-plans [1000501529607929923].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - application-questions [1011432844624666734].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-match-reporting [1071011453924020284].json
+data_UCB/CREATE/CREATE - disciplines - visual-arts [916113930009608202].json
+data_UCB/CALICO Team/CALICO Team - Welcome - verify [1016231779176288318].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Content ═╗ - plug [1037533197745016832].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - Text - landing-pad [1022368245732343858].json
+data_UCB/Berkeley Legends/Berkeley Legends - Announcements - sponsors-announcements [885393003781447691].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - off-topic [967701746367471646].json
+data_UCB/CALICO Team/CALICO Team - System - system [1016237307612893224].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🎵shroom-tunes [1072348255050027018].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - youtube-updates [1064750047494930542].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - announcements [1012630400335609908].json
+data_UCB/CALICO Team/CALICO Team - Welcome - lobby [1067710652770164737].json
+data_UCB/CREATE/CREATE - Information - forms [916099381927772181].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-general [1071011503131594813].json
+data_UCB/CREATE/CREATE - disciplines - visual-arts [916113930009608202].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - general [1000501529607929922].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 💬general [1061023211816489001].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stock-discussions [1000617753251692544].json
+data_UCB/CREATE/CREATE - Text Channels - general [916098886194593838].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stonk-memes [1000617594404995182].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🚐hangin-trip-plannin [1054833657396875384].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - daily-chart-updates [1064769404992233514].json
+data_UCB/CALorant/CALorant - Text - general [833058501718179851].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - daily-chart-updates [1064769404992233514].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - intros [1011403358277476387].json
+data_UCB/CALorant/CALorant - valorant - looking-for-games [833057189760729139].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - off-topic [967701746367471646].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - announcements [1012630400335609908].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 💬general [1061023211816489001].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stonk-memes [1000617594404995182].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - youtube-updates [1064750047494930542].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🤖bot-spam [1091064992436060242].json
+data_UCB/Cal Mycology/Cal Mycology - info - 🧠resources [1054454125254942820].json
+data_UCB/CALorant/CALorant - Text - general [833058501718179851].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🎵shroom-tunes [1072348255050027018].json
+data_UCB/CALorant/CALorant - valorant - looking-for-games [833057189760729139].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 💬general [1061023211816489001].json
+data_UCB/CALorant/CALorant - valorant - clips-and-highlights [833055287069900803].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - announcements [1012630400335609908].json
+data_UCB/CREATE/CREATE - Text Channels - general [916098886194593838].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - daily-chart-updates [1064769404992233514].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - general [1000501529607929922].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-general [1071011503131594813].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-general [1071011503131594813].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-match-reporting [1071011453924020284].json
+data_UCB/Cal Mycology/Cal Mycology - info - 👋landing-pad [1012587777159872552].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - intros [1011403358277476387].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stonk-memes [1000617594404995182].json
+data_UCB/CALICO Team/CALICO Team - Welcome - verify [1016231779176288318].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - Text - landing-pad [1022368245732343858].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - Text - landing-pad [1022368245732343858].json
+data_UCB/CREATE/CREATE - Text Channels - off-topic [916098886194593840].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-general [1071011503131594813].json
+data_UCB/CALorant/CALorant - Text - general [833058501718179851].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stock-discussions [1000617753251692544].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - off-topic [967701746367471646].json
+data_UCB/Cal Mycology/Cal Mycology - info - 👋landing-pad [1012587777159872552].json
+data_UCB/CALorant/CALorant - valorant - looking-for-games [833057189760729139].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stonk-memes [1000617594404995182].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - Text - landing-pad [1022368245732343858].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stock-discussions [1000617753251692544].json
+data_UCB/CALICO Team/CALICO Team - System - system [1016237307612893224].json
+data_UCB/CALICO Team/CALICO Team - System - system [1016237307612893224].json
+data_UCB/Cal Mycology/Cal Mycology - info - 👋landing-pad [1012587777159872552].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🍄pics-n-id-requests [1012586225904918600].json
+data_UCB/CREATE/CREATE - Text Channels - general [916098886194593838].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stonk-memes [1000617594404995182].json
+data_UCB/CALorant/CALorant - valorant - clips-and-highlights [833055287069900803].json
+data_UCB/Cal Mycology/Cal Mycology - info - 👋landing-pad [1012587777159872552].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - intros [1011403358277476387].json
+data_UCB/CREATE/CREATE - Text Channels - general [916098886194593838].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - general [1000501529607929922].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - Text - landing-pad [1022368245732343858].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - off-topic [967701746367471646].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🍄pics-n-id-requests [1012586225904918600].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - daily-chart-updates [1064769404992233514].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - intros [1011403358277476387].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - general [962075454028804141].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - off-topic [967701746367471646].json
+data_UCB/CALorant/CALorant - valorant - looking-for-games [833057189760729139].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 💬general [1061023211816489001].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-general [1071011503131594813].json
+data_UCB/Cal Mycology/Cal Mycology - info - 🧠resources [1054454125254942820].json
+data_UCB/CALorant/CALorant - Text - general [833058501718179851].json
+data_UCB/CALorant/CALorant - valorant - looking-for-games [833057189760729139].json
+data_UCB/CALICO Team/CALICO Team - System - system [1016237307612893224].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - daily-chart-updates [1064769404992233514].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 💬general [1061023211816489001].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stonk-memes [1000617594404995182].json
+data_UCB/CREATE/CREATE - Text Channels - general [916098886194593838].json
+data_UCB/Berkeley Legends/Berkeley Legends - Announcements - sponsors-announcements [885393003781447691].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - Text - landing-pad [1022368245732343858].json
+data_UCB/Berkeley Legends/Berkeley Legends - Announcements - sponsors-announcements [885393003781447691].json
+data_UCB/CALorant/CALorant - valorant - looking-for-games [833057189760729139].json
+data_UCB/CALorant/CALorant - valorant - looking-for-games [833057189760729139].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - intros [1011403358277476387].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - intros [1011403358277476387].json
+data_UCB/CALorant/CALorant - Text - general [833058501718179851].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stock-discussions [1000617753251692544].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - youtube-updates [1064750047494930542].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - announcements [1012630400335609908].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🍄pics-n-id-requests [1012586225904918600].json
+data_UCB/CALICO Team/CALICO Team - System - system [1016237307612893224].json
+data_UCB/CREATE/CREATE - Text Channels - general [916098886194593838].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - general [962075454028804141].json
+data_UCB/CALICO Team/CALICO Team - System - system [1016237307612893224].json
+data_UCB/CALICO Team/CALICO Team - System - system [1016237307612893224].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stonk-memes [1000617594404995182].json
+data_UCB/CALorant/CALorant - Text - general [833058501718179851].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - daily-chart-updates [1064769404992233514].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stock-discussions [1000617753251692544].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - off-topic [967701746367471646].json
+data_UCB/Berkeley Legends/Berkeley Legends - Announcements - sponsors-announcements [885393003781447691].json
+data_UCB/CALorant/CALorant - valorant - looking-for-games [833057189760729139].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - off-topic [967701746367471646].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - intros [1011403358277476387].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - off-topic [967701746367471646].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - youtube-updates [1064750047494930542].json
+data_UCB/Berkeley Legends/Berkeley Legends - Announcements - sponsors-announcements [885393003781447691].json
+data_UCB/CREATE/CREATE - Text Channels - general [916098886194593838].json
+data_UCB/Combat Robotics at Berkeley/Combat Robotics at Berkeley - Welcome - welcome [1011495807159128165].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🧩off-topic [1012586374085480468].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - announcements [962075454028804138].json
+data_UCB/CREATE/CREATE - Information - welcome-and-rules [916098886194593834].json
+data_UCB/Combat Robotics at Berkeley/Combat Robotics at Berkeley - Welcome - welcome [1011495807159128165].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - welcome-and-rules [962075454028804137].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🚐hangin-trip-plannin [1054833657396875384].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - welcome-and-rules [1011403358277476383].json
+data_UCB/CALorant/CALorant - valorant - valorant-riot-id [833080103579811850].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🌎cross-promotion [1087819088799219752].json
+data_UCB/CREATE/CREATE - Text Channels - opportunities [935273956146020402].json
+data_UCB/Berkeley Legends/Berkeley Legends - Text - welcome-and-rules [745066659454386236].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-announcements [1071011142694084639].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - announcements [962075454028804138].json
+data_UCB/CREATE/CREATE - disciplines - creative-writing [916113983369519115].json
+data_UCB/CREATE/CREATE - disciplines - creative-writing [916113983369519115].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - misc [1011423596792533103].json
+data_UCB/Combat Robotics at Berkeley/Combat Robotics at Berkeley - Welcome - welcome [1011495807159128165].json
+data_UCB/CALorant/CALorant - Text - announcements [833057370837090304].json
+data_UCB/CALorant/CALorant - valorant - location [833581218326380585].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - announcements [1000501529607929919].json
+data_UCB/CREATE/CREATE - Information - landing-pad [1136037635253604373].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🌎cross-promotion [1087819088799219752].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - welcome-and-rules [1011403358277476383].json
+data_UCB/CALorant/CALorant - valorant - clips-and-highlights [833055287069900803].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Content ═╗ - plug [1037533197745016832].json
+data_UCB/CREATE/CREATE - disciplines - visual-arts [916113930009608202].json
+data_UCB/CREATE/CREATE - Information - welcome-and-rules [916098886194593834].json
+data_UCB/CREATE/CREATE - disciplines - creative-writing [916113983369519115].json
+data_UCB/CALorant/CALorant - Text - announcements [833057370837090304].json
+data_UCB/CALICO Team/CALICO Team - Welcome - rules [1054997378240892978].json
+data_UCB/Cal Mycology/Cal Mycology - info - 📜rules [1012586589618196520].json
+data_UCB/CREATE/CREATE - Text Channels - introductions [935274191115141141].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - welcome-and-rules [1000501529607929918].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - introductions [1035025942332047441].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - roles [1038912921830432778].json
+data_UCB/CREATE/CREATE - Information - resources [916098886194593836].json
+data_UCB/CREATE/CREATE - Information - landing-pad [1136037635253604373].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - meeting-plans [1000501529607929923].json
+data_UCB/CALorant/CALorant - Text - arrivals [833055287069900802].json
+data_UCB/CALorant/CALorant - valorant - location [833581218326380585].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - welcome-and-rules [962075454028804137].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - roles [1038912921830432778].json
+data_UCB/CREATE/CREATE - disciplines - creative-writing [916113983369519115].json
+data_UCB/Cal Mycology/Cal Mycology - info - 📜rules [1012586589618196520].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - welcome-and-rules [1000501529607929918].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 📰articles [1073318754479521862].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 📰articles [1073318754479521862].json
+data_UCB/CREATE/CREATE - disciplines - dance [916114126269480960].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 📰articles [1073318754479521862].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - welcome-and-rules [1011403358277476383].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - off-topic [1000501529607929924].json
+data_UCB/CALICO Team/CALICO Team - Welcome - rules [1054997378240892978].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - welcome-and-rules [962075454028804137].json
+data_UCB/CREATE/CREATE - Information - welcome-and-rules [916098886194593834].json
+data_UCB/CREATE/CREATE - disciplines - dance [916114126269480960].json
+data_UCB/Cal Mycology/Cal Mycology - info - 📜rules [1012586589618196520].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - welcome-and-rules [962075454028804137].json
+data_UCB/CREATE/CREATE - disciplines - creative-writing [916113983369519115].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🧩off-topic [1012586374085480468].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - off-topic [1000501529607929924].json
+data_UCB/CALICO Team/CALICO Team - Welcome - lobby [1067710652770164737].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🧩off-topic [1012586374085480468].json
+data_UCB/CALorant/CALorant - Text - arrivals [833055287069900802].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - recruitment-info [1011433418434810037].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - welcome-and-rules [962075454028804137].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🎵shroom-tunes [1072348255050027018].json
+data_UCB/CALorant/CALorant - valorant - rank [833085957241700483].json
+data_UCB/Cal Mycology/Cal Mycology - info - 🧠resources [1054454125254942820].json
+data_UCB/CALICO Team/CALICO Team - Welcome - recruiting-sp23 [1067663231457448008].json
+data_UCB/CREATE/CREATE - Information - welcome-and-rules [916098886194593834].json
+data_UCB/CALorant/CALorant - Text - announcements [833057370837090304].json
+data_UCB/Berkeley Legends/Berkeley Legends - Text - welcome-and-rules [745066659454386236].json
+data_UCB/CREATE/CREATE - disciplines - dance [916114126269480960].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - welcome-and-rules [1011403358277476383].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - introductions [1035025942332047441].json
+data_UCB/CREATE/CREATE - Information - landing-pad [1136037635253604373].json
+data_UCB/CALorant/CALorant - Text - arrivals [833055287069900802].json
+data_UCB/CREATE/CREATE - disciplines - dance [916114126269480960].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - welcome-and-rules [1011403358277476383].json
+data_UCB/CREATE/CREATE - Information - forms [916099381927772181].json
+data_UCB/CREATE/CREATE - disciplines - dance [916114126269480960].json
+data_UCB/CREATE/CREATE - Text Channels - off-topic [916098886194593840].json
+data_UCB/Cal Mycology/Cal Mycology - info - 📜rules [1012586589618196520].json
+data_UCB/CREATE/CREATE - Information - announcements [916098886194593835].json
+data_UCB/CALICO Team/CALICO Team - Welcome - rules [1054997378240892978].json
+data_UCB/CALICO Team/CALICO Team - Welcome - lobby [1067710652770164737].json
+data_UCB/CREATE/CREATE - Text Channels - introductions [935274191115141141].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - recruitment-info [1011433418434810037].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - welcome-and-rules [1000501529607929918].json
+data_UCB/CREATE/CREATE - Information - welcome-and-rules [916098886194593834].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - recruitment-info [1011433418434810037].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - welcome-and-rules [1000501529607929918].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - off-topic [1000501529607929924].json
+data_UCB/Cal Mycology/Cal Mycology - info - 📜rules [1012586589618196520].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🎵shroom-tunes [1072348255050027018].json
+data_UCB/CREATE/CREATE - disciplines - creative-writing [916113983369519115].json
+data_UCB/Berkeley Legends/Berkeley Legends - Text - welcome-and-rules [745066659454386236].json
+data_UCB/CALorant/CALorant - valorant - valorant-riot-id [833080103579811850].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-general [1071011503131594813].json
+data_UCB/CALorant/CALorant - Text - announcements [833057370837090304].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - application-questions [1011432844624666734].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-announcements [1071011142694084639].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - welcome-and-rules [1011403358277476383].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 📰articles [1073318754479521862].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - welcome-and-rules [962075454028804137].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - misc [1011423596792533103].json
+data_UCB/CREATE/CREATE - disciplines - dance [916114126269480960].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - meeting-plans [1000501529607929923].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - announcements [962075454028804138].json
+data_UCB/CREATE/CREATE - Information - landing-pad [1136037635253604373].json
+data_UCB/Cal Mycology/Cal Mycology - info - 📜rules [1012586589618196520].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🍲good-eatin [1077430192429080587].json
+data_UCB/CALorant/CALorant - Text - announcements [833057370837090304].json
+data_UCB/CREATE/CREATE - Text Channels - introductions [935274191115141141].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🚐hangin-trip-plannin [1054833657396875384].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - welcome-and-rules [1000501529607929918].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - welcome-and-rules [1011403358277476383].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - roles [1038912921830432778].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - announcements [1012630400335609908].json
+data_UCB/CALorant/CALorant - valorant - rank [833085957241700483].json
+data_UCB/CALorant/CALorant - Text - announcements [833057370837090304].json
+data_UCB/CREATE/CREATE - Text Channels - introductions [935274191115141141].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - roles [1038912921830432778].json
+data_UCB/CALorant/CALorant - Text - arrivals [833055287069900802].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - welcome-and-rules [962075454028804137].json
+data_UCB/CALorant/CALorant - valorant - location [833581218326380585].json
+data_UCB/CREATE/CREATE - Information - landing-pad [1136037635253604373].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 📰articles [1073318754479521862].json
+data_UCB/CALICO Team/CALICO Team - Welcome - rules [1054997378240892978].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-announcements [1071011142694084639].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - welcome-and-rules [962075454028804137].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - off-topic [1000501529607929924].json
+data_UCB/Combat Robotics at Berkeley/Combat Robotics at Berkeley - Welcome - welcome [1011495807159128165].json
+data_UCB/CREATE/CREATE - Text Channels - introductions [935274191115141141].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - introductions [1035025942332047441].json
+data_UCB/Cal Mycology/Cal Mycology - info - ❗announcements [1012586981546541076].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🌎cross-promotion [1087819088799219752].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🌎cross-promotion [1087819088799219752].json
+data_UCB/CREATE/CREATE - disciplines - visual-arts [916113930009608202].json
+data_UCB/CALICO Team/CALICO Team - Welcome - recruiting-sp23 [1067663231457448008].json
+data_UCB/Cal Mycology/Cal Mycology - info - ❗announcements [1012586981546541076].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🚐hangin-trip-plannin [1054833657396875384].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - off-topic [1000501529607929924].json
+data_UCB/CALorant/CALorant - valorant - location [833581218326380585].json
+data_UCB/CREATE/CREATE - Information - announcements [916098886194593835].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - welcome-and-rules [1011403358277476383].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - roles [1038912921830432778].json
+data_UCB/CALorant/CALorant - valorant - location [833581218326380585].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🍲good-eatin [1077430192429080587].json
+data_UCB/CALICO Team/CALICO Team - Welcome - lobby [1067710652770164737].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - speaker-suggestions [962076135674490960].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - announcements [962075454028804138].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - recruitment-info [1011433418434810037].json
+data_UCB/Combat Robotics at Berkeley/Combat Robotics at Berkeley - Welcome - welcome [1011495807159128165].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - roles [1038912921830432778].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - application-questions [1011432844624666734].json
+data_UCB/CREATE/CREATE - Information - forms [916099381927772181].json
+data_UCB/CALICO Team/CALICO Team - Welcome - verify [1016231779176288318].json
+data_UCB/CALICO Team/CALICO Team - Welcome - rules [1054997378240892978].json
+data_UCB/CALorant/CALorant - valorant - clips-and-highlights [833055287069900803].json
+data_UCB/CALorant/CALorant - valorant - valorant-riot-id [833080103579811850].json
+data_UCB/CREATE/CREATE - Information - welcome-and-rules [916098886194593834].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - off-topic [1000501529607929924].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🔬job-opportunities [1072964717670313994].json
+data_UCB/CALICO Team/CALICO Team - Welcome - recruiting-sp23 [1067663231457448008].json
+data_UCB/CALICO Team/CALICO Team - Welcome - verify [1016231779176288318].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - welcome-and-rules [1011403358277476383].json
+data_UCB/CALorant/CALorant - valorant - location [833581218326380585].json
+data_UCB/CREATE/CREATE - Text Channels - off-topic [916098886194593840].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - meeting-plans [1000501529607929923].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🧩off-topic [1012586374085480468].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Content ═╗ - plug [1037533197745016832].json
+data_UCB/CREATE/CREATE - Information - announcements [916098886194593835].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🌎cross-promotion [1087819088799219752].json
+data_UCB/CREATE/CREATE - Text Channels - opportunities [935273956146020402].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - application-questions [1011432844624666734].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🎵shroom-tunes [1072348255050027018].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - misc [1011423596792533103].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🤖bot-spam [1091064992436060242].json
+data_UCB/Cal Mycology/Cal Mycology - info - 📜rules [1012586589618196520].json
+data_UCB/CALorant/CALorant - Text - arrivals [833055287069900802].json
+data_UCB/Cal Mycology/Cal Mycology - info - 📜rules [1012586589618196520].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 📰articles [1073318754479521862].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🚐hangin-trip-plannin [1054833657396875384].json
+data_UCB/CREATE/CREATE - disciplines - visual-arts [916113930009608202].json
+data_UCB/CALorant/CALorant - Text - arrivals [833055287069900802].json
+data_UCB/CREATE/CREATE - disciplines - visual-arts [916113930009608202].json
+data_UCB/CALorant/CALorant - Text - announcements [833057370837090304].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-match-reporting [1071011453924020284].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 📰articles [1073318754479521862].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - off-topic [1000501529607929924].json
+data_UCB/Combat Robotics at Berkeley/Combat Robotics at Berkeley - Welcome - welcome [1011495807159128165].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 💬general [1061023211816489001].json
+data_UCB/CREATE/CREATE - Text Channels - opportunities [935273956146020402].json
+data_UCB/CREATE/CREATE - Information - resources [916098886194593836].json
+data_UCB/CALorant/CALorant - Text - announcements [833057370837090304].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - introductions [1035025942332047441].json
+data_UCB/CALICO Team/CALICO Team - Welcome - lobby [1067710652770164737].json
+data_UCB/CREATE/CREATE - Information - landing-pad [1136037635253604373].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - welcome-and-rules [1000501529607929918].json
+data_UCB/Combat Robotics at Berkeley/Combat Robotics at Berkeley - Welcome - welcome [1011495807159128165].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🚐hangin-trip-plannin [1054833657396875384].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - announcements [1012630400335609908].json
+data_UCB/CALorant/CALorant - Text - arrivals [833055287069900802].json
+data_UCB/Berkeley Legends/Berkeley Legends - Text - welcome-and-rules [745066659454386236].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - introductions [1035025942332047441].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-general [1071011503131594813].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - roles [1038912921830432778].json
+data_UCB/Cal Mycology/Cal Mycology - info - 👋landing-pad [1012587777159872552].json
+data_UCB/CALICO Team/CALICO Team - Welcome - rules [1054997378240892978].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - off-topic [1000501529607929924].json
+data_UCB/CREATE/CREATE - Information - resources [916098886194593836].json
+data_UCB/Cal Mycology/Cal Mycology - info - ❗announcements [1012586981546541076].json
+data_UCB/Cal Mycology/Cal Mycology - info - 📜rules [1012586589618196520].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🔬job-opportunities [1072964717670313994].json
+data_UCB/CREATE/CREATE - Information - forms [916099381927772181].json
+data_UCB/CALICO Team/CALICO Team - Welcome - rules [1054997378240892978].json
+data_UCB/CALorant/CALorant - valorant - looking-for-games [833057189760729139].json
+data_UCB/CALorant/CALorant - Text - arrivals [833055287069900802].json
+data_UCB/CREATE/CREATE - disciplines - dance [916114126269480960].json
+data_UCB/CALICO Team/CALICO Team - Welcome - recruiting-sp23 [1067663231457448008].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🌎cross-promotion [1087819088799219752].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - announcements [962075454028804138].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🧩off-topic [1012586374085480468].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - announcements [1000501529607929919].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - introductions [1035025942332047441].json
+data_UCB/CREATE/CREATE - Text Channels - introductions [935274191115141141].json
+data_UCB/CALICO Team/CALICO Team - Welcome - recruiting-sp23 [1067663231457448008].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - general [1000501529607929922].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - roles [1038912921830432778].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-announcements [1071011142694084639].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - welcome-and-rules [962075454028804137].json
+data_UCB/CREATE/CREATE - Information - landing-pad [1136037635253604373].json
+data_UCB/CREATE/CREATE - disciplines - creative-writing [916113983369519115].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🍲good-eatin [1077430192429080587].json
+data_UCB/CALorant/CALorant - valorant - rank [833085957241700483].json
+data_UCB/CREATE/CREATE - Information - resources [916098886194593836].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 📰articles [1073318754479521862].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - general [1000501529607929922].json
+data_UCB/CREATE/CREATE - Information - announcements [916098886194593835].json
+data_UCB/CALorant/CALorant - valorant - clips-and-highlights [833055287069900803].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - announcements [962075454028804138].json
+data_UCB/CALorant/CALorant - Text - announcements [833057370837090304].json
+data_UCB/Combat Robotics at Berkeley/Combat Robotics at Berkeley - Welcome - welcome [1011495807159128165].json
+data_UCB/CALorant/CALorant - valorant - valorant-riot-id [833080103579811850].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-match-reporting [1071011453924020284].json
+data_UCB/CALorant/CALorant - Text - arrivals [833055287069900802].json
+data_UCB/CREATE/CREATE - Text Channels - off-topic [916098886194593840].json
+data_UCB/CREATE/CREATE - Information - landing-pad [1136037635253604373].json
+data_UCB/CALorant/CALorant - valorant - location [833581218326380585].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - meeting-plans [1000501529607929923].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Content ═╗ - plug [1037533197745016832].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stock-discussions [1000617753251692544].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-announcements [1071011142694084639].json
+data_UCB/CREATE/CREATE - Text Channels - off-topic [916098886194593840].json
+data_UCB/CALorant/CALorant - valorant - clips-and-highlights [833055287069900803].json
+data_UCB/Berkeley Legends/Berkeley Legends - Text - welcome-and-rules [745066659454386236].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🎵shroom-tunes [1072348255050027018].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-announcements [1071011142694084639].json
+data_UCB/CALICO Team/CALICO Team - Welcome - lobby [1067710652770164737].json
+data_UCB/CALorant/CALorant - valorant - looking-for-games [833057189760729139].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - welcome-and-rules [1000501529607929918].json
+data_UCB/CREATE/CREATE - disciplines - creative-writing [916113983369519115].json
+data_UCB/CREATE/CREATE - Information - welcome-and-rules [916098886194593834].json
+data_UCB/CALorant/CALorant - Text - announcements [833057370837090304].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🤖bot-spam [1091064992436060242].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - introductions [1035025942332047441].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - roles [1038912921830432778].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🧩off-topic [1012586374085480468].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - application-questions [1011432844624666734].json
+data_UCB/CREATE/CREATE - Text Channels - introductions [935274191115141141].json
+data_UCB/Cal Mycology/Cal Mycology - info - ❗announcements [1012586981546541076].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🎵shroom-tunes [1072348255050027018].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - Text - landing-pad [1022368245732343858].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - application-questions [1011432844624666734].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - meeting-plans [1000501529607929923].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 💬general [1061023211816489001].json
+data_UCB/CALICO Team/CALICO Team - Welcome - verify [1016231779176288318].json
+data_UCB/CREATE/CREATE - Information - resources [916098886194593836].json
+data_UCB/CALICO Team/CALICO Team - Welcome - recruiting-sp23 [1067663231457448008].json
+data_UCB/CREATE/CREATE - Information - announcements [916098886194593835].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🔬job-opportunities [1072964717670313994].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - announcements [1012630400335609908].json
+data_UCB/CALICO Team/CALICO Team - Welcome - rules [1054997378240892978].json
+data_UCB/CALICO Team/CALICO Team - Welcome - rules [1054997378240892978].json
+data_UCB/CREATE/CREATE - Information - announcements [916098886194593835].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - general [1000501529607929922].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - welcome-and-rules [1000501529607929918].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🌎cross-promotion [1087819088799219752].json
+data_UCB/CREATE/CREATE - Information - landing-pad [1136037635253604373].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stock-discussions [1000617753251692544].json
+data_UCB/CALICO Team/CALICO Team - Welcome - lobby [1067710652770164737].json
+data_UCB/CALorant/CALorant - Text - arrivals [833055287069900802].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - speaker-suggestions [962076135674490960].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-match-reporting [1071011453924020284].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - off-topic [1000501529607929924].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - speaker-suggestions [962076135674490960].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - Text - landing-pad [1022368245732343858].json
+data_UCB/CREATE/CREATE - disciplines - creative-writing [916113983369519115].json
+data_UCB/CALICO Team/CALICO Team - Welcome - rules [1054997378240892978].json
+data_UCB/CREATE/CREATE - Text Channels - introductions [935274191115141141].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🧩off-topic [1012586374085480468].json
+data_UCB/CALorant/CALorant - valorant - clips-and-highlights [833055287069900803].json
+data_UCB/CREATE/CREATE - Information - announcements [916098886194593835].json
+data_UCB/CREATE/CREATE - disciplines - dance [916114126269480960].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-match-reporting [1071011453924020284].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - misc [1011423596792533103].json
+data_UCB/CALorant/CALorant - valorant - rank [833085957241700483].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🧩off-topic [1012586374085480468].json
+data_UCB/Cal Mycology/Cal Mycology - info - 📜rules [1012586589618196520].json
+data_UCB/CREATE/CREATE - Information - welcome-and-rules [916098886194593834].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - recruitment-info [1011433418434810037].json
+data_UCB/CREATE/CREATE - Information - welcome-and-rules [916098886194593834].json
+data_UCB/CREATE/CREATE - Text Channels - opportunities [935273956146020402].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - welcome-and-rules [1000501529607929918].json
+data_UCB/CREATE/CREATE - disciplines - creative-writing [916113983369519115].json
+data_UCB/CALorant/CALorant - valorant - valorant-riot-id [833080103579811850].json
+data_UCB/CREATE/CREATE - Information - resources [916098886194593836].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - meeting-plans [1000501529607929923].json
+data_UCB/CREATE/CREATE - Text Channels - off-topic [916098886194593840].json
+data_UCB/CALorant/CALorant - valorant - valorant-riot-id [833080103579811850].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🔬job-opportunities [1072964717670313994].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - off-topic [1000501529607929924].json
+data_UCB/CREATE/CREATE - Information - forms [916099381927772181].json
+data_UCB/CALorant/CALorant - valorant - location [833581218326380585].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Content ═╗ - plug [1037533197745016832].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - meeting-plans [1000501529607929923].json
+data_UCB/Berkeley Legends/Berkeley Legends - Text - welcome-and-rules [745066659454386236].json
+data_UCB/Cal Mycology/Cal Mycology - info - ❗announcements [1012586981546541076].json
+data_UCB/CALICO Team/CALICO Team - System - system [1016237307612893224].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - announcements [962075454028804138].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Content ═╗ - plug [1037533197745016832].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - general [1000501529607929922].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-announcements [1071011142694084639].json
+data_UCB/Cal Mycology/Cal Mycology - info - 🧠resources [1054454125254942820].json
+data_UCB/CREATE/CREATE - Text Channels - opportunities [935273956146020402].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - misc [1011423596792533103].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - speaker-suggestions [962076135674490960].json
+data_UCB/CALICO Team/CALICO Team - Welcome - recruiting-sp23 [1067663231457448008].json
+data_UCB/CREATE/CREATE - Text Channels - introductions [935274191115141141].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-announcements [1071011142694084639].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - introductions [1035025942332047441].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - introductions [1035025942332047441].json
+data_UCB/CALICO Team/CALICO Team - Welcome - lobby [1067710652770164737].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - welcome-and-rules [1000501529607929918].json
+data_UCB/CREATE/CREATE - Information - forms [916099381927772181].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🚐hangin-trip-plannin [1054833657396875384].json
+data_UCB/CREATE/CREATE - disciplines - dance [916114126269480960].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - announcements [1000501529607929919].json
+data_UCB/Berkeley Legends/Berkeley Legends - Text - welcome-and-rules [745066659454386236].json
+data_UCB/CALorant/CALorant - valorant - rank [833085957241700483].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - announcements [962075454028804138].json
+data_UCB/CALorant/CALorant - valorant - valorant-riot-id [833080103579811850].json
+data_UCB/Cal Mycology/Cal Mycology - info - ❗announcements [1012586981546541076].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🎵shroom-tunes [1072348255050027018].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-match-reporting [1071011453924020284].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🧩off-topic [1012586374085480468].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - speaker-suggestions [962076135674490960].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - meeting-plans [1000501529607929923].json
+data_UCB/CALICO Team/CALICO Team - Welcome - verify [1016231779176288318].json
+data_UCB/CALICO Team/CALICO Team - Welcome - recruiting-sp23 [1067663231457448008].json
+data_UCB/CREATE/CREATE - Information - forms [916099381927772181].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - meeting-plans [1000501529607929923].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - general [1000501529607929922].json
+data_UCB/CREATE/CREATE - Text Channels - off-topic [916098886194593840].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🍲good-eatin [1077430192429080587].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - recruitment-info [1011433418434810037].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - misc [1011423596792533103].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🌎cross-promotion [1087819088799219752].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🌎cross-promotion [1087819088799219752].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-match-reporting [1071011453924020284].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🤖bot-spam [1091064992436060242].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 📰articles [1073318754479521862].json
+data_UCB/CREATE/CREATE - Information - announcements [916098886194593835].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🤖bot-spam [1091064992436060242].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🔬job-opportunities [1072964717670313994].json
+data_UCB/Berkeley Legends/Berkeley Legends - Text - welcome-and-rules [745066659454386236].json
+data_UCB/CALorant/CALorant - valorant - valorant-riot-id [833080103579811850].json
+data_UCB/CREATE/CREATE - Information - landing-pad [1136037635253604373].json
+data_UCB/CREATE/CREATE - Text Channels - introductions [935274191115141141].json
+data_UCB/CREATE/CREATE - disciplines - visual-arts [916113930009608202].json
+data_UCB/CALICO Team/CALICO Team - Welcome - recruiting-sp23 [1067663231457448008].json
+data_UCB/CALorant/CALorant - valorant - rank [833085957241700483].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - announcements [1012630400335609908].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🔬job-opportunities [1072964717670313994].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - announcements [962075454028804138].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🚐hangin-trip-plannin [1054833657396875384].json
+data_UCB/CALorant/CALorant - valorant - clips-and-highlights [833055287069900803].json
+data_UCB/Combat Robotics at Berkeley/Combat Robotics at Berkeley - Welcome - welcome [1011495807159128165].json
+data_UCB/CREATE/CREATE - Information - announcements [916098886194593835].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - announcements [1000501529607929919].json
+data_UCB/Cal Mycology/Cal Mycology - info - 🧠resources [1054454125254942820].json
+data_UCB/CREATE/CREATE - Text Channels - opportunities [935273956146020402].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🔬job-opportunities [1072964717670313994].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 💬general [1061023211816489001].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - daily-chart-updates [1064769404992233514].json
+data_UCB/CALorant/CALorant - valorant - clips-and-highlights [833055287069900803].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - announcements [1012630400335609908].json
+data_UCB/Cal Mycology/Cal Mycology - info - 👋landing-pad [1012587777159872552].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - Text - landing-pad [1022368245732343858].json
+data_UCB/CREATE/CREATE - Information - announcements [916098886194593835].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - Text - landing-pad [1022368245732343858].json
+data_UCB/CALorant/CALorant - valorant - rank [833085957241700483].json
+data_UCB/Berkeley Legends/Berkeley Legends - Text - welcome-and-rules [745066659454386236].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - welcome-and-rules [1011403358277476383].json
+data_UCB/CALICO Team/CALICO Team - Welcome - verify [1016231779176288318].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - general [1000501529607929922].json
+data_UCB/CREATE/CREATE - Information - resources [916098886194593836].json
+data_UCB/CREATE/CREATE - disciplines - visual-arts [916113930009608202].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - announcements [1000501529607929919].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🍲good-eatin [1077430192429080587].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 📰articles [1073318754479521862].json
+data_UCB/CREATE/CREATE - disciplines - dance [916114126269480960].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Content ═╗ - plug [1037533197745016832].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - daily-chart-updates [1064769404992233514].json
+data_UCB/CALorant/CALorant - valorant - location [833581218326380585].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🤖bot-spam [1091064992436060242].json
+data_UCB/Cal Mycology/Cal Mycology - info - ❗announcements [1012586981546541076].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stonk-memes [1000617594404995182].json
+data_UCB/CREATE/CREATE - Information - forms [916099381927772181].json
+data_UCB/Cal Mycology/Cal Mycology - info - 👋landing-pad [1012587777159872552].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🎵shroom-tunes [1072348255050027018].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - application-questions [1011432844624666734].json
+data_UCB/Berkeley Legends/Berkeley Legends - Text - welcome-and-rules [745066659454386236].json
+data_UCB/CALorant/CALorant - valorant - clips-and-highlights [833055287069900803].json
+data_UCB/CALorant/CALorant - valorant - looking-for-games [833057189760729139].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - misc [1011423596792533103].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🍲good-eatin [1077430192429080587].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - off-topic [967701746367471646].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - intros [1011403358277476387].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - intros [1011403358277476387].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - youtube-updates [1064750047494930542].json
+data_UCB/CALICO Team/CALICO Team - Welcome - lobby [1067710652770164737].json
+data_UCB/CREATE/CREATE - Text Channels - off-topic [916098886194593840].json
+data_UCB/CREATE/CREATE - Information - resources [916098886194593836].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - welcome-and-rules [962075454028804137].json
+data_UCB/CREATE/CREATE - Text Channels - opportunities [935273956146020402].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - speaker-suggestions [962076135674490960].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - application-questions [1011432844624666734].json
+data_UCB/CALorant/CALorant - Text - general [833058501718179851].json
+data_UCB/CALorant/CALorant - valorant - clips-and-highlights [833055287069900803].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-announcements [1071011142694084639].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - announcements [962075454028804138].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - recruitment-info [1011433418434810037].json
+data_UCB/CALorant/CALorant - valorant - rank [833085957241700483].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🔬job-opportunities [1072964717670313994].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-general [1071011503131594813].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - recruitment-info [1011433418434810037].json
+data_UCB/CREATE/CREATE - Information - forms [916099381927772181].json
+data_UCB/Cal Mycology/Cal Mycology - info - 🧠resources [1054454125254942820].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - recruitment-info [1011433418434810037].json
+data_UCB/CREATE/CREATE - Information - resources [916098886194593836].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🚐hangin-trip-plannin [1054833657396875384].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🔬job-opportunities [1072964717670313994].json
+data_UCB/CALICO Team/CALICO Team - Welcome - lobby [1067710652770164737].json
+data_UCB/CALICO Team/CALICO Team - Welcome - verify [1016231779176288318].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - announcements [1012630400335609908].json
+data_UCB/CALICO Team/CALICO Team - Welcome - verify [1016231779176288318].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🧩off-topic [1012586374085480468].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - off-topic [967701746367471646].json
+data_UCB/CREATE/CREATE - Text Channels - off-topic [916098886194593840].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - meeting-plans [1000501529607929923].json
+data_UCB/CALICO Team/CALICO Team - Welcome - verify [1016231779176288318].json
+data_UCB/CALICO Team/CALICO Team - System - system [1016237307612893224].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🍲good-eatin [1077430192429080587].json
+data_UCB/CREATE/CREATE - Text Channels - opportunities [935273956146020402].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - misc [1011423596792533103].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Content ═╗ - plug [1037533197745016832].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🤖bot-spam [1091064992436060242].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - announcements [1012630400335609908].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-match-reporting [1071011453924020284].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - misc [1011423596792533103].json
+data_UCB/CALorant/CALorant - valorant - clips-and-highlights [833055287069900803].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🚐hangin-trip-plannin [1054833657396875384].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Content ═╗ - plug [1037533197745016832].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - speaker-suggestions [962076135674490960].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-general [1071011503131594813].json
+data_UCB/CALorant/CALorant - valorant - valorant-riot-id [833080103579811850].json
+data_UCB/CREATE/CREATE - disciplines - visual-arts [916113930009608202].json
+data_UCB/Cal Mycology/Cal Mycology - info - 👋landing-pad [1012587777159872552].json
+data_UCB/CREATE/CREATE - Information - resources [916098886194593836].json
+data_UCB/CALICO Team/CALICO Team - Welcome - verify [1016231779176288318].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - application-questions [1011432844624666734].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - general [1000501529607929922].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - introductions [1035025942332047441].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - announcements [1000501529607929919].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Info ═╗ - roles [1038912921830432778].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - general [1000501529607929922].json
+data_UCB/CREATE/CREATE - Information - welcome-and-rules [916098886194593834].json
+data_UCB/CALICO Team/CALICO Team - System - system [1016237307612893224].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - Text - landing-pad [1022368245732343858].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - announcements [1012630400335609908].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 💬general [1061023211816489001].json
+data_UCB/CREATE/CREATE - Text Channels - general [916098886194593838].json
+data_UCB/Cal Mycology/Cal Mycology - info - 🧠resources [1054454125254942820].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-general [1071011503131594813].json
+data_UCB/CALorant/CALorant - Text - general [833058501718179851].json
+data_UCB/Cal Mycology/Cal Mycology - info - 👋landing-pad [1012587777159872552].json
+data_UCB/Berkeley Legends/Berkeley Legends - Announcements - sponsors-announcements [885393003781447691].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🎵shroom-tunes [1072348255050027018].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - off-topic [967701746367471646].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - intros [1011403358277476387].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stock-discussions [1000617753251692544].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - misc [1011423596792533103].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🍲good-eatin [1077430192429080587].json
+data_UCB/Combat Robotics at Berkeley/Combat Robotics at Berkeley - Welcome - welcome [1011495807159128165].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🔬job-opportunities [1072964717670313994].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - announcements [1012630400335609908].json
+data_UCB/CALorant/CALorant - valorant - location [833581218326380585].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🎵shroom-tunes [1072348255050027018].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🤖bot-spam [1091064992436060242].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - recruitment-info [1011433418434810037].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🤖bot-spam [1091064992436060242].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - speaker-suggestions [962076135674490960].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-match-reporting [1071011453924020284].json
+data_UCB/Cal Mycology/Cal Mycology - info - 🧠resources [1054454125254942820].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Content ═╗ - plug [1037533197745016832].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🍄pics-n-id-requests [1012586225904918600].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - daily-chart-updates [1064769404992233514].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Content ═╗ - plug [1037533197745016832].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - announcements [1000501529607929919].json
+data_UCB/CREATE/CREATE - Text Channels - opportunities [935273956146020402].json
+data_UCB/CREATE/CREATE - disciplines - visual-arts [916113930009608202].json
+data_UCB/CALorant/CALorant - valorant - rank [833085957241700483].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - application-questions [1011432844624666734].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - youtube-updates [1064750047494930542].json
+data_UCB/Cal Mycology/Cal Mycology - info - ❗announcements [1012586981546541076].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-general [1071011503131594813].json
+data_UCB/CALorant/CALorant - valorant - rank [833085957241700483].json
+data_UCB/CALorant/CALorant - Text - general [833058501718179851].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-general [1071011503131594813].json
+data_UCB/CREATE/CREATE - Text Channels - general [916098886194593838].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - general [1000501529607929922].json
+data_UCB/Berkeley Legends/Berkeley Legends - Announcements - sponsors-announcements [885393003781447691].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stonk-memes [1000617594404995182].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - Text - landing-pad [1022368245732343858].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 💬general [1061023211816489001].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stock-discussions [1000617753251692544].json
+data_UCB/CALICO Team/CALICO Team - System - system [1016237307612893224].json
+data_UCB/CREATE/CREATE - Text Channels - opportunities [935273956146020402].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🌎cross-promotion [1087819088799219752].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🍲good-eatin [1077430192429080587].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stonk-memes [1000617594404995182].json
+data_UCB/Cal Mycology/Cal Mycology - info - 🧠resources [1054454125254942820].json
+data_UCB/Cal Mycology/Cal Mycology - info - 👋landing-pad [1012587777159872552].json
+data_UCB/CALICO Team/CALICO Team - Welcome - verify [1016231779176288318].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - speaker-suggestions [962076135674490960].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-general [1071011503131594813].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - daily-chart-updates [1064769404992233514].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - general [962075454028804141].json
+data_UCB/CALorant/CALorant - valorant - looking-for-games [833057189760729139].json
+data_UCB/CALorant/CALorant - Text - general [833058501718179851].json
+data_UCB/CALICO Team/CALICO Team - Welcome - recruiting-sp23 [1067663231457448008].json
+data_UCB/CREATE/CREATE - Text Channels - off-topic [916098886194593840].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - general [1000501529607929922].json
+data_UCB/CREATE/CREATE - Text Channels - general [916098886194593838].json
+data_UCB/CREATE/CREATE - Information - forms [916099381927772181].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - speaker-suggestions [962076135674490960].json
+data_UCB/CREATE/CREATE - Text Channels - off-topic [916098886194593840].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🍄pics-n-id-requests [1012586225904918600].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-match-reporting [1071011453924020284].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Information - announcements [1012630400335609908].json
+data_UCB/CALorant/CALorant - Text - general [833058501718179851].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - announcements [1000501529607929919].json
+data_UCB/CALorant/CALorant - valorant - valorant-riot-id [833080103579811850].json
+data_UCB/CALorant/CALorant - valorant - looking-for-games [833057189760729139].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🎵shroom-tunes [1072348255050027018].json
+data_UCB/Cal Mycology/Cal Mycology - info - 🧠resources [1054454125254942820].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-general [1071011503131594813].json
+data_UCB/CALorant/CALorant - Text - general [833058501718179851].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - off-topic [967701746367471646].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - application-questions [1011432844624666734].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-announcements [1071011142694084639].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-match-reporting [1071011453924020284].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 💬general [1061023211816489001].json
+data_UCB/CREATE/CREATE - Text Channels - general [916098886194593838].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stock-discussions [1000617753251692544].json
+data_UCB/Cal Mycology/Cal Mycology - info - 👋landing-pad [1012587777159872552].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - announcements [1000501529607929919].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - youtube-updates [1064750047494930542].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🤖bot-spam [1091064992436060242].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - intros [1011403358277476387].json
+data_UCB/Cal Mycology/Cal Mycology - info - ❗announcements [1012586981546541076].json
+data_UCB/Cal Mycology/Cal Mycology - info - 🧠resources [1054454125254942820].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - general [962075454028804141].json
+data_UCB/CALorant/CALorant - valorant - looking-for-games [833057189760729139].json
+data_UCB/CALICO Team/CALICO Team - System - system [1016237307612893224].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - youtube-updates [1064750047494930542].json
+data_UCB/CALorant/CALorant - valorant - looking-for-games [833057189760729139].json
+data_UCB/Cal Mycology/Cal Mycology - info - 👋landing-pad [1012587777159872552].json
+data_UCB/CALorant/CALorant - valorant - looking-for-games [833057189760729139].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🍲good-eatin [1077430192429080587].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stonk-memes [1000617594404995182].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stonk-memes [1000617594404995182].json
+data_UCB/Berkeley Legends/Berkeley Legends - SP23 ARAM TOURNAMENT - aram-general [1071011503131594813].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - Text - landing-pad [1022368245732343858].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🚐hangin-trip-plannin [1054833657396875384].json
+data_UCB/CREATE/CREATE - Information - forms [916099381927772181].json
+data_UCB/CREATE/CREATE - disciplines - visual-arts [916113930009608202].json
+data_UCB/CALICO Team/CALICO Team - Welcome - lobby [1067710652770164737].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - Text - landing-pad [1022368245732343858].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - off-topic [967701746367471646].json
+data_UCB/Berkeley Legends/Berkeley Legends - Announcements - sponsors-announcements [885393003781447691].json
+data_UCB/CREATE/CREATE - Text Channels - general [916098886194593838].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stonk-memes [1000617594404995182].json
+data_UCB/CREATE/CREATE - Text Channels - general [916098886194593838].json
+data_UCB/Cal Mycology/Cal Mycology - Miscellaneous - 🤖bot-spam [1091064992436060242].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - intros [1011403358277476387].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 💬general [1061023211816489001].json
+data_UCB/CALorant/CALorant - Text - general [833058501718179851].json
+data_UCB/CREATE/CREATE - Text Channels - general [916098886194593838].json
+data_UCB/Cal Mycology/Cal Mycology - info - 🧠resources [1054454125254942820].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stock-discussions [1000617753251692544].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - daily-chart-updates [1064769404992233514].json
+data_UCB/Berkeley Legends/Berkeley Legends - Announcements - sponsors-announcements [885393003781447691].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - Text - landing-pad [1022368245732343858].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - off-topic [967701746367471646].json
+data_UCB/CREATE/CREATE - disciplines - visual-arts [916113930009608202].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 💬general [1061023211816489001].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 💬general [1061023211816489001].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stonk-memes [1000617594404995182].json
+data_UCB/Cal Mycology/Cal Mycology - info - 👋landing-pad [1012587777159872552].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - daily-chart-updates [1064769404992233514].json
+data_UCB/CALICO Team/CALICO Team - System - system [1016237307612893224].json
+data_UCB/CREATE/CREATE - Text Channels - general [916098886194593838].json
+data_UCB/CREATE/CREATE - Text Channels - general [916098886194593838].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stock-discussions [1000617753251692544].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - Text - landing-pad [1022368245732343858].json
+data_UCB/CALorant/CALorant - valorant - looking-for-games [833057189760729139].json
+data_UCB/CALICO Team/CALICO Team - System - system [1016237307612893224].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stonk-memes [1000617594404995182].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - off-topic [967701746367471646].json
+data_UCB/CALorant/CALorant - valorant - looking-for-games [833057189760729139].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - intros [1011403358277476387].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Information - announcements [1000501529607929919].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🍄pics-n-id-requests [1012586225904918600].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - off-topic [967701746367471646].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 💬general [1061023211816489001].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - off-topic [967701746367471646].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stock-discussions [1000617753251692544].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - intros [1011403358277476387].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - off-topic [967701746367471646].json
+data_UCB/Berkeley Legends/Berkeley Legends - Announcements - sponsors-announcements [885393003781447691].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stock-discussions [1000617753251692544].json
+data_UCB/CALorant/CALorant - Text - general [833058501718179851].json
+data_UCB/CALICO Team/CALICO Team - System - system [1016237307612893224].json
+data_UCB/Cal Mycology/Cal Mycology - info - 👋landing-pad [1012587777159872552].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - intros [1011403358277476387].json
+data_UCB/CREATE/CREATE - Text Channels - general [916098886194593838].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stonk-memes [1000617594404995182].json
+data_UCB/CALorant/CALorant - Text - general [833058501718179851].json
+data_UCB/Berkeley Legends/Berkeley Legends - Announcements - sponsors-announcements [885393003781447691].json
+data_UCB/CALICO Team/CALICO Team - System - system [1016237307612893224].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stock-discussions [1000617753251692544].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - stonk-memes [1000617594404995182].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - youtube-updates [1064750047494930542].json
+data_UCB/Berkeley Legends/Berkeley Legends - Announcements - sponsors-announcements [885393003781447691].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - general [962075454028804141].json
+data_UCB/CALICO Team/CALICO Team - System - system [1016237307612893224].json
+data_UCB/Berkeley Legends/Berkeley Legends - Announcements - sponsors-announcements [885393003781447691].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - intros [1011403358277476387].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - daily-chart-updates [1064769404992233514].json
+data_UCB/DataGood Upcoming Fall 2023 Recruitment/DataGood Upcoming Fall 2023 Recruitment - Text Channels - intros [1011403358277476387].json
+data_UCB/CALorant/CALorant - Text - general [833058501718179851].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - daily-chart-updates [1064769404992233514].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - daily-chart-updates [1064769404992233514].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - daily-chart-updates [1064769404992233514].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🍄pics-n-id-requests [1012586225904918600].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - general [962075454028804141].json
+data_UCB/Berkeley Legends/Berkeley Legends - Announcements - sponsors-announcements [885393003781447691].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - youtube-updates [1064750047494930542].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - youtube-updates [1064750047494930542].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - general [962075454028804141].json
+data_UCB/Gravity Group investment Club at Berkeley/Gravity Group investment Club at Berkeley - Text Channels - youtube-updates [1064750047494930542].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🍄pics-n-id-requests [1012586225904918600].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - general [962075454028804141].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🍄pics-n-id-requests [1012586225904918600].json
+data_UCB/Cal Mycology/Cal Mycology - Main - 🍄pics-n-id-requests [1012586225904918600].json
+data_UCB/Content Creation @ Berkeley/Content Creation @ Berkeley - ╔═ Discussion ═╗ - general [962075454028804141].json

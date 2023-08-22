@@ -1,11 +1,11 @@
-# import aioboto3
-# import os
-# import sys
-# import asyncio
-# from filelock import FileLock
+import aioboto3
+import os
+import sys
+import asyncio
+from filelock import FileLock
 import json
-# import aiofiles
-# import gc
+import aiofiles
+import gc
 import boto3
 
 bucket_name = 'discord-data'
@@ -60,6 +60,9 @@ async def upload_file_to_s3(filepath, object_key, bucket_name):
         with FileLock("./keys.txt.lock"):
             with open('./keys.txt', 'a') as f:
                 f.write(object_key + "\n")
+
+        if os.path.exists(filepath):  # Ensure file exists before trying to delete
+            os.remove(filepath)
 
         # Instead of deleting the file here, return the filepath for deletion later
         return filepath
@@ -137,10 +140,10 @@ async def upload_guild_to_s3(buffer_folder, chunk_size=5):
     unique_files = set(successfully_uploaded_files)
 
     # Delete the successfully uploaded files
-    for file in unique_files:
-        async with file_delete_lock:
-            if os.path.exists(file):  # Ensure file exists before trying to delete
-                os.remove(file)
+    # for file in unique_files:
+    #     async with file_delete_lock:
+    #         if os.path.exists(file):  # Ensure file exists before trying to delete
+    #             os.remove(file)
 
     # Free up memory after processing
     del unique_files

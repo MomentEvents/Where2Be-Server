@@ -61,11 +61,13 @@ async def request_with_rate_limit_handling(api_token, id, folder_name, key):
             # Check if it's a rate limit exception
             if 'StatusCode: 429' in str(e):
                 # Extract the retry time (you might need a more sophisticated method to get the Retry-After value)
-                retry_after = int(e.headers.get('Retry-After', 25))
+                retry_after = int(e.headers.get('Retry-After', 10))
                 await asyncio.sleep(retry_after)
             else:
                 # If it's a different kind of exception, perhaps re-raise it or handle it differently
                 raise e
+                retry_after = int(e.headers.get('Retry-After', 10))
+                await asyncio.sleep(retry_after)
         count += 1
 
 
@@ -120,7 +122,7 @@ async def main():
     sorted_lines = sorted(list(unique_lines))
 
     # Decide on a chunk size (for example, 50)
-    chunk_size = 10
+    chunk_size = 5
 
     # For each chunk of lines
     for subset in chunked_tasks(sorted_lines, chunk_size):
