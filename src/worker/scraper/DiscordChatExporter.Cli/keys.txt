@@ -1,0 +1,644 @@
+data_UCSD/ASCE/ASCE - General Chats - transfers [759947675466203147].json
+data_UCSD/Envision UCSD/Envision UCSD - --------Important-------- - ❗-announcements [763955085436649483].json
+data_UCSD/UCSD Mathematics/UCSD Mathematics - General Chats - academic-advice [747262460225912853].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Sunday Night Live - ask-a-question [889668625387094066].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Internships_Co-ops - useful-websites [804479130921992262].json
+data_UCSD/UCSD RPG Club/UCSD RPG Club - General - memes-and-politics [634924234472423425].json
+data_UCSD/Nanoengineering and Technology Society @ UCSD/Nanoengineering and Technology Society @ UCSD - NETS Corner - general-chatting [760335990286974992].json
+data_UCSD/Quantum Computing at UCSD/Quantum Computing at UCSD - Text Channels - promotions [941189978640232478].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - LOBBY - artsy [762731947192483850].json
+data_UCSD/Computer Science & Engineering Society/Computer Science & Engineering Society - --------------General-------------- - ❓faq-suggestions [736739891916046446].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Sample Size - hypothesis-test-proportions [804064549401001984].json
+data_UCSD/UCSD CHEM/UCSD CHEM - Information - welcome [781338970620821519].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Help Desk - other-advice-archived [915072918751412254].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Resume Workshop - useful-websites [804480285236264961].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-𝟷0𝟿 [652274699954552882].json
+data_UCSD/UCSD CHEM/UCSD CHEM - General Channels - advice [824784012907511828].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝚅𝙸𝚂-147𝙰 [695898734910898196].json
+data_UCSD/The Stats Lounge/The Stats Lounge - ANOVA - questions [803800295028686878].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙿𝚂𝚈𝙲𝙷-1 [695884069682282537].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Classes - 182-biological-data-analysis [790066099156680764].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Probability - general-chat [803792895894487090].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Descriptive Statistics - lectures [803792844828573698].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Hypothesis Testing - 1-proportion [804058073756729404].json
+data_UCSD/DS3 @ UCSD/DS3 @ UCSD - Info - ♚》roles [755206902425583646].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙿𝚂𝚈𝙲𝙷-193 [695888771291283526].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙿𝚂𝚈𝙲𝙷-175 [695888421004247086].json
+data_UCSD/DS3 @ UCSD/DS3 @ UCSD - Info - 🛎》announcements [754159527057817623].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Time Series and Forecasting - lectures [804100031745359922].json
+data_UCSD/Video Game Development Club/Video Game Development Club - <unknown category> - 👾tw_info [894684440356339763].json
+data_UCSD/IEEE at UC San Diego/IEEE at UC San Diego - news - 📌-announcements [701287545237012581].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Hypothesis Testing - 1-mean-t [804058374118834228].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Welcome! - 👋introduction [763128200434810920].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Hypothesis Testing - general-chat [803793499991310377].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-123 [695844251417968670].json
+data_UCSD/Kendo Club/Kendo Club - Text - beach-social [979190292160847902].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Lower Div. 1-99 - 𝙲𝙾𝙶𝚂-𝟸 [695421631702630471].json
+data_UCSD/DS3 @ UCSD/DS3 @ UCSD - General - 😊》general [754159527057817625].json
+data_UCSD/UCSD CHEM/UCSD CHEM - General Channels - useful-links [908813093272961134].json
+data_UCSD/ASCE/ASCE - ASCE LISTENING PARTIES 2020 - music-spam [834628200675541022].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - Text - rules-and-invite-link [647554087289618443].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙶𝚂-165 [896414702370951188].json
+data_UCSD/UCSD Badminton Team/UCSD Badminton Team - Text Channels - swole-squad [895570869848526868].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - PSYCH Upper Div. 100-149 - 𝙿𝚂𝚈𝙲𝙷-𝟷0𝟸 [694930190219870349].json
+data_UCSD/Blockchain at San Diego/Blockchain at San Diego - General - 💬｜general [885363591375630397].json
+data_UCSD/Nanoengineering and Technology Society @ UCSD/Nanoengineering and Technology Society @ UCSD - Welcome - rules [760335990286974989].json
+data_UCSD/Triton NeuroTech at UCSD/Triton NeuroTech at UCSD - ----------OFFICIAL---------- - 📣-announcements [668196367524429828].json
+data_UCSD/Anthropology Club/Anthropology Club - ________COMMUNITY INFO________ - 🪧》activism [884631545846071318].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-102𝙱 [695843625124364318].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-118𝙱 [695828843671453738].json
+data_UCSD/Sun God Archery @ UCSD/Sun God Archery @ UCSD - ━━━━Important━━━━ - ❗announcements [628062887495073803].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Time Series and Forecasting - example-with-stathelper [804100504317591613].json
+data_UCSD/UCSD CHEM/UCSD CHEM - General Channels - music [851011603695534110].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-144 [695844428853673994].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Sample Size - questions [803799409610981396].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Sunday Night Live - youtube [889668935283257385].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Descriptive Statistics - questions [803792309644165121].json
+data_UCSD/Nanoengineering and Technology Society @ UCSD/Nanoengineering and Technology Society @ UCSD - Grad Classes - nano-181-and-281 [987079392570249216].json
+data_UCSD/ACM Cyber/ACM Cyber - ━━━━< General >━━━━━ - 💡ideas [622933406627659786].json
+data_UCSD/HKN Kappa Psi/HKN Kappa Psi - ▬▬Events▬▬ - event-check-off [776291111240597522].json
+data_UCSD/UCSD Physics/UCSD Physics - Chat 💬 - 👋｜introductions [809231438699954196].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Confidence Intervals - lectures [803794149928206356].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Lower Div. 1-99 - 𝙲𝙾𝙶𝚂-𝟷𝟽 [647550528112295937].json
+data_UCSD/UCSD Bioengineering Students/UCSD Bioengineering Students - Voice Channels - voice-chat-chat [827773858916073482].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Interests - 🕹gaming [809496276219461678].json
+data_UCSD/UCSD RPG Club/UCSD RPG Club - Official Business - announcements [633899023421407252].json
+data_UCSD/Musicians' Club @ UC San Diego/Musicians' Club @ UC San Diego - Intro and Important Info - calendar [823752465413046282].json
+data_UCSD/Quantum Computing at UCSD/Quantum Computing at UCSD - Important - archive [819393158059524118].json
+data_UCSD/UCSD Physics/UCSD Physics - Chat 💬 - 📝｜homework [809236402231181373].json
+data_UCSD/UCSD CHEM/UCSD CHEM - General Channels - memes [781440411797159966].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Confidence Intervals - 2-varience [804060717245530133].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙿𝚂𝚈𝙲𝙷-164 [695888159065767946].json
+data_UCSD/Triton Valorant/Triton Valorant - Teams - Team 3 [706058160800006194].json
+data_UCSD/UCSD Hiking Group!/UCSD Hiking Group! - General - final-plans [910424613727658014].json
+data_UCSD/Triton NeuroTech at UCSD/Triton NeuroTech at UCSD - ----------SOCIAL---------- - 🧮-workshop [1004446621217599519].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-𝟷0𝟷𝙰 [648702321211080704].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Lower Div. 1-99 - 𝙲𝙾𝙶𝚂-12 [695806196614955069].json
+data_UCSD/Video Game Development Club/Video Game Development Club - 💥🍯game jam 🍯💥 - jam-vc [703367465131835473].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-102𝙲 [695843675917254704].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Regression_Correlation - regression-analysis [804066235875590144].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝚂𝙴-167 [696215540108230719].json
+data_UCSD/Triton Robotics/Triton Robotics - ┗|🍀|SERVER INFO|🍀|┑ - 〔📌〕announcements [762834438907232306].json
+data_UCSD/Architecture at UC San Diego/Architecture at UC San Diego - Text Channels - general-chat [902660063481692160].json
+data_UCSD/The Investors Club/The Investors Club - Investments - 📋-investment-resources [1014193299755638796].json
+data_UCSD/UCSD Esports/UCSD Esports - Text - 🌸roles [999901673793261668].json
+data_UCSD/Blockchain at San Diego/Blockchain at San Diego - <unknown category> - 🦄｜rnd-general [940333793368244304].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Statistical Quality Control - questions [804100871306477579].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - Math - 𝙼𝙰𝚃𝙷-𝟸0𝙱 [694613554363367494].json
+data_UCSD/Envision UCSD/Envision UCSD - <unknown category> - 📆-flyerpost [763947232923746314].json
+data_UCSD/Blockchain at San Diego/Blockchain at San Diego - General - 💻｜dev [881601761876541471].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Lower Div. 1-99 - 𝙲𝙾𝙶𝚂-𝟷𝟹 [647548741619810326].json
+data_UCSD/UCSD Mathematics/UCSD Mathematics - Upper Division - upper-division-server-links [1008224574376247386].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - PSYCH Upper Div. 100-149 - 𝙿𝚂𝚈𝙲𝙷-133 [695886597580652554].json
+data_UCSD/Blockchain at San Diego/Blockchain at San Diego - General - 👬｜find-people [913724067104845854].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - PSYCH Upper Div. 100-149 - 𝙿𝚂𝚈𝙲𝙷-125 [695886367544049665].json
+data_UCSD/CSSA at UCSD/CSSA at UCSD - General - random [760741275371700234].json
+data_UCSD/Nanoengineering and Technology Society @ UCSD/Nanoengineering and Technology Society @ UCSD - NETS News - bulletin-board [760357296277553212].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝚂𝙴-𝟾𝙰 [652275534255882270].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Social - 🥳meet-ups [809506892967313409].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝚅𝙸𝚂-135 [695898539498405928].json
+data_UCSD/Women in Computing @ UCSD/Women in Computing @ UCSD - General - 🔮｜socials [761402860302499840].json
+data_UCSD/Nanoengineering and Technology Society @ UCSD/Nanoengineering and Technology Society @ UCSD - NETS News - get-involved [910735138537742356].json
+data_UCSD/M.E.M.O at UCSD!/M.E.M.O at UCSD! - welcome - announcements [768364239219064843].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Confidence Intervals - 1-varience [804060690951307344].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙿𝚂𝚈𝙲𝙷-169 [695888252216934541].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝚂𝙴-𝟷00 [695492377527320577].json
+data_UCSD/UCSD Rubik's Cube Club/UCSD Rubik's Cube Club - Text Channels - meeting-info [890508530535247872].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙶𝚂-185 [695860895095717948].json
+data_UCSD/Nanoengineering and Technology Society @ UCSD/Nanoengineering and Technology Society @ UCSD - For fun - pets [802405891223453716].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-143 [695844408704106556].json
+data_UCSD/UCSD Bioengineering Students/UCSD Bioengineering Students - 📚 School Related 📚 - internships-research-jobs [757705837186908161].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙶𝚂-164 [695860328507899904].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Hypothesis Testing - 1-varience [804058801295589376].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-110 [695855962795278357].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Contingency Tables - lectures [803800125792321536].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Classes - 181-molecular-sequence-analysis [790066027449810974].json
+data_UCSD/Triton NeuroTech at UCSD/Triton NeuroTech at UCSD - ----------WELCOME---------- - 🗒-rules-and-links [668196484059234314].json
+data_UCSD/CSSA at UCSD/CSSA at UCSD - Information - upcoming-events [760736257008468018].json
+data_UCSD/Envision UCSD/Envision UCSD - <unknown category> - ❓-questions [895911651319111710].json
+data_UCSD/UCSD Mathematics/UCSD Mathematics - <unknown category> - miscellaneous-announcements [1015097475973001286].json
+data_UCSD/UCSD RPG Club/UCSD RPG Club - General - general [634481754240974858].json
+data_UCSD/Triton Racing/Triton Racing - Public - public [767873859998318623].json
+data_UCSD/Quantum Computing at UCSD/Quantum Computing at UCSD - Text Channels - news [815325237734408242].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙿𝚂𝚈𝙲𝙷-171 [695888334060388392].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙶𝚂-𝟷𝟾𝟸 [778437098477977610].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Hypothesis Testing - 2-mean-t-independent-test [804058574107443221].json
+data_UCSD/UCSD Hiking Group!/UCSD Hiking Group! - General - off-topic [966037282375204864].json
+data_UCSD/ASCE/ASCE - General Chats - first-years [759947659380523048].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - PSYCH Upper Div. 100-149 - 𝙿𝚂𝚈𝙲𝙷-124 [695886343359692810].json
+data_UCSD/Kendo Club/Kendo Club - Text - announcements [885636624069836800].json
+data_UCSD/Triton Smash/Triton Smash - <unknown category> - introductions [217794652907110400].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Sample Size - example-with-stathelper [803799538053545995].json
+data_UCSD/Computer Science & Engineering Society/Computer Science & Engineering Society - --------------General-------------- - homeworks [1016811340259655832].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝚂𝙴-𝟷𝟷 [652275586684944412].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Community Info - welcome👋 [773274249578020915].json
+data_UCSD/DS3 @ UCSD/DS3 @ UCSD - Info - 📫》mailbox [755208143574663309].json
+data_UCSD/DS3 @ UCSD/DS3 @ UCSD - fun and games - 🐡》cute-pets [755209529087754261].json
+data_UCSD/Musicians' Club @ UC San Diego/Musicians' Club @ UC San Diego - Intro and Important Info - rules [899790767088877608].json
+data_UCSD/UCSD LGBTQIA+/UCSD LGBTQIA+ - welcome! - 🌈closet-door [940377804393050190].json
+data_UCSD/DS3 @ UCSD/DS3 @ UCSD - professional - 📗》interview-qs [755208633368969363].json
+data_UCSD/Triton Gaming/Triton Gaming - News - 🎉丨announcements [228229738181820417].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Club Events - 📃journal-club [831601407328387082].json
+data_UCSD/League of Tritons/League of Tritons - 🔱 Welcome & Information 🔱 - rules-verify [763555783719649350].json
+data_UCSD/IEEE at UC San Diego/IEEE at UC San Diego - Discussion - 💫-opportunities [753386796762791966].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Sample Size - lectures [803799479140352042].json
+data_UCSD/UCSD JSA/UCSD JSA - 📻 Important - 🔎discovery [771550791495712798].json
+data_UCSD/CSSA at UCSD/CSSA at UCSD - General - class-stuff [760741419508957225].json
+data_UCSD/UCSD Poker Club/UCSD Poker Club - Information - announcements [877386453280243737].json
+data_UCSD/The Investors Club/The Investors Club - 📰-News - 📺-videos [805730389045018644].json
+data_UCSD/Social Network @ UC San Diego/Social Network @ UC San Diego - reception - announcements [950595295379591180].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Hypothesis Testing - questions [803793528714297345].json
+data_UCSD/The Investors Club/The Investors Club - School - 📚-resources [790692221702635521].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - Math - 𝙼𝙰𝚃𝙷-𝟸0𝙴 [695765910912237650].json
+data_UCSD/HKN Kappa Psi/HKN Kappa Psi - ▬▬General▬▬ - random [693597310608867368].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Community Info - helpful-commands [774377613148946472].json
+data_UCSD/Video Game Development Club/Video Game Development Club - 🛄other projects🛄 - projects_general👤💬 [764996657271275520].json
+data_UCSD/UCSD Poker Club/UCSD Poker Club - Text Channels - general [877386453280243740].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-𝟷0𝟽𝙲 [694614018010382346].json
+data_UCSD/HKN Kappa Psi/HKN Kappa Psi - ▬▬General▬▬ - general [693319228849389612].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙻𝙸𝙶𝙽-167 [695899916102533120].json
+data_UCSD/UCSD Hiking Group!/UCSD Hiking Group! - General - pictures [908459446693396481].json
+data_UCSD/The Stats Lounge/The Stats Lounge - R-Software - general-chat [804100821541322762].json
+data_UCSD/Triton NeuroTech at UCSD/Triton NeuroTech at UCSD - ----------SOCIAL---------- - 🏓-gaming [776235200396001312].json
+data_UCSD/Triton NeuroTech at UCSD/Triton NeuroTech at UCSD - ----------SOCIAL---------- - 🐸-memes [776235127729684543].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Help Desk - 💾resources [790068830114021416].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Sample Size - mean [804063399834550303].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Lower Div. 1-99 - 𝙲𝙾𝙶𝚂-20 [695842784929775636].json
+data_UCSD/UCSD Physics/UCSD Physics - Other 🔱 - 🤖｜bot-commands [809239251019497472].json
+data_UCSD/CSSA at UCSD/CSSA at UCSD - General - general [762755812811866192].json
+data_UCSD/HKN Kappa Psi/HKN Kappa Psi - ▬▬General▬▬ - induction-questions [768226538222518352].json
+data_UCSD/Musicians' Club @ UC San Diego/Musicians' Club @ UC San Diego - Intro and Important Info - welcome [760984806149718030].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Confidence Intervals - 1-mean-t [804060547136880738].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙿𝚂𝚈𝙲𝙷-172 [695888352511000647].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Probability - lectures [803793351379779594].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙿𝚂𝚈𝙲𝙷-178 [695888467661422612].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙴𝙳𝚂-117 [695894408985313350].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙶𝚂-171 [695860598302310460].json
+data_UCSD/League of Tritons/League of Tritons - 🔱 Welcome & Information 🔱 - landing-page [764619460862148628].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - PSYCH Upper Div. 100-149 - 𝙿𝚂𝚈𝙲𝙷-131 [695886548985446451].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - LOBBY - meme [695428444317810758].json
+data_UCSD/UCSD Badminton Team/UCSD Badminton Team - Voice Channels - music [1000926392168497173].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-𝟷20 [665463375316254746].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Community Info - stats-questions❓ [772002917557338123].json
+data_UCSD/UCSD CHEM/UCSD CHEM - General Channels - pets [842287823884779540].json
+data_UCSD/ASCE/ASCE - General Chats - international-students [759947711696470016].json
+data_UCSD/The Investors Club/The Investors Club - Investments - side-hustles [1065026824947630141].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Contingency Tables - test-for-independence [804064752699572294].json
+data_UCSD/ACM AI at UCSD/ACM AI at UCSD - ╔══════General══════╗ - 🥖︱general [746424193368719486].json
+data_UCSD/Triton Valorant/Triton Valorant - Text - 🧷socials [771107340019171359].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Hypothesis Testing - 1-mean-z [804058275418210306].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - Math - 𝙼𝙰𝚃𝙷-𝟷𝟾0𝙰 [652275124862713866].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙴𝙳𝚂-115 [695894387913392138].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙶𝚂-187𝙱 [695861040910565438].json
+data_UCSD/DS3 @ UCSD/DS3 @ UCSD - General - 🤖》bots [755211860462272532].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Hypothesis Testing - example-with-stathelper [803793827860316162].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Probability - poisson-distribution [804057908106362911].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - PSYCH Upper Div. 100-149 - 𝙿𝚂𝚈𝙲𝙷-137 [695886734939914246].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Hypothesis Testing - 2-proportion [804058150328205318].json
+data_UCSD/DS3 @ UCSD/DS3 @ UCSD - help - ❔》class-questions [755207757941964832].json
+data_UCSD/Darkstar/Darkstar - Text Channels - general [715678182380011594].json
+data_UCSD/ASCE/ASCE - ASCE LISTENING PARTIES 2020 - lp7-onedirection [836394930216632320].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - PSYCH Upper Div. 100-149 - 𝙿𝚂𝚈𝙲𝙷-136 [695886661615091713].json
+data_UCSD/Video Game Development Club/Video Game Development Club - 📌Information - ❕server-info [892868731888357436].json
+data_UCSD/Darkstar/Darkstar - Text Channels - meetup [1029854315059359846].json
+data_UCSD/Triton Smash/Triton Smash - <unknown category> - announcements [254499690102390785].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙿𝚂𝚈𝙲𝙷-189 [695888675623665664].json
+data_UCSD/Women in Computing @ UCSD/Women in Computing @ UCSD - fun stuff - 🔥｜weekly-challenges [930916407477162024].json
+data_UCSD/Architecture at UC San Diego/Architecture at UC San Diego - Hanging Out Loud - Voice Meeting [897287294564839458].json
+data_UCSD/SASE at UC San Diego/SASE at UC San Diego - <unknown category> - 🏫verification-role [760621235955957763].json
+data_UCSD/UC San Diego 2026/UC San Diego 2026 - <unknown category> - rules [986565853925494871].json
+data_UCSD/Tritons Film Society/Tritons Film Society - Information - rules-for-access [811118599754088499].json
+data_UCSD/Sun God Soccer/Sun God Soccer - information - announcementsˊ⸊ˎ [930709689325473802].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - PSYCH Upper Div. 100-149 - 𝙿𝚂𝚈𝙲𝙷-132 [695886574608580619].json
+data_UCSD/The Investors Club/The Investors Club - Information - 💻-forms [790682322760368182].json
+data_UCSD/ASCE/ASCE - Text - upcoming-events [759489803452022834].json
+data_UCSD/Computer Science & Engineering Society/Computer Science & Engineering Society - -----------------Info----------------- - 📢announcements [739724471119642646].json
+data_UCSD/Photography Club at UC San Diego/Photography Club at UC San Diego - Information - welcome-and-rules [959329887255138375].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Statistical Quality Control - example-with-stathelper [804101066001743872].json
+data_UCSD/IEEE at UC San Diego/IEEE at UC San Diego - Discussion - 🌎-general [695481239712301128].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙿𝚂𝚈𝙲𝙷-182 [695888558090879017].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-124 [695844273349722122].json
+data_UCSD/Video Game Development Club/Video Game Development Club - 📌Information - 💻slides-n-recordings [566124282195738625].json
+data_UCSD/UCSD Bioengineering Students/UCSD Bioengineering Students - Text - announcements [764566167284482100].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝚂𝙴-151𝙰 [695877096127594506].json
+data_UCSD/UCSD Physics/UCSD Physics - Other 🔱 - 📚｜resources [809230837479768074].json
+data_UCSD/Triton NeuroTech at UCSD/Triton NeuroTech at UCSD - ----------OFFICIAL---------- - 🤝-opportunities [774366696013955093].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - Math - 𝙼𝙰𝚃𝙷-𝟷𝟾 [647552918509322252].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝚂𝙴-𝟷𝟸 [695492233629138947].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - PSYCH Upper Div. 100-149 - 𝙿𝚂𝚈𝙲𝙷-122 [695885571201040425].json
+data_UCSD/Triton NeuroTech at UCSD/Triton NeuroTech at UCSD - ----------OFFICIAL---------- - 📅-event-calendar [704529996273811537].json
+data_UCSD/Sun God Soccer/Sun God Soccer - information - plan-scrimmageˊ⸊ˎ [887834510220230676].json
+data_UCSD/The Investors Club/The Investors Club - Text Channels - 🤑-general-chat [904989027327938580].json
+data_UCSD/ACM Hack/ACM Hack - ▬▬Important▬▬ - 📖information [763246322726993921].json
+data_UCSD/Nanoengineering and Technology Society @ UCSD/Nanoengineering and Technology Society @ UCSD - Professional - class-advice [760356001974714378].json
+data_UCSD/DS3 @ UCSD/DS3 @ UCSD - professional - 💖》opportunities [755212996116217906].json
+data_UCSD/ASCE/ASCE - ASCE LISTENING PARTIES 2020 - listeningparty3-tiktokhits [776280199481786388].json
+data_UCSD/UCSD RPG Club/UCSD RPG Club - WM: Destishire Archive - wm-info [961780557308637245].json
+data_UCSD/Triton Valorant/Triton Valorant - general - 🎮general [705936880411213856].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Sample Size - proportion [804063495737835550].json
+data_UCSD/DS3 @ UCSD/DS3 @ UCSD - fun and games - 🎲》game-room [755209484233736282].json
+data_UCSD/DS3 @ UCSD/DS3 @ UCSD - help - 🤔》ds3-questions [755208081834508309].json
+data_UCSD/Video Game Development Club/Video Game Development Club - 📌Information - 📝stickies [494969768986673153].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Lower Div. 1-99 - 𝙲𝙾𝙶𝚂-𝟷8 [647551602701631497].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Design of Experiments - questions [804093182224760873].json
+data_UCSD/The Investors Club/The Investors Club - Text Channels - 💼-join-log [790682322760368184].json
+data_UCSD/The Investors Club/The Investors Club - Investments - ⚠-price-alerts [1020013219789676614].json
+data_UCSD/Nanoengineering and Technology Society @ UCSD/Nanoengineering and Technology Society @ UCSD - Welcome - get-roles [760342675622199326].json
+data_UCSD/DS3 @ UCSD/DS3 @ UCSD - help - ❓》homework-questions [755240040753397820].json
+data_UCSD/ASCE/ASCE - ASCE Bear's Game Night - music-channel [770467044864294922].json
+data_UCSD/Triton Valorant/Triton Valorant - News - 📣announcements [708078315378049064].json
+data_UCSD/Envision UCSD/Envision UCSD - --------Important-------- - ✅-roles [763936474306445318].json
+data_UCSD/UCSD RPG Club/UCSD RPG Club - General - movies-and-tv [877611252627673098].json
+data_UCSD/UCSD JSA/UCSD JSA - 💬 Chat - 💬voice-chat-text [785718876498952252].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙶𝚂-179 [695860745232973907].json
+data_UCSD/The Investors Club/The Investors Club - Text Channels - 🏄-off-topic [790682322760368186].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Text Channels - 📢announcements [763127186257215528].json
+data_UCSD/DS3 @ UCSD/DS3 @ UCSD - Info - 📜》rules [755206599206764614].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Classes - 186-prob-stats [790066396079063080].json
+data_UCSD/Nanoengineering and Technology Society @ UCSD/Nanoengineering and Technology Society @ UCSD - For fun - wordle-universe [967852803403968542].json
+data_UCSD/Triton Valorant/Triton Valorant - Teams - Team 4 [706058181645697054].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - LOBBY - general [647551907426205727].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-138 [791307967575752774].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Contingency Tables - general-chat [803799693510574110].json
+data_UCSD/SASE at UC San Diego/SASE at UC San Diego - <unknown category> - 📚archives [961688945329078303].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙶𝚂-160 [695860265106800650].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Lower Div. 1-99 - 𝙲𝙾𝙶𝚂-8 [695805729344454757].json
+data_UCSD/Triton NeuroTech at UCSD/Triton NeuroTech at UCSD - ----------SOCIAL---------- - 🗣-general-chat [667553818602504198].json
+data_UCSD/ACM Cyber/ACM Cyber - ━━━━< Important >━━━━ - 📯announcements [647589434421673996].json
+data_UCSD/Anthropology Club/Anthropology Club - _______Committees_______ - 🎪》event-planning-committee [838980088657215519].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-𝟷0𝟽𝙱 [666082057994108928].json
+data_UCSD/UCSD RPG Club/UCSD RPG Club - General - near-campus-crew [841191575639687169].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-118𝙲 [695830603744018443].json
+data_UCSD/Sun God Archery @ UCSD/Sun God Archery @ UCSD - ━━━Voice Channels━━━ - 🔊 General [733636176719773726].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙴𝙳𝚂-124𝙰𝚁 [695894532583063592].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Design of Experiments - software-examples [804492571006861372].json
+data_UCSD/Musicians' Club @ UC San Diego/Musicians' Club @ UC San Diego - Intro and Important Info - org-and-server-suggestions [796055207234502706].json
+data_UCSD/ASCE/ASCE - General Chats - introductions [758597910878486579].json
+data_UCSD/DS3 @ UCSD/DS3 @ UCSD - General - 👽》random [755552393466216578].json
+data_UCSD/UCSD Physics/UCSD Physics - Information 📌 - 🔔｜announcements [809229335914348584].json
+data_UCSD/Anthropology Club/Anthropology Club - _________BULLETIN BOARD_________ - 📣》announcements [829125418564583466].json
+data_UCSD/Triton Gaming/Triton Gaming - ▬▬▬💬 General 💬▬▬▬▬ - 💬丨general [178940957985603584].json
+data_UCSD/UCSD CHEM/UCSD CHEM - General Channels - off-topic [781338970620821521].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - PSYCH Upper Div. 100-149 - 𝙿𝚂𝚈𝙲𝙷-𝟷0𝟺 [694930298697416713].json
+data_UCSD/Anthropology Club/Anthropology Club - ________COMMUNITY INFO________ - 🗄》class-discords [928806420357476423].json
+data_UCSD/The Investors Club/The Investors Club - Investments - 📊-bonds [790686711281614888].json
+data_UCSD/UCSD Esports/UCSD Esports - Text - 🥴welcome-and-rules [999901673793261666].json
+data_UCSD/Anthropology Club/Anthropology Club - ________COMMUNITY INFO________ - 📲》social-media [829126410542514206].json
+data_UCSD/Video Game Development Club/Video Game Development Club - 📌Information - 📅weekly-meetings [1026993649743056896].json
+data_UCSD/DS3 @ UCSD/DS3 @ UCSD - Info - ✶》welcome [754159527057817622].json
+data_UCSD/UCSD Badminton Team/UCSD Badminton Team - Voice Channels - General [768979858092851244].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-𝟷𝟸𝟷 [694929355985649684].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Data Mining_Machine Learning - lectures [806246043582595142].json
+data_UCSD/Computer Science & Engineering Society/Computer Science & Engineering Society - internal - event-coordination [775851362042511370].json
+data_UCSD/UCSD Poker Club/UCSD Poker Club - Information - welcome-and-rules [877386453280243736].json
+data_UCSD/UCSD Mathematics/UCSD Mathematics - <unknown category> - question-of-the-week [749736991582847069].json
+data_UCSD/Computer Science & Engineering Society/Computer Science & Engineering Society - -----------------Info----------------- - 🔑roles [739615961988202618].json
+data_UCSD/U[CS]D/U[CS]D - README.md - intro [761686583409377330].json
+data_UCSD/The Investors Club/The Investors Club - Stonks - 😂-memes [804871227004420126].json
+data_UCSD/UCSD Hiking Group!/UCSD Hiking Group! - General - introductions [902033117127270400].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Confidence Intervals - questions [803794114973663303].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙿𝙷𝙸𝙻-134 [695897537529511956].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Data Mining_Machine Learning - general-chat [806245948010528808].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝚂𝙴-8𝙱 [695872450805891134].json
+data_UCSD/ASCE/ASCE - ASCE Bear's Game Night - game-night [762737717640953897].json
+data_UCSD/HKN Kappa Psi/HKN Kappa Psi - ▬▬Events▬▬ - outreach [723278981239144528].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-115 [695842730701619222].json
+data_UCSD/Photography Club at UC San Diego/Photography Club at UC San Diego - Text Channels - general [959329887255138379].json
+data_UCSD/UCSD JSA/UCSD JSA - 💬 Chat - 🌿memes [735210431995707412].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - PSYCH Upper Div. 100-149 - 𝙿𝚂𝚈𝙲𝙷-144 [695887364983357441].json
+data_UCSD/UCSD RPG Club/UCSD RPG Club - General - music-and-artists [869316704935739402].json
+data_UCSD/UCSD JSA/UCSD JSA - 📻 Important - 😷hangouts-announcements [832100284581937162].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Confidence Intervals - 1-mean-z [804060512907296818].json
+data_UCSD/UCSD Bioengineering Students/UCSD Bioengineering Students - Text - rules [745080486216335370].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-𝟷0𝟽𝙰 [648703212810928128].json
+data_UCSD/Tritons Film Society/Tritons Film Society - Information - welcome [811114952303575040].json
+data_UCSD/Computer Science & Engineering Society/Computer Science & Engineering Society - gaming - 🎮looking-for-party [765776398987165748].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙿𝚂𝚈𝙲𝙷-190 [695888700994879579].json
+data_UCSD/UCSD CHEM/UCSD CHEM - General Channels - suggestions [781440448392593468].json
+data_UCSD/The Investors Club/The Investors Club - Investments - ₿-cryptocurrency [790685492156694548].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Classes - 183-applied-genomic-tech [790066227946324018].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - PSYCH Upper Div. 100-149 - 𝙿𝚂𝚈𝙲𝙷-𝟷0𝟼 [694930422659809372].json
+data_UCSD/Triton Foodie/Triton Foodie - Welcome - info [1010095062052507708].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Regression_Correlation - questions [803800578702311434].json
+data_UCSD/Envision UCSD/Envision UCSD - --------Important-------- - 🙋-introductions [754426472625602730].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙿𝚂𝚈𝙲𝙷-162 [695888138865868811].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Confidence Intervals - 1-proportion [804060304085614633].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Club Events - 🧬bootcamp [763127225834536973].json
+data_UCSD/The Investors Club/The Investors Club - Information - 📖-presentations [798845524245479435].json
+data_UCSD/Blockchain at San Diego/Blockchain at San Diego - General - bootcamp-help [963997598585339956].json
+data_UCSD/IEEE at UC San Diego/IEEE at UC San Diego - social - 🅰-aaaaaaaaaaaaaaa [903541020287963178].json
+data_UCSD/UCSD Bioengineering Students/UCSD Bioengineering Students - 📚 School Related 📚 - events [745097923213393940].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Design of Experiments - general-chat [804093117857923154].json
+data_UCSD/ASCE/ASCE - ASCE LISTENING PARTIES 2020 - listeningparty1-bestofasceartists [770363000971722822].json
+data_UCSD/CSSA at UCSD/CSSA at UCSD - Information - server-highway [762934357366145054].json
+data_UCSD/UCSD JSA/UCSD JSA - 📻 Important - 🌍introductions [661464274039734273].json
+data_UCSD/Tritons Film Society/Tritons Film Society - Information - announcements [811115990230106142].json
+data_UCSD/Musicians' Club @ UC San Diego/Musicians' Club @ UC San Diego - Meet ppl :) - meet-the-board [775160251459698699].json
+data_UCSD/Social Network @ UC San Diego/Social Network @ UC San Diego - reception - welcome [990053382842630214].json
+data_UCSD/Envision UCSD/Envision UCSD - <unknown category> - 🛩-landing [730969531492728893].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - PSYCH Upper Div. 100-149 - 𝙿𝚂𝚈𝙲𝙷-𝟷𝟹𝟺 [695421787281817670].json
+data_UCSD/Computer Science & Engineering Society/Computer Science & Engineering Society - --------------General-------------- - 👋intros [739724103858126889].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - Math - 𝙼𝙰𝚃𝙷-10𝙲 [695882396674818068].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Sample Size - general-chat [803794435921805383].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-𝟷𝟷𝟸 [695496214476619776].json
+data_UCSD/The Investors Club/The Investors Club - Investments - 🗠-stocks [790682570999595018].json
+data_UCSD/UCSD Hiking Group!/UCSD Hiking Group! - Official Business - announcements [946910832455987220].json
+data_UCSD/HKN Kappa Psi/HKN Kappa Psi - ▬▬Events▬▬ - upcoming-events [693568717300301946].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Contingency Tables - goodness-of-fit [804064933805293578].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Design of Experiments - example-with-stathelper [804093259995545640].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Sample Size - hypothesis-test-means [804064015072231474].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Statistical Quality Control - lectures [804100962310553620].json
+data_UCSD/UCSD Cycling!/UCSD Cycling! - Social - flex-your-bike [907390379018571826].json
+data_UCSD/UCSD Mathematics/UCSD Mathematics - General Chats - bot-commands [723101767545651240].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - LOBBY - game-chat [761725969131372555].json
+data_UCSD/Computer Science & Engineering Society/Computer Science & Engineering Society - Leetcode Thursday - 📚announcement [765781329777655828].json
+data_UCSD/UCSD Mathematics/UCSD Mathematics - General Chats - advertising [806590848648478811].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙶𝚂-152 [695859351839047741].json
+data_UCSD/Anthropology Club/Anthropology Club - ______SERVER INFORMATION______ - 🎉》welcome-besties [829153353148792893].json
+data_UCSD/IEEE at UC San Diego/IEEE at UC San Diego - news - 🗞-this-week-in-ieee [964962771517194250].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-𝟷00 [648703075007070214].json
+data_UCSD/Triton NeuroTech at UCSD/Triton NeuroTech at UCSD - ----------OFFICIAL---------- - 🗺-external-events [705959428486070323].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙶𝚂-189 [695861110187753482].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Lower Div. 1-99 - 𝙲𝙾𝙶𝚂-3 [695805609584623637].json
+data_UCSD/Computer Science & Engineering Society/Computer Science & Engineering Society - --------------General-------------- - 😜memes [766080071894564865].json
+data_UCSD/UCSD JSA/UCSD JSA - 💬 Chat - 🇯🇵日本語 [602779930480214036].json
+data_UCSD/Women in Computing @ UCSD/Women in Computing @ UCSD - Info - 🗣｜announcements [758060460938625104].json
+data_UCSD/ASCE/ASCE - ASCE LISTENING PARTIES 2020 - lp6-afterleven [786705851024277524].json
+data_UCSD/Musicians' Club @ UC San Diego/Musicians' Club @ UC San Diego - Meet ppl :) - off-topic [764964846830878751].json
+data_UCSD/UCSD Mathematics/UCSD Mathematics - <unknown category> - department-announcements [1008225689826234519].json
+data_UCSD/U[CS]D/U[CS]D - README.md - from-cyberspace [761628964866752593].json
+data_UCSD/Quantum Computing at UCSD/Quantum Computing at UCSD - Text Channels - memes [806050018048999424].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - PSYCH Upper Div. 100-149 - 𝙿𝚂𝚈𝙲𝙷-114 [695885192090615938].json
+data_UCSD/IEEE at UC San Diego/IEEE at UC San Diego - social - 🥤-𝙄𝙀𝙀𝙀𝙖𝙩𝙨 [896285711093891073].json
+data_UCSD/Sunset Book Club at UCSD/Sunset Book Club at UCSD - the worm hole - socials‧₊˚ [831355889525063690].json
+data_UCSD/Triton Robotics/Triton Robotics - ┗|🍀|SERVER INFO|🍀|┑ - 〔🔗〕links [866716381646946314].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙶𝚂-169 [695860349638934549].json
+data_UCSD/ACM Cyber/ACM Cyber - ━━━━< General >━━━━━ - 🔑cyber-resources [672111748714856464].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-𝟷0𝟷𝙱 [694613134799011850].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙿𝚂𝚈𝙲𝙷-6 [695884201727229984].json
+data_UCSD/UCSD JSA/UCSD JSA - 💬 Chat - 💪workout-or-skincare [971614844690235412].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - Math - 𝙼𝙰𝚃𝙷-10𝙱 [695882338118139916].json
+data_UCSD/CSSA at UCSD/CSSA at UCSD - Welcome! - welcome-text [760727895143874595].json
+data_UCSD/Quantum Computing at UCSD/Quantum Computing at UCSD - Important - learn-qc [869806243835936778].json
+data_UCSD/UCSD Arts/UCSD Arts - <unknown category> - introductions [749162401940635668].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Welcome! - rules [763128005169381376].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙷𝙳𝙿-110 [695894916038918224].json
+data_UCSD/UCSD Badminton Team/UCSD Badminton Team - information - get-roles [1029526817205407804].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙿𝚂𝚈𝙲𝙷-168 [695888232394784769].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - DSGN - 𝙳𝚂𝙶𝙽-119 [695881796835082332].json
+data_UCSD/DS3 @ UCSD/DS3 @ UCSD - professional - 📚》resources [762798590388338688].json
+data_UCSD/HKN Kappa Psi/HKN Kappa Psi - ▬▬Events▬▬ - newsletter [945449059936763925].json
+data_UCSD/Anthropology Club/Anthropology Club - _________Primary Chats_________ - 📆》event-planning [829126296918687764].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Social - 💬general-voice-chat [826657445215993896].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Contingency Tables - questions [803800011602657311].json
+data_UCSD/ASCE/ASCE - ASCE Events - you-at-the-loft [908847028510003222].json
+data_UCSD/Board Game Club at UCSD/Board Game Club at UCSD - Hangouts - general [688141962376642660].json
+data_UCSD/Anthropology Club/Anthropology Club - _________BULLETIN BOARD_________ - 📚》resources [829490443661606972].json
+data_UCSD/Nanoengineering and Technology Society @ UCSD/Nanoengineering and Technology Society @ UCSD - Grad Classes - nano-202 [987079857500475392].json
+data_UCSD/DS3 @ UCSD/DS3 @ UCSD - General - 🦝》memes [755209225763946617].json
+data_UCSD/Triton NeuroTech at UCSD/Triton NeuroTech at UCSD - ----------SOCIAL---------- - 🎊-anything-goes [667555504477700147].json
+data_UCSD/The Investors Club/The Investors Club - School - 🏫-classes [790688463564832819].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙶𝚂-187𝙰 [695860983997923380].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Club Events - 🗣chalk-talk [798302753230946325].json
+data_UCSD/Photography Club at UC San Diego/Photography Club at UC San Diego - Information - announcements [959329887255138376].json
+data_UCSD/The Stats Lounge/The Stats Lounge - ANOVA - one-way-anova [804065777514184704].json
+data_UCSD/Nanoengineering and Technology Society @ UCSD/Nanoengineering and Technology Society @ UCSD - Undergrad Classes - nano-15 [766065307357282325].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Help Desk - 🗓scheduling-advice-archived [776177343936856064].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙶𝚂-188 [695861083524825139].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Help Desk - 💼career-advice-archived [809507007971197023].json
+data_UCSD/IEEE at UC San Diego/IEEE at UC San Diego - social - 💪-gainz [946271068446933042].json
+data_UCSD/UCSD Rubik's Cube Club/UCSD Rubik's Cube Club - Text Channels - general [761653101056753706].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙶𝚂-156 [695860080750362624].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙶𝚂-170 [695860577071005776].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Text Channels - 🤬rant [812922961253236777].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Community Info - general🗣 [771997448486780971].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Lower Div. 1-99 - 𝙲𝙾𝙶𝚂-𝟷0 [647551626386604042].json
+data_UCSD/U[CS]D/U[CS]D - README.md - other-class-discords [761638516303200327].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Social - 👾games [762837147781955665].json
+data_UCSD/UCSD Hiking Group!/UCSD Hiking Group! - General - social-medias [902034217523875880].json
+data_UCSD/UCSD Cycling!/UCSD Cycling! - Text - announcements [743545517425950731].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Club Events - 🏫community-service [772146420748124181].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Lower Div. 1-99 - 𝙲𝙾𝙶𝚂-𝟷 [647552040012349440].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Confidence Intervals - 2-mean-t-independent-test [804060599407476756].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙿𝚂𝚈𝙲𝙷-181 [695888534191603763].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙻𝙸𝙶𝙽-165 [695899889636474902].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - Text - welcome [647604477163077643].json
+data_UCSD/ACM AI at UCSD/ACM AI at UCSD - ╔═════ fun-stuff ═════╗ - social [927427190054866964].json
+data_UCSD/UCSD Mathematics/UCSD Mathematics - General Chats - general [723104215697981450].json
+data_UCSD/Nanoengineering and Technology Society @ UCSD/Nanoengineering and Technology Society @ UCSD - Welcome - introduction [762023601997086740].json
+data_UCSD/Computer Science & Engineering Society/Computer Science & Engineering Society - Staff - mentor-mentee [801359928467652628].json
+data_UCSD/DS3 @ UCSD/DS3 @ UCSD - professional - 🔱》outside-org-opportunities [895704154025111644].json
+data_UCSD/UCSD Physics/UCSD Physics - Information 📌 - 👔｜roles [809229962900013096].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - DSGN - 𝙳𝚂𝙶𝙽-𝟷 [652291334761349130].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - PSYCH Upper Div. 100-149 - 𝙿𝚂𝚈𝙲𝙷-𝟷0𝟾 [694930506558734408].json
+data_UCSD/ASCE/ASCE - Welcome_Roles - welcome-rules [759490183669612614].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝚂𝙴-𝟹0 [695492339677790299].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - LOBBY - real-talk [655019978520788992].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Help Desk - 🧠opportunities [817504699778596874].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Welcome! - 💡roles [765258989901709352].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-128 [695844367138684958].json
+data_UCSD/Sunset Book Club at UCSD/Sunset Book Club at UCSD - the worm hole - meets𐐪𐑂 [940836930323623986].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-122 [695844223680774174].json
+data_UCSD/Triton Valorant/Triton Valorant - general - 💥 in-house [728760603103068170].json
+data_UCSD/The Stats Lounge/The Stats Lounge - R-Software - questions [804100891552514068].json
+data_UCSD/SASE at UC San Diego/SASE at UC San Diego - <unknown category> - 📝rules-and-guidelines [760368666641432576].json
+data_UCSD/Triton Smash/Triton Smash - <unknown category> - roles [684506742490660869].json
+data_UCSD/Nanoengineering and Technology Society @ UCSD/Nanoengineering and Technology Society @ UCSD - Professional - opportunities [760353296795172895].json
+data_UCSD/UCSD JSA/UCSD JSA - 💬 Chat - 💬general [591463111681245205].json
+data_UCSD/ACM AI at UCSD/ACM AI at UCSD - ╔══════General══════╗ - ✨︱opportunities [746572461285310495].json
+data_UCSD/UCSD CHEM/UCSD CHEM - Information - rules [781338970620821515].json
+data_UCSD/Skateboarding at UCSD/Skateboarding at UCSD - Text Channels - general [890388328262799398].json
+data_UCSD/IEEE at UC San Diego/IEEE at UC San Diego - social - 🥰-happieee-hours [965646860452782140].json
+data_UCSD/DS3 @ UCSD/DS3 @ UCSD - General - 🥳》socials [755209873620205578].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-127 [695844340274036847].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Welcome! - 📥feedback [763128476861464616].json
+data_UCSD/Computer Science & Engineering Society/Computer Science & Engineering Society - --------------General-------------- - 💬general-chat [742550830611169453].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - Text - events [647605299330547713].json
+data_UCSD/Blockchain at San Diego/Blockchain at San Diego - General - 📚｜reading-list [881598275826884609].json
+data_UCSD/SASE at UC San Diego/SASE at UC San Diego - <unknown category> - 🚨announcements [689696882980683798].json
+data_UCSD/UCSD RPG Club/UCSD RPG Club - General - muted-mic-chat [932171254708994108].json
+data_UCSD/DS3 @ UCSD/DS3 @ UCSD - Info - 📅》events [755206638876622999].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-111 [695856009050324992].json
+data_UCSD/ACM AI at UCSD/ACM AI at UCSD - ╔══════General══════╗ - ❓︱questions [764285849410994176].json
+data_UCSD/Women in Computing @ UCSD/Women in Computing @ UCSD - General - 💜｜general [696146389167636544].json
+data_UCSD/ASCE/ASCE - Welcome_Roles - welcome-everyone [908858920594972672].json
+data_UCSD/Women in Computing @ UCSD/Women in Computing @ UCSD - General - ✨｜resources [761437432415125534].json
+data_UCSD/Triton Valorant/Triton Valorant - general - 🌱 lounge [713177817541640204].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-102𝙰 [695843578160611330].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-𝟷0𝟾 [652274655067111435].json
+data_UCSD/UCSD JSA/UCSD JSA - 💬 Chat - 📴off-topic [942985789371985930].json
+data_UCSD/Quantum Computing at UCSD/Quantum Computing at UCSD - Important - rules [944002376992432128].json
+data_UCSD/Musicians' Club @ UC San Diego/Musicians' Club @ UC San Diego - Meet ppl :) - hangout-with-us [760984806149718031].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙿𝙷𝙸𝙻-164 [695897762402926654].json
+data_UCSD/The Stats Lounge/The Stats Lounge - ANOVA - general-chat [803800256646742076].json
+data_UCSD/Musicians' Club @ UC San Diego/Musicians' Club @ UC San Diego - Intro and Important Info - announcements [761368877682262046].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - DSGN - 𝙳𝚂𝙶𝙽-100 [695881756116516935].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Regression_Correlation - example-with-stathelper [803800677054021672].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Hypothesis Testing - lectures [803793573061328906].json
+data_UCSD/ASCE/ASCE - ASCE LISTENING PARTIES 2020 - lp5-afterumi [784234140152758304].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-𝟷0𝟷𝙲 [694613282711011468].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Internships_Co-ops - tips [804484962874949662].json
+data_UCSD/Envision UCSD/Envision UCSD - --------Important-------- - 📜-rules [763936499200426054].json
+data_UCSD/Anthropology Club/Anthropology Club - _________Primary Chats_________ - 💬》general [828825454269825077].json
+data_UCSD/Quantum Computing at UCSD/Quantum Computing at UCSD - Text Channels - general [795115992170627096].json
+data_UCSD/UCSD Badminton Team/UCSD Badminton Team - information - intros [769016751052554260].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Community Info - announcements📣 [772003345312776214].json
+data_UCSD/UCSD JSA/UCSD JSA - 💬 Chat - 🏠housing [833120140546670629].json
+data_UCSD/Sunset Book Club at UCSD/Sunset Book Club at UCSD - the basics - links❀-ﾟ [944017387508891698].json
+data_UCSD/UCSD JSA/UCSD JSA - 💬 Chat - 🎵music-bot-commands [592529769430515723].json
+data_UCSD/UCSD JSA/UCSD JSA - 💬 Chat - 📺anime-or-vtubers-related [806911528120614922].json
+data_UCSD/Anthropology Club/Anthropology Club - ______SERVER INFORMATION______ - 🔓》roles [829125072241164321].json
+data_UCSD/UCSD Mathematics/UCSD Mathematics - General Chats - memes [723104325647466498].json
+data_UCSD/HKN Kappa Psi/HKN Kappa Psi - ▬▬Events▬▬ - announcements [696543083633836064].json
+data_UCSD/UCSD Esports/UCSD Esports - News - ✨announcements [999901673793261667].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙱𝙸𝙿𝙽-100 [695889042050646088].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Lower Div. 1-99 - 𝙲𝙾𝙶𝚂-𝟷𝟺𝙰 [648031769202917402].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Interests - 📺🎥tv-movies [809496622986690682].json
+data_UCSD/Computer Science & Engineering Society/Computer Science & Engineering Society - Professional Development - 💼career-advice [739726231926341643].json
+data_UCSD/Video Game Development Club/Video Game Development Club - 💥🍯game jam 🍯💥 - 💥jam_resources [703329898638344213].json
+data_UCSD/ASCE/ASCE - Text - volunteer-signups [910420272895651891].json
+data_UCSD/Computer Science & Engineering Society/Computer Science & Engineering Society - Staff - hacker-rank [801359865654149160].json
+data_UCSD/Musicians' Club @ UC San Diego/Musicians' Club @ UC San Diego - Events - events-chat [809637307232550923].json
+data_UCSD/The Investors Club/The Investors Club - 📰-News - 📋-articles [805731115582881832].json
+data_UCSD/UCSD RPG Club/UCSD RPG Club - General - Gaming Quarantine [853894693666816000].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙿𝚂𝚈𝙲𝙷-7 [695884234606379018].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - Math - 𝙼𝙰𝚃𝙷-𝟸0𝙲 [694613584868671488].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙶𝚂-172 [695860618712055878].json
+data_UCSD/UCSD Dance Community/UCSD Dance Community - ──🏛Town Hall 🏛─── - general-chat [752320653222346833].json
+data_UCSD/HKN Kappa Psi/HKN Kappa Psi - ▬▬Getting Started▬▬ - rules-and-invite-link [693971418555351130].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Lower Div. 1-99 - 𝙲𝙾𝙶𝚂-9 [695805758633410651].json
+data_UCSD/UCSD Hiking Group!/UCSD Hiking Group! - General - hikes-and-meetups [902045391615307827].json
+data_UCSD/CSSA at UCSD/CSSA at UCSD - General - questions [760727895583752212].json
+data_UCSD/Nanoengineering and Technology Society @ UCSD/Nanoengineering and Technology Society @ UCSD - Grad Classes - nano-257 [987079927943823461].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙶𝚂-174 [695860641851768832].json
+data_UCSD/SASE at UC San Diego/SASE at UC San Diego - <unknown category> - 🔱welcome [760375138411216926].json
+data_UCSD/IEEE at UC San Diego/IEEE at UC San Diego - social - 📕-𝕓𝕠𝕠𝕜_𝕔𝕝𝕦𝕓 [774089760272023562].json
+data_UCSD/CSSA at UCSD/CSSA at UCSD - Welcome! - roles [763314263254630411].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - Math - 𝙼𝙰𝚃𝙷-𝟷0𝙰 [647552626229248000].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙶𝚂-153 [695860014304329749].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Lower Div. 1-99 - 𝙲𝙾𝙶𝚂-11 [695806128906436628].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙶𝚂-184 [695860820390707220].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Interests - 👕fashion [809496068986896394].json
+data_UCSD/UCSD Badminton Team/UCSD Badminton Team - Voice Channels - impasta [768979858092851245].json
+data_UCSD/UCSD Hiking Group!/UCSD Hiking Group! - Official Business - rules-and-info [909999172793561138].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Probability - binomial-distribution [804057748949958657].json
+data_UCSD/ACM at UC San Diego/ACM at UC San Diego - ▬▬ Important ▬▬ - 💁﹕info [573263339501649939].json
+data_UCSD/UCSD Physics/UCSD Physics - Chat 💬 - 👽｜memes [809224685761331238].json
+data_UCSD/UCSD Badminton Team/UCSD Badminton Team - Text Channels - general [768979858092851241].json
+data_UCSD/Nanoengineering and Technology Society @ UCSD/Nanoengineering and Technology Society @ UCSD - For fun - food [893653668140822600].json
+data_UCSD/Computer Science & Engineering Society/Computer Science & Engineering Society - -----------------Info----------------- - 📕server-info [739622040469766165].json
+data_UCSD/ASCE/ASCE - ASCE LISTENING PARTIES 2020 - lp8-stargazing-and-late-night-drive [846931399151190026].json
+data_UCSD/Nanoengineering and Technology Society @ UCSD/Nanoengineering and Technology Society @ UCSD - Welcome - welcome-info [792472159254478850].json
+data_UCSD/Tritons Film Society/Tritons Film Society - Information - mini-events [893993241081434133].json
+data_UCSD/UCSD CHEM/UCSD CHEM - General Channels - polls [833570338179907624].json
+data_UCSD/Board Game Club at UCSD/Board Game Club at UCSD - Welcome - club-announcements [907063097745899561].json
+data_UCSD/UCSD Badminton Team/UCSD Badminton Team - information - announcements [892531169185366076].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Regression_Correlation - lectures [803800603489992744].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙶𝚂-154 [695860038237159466].json
+data_UCSD/Computer Science & Engineering Society/Computer Science & Engineering Society - --------------General-------------- - 🤗welcome [736728240344793162].json
+data_UCSD/ASCE/ASCE - Welcome_Roles - roles [758599063741792317].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙿𝚂𝚈𝙲𝙷-179 [695888487836155924].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Internships_Co-ops - job-ads [804854783219335208].json
+data_UCSD/UCSD Cycling!/UCSD Cycling! - Social - introductions [882815766729195521].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - Text - self-roles [695469586921029683].json
+data_UCSD/Architecture at UC San Diego/Architecture at UC San Diego - Text Channels - announcements [897287294564839457].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Resume Workshop - tips [804485186107998288].json
+data_UCSD/Computer Science & Engineering Society/Computer Science & Engineering Society - Professional Development - 🔱opportunities [739725951042191370].json
+data_UCSD/UCSD Bioengineering Students/UCSD Bioengineering Students - 🧬 General 🧬 - feedback [761281228582158386].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Confidence Intervals - example-with-stathelper [803794193721983007].json
+data_UCSD/Darkstar/Darkstar - Official Channel - event-announcements [715678321396154408].json
+data_UCSD/Nanoengineering and Technology Society @ UCSD/Nanoengineering and Technology Society @ UCSD - Grad Classes - nano-201-and-ceng-211 [987079825304989706].json
+data_UCSD/UCSD JSA/UCSD JSA - 💬 Chat - 📱tik-tok [832113100337053706].json
+data_UCSD/Quantum Computing at UCSD/Quantum Computing at UCSD - Text Channels - resources [795134208762052649].json
+data_UCSD/UCSD RPG Club/UCSD RPG Club - General - video-games [637876201808986112].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙶𝚂-178 [695860726031450185].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Club Events - 👶mentor-mentee-program [782339402557947904].json
+data_UCSD/UCSD Esports/UCSD Esports - Text - 📄directory [999901673793261669].json
+data_UCSD/Sun God Soccer/Sun God Soccer - Pro Soccer - promotionsˊ⸊ˎ [931068916636217354].json
+data_UCSD/HKN Kappa Psi/HKN Kappa Psi - ▬▬General▬▬ - class-questions [701669291757404171].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙻𝙸𝙶𝙽-121 [695899720681521202].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Interests - 🗾anime-manga [809496144068476988].json
+data_UCSD/UCSD JSA/UCSD JSA - 💬 Chat - 📚course-help [809272107266867220].json
+data_UCSD/UCSD Bioengineering Students/UCSD Bioengineering Students - 📚 School Related 📚 - class-hw-study [759502848131203084].json
+data_UCSD/UCSD Mathematics/UCSD Mathematics - General Chats - seminars [1008226221466857553].json
+data_UCSD/UCSD Bioengineering Students/UCSD Bioengineering Students - 📚 School Related 📚 - post-grad [814373570871427072].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙶𝚂-157 [695860105878700042].json
+data_UCSD/Anthropology Club/Anthropology Club - _________BULLETIN BOARD_________ - 📅》event-plugs [829125540941266984].json
+data_UCSD/Nanoengineering and Technology Society @ UCSD/Nanoengineering and Technology Society @ UCSD - Geisel - voice-chat [760357238178840576].json
+data_UCSD/UCSD Mathematics/UCSD Mathematics - <unknown category> - qotw-discussion [749737141944451083].json
+data_UCSD/UCSD Badminton Team/UCSD Badminton Team - information - rules [768987444825292812].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙶𝚂-155 [695860058621476864].json
+data_UCSD/The Stats Lounge/The Stats Lounge - ANOVA - lectures [803800328042184725].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - PSYCH Upper Div. 100-149 - 𝙿𝚂𝚈𝙲𝙷-141 [695887305075982367].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙿𝚂𝚈𝙲𝙷-180 [695888515774545940].json
+data_UCSD/DS3 @ UCSD/DS3 @ UCSD - professional - 🧭》career-questions [755207810106654893].json
+data_UCSD/Musicians' Club @ UC San Diego/Musicians' Club @ UC San Diego - Meet ppl :) - general [761368275320963073].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Lower Div. 1-99 - 𝙲𝙾𝙶𝚂-𝟷𝟺𝙱 [653779691416715304].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Welcome! - 📌system [763128719648620544].json
+data_UCSD/UC San Diego 2026/UC San Diego 2026 - <unknown category> - welcome [986565853925494872].json
+data_UCSD/Triton Robotics/Triton Robotics - ┗|🍀|SERVER INFO|🍀|┑ - 〔📄〕rules [762834438907232309].json
+data_UCSD/Nanoengineering and Technology Society @ UCSD/Nanoengineering and Technology Society @ UCSD - For fun - gaming [812940033777860608].json
+data_UCSD/The Investors Club/The Investors Club - Welcome - 🥳-welcome [790682322760368179].json
+data_UCSD/ASCE/ASCE - General Chats - general [758586555933130776].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙿𝚂𝚈𝙲𝙷-𝟼0 [694928861728604220].json
+data_UCSD/UCSD JSA/UCSD JSA - 📻 Important - 📰weekly-newsletter [965672311497834596].json
+data_UCSD/UCSD CHEM/UCSD CHEM - Information - giveaway [833865018268450836].json
+data_UCSD/Darkstar/Darkstar - Official Channel - library-announcements [715682651843067944].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝚂𝙴-𝟷0𝟷 [695492404932771921].json
+data_UCSD/Musicians' Club @ UC San Diego/Musicians' Club @ UC San Diego - Meet ppl :) - our-partners [937149854705156206].json
+data_UCSD/UCSD LGBTQIA+/UCSD LGBTQIA+ - welcome! - rules-reminder [953767252996546630].json
+data_UCSD/Blockchain at San Diego/Blockchain at San Diego - General - 🌤｜gms [887063756457267312].json
+data_UCSD/The Investors Club/The Investors Club - Investments - 🏢-real-estate [790682731146772511].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙶𝚂-151 [695859303164411905].json
+data_UCSD/Nanoengineering and Technology Society @ UCSD/Nanoengineering and Technology Society @ UCSD - Geisel - 2nd Floor [760335990660399135].json
+data_UCSD/IEEE at UC San Diego/IEEE at UC San Diego - social - 🎧-beeeats [962591188957933658].json
+data_UCSD/DS3 @ UCSD/DS3 @ UCSD - professional - 📄》resume-critique [755208598120038400].json
+data_UCSD/Triton Robotics/Triton Robotics - ┗|🍀|SERVER INFO|🍀|┑ - 〔🔒〕roles [844111474145755196].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Time Series and Forecasting - questions [804100006348587008].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Probability - questions [803792969526149170].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Contingency Tables - example-with-stathelper [803800175066742864].json
+data_UCSD/UCSD RPG Club/UCSD RPG Club - General - rpg-art [932340891077726290].json
+data_UCSD/Sun God Archery @ UCSD/Sun God Archery @ UCSD - ━━━━Archery Chats━━━━ - 💬general [628061942367649844].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - COGS Upper Div. 100-149 - 𝙲𝙾𝙶𝚂-126 [695844319935856660].json
+data_UCSD/UCSD RPG Club/UCSD RPG Club - Official Business - rules-and-info [897407836005474314].json
+data_UCSD/Video Game Development Club/Video Game Development Club - 💥🍯game jam 🍯💥 - jam_general-🐻💬 [543970051414556672].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Help Desk - 📜academics-research-archived [763127427320250418].json
+data_UCSD/UCSD RPG Club/UCSD RPG Club - General - wargaming [843555277659308063].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Statistical Quality Control - general-chat [804100792214355978].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - Text - announcements [651615315809009664].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙿𝚂𝚈𝙲𝙷-𝟽0 [694928926933385227].json
+data_UCSD/Nanoengineering and Technology Society @ UCSD/Nanoengineering and Technology Society @ UCSD - NETS Corner - suggestions [762013443494248539].json
+data_UCSD/UBIC at UCSD/UBIC at UCSD - Text Channels - 😉general [762837026411773955].json
+data_UCSD/ACM Cyber/ACM Cyber - ━━━━< General >━━━━━ - 😀introductions [742797435520417828].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - PSYCH Upper Div. 100-149 - 𝙿𝚂𝚈𝙲𝙷-𝟷0𝟻 [694930363654340609].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - LOBBY - suggestions [652365174334029824].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙿𝚂𝚈𝙲𝙷-161 [695888023270981632].json
+data_UCSD/Sun God Archery @ UCSD/Sun God Archery @ UCSD - ━━━━Archery Chats━━━━ - 📅events-meetups [628062075817689098].json
+data_UCSD/UCSD RPG Club/UCSD RPG Club - General - bot-stuff [638200505176162335].json
+data_UCSD/DS3 @ UCSD/DS3 @ UCSD - fun and games - 📉》stock-talk [755209582015676506].json
+data_UCSD/Triton Racing/Triton Racing - Welcome - rules [750184143979282582].json
+data_UCSD/The Investors Club/The Investors Club - Information - 📢-announcements [790682322760368181].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙴𝙽𝙶-100𝙳 [695803836261990481].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Data Mining_Machine Learning - questions [806245982647222342].json
+data_UCSD/ASCE/ASCE - Text - volunteer-chat [911809885388283995].json
+data_UCSD/UCSD Mathematics/UCSD Mathematics - Lower Division - lower-division-server-links [1008224171848892437].json
+data_UCSD/Envision UCSD/Envision UCSD - <unknown category> - 🎵-music [740703151971238069].json
+data_UCSD/UCSD Arts/UCSD Arts - Official Stuff - announcements [749152504603869184].json
+data_UCSD/CSSA at UCSD/CSSA at UCSD - Information - newsletter [762841830937067540].json
+data_UCSD/Nanoengineering and Technology Society @ UCSD/Nanoengineering and Technology Society @ UCSD - Grad Classes - nano-247a-and-247b [987080018716950649].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝚂𝙴-105 [695876627007143977].json
+data_UCSD/UCSD Cog Sci Study Group/UCSD Cog Sci Study Group - <unknown category> - 𝙲𝙾𝙼𝙼-102𝙲 [695895839251365928].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Community Info - rules [774374372659953695].json
+data_UCSD/HKN Kappa Psi/HKN Kappa Psi - ▬▬Events▬▬ - community-events [718304187951087706].json
+data_UCSD/Musicians' Club @ UC San Diego/Musicians' Club @ UC San Diego - Intro and Important Info - introduce-yaself [796053686702047242].json
+data_UCSD/ASCE/ASCE - ASCE Listening Parties 2022 - 2022-listening-party [936019166777978880].json
+data_UCSD/ASCE/ASCE - ASCE LISTENING PARTIES 2020 - listeningparty2-octkpopcomebacks [773617961252159540].json
+data_UCSD/UCSD Cycling!/UCSD Cycling! - Social - general [743545226639048787].json
+data_UCSD/Envision UCSD/Envision UCSD - --Envolvement Channels-- - 🏗-solidworks [777753591838015489].json
+data_UCSD/UCSD CHEM/UCSD CHEM - General Channels - introduction [795570286053425182].json
+data_UCSD/The Stats Lounge/The Stats Lounge - Descriptive Statistics - general-chat [803792261304680500].json
+data_UCSD/UCSD CHEM/UCSD CHEM - Information - roles [824781503786778685].json
+data_UCSD/Quantum Computing at UCSD/Quantum Computing at UCSD - Voice Channels - voice [828864419000745995].json
+data_UCSD/IEEE at UC San Diego/IEEE at UC San Diego - social - 👌-memes [695512704932249680].json
+data_UCSD/DS3 @ UCSD/DS3 @ UCSD - Info - ⏯》recordings [900500104484642856].json
+data_UCSD/ASCE/ASCE - General Chats - music-suggestions [979091089367633940].json
