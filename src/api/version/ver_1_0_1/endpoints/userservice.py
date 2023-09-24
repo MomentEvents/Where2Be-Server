@@ -22,6 +22,8 @@ from common.s3.moment_s3 import upload_base64_image
 
 from common.constants import IS_PROD, SCRAPER_TOKEN, ENABLE_FIREBASE
 
+import re
+
 async def get_using_user_access_token(request: Request) -> JSONResponse:
     # raise Problem(status=400, content="Please log in to continue")
     """
@@ -361,6 +363,11 @@ async def user_join_update(request: Request) -> JSONResponse:
 
     user_access_token = body.get("user_access_token")
     did_join = body.get("did_join")
+    name = body.get("name")
+    email = body.get("email")
+    phone_number = body.get("phone_number")
+    major = body.get("major")
+    year = body.get("year")
 
     try:
         assert all((user_id, event_id, user_access_token))
@@ -369,7 +376,13 @@ async def user_join_update(request: Request) -> JSONResponse:
         return Response(status_code=400, content="Incomplete body or incorrect parameter")
 
     if(did_join):
-        await create_join_connection(user_id, event_id)
+        try:
+            assert all((name, email, phone_number, major, year))
+            assert re.match(r"[^@]+@[^@]+", email)
+            assert re.match(r"\(\d{3}\) \d{3}-\d{4}", phone_number)
+        except:
+            return Response(status_code=400, content="Incomplete body or invalid input")
+        await create_join_connection(user_id, event_id, name, email, phone_number, major, year)
     else:
         await delete_join_connection(user_id, event_id)
     

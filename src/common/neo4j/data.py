@@ -62,11 +62,11 @@ async def init_schema():
         #user_join
         "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_join]->() ON (r.DidNotify);", #Bool
         "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_join]->() ON (r.Timestamp);", #DateTime
-        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_join]->() ON (r.FullName);", #String
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_join]->() ON (r.Name);", #String
         "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_join]->() ON (r.Email);", #String
         "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_join]->() ON (r.PhoneNumber);", #String
-        # "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_join]->() ON (r.Gender);", #String
-        # "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_join]->() ON (r.Pronouns);", #String
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_join]->() ON (r.Major);", #String
+        "CREATE INDEX IF NOT EXISTS FOR ()-[r:user_join]->() ON (r.Year);", #String
 
 
         #user_host

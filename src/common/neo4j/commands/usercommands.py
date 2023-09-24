@@ -337,20 +337,31 @@ async def create_viewed_connections(user_id, event_ids):
     return 0
 
 
-async def create_join_connection(user_id, event_id):
+async def create_join_connection(user_id, event_id, name, email, phone_number, major, year):
     timestamp = datetime.now(timezone.utc)
 
     query = """
     MATCH (u:User{UserID: $user_id}),(e:Event{EventID: $event_id}) 
     MERGE (u)-[r:user_join]->(e)
-    SET r.Timestamp = datetime($timestamp),r.IsNotified = False
+    SET r.Timestamp = datetime($timestamp),
+        r.IsNotified = False,
+        r.Name = $name,
+        r.Email = $email,
+        r.PhoneNumber = $phone_number,
+        r.Major = $major,
+        r.Year = $year
     """
 
     parameters = {
         "user_id": user_id,
         "event_id": event_id,
         # Convert DateTime object to ISO 8601 string format
-        "timestamp": timestamp.isoformat()
+        "timestamp": timestamp.isoformat(),
+        "name": name,
+        "email": email,
+        "phone_number": phone_number,
+        "major": major,
+        "year": year
     }
 
     await run_neo4j_query(query, parameters)
