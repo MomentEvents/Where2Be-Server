@@ -74,6 +74,22 @@ def change_firebase_user_email(uid, new_email):
     except Exception as e:
         # Handle any errors that occur during the email update
         raise Problem(status=400, content="Error updating user email: " + str(e))
+
+def change_firebase_user_prefilled_form(uid, new_display_name, new_email, new_phone_number):
+    try:
+        user = auth.update_user(
+            uid,
+            display_name=new_display_name,
+            email=new_email,
+            phone_number=new_phone_number,
+        )
+        print("User prefilled form successfully updated.")
+        print("New display name:", user.display_name)
+        print("New email:", user.email)
+        print("New phone number:", user.phone_number)
+    except Exception as e:
+        # Handle any errors that occur during the email update
+        raise Problem(status=400, content="Error updating user prefilled form: " + str(e))
     
 def delete_firebase_user_by_uid(uid):
     try:
