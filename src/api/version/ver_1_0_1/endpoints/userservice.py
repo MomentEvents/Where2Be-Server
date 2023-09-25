@@ -1,7 +1,7 @@
 from inspect import Parameter
 
 from markupsafe import string
-from common.firebase import delete_firebase_user_by_uid, get_firebase_user_by_uid, change_firebase_user_prefilled_form
+from common.firebase import delete_firebase_user_by_uid, get_firebase_user_by_uid
 from common.neo4j.commands.usercommands import create_follow_connection, create_join_connection, create_not_interested_connection, create_shoutout_connection, create_viewed_connections, delete_follow_connection, delete_join_connection, delete_not_interested_connection, delete_shoutout_connection, get_user_entity_by_event_id, get_user_entity_by_user_access_token, get_user_entity_by_user_id, get_user_entity_by_username, get_user_prefilled_form_by_user_id
 from common.neo4j.converters import convert_user_entity_to_user
 from starlette.requests import Request
