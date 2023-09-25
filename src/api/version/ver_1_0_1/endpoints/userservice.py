@@ -84,6 +84,7 @@ async def get_using_user_id(request: Request) -> JSONResponse:
     
     return JSONResponse(user)
 
+@is_requester_privileged_for_user
 async def get_prefilled_form_using_user_id(request: Request) -> JSONResponse:
     """
     Description: Gets the user prefilled form information with the associated user_id {user_id}. Returns error if no results found.
@@ -115,6 +116,7 @@ async def get_prefilled_form_using_user_id(request: Request) -> JSONResponse:
     
     return JSONResponse(user)
 
+@is_requester_privileged_for_user
 async def update_prefilled_form_using_user_id(request: Request) -> JSONResponse:
     """
     Description: Updates the user prefilled form information with the associated user_id {user_id}. Returns error if no results found.
@@ -761,7 +763,7 @@ routes = [
     ),
     Route("/user/user_id/{user_id}/prefilled_form",
         get_prefilled_form_using_user_id,
-        methods=["GET"],
+        methods=["POST"],
     ),
      Route("/user/user_id/{user_id}/prefilled_form",
         update_prefilled_form_using_user_id,
