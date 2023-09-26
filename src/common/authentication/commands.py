@@ -10,8 +10,8 @@ from common.constants import ENABLE_FIREBASE, IS_PROD
 async def login(usercred: str, password: str):
 
     if(not ENABLE_FIREBASE):
-        user_access_token = "gHL9LK-4bgALRzdNJFW5KZWkMdBmxrfQCnjdhZRpYG4"
-        user_id = "Ez7o28WpYX2bsrri0udD9xtNzv7SzC_D3FCjPnjv21g"
+        user_access_token = "wYOeKwXogzApEFOfvOnGD6pdrKUCuprdfqIIdsaIyag"
+        user_id = "_s1G804SXhxe27hHfToF8V3QwgYGiS_8gMoG6nECIQU"
         return user_id, user_access_token
     # Check if it's a username or email
 

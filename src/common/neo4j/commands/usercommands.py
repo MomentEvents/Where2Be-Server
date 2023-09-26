@@ -22,7 +22,7 @@ async def create_user_entity(display_name: str, username: str, school_id: str, i
     user_id = secrets.token_urlsafe()
 
     result = await run_neo4j_query(
-        """CREATE (u:User {UserID: $user_id, Username: $username, Picture:$picture, DisplayName:$display_name, UserAccessToken:$user_access_token, VerifiedOrganization:$is_verified_org, Administrator:$is_admin, AccountType:$account_type})
+        """CREATE (u:User {UserID: $user_id, Username: $username, LastUsedName: $last_used_name, LastUsedEmail: $last_used_email, LastUsedPhoneNumber: $last_used_phone_number, LastUsedMajor: $last_used_major, LastUsedYear: $last_used_year, Picture:$picture, DisplayName:$display_name, UserAccessToken:$user_access_token, VerifiedOrganization:$is_verified_org, Administrator:$is_admin, AccountType:$account_type})
         WITH u
         MATCH(n:School{SchoolID: $school_id})
         CREATE (u)-[r:user_school]->(n)
@@ -30,6 +30,11 @@ async def create_user_entity(display_name: str, username: str, school_id: str, i
         parameters={
             "username": username,
             "display_name": display_name,
+            "last_used_name": display_name,
+            "last_used_email": "",
+            "last_used_phone_number": "",
+            "last_used_major": "",
+            "last_used_year": "",
             "picture": default_user_image,
             "school_id": school_id,
             "user_access_token": user_access_token,
@@ -207,6 +212,39 @@ async def get_user_entity_by_user_access_token(user_access_token: str, show_num_
     return user_data
 
 
+async def get_user_prefilled_form_by_user_id(user_id: str):
+    result = await run_neo4j_query(
+        """ MATCH (u:User {UserID: $user_id}) 
+            RETURN {
+                UserID: u.UserID,
+                LastUsedName: u.LastUsedName,
+                LastUsedEmail: u.LastUsedEmail,
+                LastUsedPhoneNumber: u.LastUsedPhoneNumber,
+                LastUsedMajor: u.LastUsedMajor,
+                LastUsedYear: u.LastUsedYear
+            } AS result
+        """,
+        parameters = {
+            "user_id": user_id
+        }
+    )
+
+    data = parse_neo4j_data(result, 'single')
+
+    if (not data):
+        return None
+
+    user_data = {
+        "user_id": data["UserID"],
+        "name": data["LastUsedName"],
+        "email": data["LastUsedEmail"],
+        "phone_number": data["LastUsedPhoneNumber"],
+        "major": data["LastUsedMajor"],
+        "year": data["LastUsedYear"],
+    }
+
+    return user_data
+
 async def create_follow_connection(from_user_id, to_user_id):
     timestamp = datetime.now(timezone.utc)
 
@@ -299,20 +337,31 @@ async def create_viewed_connections(user_id, event_ids):
     return 0
 
 
-async def create_join_connection(user_id, event_id):
+async def create_join_connection(user_id, event_id, name, email, phone_number, major, year):
     timestamp = datetime.now(timezone.utc)
 
     query = """
     MATCH (u:User{UserID: $user_id}),(e:Event{EventID: $event_id}) 
     MERGE (u)-[r:user_join]->(e)
-    SET r.Timestamp = datetime($timestamp),r.IsNotified = False
+    SET r.Timestamp = datetime($timestamp),
+        r.IsNotified = False,
+        r.Name = $name,
+        r.Email = $email,
+        r.PhoneNumber = $phone_number,
+        r.Major = $major,
+        r.Year = $year
     """
 
     parameters = {
         "user_id": user_id,
         "event_id": event_id,
         # Convert DateTime object to ISO 8601 string format
-        "timestamp": timestamp.isoformat()
+        "timestamp": timestamp.isoformat(),
+        "name": name,
+        "email": email,
+        "phone_number": phone_number,
+        "major": major,
+        "year": year
     }
 
     await run_neo4j_query(query, parameters)

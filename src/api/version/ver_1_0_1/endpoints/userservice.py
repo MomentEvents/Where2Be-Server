@@ -2,7 +2,7 @@ from inspect import Parameter
 
 from markupsafe import string
 from common.firebase import delete_firebase_user_by_uid, get_firebase_user_by_uid
-from common.neo4j.commands.usercommands import create_follow_connection, create_join_connection, create_not_interested_connection, create_shoutout_connection, create_viewed_connections, delete_follow_connection, delete_join_connection, delete_not_interested_connection, delete_shoutout_connection, get_user_entity_by_event_id, get_user_entity_by_user_access_token, get_user_entity_by_user_id, get_user_entity_by_username
+from common.neo4j.commands.usercommands import create_follow_connection, create_join_connection, create_not_interested_connection, create_shoutout_connection, create_viewed_connections, delete_follow_connection, delete_join_connection, delete_not_interested_connection, delete_shoutout_connection, get_user_entity_by_event_id, get_user_entity_by_user_access_token, get_user_entity_by_user_id, get_user_entity_by_username, get_user_prefilled_form_by_user_id
 from common.neo4j.converters import convert_user_entity_to_user
 from starlette.requests import Request
 from starlette.responses import JSONResponse, Response
@@ -19,6 +19,10 @@ from common.neo4j.moment_neo4j import parse_neo4j_data, run_neo4j_query
 from api.version.ver_1_0_1.auth import is_real_user, is_requester_privileged_for_user, is_user_formatted, is_valid_user_access_token
 
 from common.s3.moment_s3 import upload_base64_image
+
+from common.constants import IS_PROD, SCRAPER_TOKEN, ENABLE_FIREBASE
+
+import re
 
 async def get_using_user_access_token(request: Request) -> JSONResponse:
     # raise Problem(status=400, content="Please log in to continue")
@@ -79,6 +83,87 @@ async def get_using_user_id(request: Request) -> JSONResponse:
         raise Problem(status=400, content="User does not exist")
     
     return JSONResponse(user)
+
+@is_requester_privileged_for_user
+async def get_prefilled_form_using_user_id(request: Request) -> JSONResponse:
+    """
+    Description: Gets the user prefilled form information with the associated user_id {user_id}. Returns error if no results found.
+
+    params:
+        user_id: string
+
+    return :
+        user_id: string,
+        name: string,
+        email: string,
+        phone_number: string,
+        major: string,
+        year: string,
+
+    """
+
+    user_id = request.path_params["user_id"]
+
+    try:
+        assert all((user_id))
+    except AssertionError:
+        return Response(status_code=400, content="Incomplete body")
+
+    user = await get_user_prefilled_form_by_user_id(user_id=user_id)
+
+    if(user is None):
+        raise Problem(status=400, content="User does not exist")
+    
+    return JSONResponse(user)
+
+@is_requester_privileged_for_user
+async def update_prefilled_form_using_user_id(request: Request) -> JSONResponse:
+    """
+    Description: Updates the user prefilled form information with the associated user_id {user_id}. Returns error if no results found.
+
+    params:
+        user_id: string
+
+    return :
+    """
+
+    user_id = request.path_params["user_id"]
+
+    form_data = await request.form()
+
+    name = form_data["name"].strip()
+    email = form_data["email"].strip()
+    phone_number = form_data["phone_number"].strip()
+    major = form_data["major"].strip()
+    year = form_data["year"].strip()
+
+    result = await run_neo4j_query(
+        """MATCH (u:User{UserID: $user_id}) 
+        SET 
+            u.LastUsedName = COALESCE($name, u.LastUsedName),
+            u.LastUsedEmail = COALESCE($email, u.LastUsedEmail),
+            u.LastUsedPhoneNumber = COALESCE($phone_number, u.LastUsedPhoneNumber),
+            u.LastUsedMajor = COALESCE($major, u.LastUsedMajor),
+            u.LastUsedYear = COALESCE($year, u.LastUsedYear)
+        RETURN
+            u
+        """,
+        parameters={
+            "user_id": user_id,
+            "name": name,
+            "email": email,
+            "phone_number": phone_number,
+            "major": major,
+            "year": year
+        },
+    )
+
+    data = parse_neo4j_data(result, 'single')
+
+    if(data is None):
+        raise Problem(status=400, content="User does not exist")
+    
+    return Response(status_code=200, content="User prefilled form updated")
 
 async def get_using_user_id_with_body(request: Request) -> JSONResponse:
     """
@@ -280,6 +365,11 @@ async def user_join_update(request: Request) -> JSONResponse:
 
     user_access_token = body.get("user_access_token")
     did_join = body.get("did_join")
+    name = body.get("name")
+    email = body.get("email")
+    phone_number = body.get("phone_number")
+    major = body.get("major")
+    year = body.get("year")
 
     try:
         assert all((user_id, event_id, user_access_token))
@@ -288,7 +378,13 @@ async def user_join_update(request: Request) -> JSONResponse:
         return Response(status_code=400, content="Incomplete body or incorrect parameter")
 
     if(did_join):
-        await create_join_connection(user_id, event_id)
+        try:
+            assert all((name, email, phone_number, major, year))
+            assert re.match(r"[^@]+@[^@]+", email)
+            assert re.match(r"\(\d{3}\) \d{3}-\d{4}", phone_number)
+        except:
+            return Response(status_code=400, content="Incomplete body or invalid input")
+        await create_join_connection(user_id, event_id, name, email, phone_number, major, year)
     else:
         await delete_join_connection(user_id, event_id)
     
@@ -664,6 +760,14 @@ routes = [
     Route("/user/user_id/{user_id}",
         delete_using_user_id,
         methods=["DELETE"],
+    ),
+    Route("/user/user_id/{user_id}/prefilled_form",
+        get_prefilled_form_using_user_id,
+        methods=["POST"],
+    ),
+     Route("/user/user_id/{user_id}/prefilled_form",
+        update_prefilled_form_using_user_id,
+        methods=["UPDATE"],
     ),
     Route("/user/event_id/{event_id}/host",
         get_event_host,
