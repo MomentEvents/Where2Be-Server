@@ -21,6 +21,8 @@ from api.version.ver_1_0_1.auth import is_real_user
 import platform
 from api.version.ver_1_0_1.auth import is_requester_privileged_for_user, is_event_formatted
 
+from common.neo4j.converters import convert_user_entity_to_user, convert_event_entity_to_event
+
 
 if platform.system() == "Windows":
     from asyncio.windows_events import NULL
@@ -220,6 +222,106 @@ async def update_user_school(request: Request) -> JSONResponse:
         return Response(status_code=200, content="Connection created exists")
 
 
+async def search_school_events_and_users(request: Request) -> JSONResponse:
+
+    """
+    Description: Gets all of the events and users associated with a school of $school_id
+    params:
+        user_access_token: string
+
+    return:
+
+        [
+        user_id: string,
+        display_name: string,
+        username: string,
+        picture: string,
+        verified_organization: boolean,
+        ]
+
+    """
+
+    school_id = request.path_params["school_id"]
+
+    body = await request.json()
+
+    user_access_token = body.get("user_access_token")
+    query = body.get("query")
+
+    try:
+        assert all((user_access_token, school_id, query))
+    except AssertionError:
+        return Response(status_code=400, content="Incomplete body")
+
+    query = query.strip()
+
+    result = await run_neo4j_query(
+        """ MATCH (s:School{SchoolID: $school_id})
+        CALL {
+
+        WITH s
+        MATCH (s) <- [:user_school] - (u:User)
+        WITH u, toLower(u.DisplayName) as name
+        WHERE (toLower(u.DisplayName) CONTAINS toLower($query) OR toLower(u.Username) CONTAINS toLower($query))
+        RETURN u as data, name, 'user' as type
+
+        UNION
+
+        WITH s
+        MATCH (s)<-[:event_school]-(e:Event)
+        MATCH (e)<-[:user_host]-(host:User)
+        MATCH (u:User{UserAccessToken: $user_access_token})
+        WITH DISTINCT e,
+            COUNT{(e)<-[:user_join]-()} as num_joins,
+            COUNT{(e)<-[:user_shoutout]-()} as num_shoutouts,
+            exists((u)-[:user_join]->(e)) as user_join,
+            exists((u)-[:user_shoutout]->(e)) as user_shoutout,
+            host.UserID as host_user_id,
+            toLower(e.Title) as name
+        WHERE e.StartDateTime >= datetime() AND (toLower(e.Title) CONTAINS toLower($query) OR toLower(e.Location) CONTAINS toLower($query))
+        RETURN {
+                EventID: e.EventID,
+                Title: e.Title,
+                Picture: e.Picture,
+                Description: e.Description,
+                Location: e.Location,
+                StartDateTime: e.StartDateTime,
+                EndDateTime: e.EndDateTime,
+                Visibility: e.Visibility,
+                SignupLink: e.SignupLink,
+                num_joins: num_joins,
+                num_shoutouts: num_shoutouts,
+                user_join: user_join,
+                user_shoutout: user_shoutout,
+                host_user_id: host_user_id
+                } as data, name, 'event' as type
+        }
+        RETURN data, type
+        ORDER BY name
+        LIMIT 20
+        """,
+        parameters={
+            "school_id": school_id,
+            "query": query,
+            "user_access_token": user_access_token,
+        },
+    )
+
+    users_and_events = []
+
+    for record in result:
+        type = record['type']
+        data = record['data']
+        if type == 'user':
+            users_and_events.append(convert_user_entity_to_user(data=data, show_num_events_followers_following=False))
+        elif type == 'event':
+            users_and_events.append(convert_event_entity_to_event(data))
+        users_and_events[-1]['type'] = type
+
+    return JSONResponse(
+        users_and_events
+    )
+
 routes = [
     Route("/school",
         get_all_schools,
@@ -236,6 +338,10 @@ routes = [
     Route("/school/user_id/{user_id}",
         get_user_school,
         methods=["GET"],
+    ),
+    Route("/school/school_id/{school_id}/search",
+        search_school_events_and_users,
+        methods=["POST"],
     ),
     # Route("/school/user_id/{user_id}",
     #     update_user_school,

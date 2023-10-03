@@ -145,6 +145,9 @@ async def fill_data():
     user_access_token_28, user_id_28 = await create_user_entity("Test User 25", "testuser25", school1_id, False, False)
     user_access_token_29, user_id_29 = await create_user_entity("Test User 26", "testuser26", school1_id, False, False)
     user_access_token_30, user_id_30 = await create_user_entity("Test User 27", "testuser27", school1_id, False, False)
+    user_access_token_31, user_id_31 = await create_user_entity("Test Search d", "testsearchd", school1_id, False, False)
+    user_access_token_32, user_id_32 = await create_user_entity("Test Search j", "testsearchj", school1_id, False, False)
+    user_access_token_33, user_id_33 = await create_user_entity("Test Search s", "testsearchs", school1_id, False, False)
 
 
 
@@ -299,8 +302,8 @@ async def fill_data():
     
     # Future events
 
-    event_start_dates = "2023-10-08"
-    event_end_dates = "2023-10-09"
+    event_start_dates = "2023-10-28"
+    event_end_dates = "2023-10-29"
 
     await create_event_entity(None, user_access_token_1, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Frog_on_palm_frond.jpg/1024px-Frog_on_palm_frond.jpg",
     "Nature", "Look at my description :D", "La Jolla Shores", "Public", [interest1_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
@@ -367,6 +370,13 @@ async def fill_data():
 "Nerdy Event 24", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
     await create_event_entity(None, user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
 "Nerdy Event 25", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    
+    await create_event_entity(None, user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Test Search b", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    await create_event_entity(None, user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Test Search f", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
+    await create_event_entity(None, user_access_token_8, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg",
+"Test Search z", "Nerds only", "Geisel", "Public", [interest2_id], event_start_dates + " 17:00:00", event_end_dates + " 18:00:00")
     return 1
 
 async def reset_db():
