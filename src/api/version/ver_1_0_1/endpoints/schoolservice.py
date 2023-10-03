@@ -263,7 +263,7 @@ async def search_school_events_and_users(request: Request) -> JSONResponse:
         MATCH (s) <- [:user_school] - (u:User)
         WITH u, toLower(u.DisplayName) as name
         WHERE (toLower(u.DisplayName) CONTAINS toLower($query) OR toLower(u.Username) CONTAINS toLower($query))
-        RETURN u as data, name
+        RETURN u as data, name, 'user' as type
 
         UNION
 
@@ -294,9 +294,9 @@ async def search_school_events_and_users(request: Request) -> JSONResponse:
                 user_join: user_join,
                 user_shoutout: user_shoutout,
                 host_user_id: host_user_id
-                } as data, name
+                } as data, name, 'event' as type
         }
-        RETURN data
+        RETURN data, type
         ORDER BY name
         LIMIT 20
         """,
@@ -310,11 +310,13 @@ async def search_school_events_and_users(request: Request) -> JSONResponse:
     users_and_events = []
 
     for record in result:
+        type = record['type']
         data = record['data']
-        if 'UserID' in data:
+        if type == 'user':
             users_and_events.append(convert_user_entity_to_user(data=data, show_num_events_followers_following=False))
-        elif 'EventID' in record['data']:
+        elif type == 'event':
             users_and_events.append(convert_event_entity_to_event(data))
+        users_and_events[-1]['type'] = type
 
     return JSONResponse(
         users_and_events
