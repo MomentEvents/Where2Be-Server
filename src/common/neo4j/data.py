@@ -11,6 +11,7 @@ from common.constants import IS_PROD
 do_reset_db = False
 do_create_schema = False
 
+
 async def init_schema():
     schemas = [
         # Users

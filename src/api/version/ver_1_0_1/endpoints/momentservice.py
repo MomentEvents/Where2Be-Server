@@ -86,11 +86,15 @@ async def get_home_moments(request: Request) -> JSONResponse:
         MATCH (u)-[:user_join|user_host]->(e:Event)
         WITH e
         MATCH (e)-[:moment_event]-(m:Moment), (e)-[:user_host]-(host:User)
+        WITH e, host, m
+        MATCH (m)-[:moment_user]-(uploader:User)
         WHERE  e.EndDateTime > datetime()
         WITH collect({
             EventID: e.EventID,
-            HostDisplayName: host.DisplayName,
+            EventPicture: e.Picture,
             HostPicture: host.Picture,
+            UploaderDisplayName: uploader.DisplayName,
+            UploaderPicture: uploader.Picture,
             MomentID: m.MomentID,
             MomentPicture: m.Picture,
             Type: m.Type,
@@ -105,11 +109,15 @@ async def get_home_moments(request: Request) -> JSONResponse:
         MATCH (u)-[:user_follow]->(host:User)
         WITH host
         MATCH (e:Event)-[:user_host]-(host), (e)-[:moment_event]-(m:Moment)
+        WITH e, host, m
+        MATCH (m)-[:moment_user]-(uploader:User)
         WHERE  e.EndDateTime > datetime()
         WITH collect({
             EventID: e.EventID,
-            HostDisplayName: host.DisplayName,
+            EventPicture: e.Picture,
             HostPicture: host.Picture,
+            UploaderDisplayName: uploader.DisplayName,
+            UploaderPicture: uploader.Picture,
             MomentID: m.MomentID,
             MomentPicture: m.Picture,
             Type: m.Type,
@@ -134,10 +142,10 @@ async def get_home_moments(request: Request) -> JSONResponse:
         event_id = row['EventID']
         if event_id not in moment_results:
             event_ids.append(event_id)
-            host_display_name = row['HostDisplayName']
+            event_picture = row['EventPicture']
             host_picture = row['HostPicture']
             moment_results[event_id] = {
-                'host_display_name': host_display_name,
+                'event_picture': event_picture,
                 'host_picture': host_picture,
                 'moments': []
             }
