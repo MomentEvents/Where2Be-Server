@@ -93,6 +93,7 @@ async def get_home_moments(request: Request) -> JSONResponse:
             EventID: e.EventID,
             EventPicture: e.Picture,
             HostPicture: host.Picture,
+            UploaderID: uploader.UserID,
             UploaderDisplayName: uploader.DisplayName,
             UploaderPicture: uploader.Picture,
             MomentID: m.MomentID,
@@ -116,6 +117,7 @@ async def get_home_moments(request: Request) -> JSONResponse:
             EventID: e.EventID,
             EventPicture: e.Picture,
             HostPicture: host.Picture,
+            UploaderID: uploader.UserID,
             UploaderDisplayName: uploader.DisplayName,
             UploaderPicture: uploader.Picture,
             MomentID: m.MomentID,
@@ -147,8 +149,11 @@ async def get_home_moments(request: Request) -> JSONResponse:
             moment_results[event_id] = {
                 'event_picture': event_picture,
                 'host_picture': host_picture,
-                'moments': []
+                'moments': [],
+                'visible': False,
             }
+        if row['UploaderID'] == user_id:
+            moment_results[event_id]['visible'] = True
         moment_data = convert_moment_entity_to_moment(row)
         moment_results[event_id]['moments'].append(moment_data)
 
