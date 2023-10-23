@@ -5,6 +5,7 @@ from api.version.ver_1_0_1.endpoints import (
     schoolservice,
     interestservice,
     notificationservice,
+    momentservice,
 )
 
 routes = [
@@ -14,4 +15,5 @@ routes = [
     *schoolservice.routes,
     *interestservice.routes,
     *notificationservice.routes,
+    *momentservice.routes,
 ]

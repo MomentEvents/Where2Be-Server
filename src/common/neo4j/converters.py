@@ -67,3 +67,15 @@ def convert_school_entity_to_school(data):
     }
 
     return school_data
+
+def convert_moment_entity_to_moment(data):
+    moment_data = {
+        'uploader_display_name': data['UploaderDisplayName'],
+        'uploader_picture': data['UploaderPicture'],
+        'moment_id': data['MomentID'],
+        'moment_picture': data['MomentPicture'],
+        'type': data['Type'],
+        'posted_date_time': str(data['PostedDateTime']),
+    }
+
+    return moment_data
