@@ -383,6 +383,7 @@ async def fill_data():
     await create_moment_entity(event_id_1, None, user_access_token_7, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Frog_on_palm_frond.jpg/1024px-Frog_on_palm_frond.jpg", 'image')
     await create_moment_entity(event_id_1, None, user_access_token_8, "https://www.theforage.com/blog/wp-content/uploads/2022/10/stock-options.jpg", 'image')
     await create_moment_entity(event_id_1, None, user_access_token_2, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Frog_on_palm_frond.jpg/1024px-Frog_on_palm_frond.jpg", 'image')
+    await create_moment_entity(event_id_2, None, user_access_token_2, "https://iso.500px.com/wp-content/uploads/2015/03/business_cover.jpeg", 'image')
     await create_moment_entity(event_id_2, None, user_access_token_2, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Frog_on_palm_frond.jpg/1024px-Frog_on_palm_frond.jpg", 'image')
     await create_moment_entity(event_id_2, None, user_access_token_3, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Frog_on_palm_frond.jpg/1024px-Frog_on_palm_frond.jpg", 'image')
     await create_moment_entity(event_id_2, None, user_access_token_8, "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Frog_on_palm_frond.jpg/1024px-Frog_on_palm_frond.jpg", 'image')
