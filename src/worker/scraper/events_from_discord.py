@@ -34,11 +34,13 @@ import string
 
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 
-from api_connect import get_bucket_url, Event
-
-from images import Image
+from commands.api_commands.api_connect import get_bucket_url, Event
+from commands.api_commands.images import Image
+from commands.api_commands.create_user import create_user
+from commands.api_commands.create_event import create_event
 
 from commands.s3_commands import get_json_from_s3
+
 
 productionserver = "https://api.where2be.app"
 version = "/api_ver_1.0.0"
@@ -47,6 +49,7 @@ momentAPIVersionless = productionserver
 momentAPI = momentAPIVersionless + version
 
 os.environ["TRANSFORMERS_CACHE"] = "/app/scraper/cache"
+
 
 def get_bucket_url():
     return "https://api.where2be.app.s3.us-east-2.amazonaws.com/"
@@ -308,29 +311,20 @@ def get_time(message):
             if flag:
                 for relative_day in relative_date_list:
                     if relative_day in out_list[i][0].lower():
-                        # print("HERE",out_list[i][0].lower())
                         res = lfnc2(date, relative_date_list[relative_day])
                         flag = 0
                         break
 
             if res != -1:
-                # print("Date: " + str(res)[:10])
                 date_stack.append(str(res.strftime("%Y/%m/%d")))
 
         i += 1
 
-    # print(text)
-    # print(out_list)
-
     if time_stack != [] and date_stack != []:
-        # print(text)
-        # print(out_list)
-        # print(time_of_day)
-        # print(time_stack)
-        # print(date_stack)
         return {"time_of_day": time_of_day, "time_stack": time_stack, "date_stack": date_stack}
 
     return []
+
 
 def get_hash_pwd(password):
     return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
@@ -350,143 +344,41 @@ def random_key_given_seed(seed):
     return (rand_str)
 
 
-def push_to_neo4j_creator(creator_val):
-
-    university_id = 'univ_UCSD'
-    user_access_token = ""
-
-    print("creator_val", creator_val)
-    creator = creator_val[0]
-
-    password = random_key_given_seed(int(creator[0])).strip()
-    print("########### USER ID: ", creator)
-
-    username = str(creator[1]).replace(" ", "").replace("&", "And")
-    username = re.sub(r'[^a-zA-Z0-9]', '', creator[1])
-    username = username[:20]
-
-    if len(username) < 6:
-        username = username + "discord"
-
-    data = {
-        "username": username,
-        "display_name": str(creator[1][:30]),
-        "password": password,
-        "school_id": university_id,
-    }
-
-    print("data to send", data)
-
-    response = requests.post(momentAPI+"/auth/signup/",
-                             headers={"Content-Type": "application/json"}, json=data)
-
-    # Check the response status code
-    if response.status_code == 200:
-        # Request was successful
-        print('API call was successful!')
-        user_access_token = response.json()['user_access_token']
-    else:
-        # Request failed
-        print('API call failed:', response.content)
-        return None
-
-    print(momentAPI+"/user/user_access_token/"+user_access_token)
-    response = requests.get(
-        momentAPI+"/user/user_access_token/"+user_access_token)
-
-    user_id = response.json()['user_id']
-
-    # image_string = process_image(creator[2])
-    creator_image = Image(creator[2])
-    creator_image.process()
-
-    data = {
-        "username": username,
-        "display_name": str(creator[1][:30]),
-        "user_access_token": user_access_token,
-        "picture": creator_image.get_image_string(),
-    }
-    multipart_encoder = MultipartEncoder(fields=data)
-    headers = {
-        "Content-Type": multipart_encoder.content_type,
-    }
-
-    print(momentAPI+"/user/user_id/"+user_id)
-    response = requests.request(
-        "UPDATE", momentAPI+"/user/user_id/"+user_id,  data=multipart_encoder, headers=headers)
-
-    if response.status_code == 200:
-        # Request was successful
-        print('API call was successful!')
-    else:
-        # Request failed
-        print('API call failed:', response.content)
-        return None
-
-    return {"display_name": str(creator[1][:30]), "username": username.lower(), "password": password, "user_id": user_id, "user_access_token": user_access_token, "password": password}
-
-
-def push_to_neo4j(event):
-
-    print("\n Event pushing:")
-    interest_ids = '["Social"]'
-
-    print("CreatorID: ", event["CreatorID"])
-    print("CreatorUAT: ", event["CreatorUAT"])
-    print("Image: ", event["Image"])
-    print("Name: ",  event["Name"])
-    print("startingTime: ", str(event["startingTime"])+"Z")
-    print("Location: ", event["Location"])
-    print("Description: ", event["Description"])
-    print("Visibility: ", event["Visibility"])
-    print("interest_ids ", interest_ids)
-
-    image_string = process_image(event["Image"])
-    if image_string == -1:
-        random_number = str(random.randint(1, 5))
-        image_string = (
-            get_bucket_url()+"app-uploads/images/users/static/default" + random_number + ".png"
-        )
-        image_string = process_image(default_user_image)
-
-    data = {
-        "user_access_token": event["CreatorUAT"],
-        "title": event["Name"],
-        "description": event["Description"],
-        "location": event["Location"],
-        "start_date_time": str(event["startingTime"])+"Z",
-        "end_date_time": None,
-        "visibility": event["Visibility"],
-        "interest_ids": interest_ids,
-        "picture": image_string,
-    }
-
-    # print("data to send", data)
-
-    response = requests.post(momentAPI+"/event/create_event",
-                             headers={"Content-Type": "application/json"}, json=data)
-
-    # Check the response status code
-    if response.status_code == 200:
-        # Request was successful
-        print('API call was successful!')
-        return response.json()['event_id']
-    else:
-        # Request failed
-        print('API call failed:', response.content)
-        return None
-
-
 def read_keys_from_file(filename):
     """Utility function to read keys from a file into a set."""
     with open(filename, 'r') as f:
         return set(f.read().splitlines())
+
 
 def write_keys_to_file(filename, keys):
     """Utility function to write keys from a set into a file."""
     with open(filename, 'w') as f:
         for key in keys:
             f.write(key + "\n")
+
+
+def append_to_json_file(file_path, event_dict):
+    data = []
+
+    print("IN append_to_json_file ###########")
+
+    # Check if the file exists
+    if os.path.exists(file_path):
+        print("path exists ###########")
+        # Read existing data
+        with open(file_path, 'r') as file:
+            data = json.load(file)
+
+    # Append new event
+    data.append(event_dict)
+
+    print("in append_to_json_file data:", data)
+
+    # Write back to the file
+    with open(file_path, 'w') as file:
+        json.dump(data, file, indent=4)
+
+# STARTING RUN
 
 
 tokenizer = AutoTokenizer.from_pretrained(
@@ -501,7 +393,7 @@ print("id2label: ", id2label)
 # tagger = SequenceTagger.load(
 #     "/home/ec2-user/.flair/models/ner-english-large/07301f59bb8cb113803be316267f06ddf9243cdbba92a4c8067ef92442d2c574.554244d3476d97501a766a98078421817b14654496b86f2f7bd139dc502a4f29")
 
-# tagger = SequenceTagger.load("flair/ner-english-large")
+tagger = SequenceTagger.load("flair/ner-english-large")
 
 
 print("Downloading complete")
@@ -513,13 +405,6 @@ month_list = {"jan": 1, "feb": 2, "march": 3, "apr": 4, "may": 5, "june": 6,
 relative_date_list = {"today": 0, "tomorrow": 1, "tonight": 0, "night": 0}
 
 
-# print("Extract ARRAY!!", extract_array)
-
-
-# df = pd.DataFrame(columns=["ID","CreatorID","Image", "Name", "startingTime","Location","Description","Invitation","Visibility"])
-# df_links = pd.DataFrame(columns=["ID","ID_connect","link"])
-# df_user = pd.DataFrame(columns=["ID","Name","Image"])
-
 user_list = []
 
 
@@ -530,7 +415,6 @@ write_keys_to_file('./keys.txt', current_keys)
 print(current_keys)
 
 
-
 user_dict = {}
 events_map = {}
 
@@ -539,21 +423,19 @@ just_for_now = {}
 with open('Users.json') as json_file:
     user_dict = json.load(json_file)
 
-with open('Users.json') as json_file:
-    just_for_now = json.load(json_file)
+# with open('Users.json') as json_file:
+#     just_for_now = json.load(json_file)
 
-with open('Events.json') as json_file:
-    events_map = json.load(json_file)
+# with open('Events.json') as json_file:
+#     events_map = json.load(json_file)
 
 # print("all events: ", events_map)
 
 
 exception_count = 0
-for key_id, key in enumerate(list(current_keys)[:50]):
+for key_id, key in enumerate(list(current_keys)):
     cnt = 0
     id_extracted_list = []
-
-    print(key)
 
     # for dirname, dirs, files in os.walk(data_folder_name+folder_name):
 
@@ -563,13 +445,13 @@ for key_id, key in enumerate(list(current_keys)[:50]):
     key_without_extension, extension = os.path.splitext(key)
     # Find channels with these keywords
     check_names = ["event", "announce", "bullet",
-                    "meet", "opportuni", "intern", "week", "social", "resourc", "competi","gam","info", "sched", "promo"]
+                   "meet", "opportuni", "intern", "week", "social", "resourc", "competi", "gam", "info", "sched", "promo"]
     flag = False
     if extension == ".json":
         for name in check_names:
             if name in key.lower():
                 flag = True
-        
+
         if flag:
             print(key)
             folders = key.split('/')
@@ -581,15 +463,10 @@ for key_id, key in enumerate(list(current_keys)[:50]):
             else:
                 print("There's no org in the given key.")
                 continue
-                
 
             data = get_json_from_s3(key)
 
-            # with open(dirname+"/"+filename, encoding="utf8") as json_file:
-
-            print("########### messages", data['messages'])
-
-            if data['messages'] == []:
+            if data == [] or data['messages'] == []:
                 continue
 
             print(data['messages'][0]['id'])
@@ -599,15 +476,12 @@ for key_id, key in enumerate(list(current_keys)[:50]):
 
             creator_id = data['guild']['id']
 
-            if creator_id in just_for_now:          ### delete this
-                continue
-
-            # default_image = img_url_to_s3(False, "images/discord/"+creator_id+"/server_img_"+data['guild']['name']+"_disc_new"+".jpg", default_image)
-
             name_disc = data['guild']['name']
+
             for message in data['messages']:
+
                 text = message['content']
-                print(text)
+                # print(text)
 
                 # Parse the timestamp from the message
                 message_timestamp = parser.isoparse(message['timestamp'])
@@ -617,14 +491,10 @@ for key_id, key in enumerate(list(current_keys)[:50]):
 
                 # Check if message timestamp was within the last 3 months
                 difference = current_datetime - message_timestamp
-                print(message_timestamp)
-                if difference > timedelta(days=3*30):  # assuming an average month is 30 days
-                    # print("The message was not within the last 3 months.")
-                    continue
 
-                # if its already extracted prevent repetiton
-                if message['id'] in events_map:
-                    print("continue here id:", message['id'])
+                # assuming an average month is 30 days
+                if difference > timedelta(days=3*30):
+                    # print("The message was not within the last 3 months.")
                     continue
 
                 try:
@@ -637,114 +507,80 @@ for key_id, key in enumerate(list(current_keys)[:50]):
                     print(exception_count)
                     pass
 
-                    if date_time_stacks != []:
-                        loc_stack = ["to be decided"] #get_loc(message['content'])
-                        urls = re.findall(r'(https?://\S+)', message['content'])
+                if date_time_stacks != []:
+                    print(".")
+                    loc_stack = get_loc(message['content'])
+                    # loc_stack = ["to be decided"]
+                    urls = re.findall(r'(https?://\S+)',
+                                      message['content'])
 
-                        if loc_stack != [] or urls != []:
-                            # Extract image from text
-                            image_url = default_image  # set image
-                            if message['attachments'] != []:
-                                # if there are attached images
-                                for image in message['attachments']:
-                                    if 'png' in image['url'] or 'jpg' in image['url']:
-                                        print(
-                                            "\nImage Exists in message", image['url'])
-                                        image_url = image['url']
-                                        break
-                    
-                    print(message['content'])
+                    if loc_stack != [] or urls != []:
+                        # Extract image from text
+                        image_url = default_image  # set image
+                        if message['attachments'] != []:
+                            # if there are attached images
+                            for image in message['attachments']:
+                                if 'png' in image['url'] or 'jpg' in image['url']:
+                                    print(
+                                        "\nImage Exists in message", image['url'])
+                                    image_url = image['url']
+                                    break
 
-                    #             event_dict = {}
-                    #             event_dict["CreatorID"] = creator_id
-                    #             event_dict["Image"] = image_url
-                    #             event_dict["Name"] = name_disc
+                        print("name_disc", name_disc)
+                        print(message['content'])
 
-                    #             date_time_val = str(date_time_stacks['date_stack'][0]+" "+date_time_stacks['time_stack'][0].replace(
-                    #                 'pm', '').replace('am', '')+" "+date_time_stacks['time_of_day'].upper())
-                    #             if ":" not in date_time_val:
-                    #                 date_time_val = date_time_val[:-3] + \
-                    #                     ":00"+date_time_val[-3:]
+                        event_dict = {}
+                        print("creator_id: ", creator_id)
+                        event_dict["CreatorID"] = creator_id
+                        event_dict["Image"] = image_url
+                        event_dict["Name"] = name_disc
 
-                    #             try:
-                    #                 # Handle properly
-                    #                 date_time_val = datetime.strptime(
-                    #                     date_time_val, '%Y/%m/%d %I:%M %p')
-                    #             except:
-                    #                 print("formatting error!!!!!!",
-                    #                         date_time_val)
-                    #                 continue
+                        date_time_val = str(date_time_stacks['date_stack'][0]+" "+date_time_stacks['time_stack'][0].replace(
+                            'pm', '').replace('am', '')+" "+date_time_stacks['time_of_day'].upper())
+                        if ":" not in date_time_val:
+                            date_time_val = date_time_val[:-3] + \
+                                ":00"+date_time_val[-3:]
 
-                    #             date_time_val = date_time_val.isoformat()
-                    #             date_time_val = parser.parse(date_time_val)
-                    #             date_time_val = datetime.utcfromtimestamp(
-                    #                 date_time_val.timestamp())
+                        try:
+                            # Handle properly
+                            date_time_val = datetime.strptime(
+                                date_time_val, '%Y/%m/%d %I:%M %p')
+                        except:
+                            print("formatting error!!!!!!",
+                                  date_time_val)
+                            continue
 
-                    #             event_dict["startingTime"] = date_time_val
+                        date_time_val = date_time_val.isoformat()
+                        date_time_val = parser.parse(date_time_val)
+                        date_time_val = datetime.utcfromtimestamp(
+                            date_time_val.timestamp())
 
-                    #             if loc_stack == []:
-                    #                 event_dict["Location"] = urls[0]
-                    #             else:
-                    #                 event_dict["Location"] = loc_stack[0]
+                        event_dict["startingTime"] = str(date_time_val)
 
-                    #             event_dict["Description"] = message['content'].replace(
-                    #                 '@', '')
-                    #             event_dict["Visibility"] = "Public"
+                        if loc_stack == []:
+                            event_dict["Location"] = urls[0]
+                        else:
+                            event_dict["Location"] = loc_stack[0]
 
-                    #             print(cnt)
-                    #             cnt += 1
+                        event_dict["Description"] = message['content'].replace(
+                            '@', '')
+                        event_dict["Visibility"] = "Public"
 
-                    #             if event_dict["CreatorID"] not in user_dict:
-                    #                 temp_user_dict = {}
-                    #                 temp_user_dict['ID'] = event_dict["CreatorID"]
-                    #                 temp_user_dict['Name'] = data['guild']['name']
-                    #                 temp_user_dict['Image'] = data['guild']['iconUrl']
+                        print(cnt)
+                        cnt += 1
 
-                    #                 creator = pd.DataFrame(
-                    #                     [temp_user_dict]).values.tolist()
+                        # image_string = process_image(event["Image"])
 
-                    #                 print("creator_list: ", creator)
+                        event_image = Image(event_dict["Image"])
+                        event_image.process()
 
-                    #                 print("CREATOR###################")
+                        interest_ids = ["Social"]
 
-                    #                 # push creator to neo4j
-                    #                 user_dict_detail = push_to_neo4j_creator(
-                    #                     creator)
+                        # Convert the string to a datetime object
+                        date_obj = datetime.strptime(
+                            str(event_dict["startingTime"]), '%Y-%m-%d %H:%M:%S') + timedelta(minutes=1)
+                        endtime = str(date_obj.strftime('%Y-%m-%d %H:%M:%S'))
 
-                    #                 if user_dict_detail != None:
-                    #                     user_dict[event_dict["CreatorID"]
-                    #                                 ] = user_dict_detail
-                    #                     with open("Users.json", "w") as outfile:
-                    #                         json.dump(user_dict, outfile)
+                        append_to_json_file('all_events.json', event_dict)
 
-                    #             event_dict["CreatorUAT"] = user_dict[creator_id]['user_access_token']
-
-                    #             # image_string = process_image(event["Image"])
-
-                    #             event_image = Image(event_dict["Image"])
-                    #             event_image.process()
-
-                    #             interest_ids = ["Social"]
-
-                    #             event = Event(user_access_token=event_dict["CreatorUAT"],
-                    #                             title=event_dict["Name"],
-                    #                             description=event_dict["Description"],
-                    #                             base64_image=event_image.get_image_string(),
-                    #                             start_date_time=event_dict["startingTime"],
-                    #                             end_date_time=None,
-                    #                             location=event_dict["Location"],
-                    #                             visibility=event_dict["Visibility"],
-                    #                             interest_ids=interest_ids)
-
-                    #             event_id = event.post_event()
-
-                    #             # event_id = push_to_neo4j(event_dict)
-                    #             print("returned id: ", event_id)
-
-                    #             if event_id != None:
-                    #                 events_map[message['id']] = event_id
-                    #                 with open("Events.json", "w") as outfile:
-                    #                     json.dump(events_map, outfile)
-                    #             else:
-                    #                 print(
-                    #                     "\nEvent pushing error!!!!!!!!!!!!!!")
+                        print("Finallll event_dict:", event_dict)

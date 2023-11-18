@@ -1,4 +1,4 @@
-import aioboto3
+# import aioboto3
 import os
 import sys
 import asyncio
@@ -17,7 +17,8 @@ s3_client = boto3.client(
     aws_secret_access_key='PMtLl22TWVCPZwDA7xQdZI42YffA0RykBaXMdXXA',
 )
 
-def get_json_from_s3(object_key,bucket_name= 'discord-data'):
+
+def get_json_from_s3(object_key, bucket_name='discord-data'):
 
     print("JSOMMMMMMM########")
     # # Initialize the S3 client
@@ -29,10 +30,17 @@ def get_json_from_s3(object_key,bucket_name= 'discord-data'):
     # Read the object's content
     file_content = response['Body'].read().decode('utf-8')
 
-    # Parse the JSON
-    json_content = json.loads(file_content)
-    
-    return json_content
+    # Write the raw content to a local file for inspection
+    with open('raw_content.txt', 'w') as file:
+        file.write(file_content)
+
+    try:
+        # Parse the JSON
+        json_content = json.loads(file_content)
+        return json_content
+    except json.JSONDecodeError:
+        print("Failed to parse the JSON. Check the raw_content.txt for the actual content.")
+        return []
 
 
 def create_new_object_key(filepath):
@@ -170,6 +178,7 @@ def download_from_s3(object_key):
 # # Create a lock for file deletion
 # file_delete_lock = asyncio.Lock()
 
+
 def main():
     # if len(sys.argv) < 2:
     #     print("Please provide the object key as an argument.")
@@ -180,7 +189,6 @@ def main():
     # Running the asynchronous upload_to_s3 function
     asyncio.run(upload_guild_to_s3(
         "/Users/chiragrastogi/Dev/Moment_app/Where2Be-Server/src/worker/scraper/buffers/data_UCB"))
-
 
 
 if __name__ == "__main__":

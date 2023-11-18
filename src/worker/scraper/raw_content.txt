@@ -1,0 +1,3158 @@
+{
+  "guild": {
+    "id": "647548740927881243",
+    "name": "UCSD Cog Sci Study Group",
+    "iconUrl": "https://cdn.discordapp.com/icons/647548740927881243/44c80c1e7ff6c5225ae288b1b8f21af9.png"
+  },
+  "channel": {
+    "id": "647605299330547713",
+    "type": "GuildTextChat",
+    "categoryId": "0",
+    "category": "Text",
+    "name": "events",
+    "topic": null
+  },
+  "dateRange": {
+    "after": null,
+    "before": null
+  },
+  "messages": [
+    {
+      "id": "648974516747239435",
+      "type": "Default",
+      "timestamp": "2019-11-26T19:53:02.156+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "**Wednesday, Dec 4, 17:00-20:00**\nCSSA Study Jam @ Biomed Library, Study Rooms 106-110",
+      "author": {
+        "id": "614730904622989323",
+        "name": "NoteChan",
+        "discriminator": "0123",
+        "nickname": "NoteChan",
+        "color": "#00FFFF",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/614730904622989323/58c783554d5d2eb4ce3cc0d5b3e72b29.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "648974515753320478",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/648974515753320478/Study_Jam.png?ex=6553d01d&is=65415b1d&hm=9a1199e2b7b7ae75c256181bea75c9dc6e2c06130649383a6430473e1332772b&",
+          "fileName": "Study_Jam.png",
+          "fileSizeBytes": 352345
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "651614923717214212",
+      "type": "Default",
+      "timestamp": "2019-12-04T02:45:04.234+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "**Tuesday, Dec 3, 11:00-22:00**\nCSSA Fundraiser/Social (Social starts from 19:00) @ Shake Shack",
+      "author": {
+        "id": "614730904622989323",
+        "name": "NoteChan",
+        "discriminator": "0123",
+        "nickname": "NoteChan",
+        "color": "#00FFFF",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/614730904622989323/58c783554d5d2eb4ce3cc0d5b3e72b29.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "651614923268554758",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/651614923268554758/78645446_2697769570275831_4448127826935152640_n.jpg?ex=655430b0&is=6541bbb0&hm=54922f132c7a068dd59b2936bd34d7a25579599809131843fc03db84ab5b3acf&",
+          "fileName": "78645446_2697769570275831_4448127826935152640_n.jpg",
+          "fileSizeBytes": 57932
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "652295288949571600",
+      "type": "Default",
+      "timestamp": "2019-12-05T23:48:35.946+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "**Thursday, Dec 5, 16:00-17:00**\nDistinguished Alum Talk Bart Meltzer @ CSB 003",
+      "author": {
+        "id": "614730904622989323",
+        "name": "NoteChan",
+        "discriminator": "0123",
+        "nickname": "NoteChan",
+        "color": "#00FFFF",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/614730904622989323/58c783554d5d2eb4ce3cc0d5b3e72b29.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "652295288949571594",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/652295288949571594/78745919_2702094023176719_6773315549238657024_o.jpg?ex=6556aa53&is=65443553&hm=27c5c9b5427b03cfc19614f38d060bf72b4daa9e8c92700104695a0b39ef8847&",
+          "fileName": "78745919_2702094023176719_6773315549238657024_o.jpg",
+          "fileSizeBytes": 324449
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "653421093956222986",
+      "type": "Default",
+      "timestamp": "2019-12-09T02:22:08.776+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "**Monday, Dec 9, 14:00-15:00**\nCognitive Science Doge De-stress @ Cognitive Science Building Courtyard",
+      "author": {
+        "id": "614730904622989323",
+        "name": "NoteChan",
+        "discriminator": "0123",
+        "nickname": "NoteChan",
+        "color": "#00FFFF",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/614730904622989323/58c783554d5d2eb4ce3cc0d5b3e72b29.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "653421093453037589",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/653421093453037589/image.png?ex=655ac2d0&is=65484dd0&hm=f2f075827e4c172dfd118af17872c71db0c47fc8314112c6e760b66b9a17582b&",
+          "fileName": "image.png",
+          "fileSizeBytes": 752987
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [
+        {
+          "emoji": {
+            "id": "397770489713655829",
+            "name": "DogeSunglasses",
+            "isAnimated": false,
+            "imageUrl": "https://cdn.discordapp.com/emojis/397770489713655829.png"
+          },
+          "count": 1
+        },
+        {
+          "emoji": {
+            "id": "400148993302200331",
+            "name": "dogeDance",
+            "isAnimated": true,
+            "imageUrl": "https://cdn.discordapp.com/emojis/400148993302200331.gif"
+          },
+          "count": 1
+        },
+        {
+          "emoji": {
+            "id": "515428845491453964",
+            "name": "ASdiscodoge",
+            "isAnimated": true,
+            "imageUrl": "https://cdn.discordapp.com/emojis/515428845491453964.gif"
+          },
+          "count": 1
+        }
+      ],
+      "mentions": []
+    },
+    {
+      "id": "653482461010984960",
+      "type": "Default",
+      "timestamp": "2019-12-09T06:25:59.822+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "**Monday, Dec 9, 18:00**\nTriton Dine @ Price Center Ballroom West",
+      "author": {
+        "id": "614730904622989323",
+        "name": "NoteChan",
+        "discriminator": "0123",
+        "nickname": "NoteChan",
+        "color": "#00FFFF",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/614730904622989323/58c783554d5d2eb4ce3cc0d5b3e72b29.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "653482460302016515",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/653482460302016515/TritonDine.png?ex=655afbf7&is=654886f7&hm=e80e363e60ccd8207262ca9eec00d9d5e723f88600929fec664f2cc85e4b70a8&",
+          "fileName": "TritonDine.png",
+          "fileSizeBytes": 3442262
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "666808455360806912",
+      "type": "Default",
+      "timestamp": "2020-01-15T00:58:44.46+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "**Tuesday, Jan 14, 11:00-23:00 (Social at 19:00)**\nCSSA: BJ's Fundraiser ($3 Pizookies!) @ BJ's",
+      "author": {
+        "id": "614730904622989323",
+        "name": "NoteChan",
+        "discriminator": "0123",
+        "nickname": "NoteChan",
+        "color": "#00FFFF",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/614730904622989323/58c783554d5d2eb4ce3cc0d5b3e72b29.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "666808455356612649",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/666808455356612649/81746748_2781331061919681_4570279677540696064_o.jpg?ex=655417c4&is=6541a2c4&hm=144f5e86acb29b5f33e55762f76400bf2948c954e11b85a7e6b2690df047bda6&",
+          "fileName": "81746748_2781331061919681_4570279677540696064_o.jpg",
+          "fileSizeBytes": 160709
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "666809352098676738",
+      "type": "Default",
+      "timestamp": "2020-01-15T01:02:18.259+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "**Thursday, Jan 16, 10:30-22:30**\nCSSA: 10% Off Yogurt World @ Yogurt World",
+      "author": {
+        "id": "614730904622989323",
+        "name": "NoteChan",
+        "discriminator": "0123",
+        "nickname": "NoteChan",
+        "color": "#00FFFF",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/614730904622989323/58c783554d5d2eb4ce3cc0d5b3e72b29.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "666809352098676736",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/666809352098676736/82040253_2791880330864754_8587212768145309696_o.jpg?ex=6554189a&is=6541a39a&hm=c144cbc823f321285bef9189c6ffd8c26478a437923c5320bcf99b3be5201bf2&",
+          "fileName": "82040253_2791880330864754_8587212768145309696_o.jpg",
+          "fileSizeBytes": 54631
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "674408382748426240",
+      "type": "Default",
+      "timestamp": "2020-02-05T00:18:08.349+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "**Tuesday, Feb 4, 17:00-18:30**\nCSSA: De-Stress Event @ Geisel Room 721\n> Take a moment to de-stress during midterm season in Geisel study room 721 on Tuesday of Week 5!\n> \n> We will have succulents pots for you to paint and take. And yes you can take the succulent plant home too! There will also be puzzles, coloring books, and card games. \n> \n> Please remember to relax and take care of yourself during the quarter! Good luck with midterms! \uD83C\uDF40",
+      "author": {
+        "id": "614730904622989323",
+        "name": "NoteChan",
+        "discriminator": "0123",
+        "nickname": "NoteChan",
+        "color": "#00FFFF",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/614730904622989323/58c783554d5d2eb4ce3cc0d5b3e72b29.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "674408382471471107",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/674408382471471107/84073405_2817864994932954_7234813315656974336_o.jpg?ex=65540e40&is=65419940&hm=c63abf48f48a899c99307e58af6e6dd9bbf127a335a2781eaf220d36ba4a2beb&",
+          "fileName": "84073405_2817864994932954_7234813315656974336_o.jpg",
+          "fileSizeBytes": 80339
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "674409026414575656",
+      "type": "Default",
+      "timestamp": "2020-02-05T00:20:41.811+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "**Wednesday, Feb 5, 18:30-20:00**\nDesign Co: Hack Your Visuals @ HSS 1346\n> Despite how amazing a project is, it can still go from 10 to 11 with good visual design. We're here to help you \uD835\uDCF0\uD835\uDCF5\uD835\uDCF8\uD835\uDD00  \uD835\uDCFE\uD835\uDCF9 your project!\n> At this workshop, we will show you basic visual design knowledge like color theory, text hierarchy and typography to incorporate into your project, resume, portfolio, and more.\n> \n> The workshop will be interactive, so please bring your laptop!",
+      "author": {
+        "id": "614730904622989323",
+        "name": "NoteChan",
+        "discriminator": "0123",
+        "nickname": "NoteChan",
+        "color": "#00FFFF",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/614730904622989323/58c783554d5d2eb4ce3cc0d5b3e72b29.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "674409026141814794",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/674409026141814794/84192511_2486871954886594_7407132931195404288_o.jpg?ex=65540ed9&is=654199d9&hm=51673a01216f6fad92385441fccb922ee74e417407e84323e32b02c65114c44c&",
+          "fileName": "84192511_2486871954886594_7407132931195404288_o.jpg",
+          "fileSizeBytes": 178581
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "674409794039185488",
+      "type": "Default",
+      "timestamp": "2020-02-05T00:23:44.827+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "**Thursday, Feb 6, 18:00-20:00**\nTriton Networking Night: Mind and Media @ The Loft\n> Join us for an entertaining and productive evening of networking with professionals and alumni in industries representing thought-centered design, science and technology. This is an opportunity to have an engaging conversation with and learn from the representatives of companies in sectors such as technology, media, marketing, healthcare, design and human development.\n> \n> Here are the companies and people that will be attending:\n> Wesley Hsu: VP, UX and Design at Robolink\n> Clarissa Ryan: Marketing Specialist at Tinuiti\n> Wes Shoup: Technical Recruiter at PetDesk\n> Joyce Tam: CMO at Doctor Multimedia\n> Isaiah Weiss: Founder/CEO of LearnSesh VR Tutoring\n> Christine Seabolt: UX/UD Consultant\n> Melvin Parker: Owner of EQ Studios and Vizion Media Group\n> Seth Hill (VP of Customer Experience Manager) and John Maas (VP of Digital Marketing): AXOS Bank\n> **Additional companies and alumni may be added**\n> \n> Remember to REGISTER for the event through Handshake: https://ucsd.joinhandshake.com/events/411132\n> \n> Dress Code: Business Casual",
+      "author": {
+        "id": "614730904622989323",
+        "name": "NoteChan",
+        "discriminator": "0123",
+        "nickname": "NoteChan",
+        "color": "#00FFFF",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/614730904622989323/58c783554d5d2eb4ce3cc0d5b3e72b29.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "674409793720680458",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/674409793720680458/82840266_2792069234179197_242408276308787200_n.jpg?ex=65540f90&is=65419a90&hm=97e34b71662273a1d5d07c27008caeaa731c9d8bac983d37a20afe05f57f70c4&",
+          "fileName": "82840266_2792069234179197_242408276308787200_n.jpg",
+          "fileSizeBytes": 66787
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "743571757377650689",
+      "type": "Default",
+      "timestamp": "2020-08-13T20:48:41.854+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "**Wednesday, August 19, 10:00 AM - 2:00 PM**\nVirtual Summer Career and Graduate School Fair\n> Register today for the virtual summer career and graduate school fair! Whether you’re looking to secure an internship, full- or part-time position or apply to graduate school, this summer-time networking opportunity can help you take that next step.\n> \n> The event will be hosted on UC San Diego’s new virtual career fair platform, Highre. This exciting new platform connects you with employers for 1:1 video meetings, 30–60 minute group webinar sessions and more. You must use your UC San Diego email address to register. Watch this tutorial to ensure you’re ready to maximize your time at the virtual fair.\n> \n> event registration: https://ucsd.joinhandshake.com/career_fairs/17650/student_preview?token=ErvC9NmkLvFtDTp_ig3Xqwl6CL4cLFyYyjNEebJA0DZk9de48HpK7A\n> tutorial: https://www.youtube.com/watch?v=FGI3CLCMAJ8&feature=youtu.be\n@Events",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "743571847404060773",
+      "type": "Default",
+      "timestamp": "2020-08-13T20:49:03.318+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "743571843536912504",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/743571843536912504/unnamed.jpg?ex=6556803e&is=65440b3e&hm=71483dc3d2bf78e9720dbe2e013c8f7cce1806792081b2b255c7f552cda4ebc5&",
+          "fileName": "unnamed.jpg",
+          "fileSizeBytes": 90991
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "746118051237331094",
+      "type": "Default",
+      "timestamp": "2020-08-20T21:26:45.618+00:00",
+      "timestampEdited": "2020-08-20T21:27:57.149+00:00",
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \nWhat's up everyone! If you're bored this summer and looking for something to do, or if you want to win cool prizes/opportunities with ServiceNow, check out the ACM UCSD x UCI Programming Competition:\n\n**Saturday, September 12, 10:30 AM - 3:00 PM**\nACM x UCI Competitive Programming Competition\nhttps://www.facebook.com/events/664339430844292/\n> Whether you want to flex your competitive programming skills, get some practice for upcoming technical interviews, or explore potential opportunities with ServiceNow, come through to ACM UCSD X UCI's first ever competitive programming competition collaboration! Participants will have their resume forwarded DIRECTLY to ServiceNow recruiters along with the chance to win amazing prizes such as Amazon Echo Dots, Gift Cards, and ServiceNow swag. Please Register Here!\n> \n> Happy Coding :). \n> \n> Registration form: https://forms.gle/rZCRTuGxikR3uwr38\n\nOther than that, stay tuned for more upcoming events in the fall! :yukkorgby:",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "746118050817900594",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/746118050817900594/unnamed.png?ex=65568915&is=65441415&hm=a99123c40c88530d4ccb213b28b06de8663f0019f65053616c65ae9d6b524195&",
+          "fileName": "unnamed.png",
+          "fileSizeBytes": 451328
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [
+        {
+          "emoji": {
+            "id": "",
+            "name": "\uD83C\uDDE6",
+            "isAnimated": false,
+            "imageUrl": "https://twemoji.maxcdn.com/2/svg/1f1e6.svg"
+          },
+          "count": 1
+        },
+        {
+          "emoji": {
+            "id": "",
+            "name": "\uD83C\uDDE8",
+            "isAnimated": false,
+            "imageUrl": "https://twemoji.maxcdn.com/2/svg/1f1e8.svg"
+          },
+          "count": 1
+        },
+        {
+          "emoji": {
+            "id": "",
+            "name": "\uD83C\uDDF2",
+            "isAnimated": false,
+            "imageUrl": "https://twemoji.maxcdn.com/2/svg/1f1f2.svg"
+          },
+          "count": 1
+        }
+      ],
+      "mentions": []
+    },
+    {
+      "id": "763237475963240448",
+      "type": "Default",
+      "timestamp": "2020-10-07T03:13:14.536+00:00",
+      "timestampEdited": "2020-10-07T03:13:52.077+00:00",
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Wednesday, October 7th, 6:00 PM - 7:30 PM**\nCSSA UCSD's First GBM\nhttps://www.facebook.com/events/3709337602409586\n> Hello Tritons!\n>  \n> Fall Quarter is almost here! While we may be online this quarter, there are still plenty of ways to get involved and be a part of the Cognitive Science community. Come join the Cognitive Science Student Association’s first Zoom GBM of the quarter — next Wednesday of Week 1 (10/7) at 6pm. Find out how YOU can be a part of our community by being a general member, volunteering or even becoming a committee member. We will be discussing our upcoming events, the variety of Cog Sci specializations to explore, and much more.\n> \n> Feel free to stick around after the meeting to meet our Exec Board, other members, ask questions, or just hang out. We hope to see you there!\n> \n> Zoom link: https://ucsd.zoom.us/j/98476582766\n\nA bit late of a notice but CSSA is having their first GBM tomorrow on Zoom if anyone is interested! Other than that, hope ya'll are having a good week 1! I say, internally dying already \n:AmagiDance1: :AmagiDance2:",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "763237580824117248",
+      "type": "Default",
+      "timestamp": "2020-10-07T03:13:39.537+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "763237577226190858",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/763237577226190858/csssaucsd.png?ex=65543762&is=6541c262&hm=9f5977972a7bcb76054c8e3fcac43dfc7e00d00cfe352eb8ee33d2ebf36f3a9a&",
+          "fileName": "csssaucsd.png",
+          "fileSizeBytes": 83051
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [
+        {
+          "emoji": {
+            "id": "",
+            "name": "\uD83C\uDF49",
+            "isAnimated": false,
+            "imageUrl": "https://twemoji.maxcdn.com/2/svg/1f349.svg"
+          },
+          "count": 4
+        }
+      ],
+      "mentions": []
+    },
+    {
+      "id": "763519493381029910",
+      "type": "Default",
+      "timestamp": "2020-10-07T21:53:52.728+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Thursday, October 8th, 5:00 PM**\nDesign Co: Fall Kickoff - Intro to Design\nhttps://www.facebook.com/events/255328112501771\n> Welcome back! Join us at our Fall Kick-off event next Thursday (10/8) to learn more about who we are and what we have planned for this quarter. We’ll also be going over 6 different career paths within design, including interaction design, visual design, UX research, UX engineering, content strategy, and service design. We hope to see you all there!\n> \n> event location/zoom link: http://www.ucsddesign.co/gbm\n\nFor anyone interested in design, this student org is having their GBM tomorrow!",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "763519535441248267",
+      "type": "Default",
+      "timestamp": "2020-10-07T21:54:02.756+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "763519533180125224",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/763519533180125224/designclub.PNG?ex=65553dfa&is=6542c8fa&hm=41403aaebd051a5ab35a446bae1a967e8a134c685921543d4865eb07364fd4b3&",
+          "fileName": "designclub.PNG",
+          "fileSizeBytes": 252585
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [
+        {
+          "emoji": {
+            "id": "",
+            "name": "\uD83C\uDF49",
+            "isAnimated": false,
+            "imageUrl": "https://twemoji.maxcdn.com/2/svg/1f349.svg"
+          },
+          "count": 5
+        }
+      ],
+      "mentions": []
+    },
+    {
+      "id": "764003427461627914",
+      "type": "Default",
+      "timestamp": "2020-10-09T05:56:51.604+00:00",
+      "timestampEdited": "2020-10-09T05:58:13.242+00:00",
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Friday, October 9th, 4:30 PM - 6:00 PM**\nACM AI: Introduction to AI and Neural Networks\nhttps://ai.acmucsd.com\n> This workshop will be an introduction to those big buzz words, Neural Networks, Deep Learning, AI, Computer vision, and so on. We will teach you the fundamentals of neural networks and also cover the broad span of terminology used in the field of AI. This is the first part of a 5 part workshop series that will teach you all about Neural Networks and equip you with the skills and tools to teach a computer.\n> \n> zoom link: http://acmurl.com/ainn-1\n\nI found some events coming up having to do with AI, seemed like something ML majors would be interested in! There will also be a AI competition October 14th and another AI workshop on the 16th, so you can go over to their website for more info.",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [
+        {
+          "emoji": {
+            "id": "734571145856155689",
+            "name": "acm_black",
+            "isAnimated": false,
+            "imageUrl": "https://cdn.discordapp.com/emojis/734571145856155689.png"
+          },
+          "count": 1
+        }
+      ],
+      "mentions": []
+    },
+    {
+      "id": "764003438366556180",
+      "type": "Default",
+      "timestamp": "2020-10-09T05:56:54.204+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "764003435879202856",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/764003435879202856/aGj0zl0.png?ex=655700a5&is=65448ba5&hm=84dfc9c93adca45acd9538ddf2549a693cdd2ddb08cfa90e335a06a0e180ca59&",
+          "fileName": "aGj0zl0.png",
+          "fileSizeBytes": 66807
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "764719070997118997",
+      "type": "Default",
+      "timestamp": "2020-10-11T05:20:34.319+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Tuesday, October 13th, 7:00 PM - 8:15 PM**\nTriton Software Engineering Info Session \nhttps://www.facebook.com/events/1240531482964924/\n> Are you interested in software development? Do you want to gain REAL WORLD experience working in project teams to help others?\n> \n> If so, then you are in luck! Triton Software Engineering is looking for project managers, UI/UX designers, and developers!\n> \n> Triton Software Engineering (TSE) is a student-run organization that seeks to provide pro-bono software development services and technical consultation. We connect with non-profit organizations and use our technical abilities to help them help others.\n> \n> Join us for Info Session 2 to learn about our organization in-depth, including who we work with, what technologies we use, and what we have to offer to you!\n> \n> Zoom: https://ucsd.zoom.us/j/94938406491\n> \n> If you have any questions, feel free to message the Triton Software Engineering page or email us at tse@ucsd.edu. \uD83D\uDE42\n> \n> Looking forward to seeing you guys there!",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [
+        {
+          "emoji": {
+            "id": "733526513529651203",
+            "name": "pog",
+            "isAnimated": false,
+            "imageUrl": "https://cdn.discordapp.com/emojis/733526513529651203.png"
+          },
+          "count": 1
+        }
+      ],
+      "mentions": []
+    },
+    {
+      "id": "764719085636157461",
+      "type": "Default",
+      "timestamp": "2020-10-11T05:20:37.809+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "764719080899870720",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/764719080899870720/120200846_2714120542137134_4280970171818480366_o.jpg?ex=65599b24&is=65472624&hm=e7aa62d99f6185198793232bd137f364c65b8ab44c8983140e60b0c678e5490c&",
+          "fileName": "120200846_2714120542137134_4280970171818480366_o.jpg",
+          "fileSizeBytes": 49371
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [
+        {
+          "emoji": {
+            "id": "",
+            "name": "\uD83D\uDC40",
+            "isAnimated": false,
+            "imageUrl": "https://twemoji.maxcdn.com/2/svg/1f440.svg"
+          },
+          "count": 1
+        }
+      ],
+      "mentions": []
+    },
+    {
+      "id": "766404913336156190",
+      "type": "Default",
+      "timestamp": "2020-10-15T20:59:30.454+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Monday, October 19th, 5:00 PM - 6:00 PM**\nHUE Collective Team Info Session \n> Hi everyone, HUE Collective, a digital design zine here at UCSD, is looking to recruit new members this fall. If you want to join a project that gives you a chance to be creative and join a team of fun people, this is for you!\n> \n> HUE is recruiting for these positions:\n> - UX Designer\n> - Developer\n> - Marketing Coordinator\n> - Writer\n> - Illustrator\n> \n> We have members from a range of majors, so don't worry if you're not a designer or artist! We welcome anyone and everyone to join \uD83D\uDE42\n> \n> Zoom link: bit.ly/HUE-INFO\n> application/position info: bit.ly/HUE-JOIN\n\nFor any DEI majors or anyone interested in design, this seems like a good opportunity, check out the info session if you're interested.",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "766404967815839805",
+      "type": "Default",
+      "timestamp": "2020-10-15T20:59:43.443+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "766404962954903573",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/766404962954903573/hue.jpg?ex=655682be&is=65440dbe&hm=9fde19e9d372d18429ba0edc9afd08ab7293addc980d294f057d1f288d35017e&",
+          "fileName": "hue.jpg",
+          "fileSizeBytes": 5798273
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [
+        {
+          "emoji": {
+            "id": "733526513529651203",
+            "name": "pog",
+            "isAnimated": false,
+            "imageUrl": "https://cdn.discordapp.com/emojis/733526513529651203.png"
+          },
+          "count": 1
+        },
+        {
+          "emoji": {
+            "id": "",
+            "name": "✨",
+            "isAnimated": false,
+            "imageUrl": "https://twemoji.maxcdn.com/2/svg/2728.svg"
+          },
+          "count": 2
+        }
+      ],
+      "mentions": []
+    },
+    {
+      "id": "767940679250477057",
+      "type": "Default",
+      "timestamp": "2020-10-20T02:42:05.581+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Wednesday, October 21st, 5:00 PM - 7:00 PM**\nCSSA UX Resume Workshop + Networking Event\nhttps://www.facebook.com/events/824328074987270/\n> Hello Tritons! Happy Week 2! \n> Are you interested in pursuing a career in UX and want to learn more about the necessary skills needed to be a strong applicant? CSSA is partnering with Geek Girl Careers to put on a UX-focused Networking Panel. Geek Girl Careers is an online career counseling startup focused on empowering girls to pursue tech-related careers. At this event on Wednesday 10/21 at 5pm PST, we will be hosting Nicole Fernandez-Valle, a professional recruiter, and two UX experts, Kendall Wise, a UX Research @ Google, and Ashwin Khurana, a previous Design Lead @ Mint | Intuit. The event will begin with a recruiter presentation of application and resume tips, followed by the UX experts explaining their journeys into design. The event will conclude with a recruiter and panelist moderated Q&A. You can send in any questions you may want to ask at the Q&A session at this Google Form below (questions will be accepted until Monday 10/19):\n> https://docs.google.com/forms/d/e/1FAIpQLSdTQYtwhidbqDq0QglPAFzkG_bCw5RNBK-3eBBBaiGdo7KLtQ/viewform\n> \n> Zoom Link: http://bit.ly/CSSA_Event \n> We hope to see you all there!",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [
+        {
+          "emoji": {
+            "id": "",
+            "name": "\uD83C\uDF49",
+            "isAnimated": false,
+            "imageUrl": "https://twemoji.maxcdn.com/2/svg/1f349.svg"
+          },
+          "count": 4
+        }
+      ],
+      "mentions": []
+    },
+    {
+      "id": "767940720304062504",
+      "type": "Default",
+      "timestamp": "2020-10-20T02:42:15.369+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "767940717532020787",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/767940717532020787/cssa.jpg?ex=6552de86&is=65406986&hm=4d61b9efe914eabe9183f3380baa5118df41b1c43f98ec210523b5a9532f60e7&",
+          "fileName": "cssa.jpg",
+          "fileSizeBytes": 74611
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "798345949927178260",
+      "type": "Default",
+      "timestamp": "2021-01-12T00:21:47.013+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Tuesday, January 12th, 12:00 PM - 1:00 PM**\nBloomberg Engineering Information Session & Terminal Demo\nhttps://ucsd.joinhandshake.com/events/646700\n> We would like to invite you to a virtual Bloomberg Engineering Information Session & Terminal Demo. You will have the opportunity to learn more about Bloomberg, our roles in Software Engineering, and the Bloomberg Terminal product. We look forward to seeing you there!\n> \n> registration link: https://bloomberg.recsolu.com/external/events/QyCcHfhhKftlDNAOT2xGQg\n\ndeadline to sign up is by the start time for anyone looking into software engineering.",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "798346104114642965",
+      "type": "Default",
+      "timestamp": "2021-01-12T00:22:23.774+00:00",
+      "timestampEdited": "2021-01-12T00:22:59.213+00:00",
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "infographic :ayapointed:",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "798346103887101962",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/798346103887101962/Bloomberg__-_Terminal_Demo___Information_Session_at_UCSD_-_Spring_2021.pdf?ex=6552bdbf&is=654048bf&hm=98de3bb48b8a1ab7e6823dc48179da1a93f2c94cf86a979f6dd1fa3c3cba291f&",
+          "fileName": "Bloomberg__-_Terminal_Demo___Information_Session_at_UCSD_-_Spring_2021.pdf",
+          "fileSizeBytes": 390595
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [
+        {
+          "emoji": {
+            "id": "",
+            "name": "\uD83C\uDF49",
+            "isAnimated": false,
+            "imageUrl": "https://twemoji.maxcdn.com/2/svg/1f349.svg"
+          },
+          "count": 1
+        }
+      ],
+      "mentions": []
+    },
+    {
+      "id": "798351741065494558",
+      "type": "Default",
+      "timestamp": "2021-01-12T00:44:47.728+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Thursday, January 14th, 10:00 AM - 2:00 PM**\nScience & Technology Winter Career Fair\n> Whether you’re looking to secure an internship, full- or part-time position, start the new year with a series of industry-specific virtual career fairs. Each event will be 10 a.m.-2 p.m., hosted on Handshake. Register today to engage with leading employers!\n> \n> registration link: https://ucsd.joinhandshake.com/career_fairs/21209\n\nThese 2 also may be relevant to our major,\nMedia, Design, & Marketing (Wednesday, January 13th): https://ucsd.joinhandshake.com/career_fairs/21208\nHealth, Bio-Tech, & Life Sciences (Wednesday, January 27th): https://ucsd.joinhandshake.com/career_fairs/21206",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "798351771981709332",
+      "type": "Default",
+      "timestamp": "2021-01-12T00:44:55.099+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "798351766949068810",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/798351766949068810/2021-178-WinterCareerFair-Handshake-1200x300-f1.jpg?ex=6552c305&is=65404e05&hm=d5f3269131a46a502062238762bd4cc358458c854da179a54e57d7e1bd990542&",
+          "fileName": "2021-178-WinterCareerFair-Handshake-1200x300-f1.jpg",
+          "fileSizeBytes": 65658
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "803423385702891610",
+      "type": "Default",
+      "timestamp": "2021-01-26T00:37:42.036+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Tuesday, February 9, 3:30 PM - 4:00 PM\nWednesday, February 10, 10:00 AM - 10:30 AM\nThursday, February 11, 5:00 PM - 5:30 PM**\nTake a Triton to Work Orientation - Spring Break\n> You already know you should be networking, but we get it — it can be uncomfortable and hard, especially virtually. That’s why we’ve done some of the hard work for you with Take a Triton to Work. This popular program sets you up with an alumni mentor for a virtual meeting. Learn about potential career opportunities in your field, ask professional development questions and make a connection with someone who was once in your shoes. \n> How to sign up:\n> 1. Register: https://urldefense.com/v3/__https://t.e2ma.net/click/jbgihf/n2rsj9r/vsd5agb__;!!Mih3wA!SqPON5JRtzS9xCAc1TE9ZexBuZDcLt0dlHBUIkAXImf6E9qoDSLhQbvRWOQh0FzC$\n> 2. Complete/Update your profile by clicking on “Edit Profile.”\n> Upload a photo and personalize your profile.\n> Make sure to include professional, academic and volunteer experience directly from your resume or LinkedIn profile – this is your matching criteria and will help connect you with an alumni with relevant experience.\n> Under the “Seek Mentoring” section, choose this activity: Take a Triton to Work.\n> 3. Attend one of the orientation meetings\n> Note: If you can’t attend one of the orientation sessions, you can still participate. Just keep an eye on your email for a recording from the orientation sessions, watch the video, and make sure you’ve indicated your interest in Tritons Connect. Unmatched participants will be paired with a mentor on March 5, 2021.",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "803427413760409600",
+      "type": "Default",
+      "timestamp": "2021-01-26T00:53:42.4+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "Update cus message length too long:\nFeb 9 orientation registration: https://urldefense.com/v3/__https://t.e2ma.net/click/jbgihf/n2rsj9r/ble5agb__;!!Mih3wA!SqPON5JRtzS9xCAc1TE9ZexBuZDcLt0dlHBUIkAXImf6E9qoDSLhQbvRWPKkE0eK$\nFeb 10 orientation registration: https://urldefense.com/v3/__https://t.e2ma.net/click/jbgihf/n2rsj9r/rdf5agb__;!!Mih3wA!SqPON5JRtzS9xCAc1TE9ZexBuZDcLt0dlHBUIkAXImf6E9qoDSLhQbvRWODwAdEy$\nFeb 11 orientation registration: https://urldefense.com/v3/__https://t.e2ma.net/click/jbgihf/n2rsj9r/75f5agb__;!!Mih3wA!SqPON5JRtzS9xCAc1TE9ZexBuZDcLt0dlHBUIkAXImf6E9qoDSLhQbvRWIRjwESm$",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "803427498648928266",
+      "type": "Default",
+      "timestamp": "2021-01-26T00:54:02.639+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "803427496988770325",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/803427496988770325/unnamed.jpg?ex=6552c52a&is=6540502a&hm=d7dcaf115e36e83a338ae121b617b1c6180867dd6080e2af62779cd41704d8fa&",
+          "fileName": "unnamed.jpg",
+          "fileSizeBytes": 79557
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "804081479876608051",
+      "type": "Default",
+      "timestamp": "2021-01-27T20:12:43.914+00:00",
+      "timestampEdited": "2021-01-27T20:14:59.174+00:00",
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Wednesday, January 27th, 4:00 PM (today)**\nACM AI - Data Science/ML talk with Professor Bradley Voytek\nhttps://ai.acmucsd.com/\n> Hi everyone! We're super excited to announce that we will have Professor Bradley Voytek speaking for ACM AI later today at 4pm! He will be talking about getting started in data science and machine learning, ranging from how to get involved in research and industry, to essential skills for data science! \uD83D\uDCCA He'll also have lots of time to take questions from the crowd. We hope to see you there! \uD83D\uDE0E \uD83D\uDE0E \uD83D\uDE0E\nWill update with zoom(im assuming) link later when it's provided, or you can hop over to the ACM AI server where they'll probably be posting it",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "805928859676835870",
+      "type": "Default",
+      "timestamp": "2021-02-01T22:33:33.581+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Wednesday, February 3rd, 5:00 PM**\nCSSA Talk Series: Machine Learning\nhttps://fb.me/e/argSX7Znf\n> Hi Tritons!\n> Next week we will be hosting our Machine Learning Talk Series, featuring Dev Sharma. Dev Sharma is a UCSD Cog Sci 2019 alumni who is an ambitious young AI entrepreneur looking to make solutions to benefit society. He is currently a conversational AI engineer at LivePerson, a software company working to better lives through conversational AI. Join us as Dev discusses his experience as an undergraduate in Cognitive Science, his experience and knowledge in Machine Learning, his personal insight in his startup experience, and shares advice for those looking to follow a similar path.\n> When: Wednesday 2/3 at 5pm\n> Where: http://bit.ly/CSSA_Event",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "805928886440689724",
+      "type": "Default",
+      "timestamp": "2021-02-01T22:33:39.962+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "805928883165724692",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/805928883165724692/143715285_3793031380749639_5674436642367549811_o.jpg?ex=6552a443&is=65402f43&hm=564eaf468c73224225317822f675979f61d20bda05f0592c86fa65c02ed997a0&",
+          "fileName": "143715285_3793031380749639_5674436642367549811_o.jpg",
+          "fileSizeBytes": 50220
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "806688198880395325",
+      "type": "Default",
+      "timestamp": "2021-02-04T00:50:54.155+00:00",
+      "timestampEdited": "2021-02-04T00:51:19.413+00:00",
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Wednesday, February 10th, 3:00 PM - 4:00 PM**\nGraduate School Preparation for International Students\nhttps://ucsd.joinhandshake.com/events/647604\n> The program will focus on graduate school preparation for international students. We will review general application procedures including application timeline, Recommendations, Personal Statements/Statements of Purpose and Standardized Testing. The program will also discuss more specific parts of the application affecting international students such as graduate school financing.\nThought this might be useful to any intl students here that are thinking about grad school",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "806688237757136907",
+      "type": "Default",
+      "timestamp": "2021-02-04T00:51:03.424+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "806688235513970698",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/806688235513970698/unnamed.png?ex=65556776&is=6542f276&hm=bcd161fba0488db05f6a30e50c3b502655436d1aec033dcf399dd7d0a541a23f&",
+          "fileName": "unnamed.png",
+          "fileSizeBytes": 30191
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "807080285539401788",
+      "type": "Default",
+      "timestamp": "2021-02-05T02:48:54.899+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Thursday, February 11th, 5:00 PM**\nDesigning for Social Impact\nhttps://www.facebook.com/events/1319687548402424\n> Learn more about how you can design with intention to effect social change at our next GBM on Thursday, 2/11. You'll meet our panel of speakers who have a background in designing for social causes and non-profit organizations, so be prepared to ask questions and glean wisdom from their experiences!\nzoom link: http://www.ucsddesign.co/gbm",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "807080323816226816",
+      "type": "Default",
+      "timestamp": "2021-02-05T02:49:04.025+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "807080321035141140",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/807080321035141140/145546138_2787597371480716_3843084977796914261_o.jpg?ex=6556d49f&is=65445f9f&hm=795513b45d734f4652353c7a53cfb483d6cf7f720e2d4dd6b332dcb962b981fd&",
+          "fileName": "145546138_2787597371480716_3843084977796914261_o.jpg",
+          "fileSizeBytes": 49228
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "808835481008603157",
+      "type": "Default",
+      "timestamp": "2021-02-09T23:03:26.109+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Wednesday, February 10th, 5:00 PM**\nCSSA Talk Series: Design and Interaction\nhttps://fb.me/e/43hQPqC9k\n> Hi Tritons!\n> Join us next Wednesday, February 10th at 5pm, for our Design and Interaction talk series! We will be having three UCSD alum who currently work at ServiceNow: Alex Li, a Visual Experience (UI) Designer, Lucy Xu, an Associate Visual Experience (UI) Designer, and Tyler Paulo, an Associate Software Engineer (Platform UX), talking about their transition from college to the industry and how UX engineers and UX/UI designers work together to deliver products. Also, just a reminder that we also have a raffle this quarter and for every CSSA event you attend, you get your name entered into the raffle! We hope to see you there!\n> Event Link: http://bit.ly/CSSA_Event",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "808835509400502332",
+      "type": "Default",
+      "timestamp": "2021-02-09T23:03:32.878+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "808835507290505239",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/808835507290505239/147332635_3811730262213084_5571088180992500028_o.jpg?ex=6553fcc4&is=654187c4&hm=4dce62cfb0c82ab605c53ab367b66350d78957f18d4f1b198e82102c484cb326&",
+          "fileName": "147332635_3811730262213084_5571088180992500028_o.jpg",
+          "fileSizeBytes": 53361
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "809238977470267412",
+      "type": "Default",
+      "timestamp": "2021-02-11T01:46:47.162+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Thursday, February 11th, 5:00 PM**\nUBIC - Chalk Talk #3: Dr. Jill Mesirov\n> this thursday at 5:00 pm Professor Jill Mesirov will be giving a talk on \"Integrative Computational Approaches to the Understanding and Treatment of Cancer\". She is the Associate Vice Chancellor of Computational Health Sciences at the Jacobs School of Medicine and a giant in computational cancer research. If you are even remotely interested, I highly recommend that you check it out!!! Here is the zoom link: https://ucsd.zoom.us/j/91942190597\nUBIC discord: https://discord.gg/tSCa8eJJ",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "809239000724013086",
+      "type": "Default",
+      "timestamp": "2021-02-11T01:46:52.706+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "https://cdn.discordapp.com/attachments/763127186257215528/808403239224868914/147800925_154653576348331_3869369051138858987_n.png",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [
+        {
+          "title": "",
+          "url": "https://cdn.discordapp.com/attachments/763127186257215528/808403239224868914/147800925_154653576348331_3869369051138858987_n.png",
+          "timestamp": null,
+          "description": "",
+          "thumbnail": {
+            "url": "https://media.discordapp.net/attachments/763127186257215528/808403239224868914/147800925_154653576348331_3869369051138858987_n.png",
+            "width": 1000,
+            "height": 1000
+          },
+          "images": [],
+          "fields": []
+        }
+      ],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "809239027957891082",
+      "type": "Default",
+      "timestamp": "2021-02-11T01:46:59.199+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "https://cdn.discordapp.com/attachments/763127186257215528/808403242190110760/148010655_239493751048113_340323811174396417_n.png",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [
+        {
+          "title": "",
+          "url": "https://cdn.discordapp.com/attachments/763127186257215528/808403242190110760/148010655_239493751048113_340323811174396417_n.png",
+          "timestamp": null,
+          "description": "",
+          "thumbnail": {
+            "url": "https://media.discordapp.net/attachments/763127186257215528/808403242190110760/148010655_239493751048113_340323811174396417_n.png",
+            "width": 1000,
+            "height": 1000
+          },
+          "images": [],
+          "fields": []
+        }
+      ],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "811485053216489473",
+      "type": "Default",
+      "timestamp": "2021-02-17T06:31:53.35+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Sunday, February 21st, 5:00 PM - 6:00 PM**\nTriton Robosub & Neurotech: Intuitive Digital Signal Processing\nhttps://www.facebook.com/events/420368342517836\n> Are you interested in digital signal processing? NeuroTech in UCSD is excited to collaborate with Triton Robosub for intuitive DSP workshop! From introduction (digital filters, FIR, IIR, and audio processing) to technical application, this workshop is helpful for people with all levels. To make our workshop beneficial for you, we use interactive learning tool, similar to Jupiter notebook, to go into deeper concepts such as Linear systems, Convolution, and Discrete Fourier Transform. If you want to quickly advance your knowledge in digital processing, this is a good workshop for you!\n> The workshop will be on Sunday, 21st February 5p.m. to 6 p.m.   \n> Zoom link: https://ucsd.zoom.us/j/4432465894",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "811485095260061756",
+      "type": "Default",
+      "timestamp": "2021-02-17T06:32:03.374+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "811485091494494218",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/811485091494494218/dsp.png?ex=655465e2&is=6541f0e2&hm=6a83887aef4a6d50e00645c2003e3a226da4aafc2f7729779dad9cdd18546f74&",
+          "fileName": "dsp.png",
+          "fileSizeBytes": 2036350
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "819703364816076871",
+      "type": "Default",
+      "timestamp": "2021-03-11T22:48:31.524+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Monday, March 29th - Monday, April 5**\nCorrelation One - Data Science Coding Challenge for West Coast students\nhttps://terminal.c1games.com/home\n> We are excited to announce West Coast Regional Terminal, a $25,000 coding competition for talented undergraduate, graduate, and PhD students at UCSD.\n> \n> Terminal is a novel games-based AI challenge, where players code strategies to automate gameplay, battling team vs team for prize money and job opportunities. \n> \n> Taking place between March 29 - April 5, the competition will be virtual and teams will be able to work remotely on their submissions for a week on their own schedules. Top performing students have the opportunity to win $25,000 in cash prizes, exclusive recruiting opportunities with Citadel, and global recognition. \n> \n> Admissions are made on a rolling basis, so we encourage you to sign up now! The round one application deadline is on Sunday, March 21st 11:59 PM PT.\n> Link: https://terminal.c1games.com/competitions/237\nFyi, the competition is teams of 2-3 so if you want to join make sure you get a team going. Also there's a 30 min assessment before signing up.",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "823344555511513108",
+      "type": "Default",
+      "timestamp": "2021-03-21T23:57:19.036+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Friday, April 2nd, 4:00 PM - 5:00 PM**\nNeuroTech: Department Social/Speed Networking\n> Hello everyone,\n> Do you study GenBio, HumanBio, and NeuroBio or interest in neurotechnology?\n> Kick off the quarter with some interdisciplinary socialization across departments related to neurotechnology! We hope this event will gain you connections with students studying in different fields related to NeuroTech and provide some competitive fun with rounds of Jeopardy! Gift Cards will be awarded to the winning team!\n> Zoom Link:\n> https://ucsd.zoom.us/j/94246689495\n> Meeting ID: 942 4668 9495\nHope everyone has a good break de-stressing from the quarter. Zoom college is tough and ya'll deserve a week to not think about projects n stuff :arurusleep:  And @ the seniors, we're almost there!",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "823344577669758986",
+      "type": "Default",
+      "timestamp": "2021-03-21T23:57:24.319+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "https://cdn.discordapp.com/attachments/811345760506740806/823341731214524416/Department_Social_Flyer.jpg",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [
+        {
+          "title": "",
+          "url": "https://cdn.discordapp.com/attachments/811345760506740806/823341731214524416/Department_Social_Flyer.jpg",
+          "timestamp": null,
+          "description": "",
+          "thumbnail": {
+            "url": "https://media.discordapp.net/attachments/811345760506740806/823341731214524416/Department_Social_Flyer.jpg",
+            "width": 960,
+            "height": 540
+          },
+          "images": [],
+          "fields": []
+        }
+      ],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "826583968475381780",
+      "type": "Default",
+      "timestamp": "2021-03-30T22:29:35.272+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Monday, April 5 - Wednesday, April 7**\nCSSA UCSD Conference 2021: Innovations in Intelligence\nhttps://cssa-ucsd.github.io/conference2021//#/\n> Delving deep into the culture of cognitive science, this year’s Conference aims to explore the innovative and futuristic applications that the field of cognitive science has introduced to the modern world. This year’s theme of “Innovations in Intelligence” will focus on the emerging application of cognitive science in technology, healthcare, and current global issues. Attendees and presenters include distinguished researchers and scientists, reputable companies in related industries, and lab representatives. This annual conference is the perfect event to attend if you are interested in academic and career advancement opportunities, or simply want to deepen your knowledge of how the diverse applications of Cognitive Science are shaping the future.\n> \n> Time: You can attend one or more of the following sessions by register at conference.cssa-ucsd.org/:\n> Monday, April 5th - 05:00 pm: Keynote, social/break, Workshops (Machine Learning, Neuroscience, Language & Culture)\n> Tuesday, April 6th - 05:00 pm: Keynote, social/break, Workshops (Design, Cognitive Behavioral Neuroscience, Clinical Aspects)\n> Wednesday, April 7th - 05:00 pm: Career Panel, social/break, Lab Poster Session\n> \n> promo video: https://www.youtube.com/watch?v=5zkvrU56nJI\nWelcome back to Spring quarter ya'll, have some academic events being planned for this quarter so check back here later on for some hopefully cool stuff later on",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "826584022653599825",
+      "type": "Default",
+      "timestamp": "2021-03-30T22:29:48.189+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "826584020715700284",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/826584020715700284/unnamed_2.png?ex=6553f4db&is=65417fdb&hm=9899bb1959b078e5f3960790b56545b97fec730c109937588fa3ce92576c7cdd&",
+          "fileName": "unnamed_2.png",
+          "fileSizeBytes": 371296
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "828503078923665458",
+      "type": "Default",
+      "timestamp": "2021-04-05T05:35:26.858+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Friday, April 9th, 4:00 PM - 5:30 PM**\nForefront of Research in NeuroTech with NeatLab and ISN\nhttps://fb.me/e/247fmKCXx\n> How is machine learning used in the forefront of neurotechnology research for uncovering mental states? How are research labs tinkering with electronics to make brain signal acquisition feasible with something as comfortable as your earphones? With this event, we'll be spotlighting the active cluster of neurotechnology related research at UCSD! \n> Lab PI’s, Graduate Students, and Undergrads will be joining us from two labs (NEATLab and ISN). NeatLab will focus on machine learning techniques and/or animal models to advance the field of neurocognition. ISN will focus on hardware design that is used to collect EEG data and process neural signals. Together, the research presented will take you through the process of how neural signals can be used to read mental health state and what kinds of new hardware are being developed to make this type of data collection more accessible.\n> \n> We will also have undergraduates from both labs to talk about their experiences, which is a great chance for you to learn about getting involved in UCSD lab and research as an undergrad!\n> \n> So be sure to drop by, learn some cool research, and make some new connections to start a new lab position! \uD83D\uDE42\n> \n> https://ucsd.zoom.us/j/9754290712\n> Meeting ID: 975 429 0712",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "828503092764868608",
+      "type": "Default",
+      "timestamp": "2021-04-05T05:35:30.158+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "https://cdn.discordapp.com/attachments/811345760506740806/828425885891297321/frontier_of_research_flyer_2.png",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [
+        {
+          "title": "",
+          "url": "https://cdn.discordapp.com/attachments/811345760506740806/828425885891297321/frontier_of_research_flyer_2.png",
+          "timestamp": null,
+          "description": "",
+          "thumbnail": {
+            "url": "https://media.discordapp.net/attachments/811345760506740806/828425885891297321/frontier_of_research_flyer_2.png",
+            "width": 960,
+            "height": 540
+          },
+          "images": [],
+          "fields": []
+        }
+      ],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "831726010693189642",
+      "type": "Default",
+      "timestamp": "2021-04-14T03:02:13.671+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Wednesday, April 14th, 4:00 PM - 5:00 PM**\nCog Sci Study Group Guest Lectures: Dr. David Kirsh\n> Tomorrow, Dr. Kirsh will be joining us for the first of the guest lectures! If you don't know him (though being in cogsci you've probably read at least one paper from him in class!), he is the head of the Interactive Cognition Lab here at UCSD as well as a professor and previous chair for the cognitive science department. He will be talking about his career path and his research in HCI so be sure to come and listen.\n> \n> zoom link: https://ucsd.zoom.us/j/92717933069",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "832019946829381642",
+      "type": "Default",
+      "timestamp": "2021-04-14T22:30:13.507+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \nreminder that the above event with dr. kirsh is happening in 30 minutes!",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "832027377261084682",
+      "type": "Default",
+      "timestamp": "2021-04-14T22:59:45.06+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \nlast reminder the talk will begin #soon",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "832108489371287592",
+      "type": "Default",
+      "timestamp": "2021-04-15T04:22:03.694+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "Here's the recording of Dr. Kirsh's talk: https://youtu.be/TL5pJgjS2FM",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "832111541733949490",
+      "type": "Default",
+      "timestamp": "2021-04-15T04:34:11.434+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Monday, April 19th, 4:00 PM - 5:00 PM**\nCog Sci Study Group Guest Lectures: Dr. Shannon Ellis\n> Next Monday, Dr. Ellis will be the next person to give a talk in this series. She is a professor in the cogs department focusing on the data science classes (cogs 18/108) and will be talking about the different projects she's worked on throughout her career. If you're interested in a career in data science or in what Dr. Ellis has researched, come and join us!\n> \n> zoom link: https://ucsd.zoom.us/j/92717933069",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "833438162910183424",
+      "type": "Default",
+      "timestamp": "2021-04-18T20:25:42.57+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \nreminder this above event with dr. ellis is happening tomorrow ^",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "833825909282439178",
+      "type": "Default",
+      "timestamp": "2021-04-19T22:06:28.509+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \ndr.ellis talk happening in 1 hour!",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [
+        {
+          "emoji": {
+            "id": "",
+            "name": "\uD83D\uDC40",
+            "isAnimated": false,
+            "imageUrl": "https://twemoji.maxcdn.com/2/svg/1f440.svg"
+          },
+          "count": 1
+        },
+        {
+          "emoji": {
+            "id": "",
+            "name": "♥️",
+            "isAnimated": false,
+            "imageUrl": "https://twemoji.maxcdn.com/2/svg/2665.svg"
+          },
+          "count": 2
+        }
+      ],
+      "mentions": []
+    },
+    {
+      "id": "833838772923662370",
+      "type": "Default",
+      "timestamp": "2021-04-19T22:57:35.44+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \nlast ping, event going to start in a few",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "833930027862589511",
+      "type": "Default",
+      "timestamp": "2021-04-20T05:00:12.313+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "dr. ellis' talk has been uploaded to youtube: https://youtu.be/pIJ27L7MflQ\nwe also have our own youtube channel now where we'll be uploading kirsh's talk too: https://www.youtube.com/channel/UClWlTjrJAQqdiE9OXlHYgKA",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [
+        {
+          "emoji": {
+            "id": "",
+            "name": "\uD83D\uDC4D",
+            "isAnimated": false,
+            "imageUrl": "https://twemoji.maxcdn.com/2/svg/1f44d.svg"
+          },
+          "count": 1
+        },
+        {
+          "emoji": {
+            "id": "",
+            "name": "❤️",
+            "isAnimated": false,
+            "imageUrl": "https://twemoji.maxcdn.com/2/svg/2764.svg"
+          },
+          "count": 1
+        }
+      ],
+      "mentions": []
+    },
+    {
+      "id": "833930326861676574",
+      "type": "Default",
+      "timestamp": "2021-04-20T05:01:23.6+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "ignore my stupid ass zoom picture in the beginning of the video pls",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "833932711583678464",
+      "type": "Default",
+      "timestamp": "2021-04-20T05:10:52.162+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Tuesday, April 27th, 4:00 PM - 5:00 PM**\nCog Sci Special Guest Lectures: Dr. Terry Jernigan\n> Next Tuesday, Dr. Jernigan will be the 3rd in this quarter's lecture series. She is a professor of cogs, psychiatry, and radiology and is the director for the Center for Human Development at UCSD, as well as co-director for the ABCD Study Coordinating Center. She will be talking about her research that she has done for over 30 years which includes adolescent brain cognition development, pediatric imaging, neurocognition, and genetics. \n> \n> zoom link: https://ucsd.zoom.us/j/92717933069",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "835423701318631434",
+      "type": "Default",
+      "timestamp": "2021-04-24T07:55:31.816+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Wednesday, April 28th, 7:00 - 8:00 PM**\nNeuroTech: Talk with Neuralink Engineers + Prof Vikash Gilja\n> We are so excited to announcement our collaborating event with Eta Kappa Nu - HKN on April 28th 7-8pm! At awe at Neuralink's Monkey Pager playing MindPong?\uD83E\uDD2F Or interested in pursuing a career at Neuralink and Brain-computer interfaces\uD83E\uDD29? Join 2 Neuralink Engineers, Joey and Beata, as well as Professor Vikash Gilja, on Wednesday, April 28th, live at 7-8pm PT. \n> \n> We will start with a tech talk about the Monkey MindPong, then have 15 mins of Q&A for technical and recruiting questions.\n> \n> Here is the link to the event: https://ucsd.zoom.us/j/96197812198\n> \n> Please make sure to RSVP: https://forms.gle/KFuNwbCszcGu1vaX8\n> \n> Original MindPong video: https://www.youtube.com/watch?v=rsCul1sp4hQ&ab_channel=NeuraPod-Neuralink",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "836112156817621052",
+      "type": "Default",
+      "timestamp": "2021-04-26T05:31:12.398+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Thursday, April 29, 5:00 PM**\nDesign Co: Figma: Beyond the Basics\nhttps://fb.me/e/4bRPaTLKV\n> Are you out of sync with Figma’s latest updates? Get back in the loop at our next GBM on Thursday, 4/29, and we’ll surf through Figma’s flood of new features together! We’ll briefly review some of the basics, dive into advanced techniques, and help you sharpen your prototyping skills.\n> \n> event link: ucsddesign.co\nalso reminder from me that on Tuesday @ 4pm, we'll be having the 3rd part of our lecture series from Dr. Terry Jernigan on her research in adolescent brain development, pediatric imaging, neurocognition, and genetics. ALSO newly added, Dr. Marcelo Mattar will be having his guest lecture on machine learning during week 6 99% sure on thursday",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [
+        {
+          "emoji": {
+            "id": "",
+            "name": "✨",
+            "isAnimated": false,
+            "imageUrl": "https://twemoji.maxcdn.com/2/svg/2728.svg"
+          },
+          "count": 2
+        }
+      ],
+      "mentions": []
+    },
+    {
+      "id": "836408080542728233",
+      "type": "Reply",
+      "timestamp": "2021-04-27T01:07:06.112+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \nreminder this talk with dr. jernigan is happening tomorrow @ 4pm here: https://ucsd.zoom.us/j/92717933069",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [
+        {
+          "emoji": {
+            "id": "",
+            "name": "\uD83C\uDF49",
+            "isAnimated": false,
+            "imageUrl": "https://twemoji.maxcdn.com/2/svg/1f349.svg"
+          },
+          "count": 1
+        }
+      ],
+      "mentions": [],
+      "reference": {
+        "messageId": "833932711583678464",
+        "channelId": "647605299330547713",
+        "guildId": null
+      }
+    },
+    {
+      "id": "836725843560497152",
+      "type": "Default",
+      "timestamp": "2021-04-27T22:09:46.719+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n^ 1 hour til the talk!",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "836738211706437742",
+      "type": "Default",
+      "timestamp": "2021-04-27T22:58:55.515+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \nlast ping starting in a few",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "836799921071587338",
+      "type": "Default",
+      "timestamp": "2021-04-28T03:04:08.174+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "dr. jernigan's talk uploaded to youtube: https://www.youtube.com/watch?v=vpLq-IJ5DJ0",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "838244538073612288",
+      "type": "Default",
+      "timestamp": "2021-05-02T02:44:31.707+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Thursday, May 6th, 6:00 PM - 7:00 PM**\nCog Sci Special Guest Lectures: Dr. Marcelo Mattar\n> On Thursday is the 4th of this quarter's lecture series. Dr. Mattar is a professor for Machine Learning classes at UCSD, previously teaching reinforcement learning (cogs 182) and currently teaching unsupervised machine learning (cogs 118b). He will be talking about his research in the neuroscience of memory and decision making using reinforcement learning.\n> \n> \n> zoom link: https://ucsd.zoom.us/j/92717933069",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "839593890952249404",
+      "type": "Default",
+      "timestamp": "2021-05-05T20:06:22.503+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Wednesday, May 19th, 6:30 PM - 8:00 PM**\nNeuroTech: Forefront of Research\nhttps://fb.me/e/BLoF4akk\n> Join us as De Sa Lab + TNEL dive into neuro-technology in speech prosthesis and human learning, using machine learning and system engineering. Professor Virginia de Sa and professor Vikash Gilja will discuss research projects in their labs focusing on neurological computation(de Sa lab) and machine learning models using signal processing techniques in SongBirds research for speech prosthesis(TNEL). \n> \n> There will also be graduates and undergraduates in both labs to answer questions about how they became full-time researchers.\n> \n> Zoom link: https://ucsd.zoom.us/j/92117668049\n> Meeting ID: 921 1766 8049",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "839593904659234826",
+      "type": "Default",
+      "timestamp": "2021-05-05T20:06:25.771+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "https://cdn.discordapp.com/attachments/811345760506740806/839577236121845850/NeuroTech_at_UCSD_Banner.png",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [
+        {
+          "title": "",
+          "url": "https://cdn.discordapp.com/attachments/811345760506740806/839577236121845850/NeuroTech_at_UCSD_Banner.png",
+          "timestamp": null,
+          "description": "",
+          "thumbnail": {
+            "url": "https://media.discordapp.net/attachments/811345760506740806/839577236121845850/NeuroTech_at_UCSD_Banner.png",
+            "width": 1920,
+            "height": 1080
+          },
+          "images": [],
+          "fields": []
+        }
+      ],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "839594291243384872",
+      "type": "Reply",
+      "timestamp": "2021-05-05T20:07:57.94+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \nAlso reminder that the guest lecture with dr. mattar talking about his research in the neuroscience of memory and decision making using reinforcement learning will happen tomorrow at 6pm here: https://ucsd.zoom.us/j/92717933069",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [
+        {
+          "emoji": {
+            "id": "",
+            "name": "\uD83D\uDC9B",
+            "isAnimated": false,
+            "imageUrl": "https://twemoji.maxcdn.com/2/svg/1f49b.svg"
+          },
+          "count": 2
+        }
+      ],
+      "mentions": [],
+      "reference": {
+        "messageId": "838244538073612288",
+        "channelId": "647605299330547713",
+        "guildId": null
+      }
+    },
+    {
+      "id": "840020166770425886",
+      "type": "Default",
+      "timestamp": "2021-05-07T00:20:14.578+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \nreminder again this talk ^ is happening in 40 minutes",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "840029633785233438",
+      "type": "Default",
+      "timestamp": "2021-05-07T00:57:51.69+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \nlast ping, event starting in a few",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "840067929084788756",
+      "type": "Default",
+      "timestamp": "2021-05-07T03:30:02.001+00:00",
+      "timestampEdited": "2021-12-09T18:17:41.214+00:00",
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "dr. mattar's talk is uploaded: https://youtu.be/LKh8aweTQU0 (privated, ask for access)",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [
+        {
+          "emoji": {
+            "id": "",
+            "name": "\uD83D\uDC99",
+            "isAnimated": false,
+            "imageUrl": "https://twemoji.maxcdn.com/2/svg/1f499.svg"
+          },
+          "count": 1
+        }
+      ],
+      "mentions": []
+    },
+    {
+      "id": "840523986793922580",
+      "type": "Default",
+      "timestamp": "2021-05-08T09:42:14.632+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Tuesday, May 11th, 4:00 PM - 5:00 PM**\nCog Sci Special Guest Lectures: Dr. Bradley Voytek\n> Dr. Voytek will be speaking next in our lecture series. He is a professor in the cogs department, the halicioglu data science institute, and the neurosciences graduate program. He will be talking about his research studying the physiology and function of periodic oscillations and of aperiodic activity using human cognitive experiments and computational methods, such as data mining, machine learning techniques, and other data science approaches.\n> \n> zoom link: https://ucsd.zoom.us/j/92717933069",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "841425439158173747",
+      "type": "Default",
+      "timestamp": "2021-05-10T21:24:17.624+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Wednesday, May 12th, 8:00 AM - 4:00 PM**\nTech San Diego's Data Science Day\nhttps://ucsd.joinhandshake.com/events/759769\n> Data Science Day is on May 12, 2021, from 8 AM-1 PM followed by a student networking session at 2 PM. In partnership with the UCSD Halıcıoğlu Data Science Institute and Rady School of Management, this event will consist of a panel discussion, keynote speaker, and lightning talks. After the Keynote address concludes, students will engage in a flash networking session with seven industry professionals in breakout rooms. There is representation from over 12 companies featuring Amazon, Teradata, Lytx, Viasat, Walmart Global Labs, FICO, and more. Students can register for free with code \"UCSD\" at checkout. Can't wait to see you there!",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "841425576191197234",
+      "type": "Reply",
+      "timestamp": "2021-05-10T21:24:50.295+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "also reminder this is tomorrow @ 4pm",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": [],
+      "reference": {
+        "messageId": "840523986793922580",
+        "channelId": "647605299330547713",
+        "guildId": null
+      }
+    },
+    {
+      "id": "841429466835320903",
+      "type": "Default",
+      "timestamp": "2021-05-10T21:40:17.897+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Thursday, May 13th, 5:00 PM**\nDesign Co and UW/UX: It's a Small (Design) World\nhttps://www.facebook.com/events/1036271650112718\n> Design Co and UW/UX are excited to present, It’s a (small) design world: A panel of designers from around the world, on Thursday, May 13th!\n> We’ve invited design students & alumni from the University of Waterloo and the University of California, San Diego to share their experiences working abroad, from Norway, Singapore, Netherlands, Tanzania, and more!\n> During the call, our panelists will compare the design processes, mental models, behaviors, and needs of users across the globe. If you’re interested in international design work, they’ll also discuss the recruitment and visa processes. No passport needed!\n> Zoom link/ Registration link: https://tinyurl.com/smalldesignworld",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "841429554610569248",
+      "type": "Default",
+      "timestamp": "2021-05-10T21:40:38.824+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "841429552748167198",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/841429552748167198/181521701_2851135278460258_5871020132954703708_n.jpg?ex=655297d6&is=654022d6&hm=7b390048bf0d391e5f0782ab7817aef56811349ed5e1982fabbcb6fdfc0eb1dd&",
+          "fileName": "181521701_2851135278460258_5871020132954703708_n.jpg",
+          "fileSizeBytes": 53800
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [
+        {
+          "emoji": {
+            "id": "",
+            "name": "\uD83E\uDD20",
+            "isAnimated": false,
+            "imageUrl": "https://twemoji.maxcdn.com/2/svg/1f920.svg"
+          },
+          "count": 3
+        }
+      ],
+      "mentions": []
+    },
+    {
+      "id": "841795461869993984",
+      "type": "Reply",
+      "timestamp": "2021-05-11T21:54:37.913+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \nreminder that this talk with dr. voytek is happening in about an hour here: https://ucsd.zoom.us/j/92717933069",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": [],
+      "reference": {
+        "messageId": "840523986793922580",
+        "channelId": "647605299330547713",
+        "guildId": null
+      }
+    },
+    {
+      "id": "841811251721273344",
+      "type": "Default",
+      "timestamp": "2021-05-11T22:57:22.507+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \nlast reminder this talk is starting in a few minutes^",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "842567051599675402",
+      "type": "Default",
+      "timestamp": "2021-05-14T01:00:39.24+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Thursday, May 20th, 9:00 PM - 10:00 PM**\nNeuroTech Journal Club 01\n https://fb.me/e/2bh7sisDG \n> Have you always wanted to dive into Brain Computer Interface Research Papers but found them overwhelming? The NTX UCSD Research Division is proud to present our first Journal Club event, so we can go through a paper together! We will review a recent paper on a non-invasive technique called functional ultrasound shown to be precise enough to predict movement intent on a single-trial basis. \n> You can access the paper with a UCSD VPN at: https://doi.org/10.1016/j.neuron.2021.03.003 Bring your questions, comments, and thinking caps as we dive into this paper with a short presentation, followed by open discussion! \n> \n> RSVP at: https://fb.me/e/2bh7sisDG \n> Join at: 949 0506 8182",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "842567093617426442",
+      "type": "Default",
+      "timestamp": "2021-05-14T01:00:49.258+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "https://cdn.discordapp.com/attachments/811345760506740806/839577236121845850/NeuroTech_at_UCSD_Banner.png",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [
+        {
+          "title": "",
+          "url": "https://cdn.discordapp.com/attachments/811345760506740806/839577236121845850/NeuroTech_at_UCSD_Banner.png",
+          "timestamp": null,
+          "description": "",
+          "thumbnail": {
+            "url": "https://media.discordapp.net/attachments/811345760506740806/839577236121845850/NeuroTech_at_UCSD_Banner.png",
+            "width": 1920,
+            "height": 1080
+          },
+          "images": [],
+          "fields": []
+        }
+      ],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "844103403121934356",
+      "type": "Default",
+      "timestamp": "2021-05-18T06:45:33.987+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Thursday May 20th, 4:00 PM - 5:00 PM**\nCog Sci Special Guest Lectures: Dr. Seana Coulson\n> Dr. Coulson will be the last part of this quarter's lecture series. She's been a part of ucsd's cogs department for a longgg time (also is the head of the lab I work in so you should go) and will be talking about her research on the cognition of language. Her research includes, sentence processing, joke comprehension, metaphor comprehension and analogical reasoning, and conceptual blending. Next quarter we hope to bring more professors to speak about their research or careers, so if anyone is interested in anyone specific please let us know!\n> \n> zoom link: https://ucsd.zoom.us/j/92717933069",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [
+        {
+          "emoji": {
+            "id": "",
+            "name": "\uD83C\uDF49",
+            "isAnimated": false,
+            "imageUrl": "https://twemoji.maxcdn.com/2/svg/1f349.svg"
+          },
+          "count": 2
+        }
+      ],
+      "mentions": []
+    },
+    {
+      "id": "844799814339264532",
+      "type": "Default",
+      "timestamp": "2021-05-20T04:52:51.36+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \nreminder this event is tomorrow at 4pm^",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "845059536557310024",
+      "type": "Default",
+      "timestamp": "2021-05-20T22:04:53.962+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n^ 1 hour til event",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "845072973613891616",
+      "type": "Default",
+      "timestamp": "2021-05-20T22:58:17.606+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events last ping starting in a few",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "845102763393417226",
+      "type": "Default",
+      "timestamp": "2021-05-21T00:56:40.043+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "Voytek uploaded video, i forgot to do it last week: https://youtu.be/gSV1vLcQKWU\nCoulson #soon",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [
+        {
+          "emoji": {
+            "id": "",
+            "name": "\uD83D\uDC4D",
+            "isAnimated": false,
+            "imageUrl": "https://twemoji.maxcdn.com/2/svg/1f44d.svg"
+          },
+          "count": 2
+        }
+      ],
+      "mentions": []
+    },
+    {
+      "id": "845104441320800256",
+      "type": "Default",
+      "timestamp": "2021-05-21T01:03:20.092+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "Coulson: https://youtu.be/4SjjLeU6moE",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "853838740526202920",
+      "type": "Default",
+      "timestamp": "2021-06-14T03:30:19.298+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \nWas told about this summer design program that seems like a good opportunity. Also congrats to 2021 graduates, we did it! Also for fall 2021, hopefully there will get to be some cool in-person events\n> Just 1 day left to apply to Power Up, a summer design program to work with minority-owned businesses !\n> \n> https://powerup.ucsddesign.co/",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "886847258782466099",
+      "type": "Default",
+      "timestamp": "2021-09-13T05:34:23.319+00:00",
+      "timestampEdited": "2021-09-13T05:36:45.711+00:00",
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \nkinda late, think the deadline is in 2 days to register but girls who code is having a hiring summit on **September 15th, 9:00 AM - 2:00PM**\nhttps://hopin.com/events/girls-who-code-hiring-summit-faab80db-8e5f-4576-91ae-9b6075aa1f2c\n\nedit: companies are hiring for internships and new grad positions so whether youre a freshmen, sophomore, junior, or senior or even recently graduated you should check it out",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [
+        {
+          "title": "Girls Who Code Hiring Summit - Sep 15 | Hopin",
+          "url": "https://hopin.com/events/girls-who-code-hiring-summit-faab80db-8e5f-4576-91ae-9b6075aa1f2c",
+          "timestamp": null,
+          "description": "Get tickets to Girls Who Code Hiring Summit, taking place 09/15/2021. Hopin is your source for engaging events and experiences.",
+          "thumbnail": {
+            "url": "https://images-ext-2.discordapp.net/external/zjJ8ULwbq0TRbRekjX5P147Ok5hAZt3MZvJ4xKUe4aE/%3F1627493350/https/quiin.s3.us-east-1.amazonaws.com/events/pictures/000/216/749/large/Copy_of_GWC_HiringSummit_HopinBanners_z3.png",
+            "width": 800,
+            "height": 320
+          },
+          "images": [],
+          "fields": []
+        }
+      ],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "890026420389154826",
+      "type": "Default",
+      "timestamp": "2021-09-22T00:07:14.512+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Thursday, September 30th, 7:00 PM - 8:00 PM **\nTriton NeuroTech GBM\n> Fall quarter is coming! Stay in our community by coming to our GBM! Try on our new headsets and learn more about our labs. Do you want to get more involved as executive officers or lab members? Positions are available right now! The best way to be in touch is to come over during our GBM. We are excited to see you all on Thursday September 30th 7pm at warren lecture mall outdoor classroom.\n> \n> Cannot come in person but still want to learn about us? No worries! We have zoom that goes live at https://ucsd.zoom.us/j/97555266678\n> Meeting ID: 975 5526 6678\n>                                                                                                              Sign up right now https://forms.gle/yNAKnGvQpVTDvKDU8",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "890026494091481179",
+      "type": "Default",
+      "timestamp": "2021-09-22T00:07:32.084+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "890026491197407232",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/890026491197407232/TNT_Event_Flyers_2021-2022_4.png?ex=65540bc3&is=654196c3&hm=874a26e7e86a1a4bc2b1fdc1837db8257f1845e7db4cbd02adb3e7307350af60&",
+          "fileName": "TNT_Event_Flyers_2021-2022_4.png",
+          "fileSizeBytes": 959682
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "902859404146278403",
+      "type": "Default",
+      "timestamp": "2021-10-27T10:00:56.265+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Thursday, October 28th, 8:00 PM / November 1st - 4th**\nProduct Space Alumni Panel / Fellowship Recruitment\n> Interested in learning about product management, marketing, and design? \n> \n> Product Space is now recruiting for our 2021-2022 Fellowship program where you can learn about different product careers you can take and collaborate with other like-minded individuals in gaining hands-on management, marketing, and design experience.\n> \n> Alumni Panel this Thursday, 10/28: \n> https://fb.me/e/kPCFILC9b\n> https://ucsd.zoom.us/j/96904163709\n> Fellowship Recruitment next week, 11/1-4:\n> https://fb.me/e/KTafxByU\n> https://ucsd.zoom.us/j/97334729191",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "926033755213295617",
+      "type": "Default",
+      "timestamp": "2021-12-30T08:47:32.118+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Tuesday, January 11th, 6:00 PM - 7:00 PM**\nWorkshop 1 of 4: Deep Neural Nets\n> Hello everyone from TNT, IEEE, and ACM AI. We have an upcoming ML workshop series. In the first workshop, you will learn the building blocks of ML: regression, gradient descent, and regularizers with no prior experience required. In this first workshop, you will learn to build your first DNN to predict heights of babies from images! Jupyter notebook provided \uD83D\uDE42\n> \n> zoom: https://ucsd.zoom.us/j/96406806953",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "926033765401239572",
+      "type": "Default",
+      "timestamp": "2021-12-30T08:47:34.547+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "https://cdn.discordapp.com/attachments/811345760506740806/925973935466631168/ML_Workshop_Series_Flyer.png",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [
+        {
+          "title": "",
+          "url": "https://cdn.discordapp.com/attachments/811345760506740806/925973935466631168/ML_Workshop_Series_Flyer.png",
+          "timestamp": null,
+          "description": "",
+          "thumbnail": {
+            "url": "https://media.discordapp.net/attachments/811345760506740806/925973935466631168/ML_Workshop_Series_Flyer.png",
+            "width": 1920,
+            "height": 1080
+          },
+          "images": [],
+          "fields": []
+        }
+      ],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "933956096303976458",
+      "type": "Default",
+      "timestamp": "2022-01-21T05:28:05.424+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Tuesday, January 25th, 6:00 PM - 7:00 PM**\nML Workshop Series, Workshop 2 of 4: Convolutional Neural Networks\n> Hello, I am representing TNT (IEEE and ACM AI) again! We have the second ML workshop coming up. In this workshop, we will help you to build your own CNN from the ground up and create the fundamental operations needed for computer vision tasks from the basics. We are going to improve on the performance from simple DNNs (from 1st workshop) while reducing model complexity in our interactive Jupyter Notebook tutorial.\n> \n> zoom: https://ucsd.zoom.us/j/97505929872",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "933956110514274354",
+      "type": "Default",
+      "timestamp": "2022-01-21T05:28:08.812+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "https://cdn.discordapp.com/attachments/811345760506740806/933954523830059059/ML_Workshop_Series_Flyer_2.png",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [
+        {
+          "title": "",
+          "url": "https://cdn.discordapp.com/attachments/811345760506740806/933954523830059059/ML_Workshop_Series_Flyer_2.png",
+          "timestamp": null,
+          "description": "",
+          "thumbnail": {
+            "url": "https://media.discordapp.net/attachments/811345760506740806/933954523830059059/ML_Workshop_Series_Flyer_2.png",
+            "width": 1920,
+            "height": 1080
+          },
+          "images": [],
+          "fields": []
+        }
+      ],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "953404677511331910",
+      "type": "Default",
+      "timestamp": "2022-03-15T21:29:48.521+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Saturday, April 16th, 8:00 AM - 4:00 PM**\nMedical Education for Diverse Students (MEDS) Conference\n> Great opportunity for pre-med, pre-health, and pre-pharmacy students!!\n> \n> MEDS stands for \"Medical Education for Diverse Students\", and is specifically designed to close the disparities seen in both medical education and health care. During the conference, there will be workshops on all components of the application process: testing, writing personal statements, interviewing, and more. On top of that, the UC San Diego School of Medicine and Pharmacy has invited conference attendees to participate in hands-on workshops in the brand-new patient simulation labs, just like first-year medical and pharmacy students.\n> \n> For more information about the conference and registration, please visit: meds.ucsd.edu\n> \n> Questions? Contact Jason Avalos (jmavalosmorfin@ucsd.edu)",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "953404681734991892",
+      "type": "Default",
+      "timestamp": "2022-03-15T21:29:49.528+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "https://cdn.discordapp.com/attachments/953393779400933438/953393942995558440/MEDS_2022_Flyer.png",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [
+        {
+          "title": "",
+          "url": "https://cdn.discordapp.com/attachments/953393779400933438/953393942995558440/MEDS_2022_Flyer.png",
+          "timestamp": null,
+          "description": "",
+          "thumbnail": {
+            "url": "https://media.discordapp.net/attachments/953393779400933438/953393942995558440/MEDS_2022_Flyer.png",
+            "width": 1920,
+            "height": 1080
+          },
+          "images": [],
+          "fields": []
+        }
+      ],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "955185834095689728",
+      "type": "Default",
+      "timestamp": "2022-03-20T19:27:29.343+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Thursday, March 24th, 4:00 PM - 5:30 PM**\nA Day in GE Healthcare in AI & Digital Innovation Department\n> Hello everyone! Congrats on finishing the winter quarter. \n> Triton Neurotech has an upcoming workshop/career showcase with CUBE from University of Toronto.\n> GE Healthcare for the workshop event: A Day of an AI Specialist in GE Healthcare\n> Join us virtually on Thursday, March 24th, 2022 from 7:00 - 8:30 PM EST\n> You will learn about the latest AI innovations in healthcare and career related Q&A.\n> Sign up now to secure your spot! We cannot wait to see you at the event!\n> Sign up link: https://forms.gle/GBnaftmqzuFbqbNs9",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "955185842404610048",
+      "type": "Default",
+      "timestamp": "2022-03-20T19:27:31.324+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "https://cdn.discordapp.com/attachments/954927465728450620/954984086533963776/in_Artificial_Intelligence__Digital_Innovation_Department.png",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [
+        {
+          "title": "",
+          "url": "https://cdn.discordapp.com/attachments/954927465728450620/954984086533963776/in_Artificial_Intelligence__Digital_Innovation_Department.png",
+          "timestamp": null,
+          "description": "",
+          "thumbnail": {
+            "url": "https://media.discordapp.net/attachments/954927465728450620/954984086533963776/in_Artificial_Intelligence__Digital_Innovation_Department.png",
+            "width": 1920,
+            "height": 1080
+          },
+          "images": [],
+          "fields": []
+        }
+      ],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "968685027980374046",
+      "type": "Default",
+      "timestamp": "2022-04-27T01:28:27.968+00:00",
+      "timestampEdited": "2022-04-27T01:29:37.832+00:00",
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Tuesday, May 3rd, 4:00 PM - 5:00 PM**\nDemystifying Graduate Admissions\n> Understanding what admissions committees look for in\n> applicants is the first step to maximizing your acceptance odds. Join us for a conversation with a panel of faculty members from various graduate programs who will share insight into the complex decision-making process of admissions committees.\n> \n> STEM: https://ucsd.joinhandshake.com/events/1035463/share_preview\n> \n> Business/Social Sciences/Humanities: https://ucsd.joinhandshake.com/events/1035888/share_preview\n> \nflyers below",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "968685132535963659",
+      "type": "Default",
+      "timestamp": "2022-04-27T01:28:52.896+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [
+        {
+          "id": "968685132171083876",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/968685132171083876/-2089020783162025531grad_admissions_hum_soc_marketing_flyer.pdf?ex=65541ed4&is=6541a9d4&hm=285c3778e5b0dc3fff8044207afd486a47b89779adcab74ffbf5f30fb9f31523&",
+          "fileName": "-2089020783162025531grad_admissions_hum_soc_marketing_flyer.pdf",
+          "fileSizeBytes": 316177
+        },
+        {
+          "id": "968685132418515024",
+          "url": "https://cdn.discordapp.com/attachments/647605299330547713/968685132418515024/2909180792539464797grad_admissions_stem_marketing_flyer.pdf?ex=65541ed4&is=6541a9d4&hm=6676299412deb92873521d4409bb6e91c09925b4eb5874fd8963be3458fc2bde&",
+          "fileName": "2909180792539464797grad_admissions_stem_marketing_flyer.pdf",
+          "fileSizeBytes": 314757
+        }
+      ],
+      "embeds": [],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    },
+    {
+      "id": "969362721172770857",
+      "type": "Default",
+      "timestamp": "2022-04-28T22:21:22.616+00:00",
+      "timestampEdited": null,
+      "callEndedTimestamp": null,
+      "isPinned": false,
+      "content": "@Events \n**Today, 5:00 PM - 7:10 PM**\nCSSA Cognitive Science Conference: career panel and lab symposium \n> Hey everyone! Hope you're having a nice day! Quick reminder today CSSA is hosting the last day of Cog Sci conference from 5-7:10! Join for a career panel of Research Assistants, Designers, UX Researchers, and more! We'll also have a lab symposium about ML and Emotion Neuroscience \uD83E\uDD8B There's also pizza at Marshall Room in PC\uD83C\uDF55 https://ucsd.zoom.us/meeting/register/tJ0kcuysrjsoHdI4R2riooSFJI0qz5s46bOk",
+      "author": {
+        "id": "156633767425867776",
+        "name": "teddybeargun",
+        "discriminator": "0000",
+        "nickname": "teddybeargun",
+        "color": "#E91E63",
+        "isBot": false,
+        "avatarUrl": "https://cdn.discordapp.com/avatars/156633767425867776/0e02e1b493d9294e43dfc1965f01f094.png?size=512"
+      },
+      "attachments": [],
+      "embeds": [
+        {
+          "title": "Welcome! You are invited to join a meeting: CSSA Spring Conference:...",
+          "url": "https://ucsd.zoom.us/meeting/register/tJ0kcuysrjsoHdI4R2riooSFJI0qz5s46bOk",
+          "timestamp": null,
+          "description": "Welcome! You are invited to join a meeting: CSSA Spring Conference: The Cognitive Metamorphosis. After registering, you will receive a confirmation email about joining the meeting.",
+          "images": [],
+          "fields": []
+        }
+      ],
+      "stickers": [],
+      "reactions": [],
+      "mentions": []
+    }
+  ],
+  "messageCount": 108
+}
